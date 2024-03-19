@@ -8,7 +8,7 @@ interface PrimaryButtonProps {
   children?: any;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+const OutlinePrimaryButton: React.FC<PrimaryButtonProps> = ({
   handleOnClick,
   icon,
   children,
@@ -16,7 +16,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
   return (
     <button
-      className="bg-black text-white w-full py-2 rounded-xl flex items-center gap-1 justify-center px-4"
+      className="bg-white text-[#424651] outline outline-[1.5px] outline-black w-full py-2 px-2 rounded-xl flex items-center gap-2 justify-center font-medium"
       onClick={handleOnClick}
     >
       {preIcon && preIcon} {children ? children : "Log In"} {icon && icon}
@@ -24,4 +24,4 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   );
 };
 
-export default PrimaryButton;
+export default OutlinePrimaryButton;

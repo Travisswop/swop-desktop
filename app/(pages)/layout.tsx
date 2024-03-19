@@ -11,10 +11,10 @@ export default function PageLayout({
     <html lang="en">
       <body>
         <main className="flex">
-          <section className="flex-[1.5]  px-4">
+          <section className="flex-[1.5] px-4">
             <SideBar />
           </section>
-          <section className="flex-[10.5] bg-amber-500">
+          <section className="flex-[10.5] bg-gray-100">
             <TopBar />
             {children}
           </section>
