@@ -4,18 +4,14 @@ import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaPoll } from "react-icons/fa";
-import {
-  RiBarChartLine,
-  RiMessage2Line,
-  RiMessage3Line,
-  RiRobot2Line,
-} from "react-icons/ri";
+import { FaBars } from "react-icons/fa";
+import { RiBarChartLine, RiMessage3Line, RiRobot2Line } from "react-icons/ri";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
 import { TbMessageChatbot } from "react-icons/tb";
+import Link from "next/link";
 
-const SideBar = () => {
+const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
     {
       id: 101,
@@ -78,50 +74,66 @@ const SideBar = () => {
   ];
   return (
     <div className="">
-      <Image
-        src={swopLogo}
-        alt="swop logo"
-        width={140}
-        className="py-10 pl-4"
-      />
+      <div
+        className={`py-10 ${
+          !toggle ? "pl-4" : "px-2"
+        } flex justify-between items-center`}
+      >
+        {!toggle && (
+          <Link href={"/"}>
+            <Image src={swopLogo} alt="swop logo" width={140} />
+          </Link>
+        )}
+        <button onClick={onToggle}>
+          <FaBars className="text-gray-600" size={18} />
+        </button>
+      </div>
       <div>
         <ul className="flex flex-col gap-y-3">
           {sidebarArray.map((data) => (
             <li
-              className="flex items-center gap-2 pl-4 hover:bg-[#8A2BE21A] py-1.5 rounded-lg"
+              className={`flex items-center gap-2 ${
+                !toggle ? "pl-4" : "px-2"
+              } hover:bg-[#8A2BE21A] py-1.5 rounded-lg`}
               key={data.id}
             >
-              {data.icon} {data.title}
+              {data.icon} {!toggle && data.title}
             </li>
           ))}
         </ul>
 
         {/* divider */}
-        <hr className="my-10" />
+        <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        <div className="bg-gray-100 p-4 flex flex-col gap-y-4">
-          <AiOutlineShoppingCart size={18} />
-          <div>
-            <p className="mb-2 text-[#454547] font-medium">
-              Unlock Unlimited Access
-            </p>
-            <p className="text-[#454547CC]">
-              Free NFC with a yearly subscription
-            </p>
+        {!toggle && (
+          <div className="bg-gray-100 p-4 flex flex-col gap-y-4">
+            <AiOutlineShoppingCart size={18} />
+            <div>
+              <p className="mb-2 text-[#454547] font-medium">
+                Unlock Unlimited Access
+              </p>
+              <p className="text-[#454547CC]">
+                Free NFC with a yearly subscription
+              </p>
+            </div>
+            <div className="flex justify-between items-center mr-4">
+              <button className="font-medium text-[#68686A]">Dismiss</button>
+              <button className="font-semibold text-[#8A2BE2]">
+                Upgrade Plan
+              </button>
+            </div>
           </div>
-          <div className="flex justify-between items-center mr-4">
-            <button className="font-medium text-[#68686A]">Dismiss</button>
-            <button className="font-semibold text-[#8A2BE2]">
-              Upgrade Plan
-            </button>
-          </div>
-        </div>
+        )}
 
         {/* logout  */}
-        <button className="flex items-center gap-1 mt-6 ml-4 font-medium text-[#424651]">
+        <button
+          className={`flex items-center gap-1 mt-6 ${
+            !toggle ? "pl-4" : "px-2"
+          } font-medium text-[#424651]`}
+        >
           <IoLogOutOutline size={18} />
-          Logout
+          {!toggle && "Logout"}
         </button>
       </div>
     </div>
