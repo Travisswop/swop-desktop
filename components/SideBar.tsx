@@ -72,6 +72,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
       title: "Support Center",
     },
   ];
+
   return (
     <div className="">
       <div

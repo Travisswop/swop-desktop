@@ -11,11 +11,11 @@ const LayoutComponent = ({ children }: any) => {
 
   return (
     <div className="flex">
-      <section className={`${!toggle ? "flex-[1.5]" : ""} px-4`}>
+      <section className="px-4">
         <SideBar toggle={toggle} onToggle={handleToggle} />
       </section>
 
-      <section className="flex-[10.5] bg-gray-100">
+      <section className="w-full bg-gray-100">
         <TopBar />
         {children}
       </section>
