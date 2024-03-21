@@ -1,3 +1,9 @@
+import ModalComponent from "@/components/Modal";
+
 export default function HomePage() {
-  return <main>home page</main>;
+  return (
+    <main>
+      <ModalComponent />
+    </main>
+  );
 }
