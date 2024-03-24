@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import logo from "../../../public/images/logo/swop-logo.svg";
+import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
 import PrimaryButton from "@/components/PrimaryButton";
@@ -20,9 +20,10 @@ const LoginPage = () => {
     <main className="pt-14 pb-20 lg:py-28 overflow-hidden">
       <section className="flex justify-center">
         <Image
-          src={logo}
+          src={swopLogo}
           alt="swop-logo"
           width={200}
+          priority
           className="w-48 lg:w-52"
         />
       </section>
@@ -64,7 +65,7 @@ const LoginPage = () => {
                     viewBox="0 0 14 13"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_1329_10912)">
+                    <g clipPath="url(#clip0_1329_10912)">
                       <path
                         d="M13.6791 0L7.67188 4.40261L8.78898 1.80803L13.6791 0Z"
                         fill="#E17726"

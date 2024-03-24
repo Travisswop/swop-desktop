@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import SideBar from "./SideBar";
 import TopBar from "./TopBar";
+import { Providers } from "@/app/providers";
 
 const LayoutComponent = ({ children }: any) => {
   const [toggle, setToggle] = useState(false);
@@ -17,7 +18,7 @@ const LayoutComponent = ({ children }: any) => {
 
       <section className="w-full bg-gray-100">
         <TopBar />
-        {children}
+        <Providers>{children} </Providers>
       </section>
     </div>
   );
