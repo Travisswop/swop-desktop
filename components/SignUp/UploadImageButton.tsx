@@ -8,7 +8,7 @@ const UploadImageButton = () => {
     console.log("clicked");
   };
   return (
-    <div className="w-max">
+    <div className="w-full sm:w-max">
       <PrimaryButton
         handleOnClick={handleClickOnUploadImage}
         preIcon={<ImCloudUpload />}

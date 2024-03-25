@@ -1,4 +1,5 @@
-import React from "react";
+"use client"; // for onsubmit -> replace this with server action
+import React, { useState } from "react";
 import defaultAvator from "../../../public/images/avator/default_avator.svg";
 import Image from "next/image";
 import UploadImageButton from "@/components/SignUp/UploadImageButton";
@@ -8,26 +9,70 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineEmail, MdOutlinePhoneInTalk } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 import { CiLocationOn } from "react-icons/ci";
+import SelectAvatorModal from "@/components/SelectAvatorModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const SignUpPage = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const images = [
+    "01.png",
+    "02.png",
+    "03.png",
+    "04.png",
+    "05.png",
+    "06.png",
+    "07.png",
+    "08.png",
+  ];
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("form submitted successfully");
+  };
+
+  const handleSelectImage = (image: any) => {
+    setSelectedImage(image);
+  };
+
+  console.log("selectedImage", selectedImage);
+
+  const handleModal = () => {
+    onOpen();
+    setIsModalOpen(true);
+  };
+
   return (
-    <section className="bg-[#F7F7F9] flex items-center justify-center w-full h-screen">
-      <div className="bg-white w-4/6 py-6 pr-6">
-        <div className="flex gap-16 items-center w-full h-full">
-          <div className="flex-1 flex flex-col gap-y-4 items-center border-r border-gray-500">
+    <section className="bg-white sm:bg-[#F7F7F9] flex sm:items-center justify-center w-full h-full sm:h-screen">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white w-full md:w-5/6 lg:w-4/6 mx-6 md:mx-0 py-10 sm:py-6 sm:pr-6 h-full sm:h-auto"
+      >
+        <div className="flex flex-col sm:flex-row gap-8 sm:gap-10 lg:gap-10 2xl:gap-16 sm:items-center w-full h-full mb-4 sm:mb-10">
+          <div className="flex-1 flex flex-col gap-y-4 items-center sm:border-r border-gray-500 lg:px-3 xl:px-0">
             <h1 className="text-xl font-bold">Parent Profile</h1>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 text-center">
               This is your account profile used to <br /> manage the Swop
               ecosystem
             </p>
-            <div className="relative w-52 overflow-hidden rounded-full">
-              <Image
-                src={defaultAvator}
-                alt="default avator"
-                className="rounded-full "
-              />
+            <div className="relative w-52 h-52 overflow-hidden rounded-full">
+              <div className="bg-[#A7B3C4]">
+                <Image
+                  src={
+                    selectedImage
+                      ? `/images/avator/${selectedImage}`
+                      : defaultAvator
+                  }
+                  width={260}
+                  height={260}
+                  alt="default avator"
+                  className="rounded-full w-full h-full"
+                />
+              </div>
               <div className="bg-[#3f3f3f43] absolute top-1/2 w-full h-full">
-                <button>
+                <button onClick={handleModal}>
                   <Image
                     src={uploadImgIcon}
                     alt="upload image icon"
@@ -40,7 +85,7 @@ const SignUpPage = () => {
             <UploadImageButton />
           </div>
           {/* <div className="border border-r border-black h-5/6 my-10"></div> */}
-          <div className="flex-[2]">
+          <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
             <h6 className="font-semibold mb-4">Parent Profile</h6>
             <div className="flex flex-col gap-y-3">
               <div className="">
@@ -142,7 +187,22 @@ const SignUpPage = () => {
             </div>
           </div>
         </div>
-      </div>
+        <button
+          type="submit"
+          className="bg-black text-white py-2 rounded-xl flex items-center gap-1 justify-center px-10 mx-auto text-sm w-full sm:w-auto"
+        >
+          Save
+        </button>
+      </form>
+      {isModalOpen && (
+        <SelectAvatorModal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          images={images}
+          onSelectImage={handleSelectImage}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
     </section>
   );
 };
