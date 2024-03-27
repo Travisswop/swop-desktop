@@ -26,6 +26,26 @@ const SignUpPage = () => {
     "06.png",
     "07.png",
     "08.png",
+    "09.png",
+    "10.png",
+    "11.png",
+    "12.png",
+    "13.png",
+    "14.png",
+    "15.png",
+    "16.png",
+    "17.png",
+    "18.png",
+    "19.png",
+    "20.png",
+    "21.png",
+    "22.png",
+    "23.png",
+    "24.png",
+    "25.png",
+    "26.png",
+    "27.png",
+    "28.png",
   ];
 
   const handleSubmit = (e: any) => {
@@ -37,7 +57,7 @@ const SignUpPage = () => {
     setSelectedImage(image);
   };
 
-  console.log("selectedImage", selectedImage);
+  // console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();
@@ -68,6 +88,7 @@ const SignUpPage = () => {
                   width={260}
                   height={260}
                   alt="default avator"
+                  quality={100}
                   className="rounded-full w-full h-full"
                 />
               </div>
@@ -82,7 +103,7 @@ const SignUpPage = () => {
                 </button>
               </div>
             </div>
-            <UploadImageButton />
+            <UploadImageButton handleModal={handleModal} />
           </div>
           {/* <div className="border border-r border-black h-5/6 my-10"></div> */}
           <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
@@ -194,6 +215,8 @@ const SignUpPage = () => {
           Save
         </button>
       </form>
+
+      {/* modal here  */}
       {isModalOpen && (
         <SelectAvatorModal
           isOpen={isOpen}
