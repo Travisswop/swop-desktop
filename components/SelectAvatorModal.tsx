@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
 import Image from "next/image";
 import { MdFileUpload } from "react-icons/md";
@@ -10,13 +10,20 @@ export default function SelectAvatorModal({
   images,
   onSelectImage,
   setIsModalOpen,
+  handleFileChange,
 }: any) {
+  const fileInputRef = useRef<any>(null);
+
   const selectAvator = (image: any) => {
     isOpen = false;
     onSelectImage(image);
     setIsModalOpen(false);
   };
   // console.log(isOpen, onOpenChange);
+
+  const handleButtonClick = () => {
+    fileInputRef?.current?.click();
+  };
 
   return (
     <>
@@ -61,9 +68,19 @@ export default function SelectAvatorModal({
                     <p>OR</p>
                     <hr className="w-full h-[1.5px] bg-gray-300" />
                   </div>
-                  <button className="bg-black text-white w-max mx-auto py-2 rounded-xl flex items-center gap-2 justify-center px-4 text-sm">
+                  <button
+                    onClick={handleButtonClick}
+                    className="bg-black text-white w-max mx-auto py-2 rounded-xl flex items-center gap-2 justify-center px-4 text-sm"
+                  >
                     <MdFileUpload /> Choose From Gallery
                   </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
                 </ModalBody>
               </div>
             </ModalContent>

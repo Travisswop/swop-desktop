@@ -14,6 +14,8 @@ import { useDisclosure } from "@nextui-org/react";
 
 const SignUpPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [galleryImage, setGalleryImage] = useState(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -55,13 +57,29 @@ const SignUpPage = () => {
 
   const handleSelectImage = (image: any) => {
     setSelectedImage(image);
+    setGalleryImage(null);
   };
+
+  console.log("galleryImage", galleryImage);
 
   // console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();
     setIsModalOpen(true);
+  };
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(null);
+      setIsModalOpen(false);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setGalleryImage(reader.result as any);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -79,18 +97,29 @@ const SignUpPage = () => {
             </p>
             <div className="relative w-52 h-52 overflow-hidden rounded-full">
               <div className="bg-[#A7B3C4]">
-                <Image
-                  src={
-                    selectedImage
-                      ? `/images/avator/${selectedImage}`
-                      : defaultAvator
-                  }
-                  width={260}
-                  height={260}
-                  alt="default avator"
-                  quality={100}
-                  className="rounded-full w-full h-full"
-                />
+                {galleryImage ? (
+                  <Image
+                    src={galleryImage}
+                    width={260}
+                    height={260}
+                    alt="default avator"
+                    quality={100}
+                    className="rounded-full w-full h-full"
+                  />
+                ) : (
+                  <Image
+                    src={
+                      selectedImage
+                        ? `/images/avator/${selectedImage}`
+                        : defaultAvator
+                    }
+                    width={260}
+                    height={260}
+                    alt="default avator"
+                    quality={100}
+                    className="rounded-full w-full h-full"
+                  />
+                )}
               </div>
               <div className="bg-[#3f3f3f43] absolute top-1/2 w-full h-full">
                 <button onClick={handleModal}>
@@ -224,6 +253,7 @@ const SignUpPage = () => {
           images={images}
           onSelectImage={handleSelectImage}
           setIsModalOpen={setIsModalOpen}
+          handleFileChange={handleFileChange}
         />
       )}
     </section>
