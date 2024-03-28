@@ -16,7 +16,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
   return (
     <button
-      className="bg-black text-white w-full py-2 rounded-xl flex items-center gap-2 justify-center px-4 text-sm"
+      className="bg-black text-white w-full py-2 rounded-xl flex items-center gap-2 justify-center px-4"
       onClick={handleOnClick}
     >
       {preIcon && preIcon} {children ? children : "Log In"} {icon && icon}
