@@ -53,10 +53,6 @@ const Microsite = () => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const handleOnClick = () => {
-    console.log("clicked");
-  };
-
   return (
     <div className="w-full">
       <div className="slider-container">
@@ -116,10 +112,7 @@ const Microsite = () => {
               />
             </div>
             <div className="flex justify-center mt-5">
-              <button
-                className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium"
-                onClick={handleOnClick}
-              >
+              <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
                 <LiaFileMedicalSolid size={22} /> Create Microsite
               </button>
             </div>
@@ -179,10 +172,7 @@ const Microsite = () => {
               />
             </div>
             <div className="flex justify-center mt-5">
-              <button
-                className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium"
-                onClick={handleOnClick}
-              >
+              <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
                 <LiaFileMedicalSolid size={22} /> Create Microsite
               </button>
             </div>
@@ -242,10 +232,7 @@ const Microsite = () => {
               />
             </div>
             <div className="flex justify-center mt-5">
-              <button
-                className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium"
-                onClick={handleOnClick}
-              >
+              <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
                 <LiaFileMedicalSolid size={22} /> Create Microsite
               </button>
             </div>

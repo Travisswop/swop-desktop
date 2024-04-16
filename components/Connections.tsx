@@ -6,7 +6,7 @@ import travisImage from "../public/travis-image.svg";
 const Connections = () => {
   return (
     <div className=" py-5 px-6 bg-white">
-      <p className="font-semibold text-gray-700 mb-4 text-lg">Connections</p>
+      <p className="text-xl text-gray-700 font-bold mb-4">Connections</p>
       <div className="relative w-full mb-4">
         <CiSearch
           className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"

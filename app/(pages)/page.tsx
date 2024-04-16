@@ -1,14 +1,18 @@
 import Image from "next/image";
 import travisImage from "../../public/travis-image.svg";
-import { FaEdit } from "react-icons/fa";
 import { BiSolidEdit } from "react-icons/bi";
-import { CiSearch } from "react-icons/ci";
 import Connections from "@/components/Connections";
 import Chart from "@/components/Chart";
 import Microsite from "@/components/Microsite";
-import square from "@/public/images/homepage/square.svg";
 import WebsiteAnalytics from "@/components/Home/WebsiteAnalytics";
 import RecentLeads from "@/components/Home/RecentLeads";
+import MainButton from "@/components/MainButton";
+import { MdOutlineQrCode } from "react-icons/md";
+import qrcode from "@/public/images/websites/qrcode.png";
+import edit from "@/public/images/websites/icon/edit.svg";
+import barcode from "@/public/images/websites/icon/scan-barcode.svg";
+import send from "@/public/images/websites/icon/send.svg";
+import wallet from "@/public/images/websites/icon/wallet.svg";
 
 export default function HomePage() {
   const websiteAnalyticsArr = [
@@ -54,7 +58,7 @@ export default function HomePage() {
                 height={50}
               />
               <div className="flex flex-col gap-1">
-                <h3 className="font-semibold">Travis Herron</h3>
+                <h3 className="font-bold text-gray-700">Travis Herron</h3>
                 <p className="text-sm text-gray-500 font-medium">
                   Travis.Swopple.ID
                 </p>
@@ -63,7 +67,7 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            <button className="px-10 flex gap-1 items-center  border-1.5 rounded-lg py-1 text-gray-500 border-gray-400">
+            <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1 text-gray-500 border-gray-400">
               <BiSolidEdit />
               Edit
             </button>
@@ -97,8 +101,49 @@ export default function HomePage() {
           </h3>
           <RecentLeads />
         </div>
-        <div className="bg-white w-1/2 rounded-lg">
-          <Microsite />
+        <div className="w-1/2">
+          <div className="bg-white rounded-lg">
+            <Microsite />
+          </div>
+          <div className="bg-white rounded-lg mt-4 p-6">
+            <h5 className="text-xl text-gray-700 font-bold">QR</h5>
+            <div>
+              <div className="flex gap-6 items-center justify-between">
+                <form className="w-full">
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    className="w-full bg-gray-200 py-1.5 rounded-2xl px-4 focus:outline-none"
+                  />
+                  <div className="flex justify-center w-full mt-4">
+                    <MainButton
+                      title={"Generate QR"}
+                      icon={<MdOutlineQrCode />}
+                    />
+                  </div>
+                </form>
+                <div>
+                  <Image
+                    alt="qr code"
+                    src={qrcode}
+                    width={130}
+                    className="border-2 p-2 border-gray-500 rounded-2xl"
+                  />
+                  <div className="flex items-center gap-2 justify-center mt-2">
+                    <button className="bg-black p-2 rounded-lg">
+                      <Image alt="edit" src={edit} width={18} />
+                    </button>
+                    <button className="bg-black p-2 rounded-lg">
+                      <Image alt="send" src={send} width={18} />
+                    </button>
+                    <button className="bg-black p-2 rounded-lg">
+                      <Image alt="wallet" src={wallet} width={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>

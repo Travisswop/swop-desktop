@@ -23,7 +23,7 @@ const WebsiteAnalytics: React.FC<WebsiteAnalyticsProps> = ({
       </div>
       <div className="mx-4 my-4 flex items-center justify-between">
         <div>
-          <h3 className="text-2xl font-bold text-gray-600">{value}</h3>
+          <h3 className="text-2xl font-bold text-gray-600 mb-1">{value}</h3>
           <p className="text-xl font-medium text-gray-500">{days} days</p>
         </div>
         <div

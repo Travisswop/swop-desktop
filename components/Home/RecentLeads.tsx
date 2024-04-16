@@ -52,21 +52,23 @@ const RecentLeads = () => {
           <div className="px-2">
             <div className="border border-gray-300 rounded-lg">
               <div className="border-b border-gray-300 flex items-center justify-between py-4">
-                <h3 className="text-xl font-medium ml-4">Travis Main</h3>
+                <h3 className="text-lg font-bold ml-4 text-gray-700">
+                  Travis Main
+                </h3>
               </div>
               <div className="mx-4 my-4 flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <h5 className="text-xl font-bold text-gray-600">
+                  <h5 className="text-lg font-bold text-gray-600">
                     Jakob Rhiel Madsen
                   </h5>
-                  <p className="text-lg font-medium text-gray-500">
+                  <p className="text-base font-medium text-gray-500">
                     Marketing Officer
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <HiOutlinePhone />
                     (336567-6403)
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <CgMail /> jakobrhiel@gmail.com
                   </p>
                 </div>
@@ -77,17 +79,17 @@ const RecentLeads = () => {
               <hr className="border border-gray-200" />
               <div className="mx-4 my-4 flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <h5 className="text-xl font-bold text-gray-600">
+                  <h5 className="text-lg font-bold text-gray-600">
                     Jakob Rhiel Madsen
                   </h5>
-                  <p className="text-lg font-medium text-gray-500">
+                  <p className="text-base font-medium text-gray-500">
                     Marketing Officer
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <HiOutlinePhone />
                     (336567-6403)
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <CgMail /> jakobrhiel@gmail.com
                   </p>
                 </div>
@@ -100,21 +102,23 @@ const RecentLeads = () => {
           <div className="px-2">
             <div className="border border-gray-300 rounded-lg">
               <div className="border-b border-gray-300 flex items-center justify-between py-4">
-                <h3 className="text-xl font-medium ml-4">Travis Main</h3>
+                <h3 className="text-lg font-bold ml-4 text-gray-700">
+                  Travis Main
+                </h3>
               </div>
               <div className="mx-4 my-4 flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <h5 className="text-xl font-bold text-gray-600">
+                  <h5 className="text-lg font-bold text-gray-600">
                     Jakob Rhiel Madsen
                   </h5>
-                  <p className="text-lg font-medium text-gray-500">
+                  <p className="text-base font-medium text-gray-500">
                     Marketing Officer
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <HiOutlinePhone />
                     (336567-6403)
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <CgMail /> jakobrhiel@gmail.com
                   </p>
                 </div>
@@ -125,17 +129,17 @@ const RecentLeads = () => {
               <hr className="border border-gray-200" />
               <div className="mx-4 my-4 flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <h5 className="text-xl font-bold text-gray-600">
+                  <h5 className="text-lg font-bold text-gray-600">
                     Jakob Rhiel Madsen
                   </h5>
-                  <p className="text-lg font-medium text-gray-500">
+                  <p className="text-base font-medium text-gray-500">
                     Marketing Officer
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <HiOutlinePhone />
                     (336567-6403)
                   </p>
-                  <p className="text-lg font-medium text-gray-500 flex items-center gap-1">
+                  <p className="text-base font-medium text-gray-500 flex items-center gap-1">
                     <CgMail /> jakobrhiel@gmail.com
                   </p>
                 </div>
