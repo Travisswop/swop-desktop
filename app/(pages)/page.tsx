@@ -6,8 +6,41 @@ import { CiSearch } from "react-icons/ci";
 import Connections from "@/components/Connections";
 import Chart from "@/components/Chart";
 import Microsite from "@/components/Microsite";
+import square from "@/public/images/homepage/square.svg";
+import WebsiteAnalytics from "@/components/Home/WebsiteAnalytics";
+import RecentLeads from "@/components/Home/RecentLeads";
 
 export default function HomePage() {
+  const websiteAnalyticsArr = [
+    {
+      _id: 123,
+      title: "Leads",
+      value: 34,
+      days: 30,
+      percentage: 24,
+    },
+    {
+      _id: 133,
+      title: "Taps",
+      value: 34,
+      days: 30,
+      percentage: 24,
+    },
+    {
+      _id: 124,
+      title: "Taps",
+      value: 24,
+      days: 20,
+      percentage: 24,
+    },
+    {
+      _id: 1673,
+      title: "Connections",
+      value: 34,
+      days: 30,
+      percentage: -24,
+    },
+  ];
   return (
     <main className="main-container my-8">
       <div className="flex gap-6 items-start">
@@ -44,7 +77,26 @@ export default function HomePage() {
         </div>
       </div>
       <div className="my-4 flex gap-8">
-        <div className=" bg-white w-1/2">Website Analytics</div>
+        <div className="bg-white w-1/2 py-6 px-10">
+          <h3 className="text-xl text-gray-700 font-bold mb-4">
+            Website Analytics
+          </h3>
+          <div className="grid grid-cols-2 gap-6">
+            {websiteAnalyticsArr.map((data) => (
+              <WebsiteAnalytics
+                key={data._id}
+                title={data.title}
+                days={data.days}
+                percentage={data.percentage}
+                value={data.value}
+              />
+            ))}
+          </div>
+          <h3 className="text-xl text-gray-700 font-bold mt-6 mb-4">
+            Recent Leads
+          </h3>
+          <RecentLeads />
+        </div>
         <div className="bg-white w-1/2 rounded-lg">
           <Microsite />
         </div>

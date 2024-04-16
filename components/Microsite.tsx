@@ -63,7 +63,7 @@ const Microsite = () => {
         <Slider {...settings} className="">
           <div className="py-8 px-8">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl text-gray-700 font-semibold">Websites</h3>
+              <h3 className="text-xl text-gray-700 font-bold">Websites</h3>
               <button className="border border-gray-500 rounded-lg px-4 py-2 flex items-center gap-1 font-medium">
                 <CiSettings size={20} />
                 Manage Sites

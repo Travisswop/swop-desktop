@@ -74,7 +74,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
   ];
 
   return (
-    <div className="">
+    <div className="sticky top-0">
       <div
         className={`py-10 ${
           !toggle ? "pl-4" : "px-2"
@@ -85,7 +85,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
             <Image src={swopLogo} alt="swop logo" width={140} />
           </Link>
         )}
-        <button onClick={onToggle}>
+        <button onClick={onToggle} className="">
           <FaBars className="text-gray-600" size={18} />
         </button>
       </div>
