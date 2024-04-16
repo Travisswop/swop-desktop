@@ -9,7 +9,7 @@ export default function PageLayout({
   return (
     <html lang="en">
       <body>
-        <main>
+        <main className="">
           <LayoutComponent>{children}</LayoutComponent>
         </main>
       </body>

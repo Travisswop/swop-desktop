@@ -5,7 +5,7 @@ import travisImage from "../public/travis-image.svg";
 
 const Connections = () => {
   return (
-    <div className="flex-1 py-5 px-6 bg-white">
+    <div className=" py-5 px-6 bg-white">
       <p className="font-semibold text-gray-700 mb-4 text-lg">Connections</p>
       <div className="relative w-full mb-4">
         <CiSearch

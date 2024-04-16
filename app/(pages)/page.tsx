@@ -10,8 +10,8 @@ import Microsite from "@/components/Microsite";
 export default function HomePage() {
   return (
     <main className="main-container my-8">
-      <div className="flex gap-4 items-start">
-        <div className="flex-[1.5]">
+      <div className="flex gap-6 items-start">
+        <div className="w-3/5">
           <div className="bg-white py-5 px-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Image
@@ -39,12 +39,13 @@ export default function HomePage() {
         </div>
 
         {/* connections */}
-        <Connections />
+        <div className="w-2/5">
+          <Connections />
+        </div>
       </div>
-      <div className=" my-4">
-        <div className="w-[50%] bg-white">Website Analytics</div>
-
-        <div className="w-[50%] bg-white overflow-hidden">
+      <div className="my-4 flex gap-8">
+        <div className=" bg-white w-1/2">Website Analytics</div>
+        <div className="bg-white w-1/2 rounded-lg">
           <Microsite />
         </div>
       </div>

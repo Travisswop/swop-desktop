@@ -12,11 +12,17 @@ const LayoutComponent = ({ children }: any) => {
 
   return (
     <div className="flex">
-      <section className="px-4">
+      <section
+        className={`px-4 ${!toggle && "w-[20%] xl:w-[18%] 2xl:w-[15%]"} `}
+      >
         <SideBar toggle={toggle} onToggle={handleToggle} />
       </section>
 
-      <section className="w-full bg-gray-100">
+      <section
+        className={`bg-gray-100 ${
+          !toggle ? "w-[80%] xl:w-[82%] 2xl:w-[85%]" : "w-[96%]"
+        }`}
+      >
         <TopBar />
         <Providers>{children} </Providers>
       </section>
