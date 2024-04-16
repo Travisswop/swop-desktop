@@ -67,7 +67,7 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1 text-gray-500 border-gray-400">
+            <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
               <BiSolidEdit />
               Edit
             </button>
