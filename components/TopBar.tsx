@@ -14,9 +14,9 @@ const TopBar = () => {
     console.log("clicked");
   };
   return (
-    <div className="flex items-center main-container py-7 bg-white">
-      <div className="flex flex-[3] gap-4 justify-between items-center">
-        <div className="relative w-[60%]">
+    <div className="flex items-center gap-4 main-container py-7 bg-white">
+      <div className="flex flex-[3] gap-4 items-center">
+        <div className="relative flex-1">
           <CiSearch
             className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
             size={18}
@@ -27,7 +27,7 @@ const TopBar = () => {
             className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
           />
         </div>
-        <div className="w-[20%]">
+        <div className="">
           <PrimaryButton
             preIcon={<FaFileMedical />}
             handleOnClick={handleOnClick}
@@ -36,7 +36,7 @@ const TopBar = () => {
           </PrimaryButton>
         </div>
 
-        <div className="w-[20%]">
+        <div className="">
           <OutlinePrimaryButton
             preIcon={<RiRobot2Line size={18} />}
             handleOnClick={handleOnClick}
