@@ -46,7 +46,7 @@ export default function HomePage() {
     },
   ];
   return (
-    <main className="main-container my-8">
+    <main className="main-container">
       <div className="flex gap-6 items-start">
         <div className="w-3/5">
           <div className="bg-white py-5 px-6 flex items-center justify-between">
@@ -80,8 +80,8 @@ export default function HomePage() {
           <Connections />
         </div>
       </div>
-      <div className="my-4 flex gap-8">
-        <div className="bg-white w-1/2 py-6 px-10">
+      <div className="mt-4 grid grid-cols-2 gap-8">
+        <div className="bg-white py-6 px-10">
           <h3 className="text-xl text-gray-700 font-bold mb-4">
             Website Analytics
           </h3>
@@ -101,7 +101,7 @@ export default function HomePage() {
           </h3>
           <RecentLeads />
         </div>
-        <div className="w-1/2">
+        <div className="">
           <div className="bg-white rounded-lg">
             <Microsite />
           </div>

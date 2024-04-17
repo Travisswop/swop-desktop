@@ -10,6 +10,7 @@ import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
 import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
+import SideBarLink from "./SideBarLink";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
@@ -17,26 +18,31 @@ const SideBar = ({ toggle, onToggle }: any) => {
       id: 101,
       icon: <RxDashboard />,
       title: "Dashboard",
+      href: "/",
     },
     {
       id: 102,
       icon: <RiBarChartLine />,
       title: "Websites",
+      href: "/websites",
     },
     {
       id: 103,
       icon: <MdOutlineQrCodeScanner />,
       title: "QR Code",
+      href: "/qr-code",
     },
     {
       id: 104,
       icon: <RiBarChartLine />,
       title: "Analytics",
+      href: "/analytics",
     },
     {
       id: 105,
       icon: <RiMessage3Line size={18} />,
       title: "Messages",
+      href: "/messages",
     },
     {
       id: 106,
@@ -55,21 +61,25 @@ const SideBar = ({ toggle, onToggle }: any) => {
         </svg>
       ),
       title: "Mint",
+      href: "/mint",
     },
     {
       id: 107,
       icon: <CiViewList size={18} />,
       title: "Orders",
+      href: "/orders",
     },
     {
       id: 108,
       icon: <RiRobot2Line size={18} />,
       title: "Automations",
+      href: "/automations",
     },
     {
       id: 109,
       icon: <TbMessageChatbot size={20} />,
       title: "Support Center",
+      href: "/support-center",
     },
   ];
 
@@ -92,14 +102,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
       <div>
         <ul className="flex flex-col gap-y-3">
           {sidebarArray.map((data) => (
-            <li
-              className={`flex items-center gap-2 ${
-                !toggle ? "pl-4" : "px-2"
-              } hover:bg-[#8A2BE21A] py-1.5 rounded-lg`}
-              key={data.id}
-            >
-              {data.icon} {!toggle && data.title}
-            </li>
+            <SideBarLink key={data.id} data={data} toggle={toggle} />
           ))}
         </ul>
 

@@ -4,7 +4,10 @@
 
 @layer utilities {
   .main-container {
-    @apply w-full mx-auto px-8;
+    @apply w-full mx-auto p-8;
+  }
+  .heading-3 {
+    @apply text-lg font-bold text-[#424651];
   }
 }
 
