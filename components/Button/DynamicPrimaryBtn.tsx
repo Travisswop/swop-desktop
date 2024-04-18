@@ -7,14 +7,14 @@ interface btnProps {
 
 // we need to use importat in case any passed className won't work
 
-const EditMicrositeBtn = ({ children, className }: btnProps) => {
+const DynamicPrimaryBtn = ({ children, className }: btnProps) => {
   // Define the default classes
   const defaultClasses =
-    "bg-white px-6 py-1.5 rounded-full flex gap-2 items-center text-gray-500 font-medium border border-gray-200";
+    "bg-black text-white py-2 rounded-xl flex items-center gap-2 justify-center px-6 font-medium";
   // Merge the default classes with the passed className
   const mergedClasses = `${defaultClasses} ${className && className}`;
 
   return <button className={mergedClasses}>{children}</button>;
 };
 
-export default EditMicrositeBtn;
+export default DynamicPrimaryBtn;

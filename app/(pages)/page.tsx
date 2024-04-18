@@ -10,7 +10,6 @@ import MainButton from "@/components/MainButton";
 import { MdOutlineQrCode } from "react-icons/md";
 import qrcode from "@/public/images/websites/qrcode.png";
 import edit from "@/public/images/websites/icon/edit.svg";
-import barcode from "@/public/images/websites/icon/scan-barcode.svg";
 import send from "@/public/images/websites/icon/send.svg";
 import wallet from "@/public/images/websites/icon/wallet.svg";
 

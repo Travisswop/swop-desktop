@@ -21,3 +21,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.dropDownTitle > span {
+  font-size: medium;
+  font-weight: 700;
+  color: #001534;
+}

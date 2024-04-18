@@ -13,6 +13,7 @@ import contactCard from "@/public/images/websites/edit-microsite/contact-card.sv
 import mp4 from "@/public/images/websites/edit-microsite/mp4.svg";
 import photosVideos from "@/public/images/websites/edit-microsite/photos-videos.svg";
 import redeemLink from "@/public/images/websites/edit-microsite/redeem-link.svg";
+import { FaRegSquareMinus } from "react-icons/fa6";
 
 function SampleNextArrow(props: any) {
   const { className, style, onClick } = props;
@@ -42,7 +43,7 @@ function SamplePrevArrow(props: any) {
   );
 }
 
-const IconMaker = () => {
+const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
   const settings = {
     // dots: true,
     infinite: true,
@@ -132,16 +133,40 @@ const IconMaker = () => {
         <Slider {...settings}>
           {iconBuilderArry.map((data) => (
             <div key={data._id} className="px-2 py-2">
-              <div className="bg-white px-2 py-6 rounded-2xl flex flex-col items-center gap-3 h-40 2xl:h-40 overflow-hidden shadow-lg">
+              <div className="bg-white px-2 py-6 rounded-2xl flex flex-col items-center gap-3 h-40 2xl:h-40 shadow-md">
                 <p className="text-center h-[45%] text-sm font-medium">
                   {data.title}
                 </p>
                 <div className="h-[45%]  my-auto w-full flex justify-center items-center">
                   <Image alt="icon" src={data.src} />
                 </div>
-                <button className="h-[10%] ">
+                {toggleIcon.find((item: any) => item == data.title) ? (
+                  <button
+                    onClick={() => handleRemoveIcon(data.title)}
+                    className="h-[10%] "
+                  >
+                    <FaRegSquareMinus size={18} />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleAddIcon(data.title)}
+                    className="h-[10%] "
+                  >
+                    <MdOutlineAddBox size={20} />
+                  </button>
+                )}
+                {/* <button
+                  onClick={() => handleAddIcon(data.title)}
+                  className="h-[10%] "
+                >
                   <MdOutlineAddBox size={20} />
-                </button>
+                </button> */}
+                {/* // <button
+                //   onClick={() => handleRemoveIcon(data.title)}
+                //   className="h-[10%] "
+                // >
+                //   <FaRegSquareMinus size={18} />
+                // </button> */}
               </div>
             </div>
           ))}
