@@ -73,7 +73,7 @@ const MicrositeEditPage = () => {
             <AddIcon key={index} data={data} />
           ))}
         </div>
-        <div className=" w-[38%]">
+        <div className="w-[38%]">
           <button onClick={() => setIsBackgroundImg(!isBackgroundImg)}>
             <GoArrowSwitch />
           </button>
