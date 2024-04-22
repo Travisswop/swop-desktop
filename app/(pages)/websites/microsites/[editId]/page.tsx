@@ -1,17 +1,85 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import userAvator from "@/public/images/avator/01.png";
 import editIcon from "@/public/images/websites/edit-icon.svg";
 import { FiUser } from "react-icons/fi";
 import { TbUserSquare } from "react-icons/tb";
-import { Switch } from "@nextui-org/react";
+import { Switch, useDisclosure } from "@nextui-org/react";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import { IoMdLink } from "react-icons/io";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import LivePreview from "@/components/LivePreview";
+import SelectBackgroudOrBannerModal from "@/components/SelectBackgroudOrBannerModal/SelectBackgroudOrBannerModal";
 
 const EditSmartSite = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [galleryImage, setGalleryImage] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const images = [
+    "01.png",
+    "02.png",
+    "03.png",
+    "04.png",
+    "05.png",
+    "06.png",
+    "07.png",
+    "08.png",
+    "09.png",
+    "10.png",
+    "11.png",
+    "12.png",
+    "13.png",
+    "14.png",
+    "15.png",
+    "16.png",
+    "17.png",
+    "18.png",
+    "19.png",
+    "20.png",
+    "21.png",
+    "22.png",
+    "23.png",
+    "24.png",
+    "25.png",
+    "26.png",
+    "27.png",
+    "28.png",
+  ];
+  const backgroundImgArr = [
+    "background-1.png",
+    "background-2.png",
+    "background-3.png",
+    "background-4.png",
+    "background-5.png",
+    "background-6.png",
+    "background-7.png",
+  ];
+  const bannerImgArr = [
+    "banner-1.png",
+    "banner-2.png",
+    "banner-3.png",
+    "banner-4.png",
+    "banner-5.png",
+    "banner-6.png",
+    "banner-7.png",
+    "banner-8.png",
+    "banner-9.png",
+    "banner-10.png",
+    "banner-11.png",
+    "banner-12.png",
+    "banner-13.png",
+    "banner-14.png",
+    "banner-15.png",
+    "banner-16.png",
+  ];
+  const handleModal = () => {
+    onOpen();
+    setIsModalOpen(true);
+  };
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-7 items-start">
@@ -94,10 +162,12 @@ const EditSmartSite = () => {
                 aria-label="Lead Captures"
               />
             </div>
-            <EditMicrositeBtn className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max">
-              <LiaFileMedicalSolid size={20} color="#001534" /> Edit
-              Background/Banner
-            </EditMicrositeBtn>
+            <div onClick={handleModal}>
+              <EditMicrositeBtn className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max">
+                <LiaFileMedicalSolid size={20} color="#001534" /> Edit
+                Background/Banner
+              </EditMicrositeBtn>
+            </div>
           </div>
           <div>
             <p className="text-gray-700 font-semibold">
@@ -170,6 +240,15 @@ const EditSmartSite = () => {
           <LivePreview isBackgroundImg={true} />
         </div>
       </div>
+      <SelectBackgroudOrBannerModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        bannerImgArr={bannerImgArr}
+        backgroundImgArr={backgroundImgArr}
+        // onSelectImage={handleSelectImage}
+        setIsModalOpen={setIsModalOpen}
+        // handleFileChange={handleFileChange}
+      />
     </main>
   );
 };
