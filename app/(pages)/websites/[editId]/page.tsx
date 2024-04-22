@@ -3,26 +3,28 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
+import LivePreview from "@/components/LivePreview";
 import { Switch } from "@nextui-org/react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsSend } from "react-icons/bs";
+import { GoArrowSwitch } from "react-icons/go";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 
 const MicrositeEditPage = () => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
-  const handleAddIcon = (title: { title: string }) => {
-    console.log("title", title);
+  const [isBackgroundImg, setIsBackgroundImg] = useState<any>(true);
 
+  const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
   };
   const handleRemoveIcon = (title: { title: string }) => {
-    console.log("title", title);
+    // console.log("title", title);
     const filteredIcon = toggleIcon.filter((data: any) => data != title);
-    console.log("filteredIcon", filteredIcon);
+    // console.log("filteredIcon", filteredIcon);
 
     setToggleIcon(filteredIcon);
   };
-  console.log(toggleIcon);
 
   return (
     <main className="main-container overflow-hidden">
@@ -48,10 +50,12 @@ const MicrositeEditPage = () => {
               <LiaFileMedicalSolid size={20} />
               Edit Background
             </EditMicrositeBtn>
-            <EditMicrositeBtn>
-              <LiaFileMedicalSolid size={20} />
-              Microsite Settings
-            </EditMicrositeBtn>
+            <Link href={`/websites/microsites/travis-herron`}>
+              <EditMicrositeBtn>
+                <LiaFileMedicalSolid size={20} />
+                Microsite Settings
+              </EditMicrositeBtn>
+            </Link>
           </div>
           <DynamicPrimaryBtn className="w-full !rounded-full mt-2">
             <LiaFileMedicalSolid size={20} /> Publish
@@ -69,7 +73,12 @@ const MicrositeEditPage = () => {
             <AddIcon key={index} data={data} />
           ))}
         </div>
-        <div className="bg-green-200 w-[38%]">Live preview</div>
+        <div className=" w-[38%]">
+          <button onClick={() => setIsBackgroundImg(!isBackgroundImg)}>
+            <GoArrowSwitch />
+          </button>
+          <LivePreview isBackgroundImg={isBackgroundImg} />
+        </div>
       </div>
     </main>
   );
