@@ -1,7 +1,8 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
-import { Radio, RadioGroup, Switch } from "@nextui-org/react";
+import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
+import { Radio, RadioGroup, Switch, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
@@ -14,6 +15,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 const EditQRCode = () => {
   const [color, setColor] = useState("");
   const [toggle, setToggle] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState({
     shape: "",
     border: "",
@@ -56,16 +58,25 @@ const EditQRCode = () => {
     },
   ];
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleModal = () => {
+    onOpen();
+    setIsModalOpen(true);
+  };
+
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-6 items-start">
         <div className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-gray-700">Customize QR</p>
-            <EditMicrositeBtn>
-              <FiSend />
-              Share
-            </EditMicrositeBtn>
+            <div onClick={handleModal}>
+              <EditMicrositeBtn>
+                <FiSend />
+                Share
+              </EditMicrositeBtn>
+            </div>
           </div>
           <div className="bg-white py-4 px-10 flex flex-col gap-4">
             <div>
@@ -214,7 +225,7 @@ const EditQRCode = () => {
           </div>
         </div>
         <div className="w-[38%] flex flex-col items-center gap-4">
-          <p className="text-gray-500 font-medium">Live Preview</p>
+          <p className="text-gray-500 font-medium mb-6">Live Preview</p>
           <Image
             alt="qr code"
             src={"/images/websites/qrcode.png"}
@@ -232,6 +243,15 @@ const EditQRCode = () => {
           </div>
         </div>
       </div>
+      <QRCodeShareModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        // bannerImgArr={bannerImgArr}
+        // backgroundImgArr={backgroundImgArr}
+        // onSelectImage={handleSelectImage}
+        setIsModalOpen={setIsModalOpen}
+        // handleFileChange={handleFileChange}
+      />
     </main>
   );
 };
