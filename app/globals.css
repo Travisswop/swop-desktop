@@ -9,6 +9,9 @@
   .heading-3 {
     @apply text-lg font-bold text-[#424651];
   }
+  .heading-4 {
+    @apply text-base font-bold text-[#424651];
+  }
 }
 
 .slick-prev:before,
