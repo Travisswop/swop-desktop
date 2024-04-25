@@ -117,7 +117,8 @@ const EditQRCode = () => {
                     } `}
                   >
                     <div
-                      className={`bg-[${data.hexCode}] w-11 h-11 rounded-full`}
+                      style={{ backgroundColor: data.hexCode }}
+                      className={`w-11 h-11 rounded-full`}
                     ></div>
                   </button>
                 ))}

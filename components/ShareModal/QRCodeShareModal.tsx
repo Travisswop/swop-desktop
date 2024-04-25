@@ -27,17 +27,21 @@ export default function QRCodeShareModal({ isOpen, onOpenChange }: any) {
                   </div>
 
                   <div className="flex items-center gap-4 justify-center">
-                    <button>
-                      <FaFacebook size={28} />
+                    <button className="flex flex-col items-center gap-1 font-medium">
+                      <FaFacebook size={40} color="#1877F2" />
+                      <p className="text-xs">Facebook</p>
                     </button>
-                    <button>
-                      <FaInstagramSquare size={28} />
+                    <button className="flex flex-col items-center gap-1 font-medium">
+                      <FaInstagramSquare size={40} color="red" />
+                      <p className="text-xs">Instagram</p>
                     </button>
-                    <button>
-                      <FaXTwitter size={28} />
+                    <button className="flex flex-col items-center gap-1 font-medium">
+                      <FaXTwitter size={40} />
+                      <p className="text-xs">Twitter</p>
                     </button>
-                    <button>
-                      <FaLinkedin size={28} />
+                    <button className="flex flex-col items-center gap-1 font-medium">
+                      <FaLinkedin size={40} color="#0076B2" />
+                      <p className="text-xs">Linkedin</p>
                     </button>
                   </div>
                 </ModalBody>
