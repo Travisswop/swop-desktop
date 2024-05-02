@@ -8,6 +8,7 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import { Accordion, AccordionItem, Avatar } from "@nextui-org/react";
 import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
 import { LuBarChartHorizontalBig } from "react-icons/lu";
+import Link from "next/link";
 
 const MintDetails = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(new Set(["1"]));
@@ -37,9 +38,11 @@ const MintDetails = () => {
               <DynamicPrimaryBtn className="!rounded-lg">
                 Connect Wallet
               </DynamicPrimaryBtn>
-              <EditMicrositeBtn className="!rounded-lg !text-gray-600 !border-gray-400 flex justify-center">
-                Click To Claim
-              </EditMicrositeBtn>
+              <Link href={`/mint/claim/23232`}>
+                <EditMicrositeBtn className="!rounded-lg !text-gray-600 !border-gray-400 flex justify-center">
+                  Click To Claim
+                </EditMicrositeBtn>
+              </Link>
             </div>
           </div>
           <Accordion
