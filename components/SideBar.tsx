@@ -11,6 +11,7 @@ import { CiViewList } from "react-icons/ci";
 import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
 import SideBarLink from "./SideBarLink";
+import { motion } from "framer-motion";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
@@ -86,7 +87,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
   return (
     <div className="sticky top-0">
       <div
-        className={`py-10 ${
+        className={`h-[6.8rem] ${
           !toggle ? "pl-4" : "px-2"
         } flex justify-between items-center`}
       >
@@ -110,25 +111,36 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        {!toggle && (
-          <div className="bg-gray-100 p-4 flex flex-col gap-y-4">
-            <AiOutlineShoppingCart size={18} />
-            <div>
-              <p className="mb-2 text-[#454547] font-medium">
-                Unlock Unlimited Access
-              </p>
-              <p className="text-[#454547CC]">
-                Free NFC with a yearly subscription
-              </p>
-            </div>
-            <div className="flex justify-between items-center mr-4">
-              <button className="font-medium text-[#68686A]">Dismiss</button>
-              <button className="font-semibold text-[#8A2BE2]">
-                Upgrade Plan
-              </button>
-            </div>
+        {/* {!toggle && ( */}
+        <motion.div
+          initial={{
+            opacity: toggle ? 0 : 1,
+          }}
+          animate={{
+            opacity: toggle ? 0 : 1,
+          }}
+          transition={{ delay: toggle ? 0 : 0.3, duration: 1 }}
+          className={`bg-gray-100 p-4 flex flex-col gap-y-4 ${
+            toggle && "hidden"
+          }`}
+        >
+          <AiOutlineShoppingCart size={18} />
+          <div>
+            <p className="mb-2 text-[#454547] font-medium">
+              Unlock Unlimited Access
+            </p>
+            <p className="text-[#454547CC]">
+              Free NFC with a yearly subscription
+            </p>
           </div>
-        )}
+          <div className="flex justify-between items-center mr-4">
+            <button className="font-medium text-[#68686A]">Dismiss</button>
+            <button className="font-semibold text-[#8A2BE2]">
+              Upgrade Plan
+            </button>
+          </div>
+        </motion.div>
+        {/* )} */}
 
         {/* logout  */}
         <button
