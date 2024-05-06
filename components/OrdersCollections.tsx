@@ -59,52 +59,10 @@ const OrdersCollections = () => {
       deliveryStatus: "Processing",
     },
   ];
-
-  const columns = [
-    {
-      key: "orderNo",
-      label: "Order No",
-    },
-    {
-      key: "customer",
-      label: "Customer",
-    },
-    {
-      key: "order",
-      label: "Order",
-    },
-    {
-      key: "price",
-      label: "Price",
-    },
-    {
-      key: "orderDate",
-      label: "Order Date",
-    },
-    {
-      key: "deliveryStatus",
-      label: "Delivery Status",
-    },
-  ];
   return (
-    // <Table removeWrapper aria-label="Example table with dynamic content">
-    //   <TableHeader columns={columns}>
-    //     {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-    //   </TableHeader>
-    //   <TableBody items={rows}>
-    //     {(item) => (
-    //       <TableRow key={item.key}>
-    //         {(columnKey) => (
-    //           <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-    //         )}
-    //       </TableRow>
-    //     )}
-    //   </TableBody>
-    // </Table>
-
     <div className="relative overflow-x-auto">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
               Order No
@@ -131,13 +89,10 @@ const OrdersCollections = () => {
         </thead>
         <tbody>
           {rows.map((data, index) => (
-            <tr
-              key={index}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-            >
+            <tr key={index} className="bg-white border-b">
               <th
                 scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
               >
                 {data.orderNo}
               </th>
@@ -173,29 +128,6 @@ const OrdersCollections = () => {
               </td>
             </tr>
           ))}
-
-          {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              Microsoft Surface Pro
-            </th>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">$1999</td>
-          </tr>
-          <tr className="bg-white dark:bg-gray-800">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              Magic Mouse 2
-            </th>
-            <td className="px-6 py-4">Black</td>
-            <td className="px-6 py-4">Accessories</td>
-            <td className="px-6 py-4">$99</td>
-          </tr> */}
         </tbody>
       </table>
     </div>
