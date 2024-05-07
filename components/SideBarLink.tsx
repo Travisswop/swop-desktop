@@ -21,24 +21,31 @@ const SideBarLink = ({ data, toggle }: ILinkProps) => {
   };
 
   return (
-    <Link href={data.href}>
+    <Link href={data.href} className="relative">
       <motion.li
         className={`flex items-center gap-2 ${isActive() && "bg-[#8A2BE21A]"} ${
-          !toggle ? "px-4" : "px-4 w-max"
+          !toggle ? "px-4" : "px-2 w-max"
         } hover:bg-[#8A2BE21A] py-1.5 rounded-lg`}
       >
-        {data.icon}{" "}
+        {data.icon} {/* {!toggle && ( */}
         <motion.span
           initial={{
             opacity: toggle ? 0 : 1,
+            display: !toggle ? "block" : "hidden",
+            // x: toggle ? 50 : 0,
           }}
           animate={{
             opacity: toggle ? 0 : 1,
+            display: !toggle ? "block" : "hidden",
+            // x: toggle ? 50 : 0,
           }}
-          transition={{ delay: toggle ? 0 : 0.3, duration: 1 }}
+          transition={{ delay: toggle ? 0 : 0.3, duration: 0.6 }}
+          // className={`${toggle ? "hidden" : "block"}`}
+          className="absolute left-11"
         >
-          {!toggle && data.title}
+          {data.title}
         </motion.span>
+        {/* )} */}
       </motion.li>
     </Link>
   );

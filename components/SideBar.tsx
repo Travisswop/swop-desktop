@@ -85,14 +85,14 @@ const SideBar = ({ toggle, onToggle }: any) => {
   ];
 
   return (
-    <div className="sticky top-0">
+    <div className={`sticky top-0 ${toggle && "pl-1.5"}`}>
       <div
         className={`h-[6.8rem] ${
-          !toggle ? "pl-4" : "px-2"
-        } flex justify-between items-center`}
+          !toggle ? "pl-4 justify-between gap-3" : "px-2"
+        } flex items-center`}
       >
         {!toggle && (
-          <Link href={"/"}>
+          <Link href={"/"} className="flex-shrink">
             <Image src={swopLogo} alt="swop logo" width={140} />
           </Link>
         )}
@@ -101,7 +101,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         </button>
       </div>
       <div>
-        <ul className="flex flex-col gap-y-3">
+        <ul className={`flex flex-col gap-y-4`}>
           {sidebarArray.map((data) => (
             <SideBarLink key={data.id} data={data} toggle={toggle} />
           ))}
@@ -144,7 +144,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
 
         {/* logout  */}
         <button
-          className={`flex items-center gap-1 mt-6 ${
+          className={`flex items-center justify-center gap-1 mt-6 ${
             !toggle ? "pl-4" : "px-2"
           } font-medium text-[#424651]`}
         >
