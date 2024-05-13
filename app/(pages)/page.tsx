@@ -80,7 +80,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-8">
-        <div className="bg-white py-6 px-10">
+        <div className="p-6 bg-white relative">
           <h3 className="text-xl text-gray-700 font-bold mb-4">
             Website Analytics
           </h3>
@@ -98,10 +98,12 @@ export default function HomePage() {
           <h3 className="text-xl text-gray-700 font-bold mt-6 mb-4">
             Recent Leads
           </h3>
-          <RecentLeads />
+          <div>
+            <RecentLeads />
+          </div>
         </div>
-        <div className="">
-          <div className="bg-white rounded-lg">
+        <div>
+          <div className="bg-white rounded-lg overflow-hidden">
             <Microsite />
           </div>
           <div className="bg-white rounded-lg mt-4 p-6">

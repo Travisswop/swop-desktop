@@ -12,6 +12,7 @@ import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
 import SideBarLink from "./SideBarLink";
 import { motion } from "framer-motion";
+import SideBarToggle from "./SideBarToggle";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
@@ -96,9 +97,10 @@ const SideBar = ({ toggle, onToggle }: any) => {
             <Image src={swopLogo} alt="swop logo" width={140} />
           </Link>
         )}
-        <button onClick={onToggle} className="">
+        {/* <button onClick={onClickToggle} className="">
           <FaBars className="text-gray-600" size={18} />
-        </button>
+        </button> */}
+        <SideBarToggle onToggle={onToggle} />
       </div>
       <div>
         <ul className={`flex flex-col gap-y-4`}>

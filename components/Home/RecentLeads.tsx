@@ -1,55 +1,43 @@
 "use client";
 import React from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { HiOutlinePhone } from "react-icons/hi";
 import { CgMail } from "react-icons/cg";
 import { LuPhoneCall } from "react-icons/lu";
-
-function SampleNextArrow(props: any) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        // marginRight: 20,
-      }}
-      onClick={onClick}
-    />
-  );
-}
-
-function SamplePrevArrow(props: any) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        // marginLeft: 20,
-      }}
-      onClick={onClick}
-    />
-  );
-}
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/effect-creative";
+import { Navigation } from "swiper/modules";
+import { EffectCreative } from "swiper/modules";
 
 const RecentLeads = () => {
-  const settings = {
-    // dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
   return (
-    <div className="w-full">
-      <div className="slider-container">
-        <Slider {...settings} className="">
-          <div className="px-2">
+    <div className="">
+      <Swiper
+        spaceBetween={50}
+        slidesPerView={1}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
+        navigation={true}
+        grabCursor={true}
+        effect={"creative"}
+        loop={true}
+        creativeEffect={{
+          prev: {
+            shadow: true,
+            translate: ["-20%", 0, -1],
+          },
+          next: {
+            translate: ["100%", 0, 0],
+          },
+        }}
+        modules={[Navigation, EffectCreative]}
+        className="myRecentLeadsSwiper"
+      >
+        <SwiperSlide>
+          <div className="px-7 bg-white">
             <div className="border border-gray-300 rounded-lg">
               <div className="border-b border-gray-300 flex items-center justify-between py-4">
                 <h3 className="text-lg font-bold ml-4 text-gray-700">
@@ -99,7 +87,9 @@ const RecentLeads = () => {
               </div>
             </div>
           </div>
-          <div className="px-2">
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="px-7 bg-white">
             <div className="border border-gray-300 rounded-lg">
               <div className="border-b border-gray-300 flex items-center justify-between py-4">
                 <h3 className="text-lg font-bold ml-4 text-gray-700">
@@ -149,8 +139,8 @@ const RecentLeads = () => {
               </div>
             </div>
           </div>
-        </Slider>
-      </div>
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 };

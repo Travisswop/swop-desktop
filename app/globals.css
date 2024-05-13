@@ -14,6 +14,7 @@
   }
 }
 
+/* slick style => we don't use react-slick now  */
 .slick-prev:before,
 .slick-next:before {
   font-family: "slick";
@@ -30,3 +31,63 @@
   font-weight: 700;
   color: #001534;
 }
+
+/********** swiper custom style  *************/
+
+/* recent leads style start */
+.myRecentLeadsSwiper > .swiper-button-prev {
+  left: 0px !important;
+  z-index: 50 !important;
+}
+.myRecentLeadsSwiper > .swiper-button-next {
+  right: 0px !important;
+  z-index: 50 !important;
+}
+.myRecentLeadsSwiper > .swiper-button-prev,
+.myRecentLeadsSwiper > .swiper-button-next {
+  /* background: black; */
+  border: 1px solid #000000;
+  color: #000000;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+}
+.myRecentLeadsSwiper > .swiper-button-prev:after {
+  content: "prev";
+  font-size: 11px !important;
+  font-weight: 1000;
+}
+.myRecentLeadsSwiper > .swiper-button-next:after {
+  content: "next";
+  font-size: 11px !important;
+  font-weight: 1000;
+}
+/* recent leads style end */
+
+/* websites style start */
+.mySwiper > .swiper-button-prev {
+  left: 26px !important;
+}
+.mySwiper > .swiper-button-next {
+  right: 26px !important;
+}
+.mySwiper > .swiper-button-prev,
+.mySwiper > .swiper-button-next {
+  /* background: #000; */
+  border: 2px solid #000000;
+  color: #000000;
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+}
+.mySwiper > .swiper-button-prev:after {
+  content: "prev";
+  font-size: 13px !important;
+  font-weight: 1000;
+}
+.mySwiper > .swiper-button-next:after {
+  content: "next";
+  font-size: 13px !important;
+  font-weight: 1000;
+}
+/* websites style end */

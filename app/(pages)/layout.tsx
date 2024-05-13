@@ -1,5 +1,6 @@
 import "../../app/globals.css";
 import LayoutComponent from "@/components/LayoutComponent";
+import { SideBarToggleProvider } from "./contexts/sideBarToggleContext";
 
 export default function PageLayout({
   children,
@@ -10,7 +11,9 @@ export default function PageLayout({
     <html lang="en">
       <body>
         <main className="">
-          <LayoutComponent>{children}</LayoutComponent>
+          <SideBarToggleProvider>
+            <LayoutComponent> {children}</LayoutComponent>
+          </SideBarToggleProvider>
         </main>
       </body>
     </html>
