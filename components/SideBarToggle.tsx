@@ -1,5 +1,5 @@
 "use client";
-import SideBarToggleContext from "@/app/(pages)/contexts/sideBarToggleContext";
+import SideBarToggleContext from "@/contexts/sideBarToggleContext";
 import React, { useContext } from "react";
 import { FaBars } from "react-icons/fa";
 

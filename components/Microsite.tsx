@@ -24,8 +24,8 @@ const Microsite = () => {
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
         navigation={true}
         grabCursor={true}
         effect={"creative"}

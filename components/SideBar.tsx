@@ -2,17 +2,15 @@ import React from "react";
 import swopLogo from "../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaBars } from "react-icons/fa";
 import { RiBarChartLine, RiMessage3Line, RiRobot2Line } from "react-icons/ri";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
 import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
 import SideBarLink from "./SideBarLink";
-import { motion } from "framer-motion";
 import SideBarToggle from "./SideBarToggle";
+import SideBarUpgradePlan from "./SideBarUpgradePlan";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
@@ -113,36 +111,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        {/* {!toggle && ( */}
-        <motion.div
-          initial={{
-            opacity: toggle ? 0 : 1,
-          }}
-          animate={{
-            opacity: toggle ? 0 : 1,
-          }}
-          transition={{ delay: toggle ? 0 : 0.3, duration: 1 }}
-          className={`bg-gray-100 p-4 flex flex-col gap-y-4 ${
-            toggle && "hidden"
-          }`}
-        >
-          <AiOutlineShoppingCart size={18} />
-          <div>
-            <p className="mb-2 text-[#454547] font-medium">
-              Unlock Unlimited Access
-            </p>
-            <p className="text-[#454547CC]">
-              Free NFC with a yearly subscription
-            </p>
-          </div>
-          <div className="flex justify-between items-center mr-4">
-            <button className="font-medium text-[#68686A]">Dismiss</button>
-            <button className="font-semibold text-[#8A2BE2]">
-              Upgrade Plan
-            </button>
-          </div>
-        </motion.div>
-        {/* )} */}
+        <SideBarUpgradePlan toggle={toggle} />
 
         {/* logout  */}
         <button

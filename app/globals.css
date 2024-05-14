@@ -91,3 +91,31 @@
   font-weight: 1000;
 }
 /* websites style end */
+
+/* Edit Microsite style start */
+.editMicrositeSwiper > .swiper-button-prev {
+  left: -26px !important;
+}
+.editMicrositeSwiper > .swiper-button-next {
+  right: -26px !important;
+}
+.editMicrositeSwiper > .swiper-button-prev,
+.editMicrositeSwiper > .swiper-button-next {
+  /* background: #000; */
+  border: 2px solid #000000;
+  color: #000000;
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+}
+.editMicrositeSwiper > .swiper-button-prev:after {
+  content: "prev";
+  font-size: 13px !important;
+  font-weight: 1000;
+}
+.editMicrositeSwiper > .swiper-button-next:after {
+  content: "next";
+  font-size: 13px !important;
+  font-weight: 1000;
+}
+/* websites style end */

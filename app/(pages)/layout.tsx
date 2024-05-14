@@ -1,6 +1,6 @@
 import "../../app/globals.css";
 import LayoutComponent from "@/components/LayoutComponent";
-import { SideBarToggleProvider } from "./contexts/sideBarToggleContext";
+import { SideBarToggleProvider } from "../../contexts/sideBarToggleContext";
 
 export default function PageLayout({
   children,

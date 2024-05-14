@@ -1,4 +1,6 @@
+// "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import { Checkbox, Switch } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +10,9 @@ import { IoQrCodeSharp } from "react-icons/io5";
 import { TbEdit } from "react-icons/tb";
 
 const QrCodePage = () => {
+  // const { toggle } = useSideBarToggleStore();
+  // console.log("toggle form qr code ", toggle);
+
   return (
     <div className="main-container">
       <div className="flex items-start justify-between">
