@@ -4,11 +4,11 @@ import { signIn, signOut } from "@/auth";
 // import { redirect } from "next/navigation";
 
 export async function doSignOut() {
-  await signOut({ redirectTo: "http://localhost:3000/signin" });
+  await signOut({ redirectTo: `${process.env.WEB_LIVE_BASE_URL}/signin` });
 }
 
 export async function doSignInWithGoogle() {
-  await signIn("google", { redirectTo: "http://localhost:3000/" });
+  await signIn("google", { redirectTo: `${process.env.WEB_LIVE_BASE_URL}` });
 }
 
 export async function login(formData: FormData) {
