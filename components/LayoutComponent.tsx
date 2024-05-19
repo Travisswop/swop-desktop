@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import SideBar from "./SideBar";
-import TopBar from "./TopBar";
 import { Providers } from "@/app/providers";
 import { MotionSection, easeInOutProp } from "@/util/Motion";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
@@ -47,7 +46,7 @@ const LayoutComponent = ({ children }: any) => {
           !toggle ? "w-[80%] xl:w-[82%] 2xl:w-[85%]" : "w-[96%]"
         }`}
       >
-        <TopBar />
+        {/* <TopBar /> */}
         <Providers>{children}</Providers>
       </MotionSection>
 
@@ -59,7 +58,7 @@ const LayoutComponent = ({ children }: any) => {
           !toggle ? "w-[80%] xl:w-[82%] 2xl:w-[85%]" : "w-[96%]"
         }`}
       >
-        <TopBar />
+        {/* <TopBar /> */}
         <Providers>{children}</Providers>
       </MotionSection>
     </div>

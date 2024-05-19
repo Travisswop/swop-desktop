@@ -11,6 +11,7 @@ import appleIcon from "../../../public/images/login-form/apple-icon.svg";
 import login_astronot from "../../../public/images/login_astronot.svg";
 import { MotionSection } from "@/util/Motion";
 import { useAnimation } from "framer-motion";
+import { doSignInWithGoogle } from "@/actions/auth";
 
 const LoginPage = () => {
   const handleLogin = (e: any) => {
@@ -20,70 +21,6 @@ const LoginPage = () => {
   const handleOnClick = () => {
     console.log("click");
   };
-
-  // const floatTransition = {
-  //   loop: Infinity,
-  //   // repeatType: "loop",
-  //   ease: "easeInOut",
-  //   duration: 6,
-  // };
-
-  // const floatVariants = {
-  //   initial: {
-  //     opacity: 0,
-  //     x: 0,
-  //     y: 0,
-  //   },
-  //   float: {
-  //     opacity: 1,
-  //     x: [400],
-  //     y: [1000, -400],
-  //     transition: floatTransition,
-  //   },
-  // };
-
-  // const floatVariants = {
-  //   float: {
-  //     // x: 300,
-  //     y: [500, 600, 400], // Vertical movement range (adjust as needed)
-  //     transition: {
-  //       duration: 2,
-  //       // delay: 1,
-  //       repeat: Infinity,
-  //       // ease: "easeIn",
-  //       // repeatType: "reverse",
-  //     }, // Animation parameters
-  //   },
-  // float: {
-  //   y: 500, // Start from the bottom
-  //   // x: 300,
-  //   rotate: 360, // Optional rotation
-  //   transition: {
-  //     duration: 10, // Animation duration in seconds
-  //     yoyo: Infinity, // Repeat animation infinitely
-  //     ease: "easeInOut", // Animation easing
-  //   },
-  // },
-  // };
-
-  // const positions = [
-  //   { x: 300, y: 200 },
-  //   { x: 1000, y: 200 },
-  //   { x: 1000, y: 1000 },
-  //   { x: 300, y: 1000 },
-  //   { x: 300, y: 200 },
-  // ];
-
-  // const floatVariantsMap = {
-  //   float: positions.map((position, index) => ({
-  //     x: position.x,
-  //     y: position.y,
-  //     transition: {
-  //       duration: 1, // Adjust animation duration per position (optional)
-  //       delay: index > 0 ? index * 0.5 : 0, // Introduce delay between positions
-  //     },
-  //   })),
-  // };
 
   const controls = useAnimation();
 
@@ -98,17 +35,11 @@ const LoginPage = () => {
     };
   };
 
-  const getRandomRotation = () => {
-    return Math.floor(Math.random() * 360); // Random angle between 0 and 359 degrees
-  };
-
   useEffect(() => {
     async function sequence() {
       for (let i = 0; i < 5; i++) {
-        // Adjust the number of steps if needed
         const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
         const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
-        const rotate = getRandomRotation();
         await controls.start({
           x,
           y,
@@ -121,43 +52,8 @@ const LoginPage = () => {
     sequence();
   }, [controls]);
 
-  // useEffect(() => {
-  //   async function sequence() {
-  //     // await controls.start({
-  //     //   x: "200px",
-  //     //   y: "100px",
-  //     //   opacity: 0,
-  //     //   transition: { duration: 1 },
-  //     // });
-  //     await controls.start({
-  //       rotate: 360,
-  //       x: "1100px",
-  //       y: "0px",
-  //       transition: { duration: 4 },
-  //     });
-  //     await controls.start({
-  //       x: "1100px",
-  //       y: "650px",
-  //       transition: { duration: 2, ease: "easeInOut" },
-  //     });
-  //     await controls.start({
-  //       x: "0px",
-  //       y: "650px",
-  //       transition: { duration: 2, ease: "easeInOut" },
-  //     });
-  //     await controls.start({
-  //       x: "0px",
-  //       y: "0px",
-  //       transition: { duration: 2, ease: "easeInOut" },
-  //     });
-  //     sequence();
-  //   }
-  //   sequence();
-  // }, [controls]);
-
   return (
     <main className="overflow-hidden">
-      {/* <MotionSection variants={floatVariants} animate="float"> */}
       <MotionSection animate={controls}>
         <Image
           alt="login_astronot"
@@ -165,51 +61,7 @@ const LoginPage = () => {
           className="fixed z-50 w-max"
         />
       </MotionSection>
-      {/* <MotionSection
-        initial={{
-          x: 200,
-          y: -200,
-          opacity: 1,
-        }}
-        animate={{
-          x: 200,
-          y: 1000,
-          opacity: 1,
-        }}
-        transition={{
-          duration: 2,
-          ease: "easeInOut",
-        }}
-      >
-        <Image
-          alt="login_astronot"
-          src={login_astronot}
-          className="fixed top-0 left-0 z-50"
-        />
-      </MotionSection>
-      <MotionSection
-        initial={{
-          x: 1600,
-          y: 1000,
-          opacity: 1,
-        }}
-        animate={{
-          x: 1600,
-          y: -300,
-          opacity: 1,
-        }}
-        transition={{
-          delay: 2,
-          duration: 2,
-          ease: "easeInOut",
-        }}
-      >
-        <Image
-          alt="login_astronot"
-          src={login_astronot}
-          className="fixed top-0 left-0 z-50"
-        />
-      </MotionSection> */}
+
       <div className="pt-14 pb-20 lg:py-28 h-screen">
         <section className="flex justify-center relative -z-10">
           <Image
@@ -229,7 +81,13 @@ const LoginPage = () => {
               <div className="bg-[#af87fd] w-12 h-12 rounded-full absolute top-40 left-10 z-0"></div> */}
               <div className="flex flex-col gap-4 justify-center mt-16 w-full lg:w-[32rem] h-full px-4 lg:px-10 pt-4 lg:pt-12 pb-4 backdrop-blur-[50px] bg-white bg-opacity-25 border shadow-md rounded-xl">
                 <div className="flex gap-2 justify-center">
-                  <Image src={googleIcon} alt="swop-logo" width={44} />
+                  {/* action for google sing in */}
+                  <form action={doSignInWithGoogle}>
+                    <button type="submit">
+                      <Image src={googleIcon} alt="swop-logo" width={44} />
+                    </button>
+                  </form>
+
                   <Image src={appleIcon} alt="swop-logo" width={44} />
                 </div>
                 <form onSubmit={handleLogin} className="flex flex-col gap-3">
