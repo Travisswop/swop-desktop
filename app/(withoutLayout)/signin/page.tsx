@@ -11,7 +11,7 @@ import appleIcon from "../../../public/images/login-form/apple-icon.svg";
 import login_astronot from "../../../public/images/login_astronot.svg";
 import { MotionSection } from "@/util/Motion";
 import { useAnimation } from "framer-motion";
-import { doSignInWithGoogle } from "@/actions/auth";
+import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
 
 const LoginPage = () => {
   const handleLogin = (e: any) => {
@@ -90,17 +90,23 @@ const LoginPage = () => {
 
                   <Image src={appleIcon} alt="swop-logo" width={44} />
                 </div>
-                <form onSubmit={handleLogin} className="flex flex-col gap-3">
+                <form
+                  action={signInWithCredentials}
+                  className="flex flex-col gap-3"
+                >
                   <input
                     type="email"
+                    name="email"
                     placeholder="Enter your email address"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
                   />
                   <LoginPasswordInput />
-                  <PrimaryButton
-                    handleOnClick={handleOnClick}
-                    icon={<FaArrowRightLong />}
-                  />
+                  <button
+                    className="bg-black text-white w-full py-2 rounded-xl flex items-center gap-2 justify-center px-4"
+                    type="submit"
+                  >
+                    Log In <FaArrowRightLong />
+                  </button>
                 </form>
                 <div className="flex flex-col gap-3 font-medium">
                   <div className="flex items-center gap-2">

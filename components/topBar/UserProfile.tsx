@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import Image from "next/image";
 import React from "react";
-import { FaAngleDown } from "react-icons/fa";
 import travis from "../../public/travis-image.svg";
 import SignOut from "./SignOut";
 
@@ -11,16 +10,16 @@ const UserProfile = async () => {
   return (
     <div>
       <div className="bg-gray-100 py-2 px-3 flex items-center gap-2 rounded-full relative">
-        {session?.user ? (
+        {session?.user?.image ? (
           <Image
             src={session?.user?.image as any}
-            width={30}
-            height={30}
-            alt="travis image"
-            className="rounded-full"
+            width={60}
+            height={60}
+            alt={session?.user?.image || "User Profile"}
+            className="rounded-full border-4 border-white w-[30px] h-[30px]"
           />
         ) : (
-          <Image src={travis} width={30} alt="travis image" />
+          <Image src={travis} width={30} alt="default image" />
         )}
 
         <p className="text-sm">

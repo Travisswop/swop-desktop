@@ -8,10 +8,11 @@ const LoginPasswordInput = () => {
     <div className="relative">
       <input
         type={show ? "text" : "password"}
+        name="password"
         placeholder="Enter your password"
         className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
       />
-      <button onClick={() => setShow(!show)}>
+      <button type="button" onClick={() => setShow(!show)}>
         {show ? (
           <FaEye
             className="absolute top-1/2 -translate-y-[50%] right-4"
