@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
-import PrimaryButton from "@/components/PrimaryButton";
-import { FaArrowRightLong } from "react-icons/fa6";
 import wallet from "../../../public/wallet_login_icon.svg";
 import googleIcon from "../../../public/images/login-form/google-icon.svg";
 import appleIcon from "../../../public/images/login-form/apple-icon.svg";
@@ -12,16 +10,9 @@ import login_astronot from "../../../public/images/login_astronot.svg";
 import { MotionSection } from "@/util/Motion";
 import { useAnimation } from "framer-motion";
 import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
+import SignInButton from "@/components/Button/SignInButton";
 
 const LoginPage = () => {
-  const handleLogin = (e: any) => {
-    e.preventDefault();
-  };
-
-  const handleOnClick = () => {
-    console.log("click");
-  };
-
   const controls = useAnimation();
 
   const getRandomXPosition = (min: number, max: number) => {
@@ -97,16 +88,12 @@ const LoginPage = () => {
                   <input
                     type="email"
                     name="email"
+                    required
                     placeholder="Enter your email address"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
                   />
                   <LoginPasswordInput />
-                  <button
-                    className="bg-black text-white w-full py-2 rounded-xl flex items-center gap-2 justify-center px-4"
-                    type="submit"
-                  >
-                    Log In <FaArrowRightLong />
-                  </button>
+                  <SignInButton />
                 </form>
                 <div className="flex flex-col gap-3 font-medium">
                   <div className="flex items-center gap-2">

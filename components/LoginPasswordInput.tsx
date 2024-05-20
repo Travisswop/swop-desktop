@@ -9,6 +9,7 @@ const LoginPasswordInput = () => {
       <input
         type={show ? "text" : "password"}
         name="password"
+        required
         placeholder="Enter your password"
         className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
       />
