@@ -6,11 +6,13 @@ import { cookies } from "next/headers";
 
 export async function doSignOut() {
   cookies().delete("accessToken");
-  await signOut({ redirectTo: `${process.env.WEB_LIVE_BASE_URL}/signin` });
+  await signOut({ redirectTo: `/signin` });
+  // await signOut({ redirectTo: `${process.env.WEB_LIVE_BASE_URL}/signin` });
 }
 
 export async function doSignInWithGoogle() {
-  await signIn("google", { redirectTo: `${process.env.WEB_LIVE_BASE_URL}` });
+  await signIn("google", { redirectTo: `/` });
+  // await signIn("google", { redirectTo: `${process.env.WEB_LIVE_BASE_URL}` });
 }
 
 export async function signInWithCredentials(formData: FormData) {
@@ -18,7 +20,8 @@ export async function signInWithCredentials(formData: FormData) {
     const response = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      redirect: false,
+      // redirect: false,
+      redirectTo: "/",
     });
     console.log({
       email: formData.get("email"),
