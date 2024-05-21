@@ -22,7 +22,7 @@ export async function signInWithCredentials(formData: FormData) {
     const response = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      // redirect: false,
+      redirect: false,
       redirectTo: "/",
     });
     // console.log({

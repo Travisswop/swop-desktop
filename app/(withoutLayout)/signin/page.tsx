@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
@@ -11,21 +11,34 @@ import { MotionSection } from "@/util/Motion";
 import { useAnimation } from "framer-motion";
 import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
 import SignInButton from "@/components/Button/SignInButton";
+import { useRouter } from "next/navigation";
+import { signInSchema } from "@/util/zodSchema/signInZodSchema";
+import { z } from "zod";
+
+// Type definitions for form errors
+interface FormErrors {
+  email?: string;
+  password?: string;
+}
 
 const LoginPage = () => {
+  const router = useRouter();
   const controls = useAnimation();
 
+  //generate random x position for astronout to float
   const getRandomXPosition = (min: number, max: number) => {
     return {
       x: Math.floor(Math.random() * (max - min + 1)) + min,
     };
   };
+  //generate random y position for astronout to float
   const getRandomYPosition = (min: number, max: number) => {
     return {
       y: Math.floor(Math.random() * (max - min + 1)) + min,
     };
   };
 
+  //using random x and y position astronout float around background
   useEffect(() => {
     async function sequence() {
       for (let i = 0; i < 5; i++) {
@@ -42,6 +55,45 @@ const LoginPage = () => {
     }
     sequence();
   }, [controls]);
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+
+  async function handleSubmit(event: any) {
+    event.preventDefault();
+    try {
+      setError("");
+      setFormErrors({});
+      setLoading(true);
+      const formData = new FormData(event.currentTarget);
+      const plainData = Object.fromEntries(formData.entries());
+      signInSchema.parse(plainData); // Validate the plain object
+
+      // if (Object.keys(formErrors).length === 0) {
+      const response = await signInWithCredentials(formData);
+      if (response.error) {
+        setError("Incorrect email or password");
+        setLoading(false);
+      } else {
+        router.push("/");
+        setLoading(false);
+      }
+      // }
+      // setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      if (err instanceof z.ZodError) {
+        const fieldErrors: FormErrors = {};
+        err.errors.forEach((e) => {
+          fieldErrors[e.path[0] as keyof FormErrors] = e.message;
+        });
+        setFormErrors(fieldErrors);
+      } else {
+        setError("Incorrect email or password*");
+      }
+    }
+  }
 
   return (
     <main className="overflow-hidden">
@@ -81,19 +133,28 @@ const LoginPage = () => {
 
                   <Image src={appleIcon} alt="swop-logo" width={44} />
                 </div>
+                {error && Object.keys(formErrors).length === 0 && (
+                  <p className="text-red-600 text-sm">{error}</p>
+                )}
                 <form
-                  action={signInWithCredentials}
+                  // action={signInWithCredentials}
+                  onSubmit={handleSubmit}
                   className="flex flex-col gap-3"
                 >
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="Enter your email address"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
-                  />
-                  <LoginPasswordInput />
-                  <SignInButton />
+                  <div>
+                    <input
+                      type="text"
+                      name="email"
+                      // required
+                      placeholder="Enter your email address"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
+                    />
+                    {formErrors.email && (
+                      <p className="text-red-600 text-sm">{formErrors.email}</p>
+                    )}
+                  </div>
+                  <LoginPasswordInput formErrors={formErrors} />
+                  <SignInButton loading={loading} />
                 </form>
                 <div className="flex flex-col gap-3 font-medium">
                   <div className="flex items-center gap-2">

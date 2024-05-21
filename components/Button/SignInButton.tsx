@@ -3,10 +3,10 @@ import React from "react";
 import { useFormStatus } from "react-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-const SignInButton = () => {
+const SignInButton = ({ loading }: { loading: boolean }) => {
   const { pending } = useFormStatus();
 
-  console.log("pending", pending);
+  // console.log("pending", pending);
   return (
     <button
       aria-disabled={pending}
@@ -14,7 +14,7 @@ const SignInButton = () => {
       type="submit"
     >
       Log In{" "}
-      {pending ? <Spinner color="white" size="sm" /> : <FaArrowRightLong />}
+      {loading ? <Spinner color="white" size="sm" /> : <FaArrowRightLong />}
     </button>
   );
 };
