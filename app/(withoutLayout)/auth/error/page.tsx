@@ -1,7 +1,9 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 
-const AuthErrorPage = () => {
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+const ErrorMessage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
@@ -31,6 +33,14 @@ const AuthErrorPage = () => {
       <h1>Authentication Error</h1>
       <p>{errorMessage}</p>
     </div>
+  );
+};
+
+const AuthErrorPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorMessage />
+    </Suspense>
   );
 };
 
