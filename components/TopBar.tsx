@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 
 const TopBar = async () => {
   const session = await auth();
-  console.log("current session", session);
+  console.log("current session from topbar", session);
 
   return (
     <div className="flex items-center gap-4 main-container py-7 bg-white">
