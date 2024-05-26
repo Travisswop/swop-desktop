@@ -1,7 +1,7 @@
 "use client";
 
 import { Spinner } from "@nextui-org/react";
-// import { signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -10,16 +10,16 @@ const ErrorMessage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
-  // const router = useRouter();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     signOut();
-  //     // router.push("/signin");
-  //   }, 4000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      signOut();
+      // router.push("/signin");
+    }, 4000);
 
-  //   return () => clearTimeout(timer);
-  // }, [router]);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   let errorMessage;
 
