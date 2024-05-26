@@ -11,6 +11,7 @@ import Link from "next/link";
 import SideBarLink from "./SideBarLink";
 import SideBarToggle from "./SideBarToggle";
 import SideBarUpgradePlan from "./SideBarUpgradePlan";
+import { doSignOut } from "@/actions/auth";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   const sidebarArray = [
@@ -114,14 +115,26 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <SideBarUpgradePlan toggle={toggle} />
 
         {/* logout  */}
-        <button
+        {/* <button
           className={`flex items-center justify-center gap-1 mt-6 ${
             !toggle ? "pl-4" : "px-2"
           } font-medium text-[#424651]`}
         >
           <IoLogOutOutline size={18} />
           {!toggle && "Logout"}
-        </button>
+        </button> */}
+
+        <form action={doSignOut}>
+          <button
+            type="submit"
+            className={`flex items-center justify-center gap-1 mt-6 ${
+              !toggle ? "pl-4" : "px-2"
+            } font-medium text-[#424651]`}
+          >
+            <IoLogOutOutline size={18} />
+            {!toggle && "Logout"}
+          </button>
+        </form>
       </div>
     </div>
   );

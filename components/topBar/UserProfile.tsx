@@ -25,7 +25,7 @@ const UserProfile = async () => {
         <p className="text-sm">
           {session?.user ? session?.user?.name : "Travis Herron"}{" "}
         </p>
-        {session?.user && <SignOut />}
+        {/* {session?.user && <SignOut />} */}
       </div>
     </div>
   );
