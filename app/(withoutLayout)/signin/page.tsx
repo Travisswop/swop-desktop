@@ -14,6 +14,7 @@ import SignInButton from "@/components/Button/SignInButton";
 import { useRouter } from "next/navigation";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
 import { z } from "zod";
+import Link from "next/link";
 
 // Type definitions for form errors
 interface FormErrors {
@@ -44,16 +45,20 @@ const LoginPage = () => {
       for (let i = 0; i < 5; i++) {
         const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
         const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
-        await controls.start({
-          x,
-          y,
-          rotate: [10, -10, 10],
-          transition: { duration: 4, ease: "easeInOut" },
-        });
+        if (controls) {
+          await controls.start({
+            x,
+            y,
+            rotate: [10, -10, 10],
+            transition: { duration: 4, ease: "easeInOut" },
+          });
+        }
       }
       sequence(); // Call the sequence function again to create a loop
     }
-    sequence();
+    if (controls) {
+      sequence();
+    }
   }, [controls]);
 
   const [error, setError] = useState("");
@@ -127,7 +132,7 @@ const LoginPage = () => {
                   {/* action for google sing in */}
                   <form action={doSignInWithGoogle}>
                     <button type="submit">
-                      <Image src={googleIcon} alt="swop-logo" width={44} />
+                      <Image src={googleIcon} alt="swop-logo" width={44} className="mt-1.5" />
                     </button>
                   </form>
 
@@ -229,9 +234,9 @@ const LoginPage = () => {
                     <Image src={wallet} alt="wallet icon" />
                     Connect a Wallet
                   </button>
-                  <button className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  <Link href={'/signup'} className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
                     Sign Up
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

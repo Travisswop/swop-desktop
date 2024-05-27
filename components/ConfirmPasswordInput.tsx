@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const LoginPasswordInput = ({ formErrors }: any) => {
+const ConfirmPasswordInput = ({ formErrors }: any) => {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -12,7 +12,7 @@ const LoginPasswordInput = ({ formErrors }: any) => {
           name="password"
           required
           autoComplete="off"
-          placeholder="Enter your password"
+          placeholder="Enter your confirm password"
           className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
         />
         <button type="button" onClick={() => setShow(!show)}>
@@ -36,4 +36,4 @@ const LoginPasswordInput = ({ formErrors }: any) => {
   );
 };
 
-export default LoginPasswordInput;
+export default ConfirmPasswordInput;
