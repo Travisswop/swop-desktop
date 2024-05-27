@@ -25,6 +25,7 @@ interface FormErrors {
 const LoginPage = () => {
   const router = useRouter();
   const controls = useAnimation();
+  const [mounted, setMounted] = useState(false);
 
   //generate random x position for astronout to float
   const getRandomXPosition = (min: number, max: number) => {
@@ -39,8 +40,13 @@ const LoginPage = () => {
     };
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   //using random x and y position astronout float around background
   useEffect(() => {
+    if (!mounted) return;
     async function sequence() {
       for (let i = 0; i < 5; i++) {
         const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
@@ -59,7 +65,7 @@ const LoginPage = () => {
     if (controls) {
       sequence();
     }
-  }, [controls]);
+  }, [mounted,controls]);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
