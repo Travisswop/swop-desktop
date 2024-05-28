@@ -34,3 +34,27 @@ export async function signInWithCredentials(formData: FormData) {
     throw err;
   }
 }
+export async function checkIsUserExist(email: string) {
+  try {
+    console.log("email", email);
+
+    const emailData = {
+      email: email,
+    };
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/checkUser`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}

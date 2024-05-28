@@ -1,71 +1,33 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
-import wallet from "../../../public/wallet_login_icon.svg";
 import googleIcon from "../../../public/images/login-form/google-icon.svg";
 import appleIcon from "../../../public/images/login-form/apple-icon.svg";
-import login_astronot from "../../../public/images/login_astronot.svg";
-import { MotionSection } from "@/util/Motion";
-import { useAnimation } from "framer-motion";
-import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
-import SignInButton from "@/components/Button/SignInButton";
+import { checkIsUserExist, doSignInWithGoogle } from "@/actions/auth";
 import { useRouter } from "next/navigation";
-import { signInSchema } from "@/util/zodSchema/signInZodSchema";
 import { z } from "zod";
 import ConfirmPasswordInput from "@/components/ConfirmPasswordInput";
 import SignUpButton from "@/components/Button/SignUpButton";
-import Link from "next/link";
+import { signUpSchema } from "@/util/zodSchema/signUpZodSchema";
+import { toast } from "react-toastify";
+import { decryptData, encryptData } from "@/util/cryptoUtils";
 
 // Type definitions for form errors
 interface FormErrors {
+  name?: string;
   email?: string;
   password?: string;
 }
 
 const SignUpPage = () => {
-  const router = useRouter();
-  const controls = useAnimation();
-
-  //generate random x position for astronout to float
-  const getRandomXPosition = (min: number, max: number) => {
-    return {
-      x: Math.floor(Math.random() * (max - min + 1)) + min,
-    };
-  };
-  //generate random y position for astronout to float
-  const getRandomYPosition = (min: number, max: number) => {
-    return {
-      y: Math.floor(Math.random() * (max - min + 1)) + min,
-    };
-  };
-
-  //using random x and y position astronout float around background
-  // useEffect(() => {
-  //   async function sequence() {
-  //     for (let i = 0; i < 5; i++) {
-  //       const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
-  //       const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
-  //       if (controls) {
-  //         await controls.start({
-  //           x,
-  //           y,
-  //           rotate: [10, -10, 10],
-  //           transition: { duration: 4, ease: "easeInOut" },
-  //         });
-  //       }
-  //     }
-  //     sequence(); // Call the sequence function again to create a loop
-  //   }
-  //   if (controls) {
-  //     sequence();
-  //   }
-  // }, [controls]);
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
+
+  const router = useRouter();
 
   async function handleSubmit(event: any) {
     event.preventDefault();
@@ -73,21 +35,44 @@ const SignUpPage = () => {
       setError("");
       setFormErrors({});
       setLoading(true);
-      const formData = new FormData(event.currentTarget);
-      const plainData = Object.fromEntries(formData.entries());
-      signInSchema.parse(plainData); // Validate the plain object
+      setIsPasswordMatch(true);
 
-      // if (Object.keys(formErrors).length === 0) {
-      const response = await signInWithCredentials(formData);
-      if (response.error) {
-        setError("Incorrect email or password");
+      const formData = new FormData(event.currentTarget);
+
+      const userData = {
+        //extract user data from formData
+        name: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+        confirmPassword: formData.get("confirmPassword"),
+      };
+
+      if (userData.password !== userData.confirmPassword) {
+        //check is password match
+        setIsPasswordMatch(false);
         setLoading(false);
+        return null;
+      }
+
+      const plainData = Object.fromEntries(formData.entries());
+      signUpSchema.parse(plainData); // Validate the plain object
+
+      const email = userData.email;
+
+      const response = await checkIsUserExist(email as string);
+      if (response.state === "success") {
+        const encryptedData = encryptData(userData);
+        localStorage.setItem("info", encryptedData);
+        router.push("/profile");
       } else {
-        router.push("/");
+        toast.warn(
+          <div className="flex flex-col">
+            <p>Email already exists</p>
+            {/* <p>Please sign in</p> */}
+          </div>
+        );
         setLoading(false);
       }
-      // }
-      // setLoading(false);
     } catch (err) {
       setLoading(false);
       if (err instanceof z.ZodError) {
@@ -97,21 +82,13 @@ const SignUpPage = () => {
         });
         setFormErrors(fieldErrors);
       } else {
-        setError("Incorrect email or password*");
+        setError("Something Went Wrong!");
       }
     }
   }
 
   return (
     <main className="overflow-hidden">
-      {/* <MotionSection animate={controls}>
-        <Image
-          alt="login_astronot"
-          src={login_astronot}
-          className="fixed z-50 w-max"
-        />
-      </MotionSection> */}
-
       <div className="pt-14 pb-20 lg:py-28 h-screen">
         <section className="flex justify-center relative -z-10">
           <Image
@@ -125,9 +102,10 @@ const SignUpPage = () => {
         <section className="">
           <div className="flex justify-center">
             <div className="relative lg:w-auto w-[90%] sm:w-[70%] md:w-[60%]">
-              <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute -bottom-6 -left-20 z-0"></div>
-              <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute top-10 -right-20 z-0"></div>
+              <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute -bottom-32 -left-16 z-0 opacity-80"></div>
+              <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute top-0 -right-16 z-0 opacity-80"></div>
               <div className="bg-gradient-to-r from-purple-500 to-blue-500 w-20 h-20 rounded-full absolute top-32 left-28 z-0"></div>
+              <div className="bg-gradient-to-r from-purple-500 to-blue-500 w-20 h-20 rounded-full absolute -bottom-10 right-14 z-0"></div>
               <div className="bg-[#af87fd] w-12 h-12 rounded-full absolute top-40 left-10 z-0"></div>
               <div className="flex flex-col gap-4 justify-center mt-16 w-full lg:w-[32rem] h-full px-4 lg:px-10 pt-4 lg:pt-12 pb-4 backdrop-blur-[50px] bg-white bg-opacity-25 border shadow-md rounded-xl">
                 <div className="flex gap-2 justify-center items-center">
@@ -135,14 +113,22 @@ const SignUpPage = () => {
                   <div>
                     <form action={doSignInWithGoogle}>
                       <button type="submit">
-                        <Image src={googleIcon} alt="swop-logo" className="w-11 h-11 mt-1.5" />
+                        <Image
+                          src={googleIcon}
+                          alt="swop-logo"
+                          className="w-11 h-11 mt-1.5"
+                        />
                       </button>
                     </form>
                   </div>
 
-                 <div>
-                  <Image src={appleIcon} alt="swop-logo" className="w-11 h-11" />
-                 </div>
+                  <div>
+                    <Image
+                      src={appleIcon}
+                      alt="swop-logo"
+                      className="w-11 h-11"
+                    />
+                  </div>
                 </div>
                 {error && Object.keys(formErrors).length === 0 && (
                   <p className="text-red-600 text-sm">{error}</p>
@@ -155,13 +141,13 @@ const SignUpPage = () => {
                   <div>
                     <input
                       type="text"
-                      name="userName"
+                      name="name"
                       autoComplete="off"
                       placeholder="Enter your name"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
                     />
-                    {formErrors.email && (
-                      <p className="text-red-600 text-sm">{formErrors.email}</p>
+                    {formErrors.name && (
+                      <p className="text-red-600 text-sm">{formErrors.name}</p>
                     )}
                   </div>
                   <div>
@@ -177,7 +163,12 @@ const SignUpPage = () => {
                     )}
                   </div>
                   <LoginPasswordInput formErrors={formErrors} />
-                  <ConfirmPasswordInput formErrors={formErrors} />
+                  <ConfirmPasswordInput />
+                  {!isPasswordMatch && (
+                    <p className="text-red-600 text-sm">
+                      password and confirm password doesn't match
+                    </p>
+                  )}
                   <SignUpButton loading={loading} />
                 </form>
                 <div className="flex flex-col gap-3 font-medium">
@@ -186,7 +177,7 @@ const SignUpPage = () => {
                     <p>Or</p>
                     <hr className="w-full h-[1.5px] bg-gray-300" />
                   </div>
-                  <button className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  {/* <button className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="14"
@@ -252,10 +243,13 @@ const SignUpPage = () => {
                     </svg>
                     <Image src={wallet} alt="wallet icon" />
                     Connect a Wallet
-                  </button>
-                  <Link href={'/signin'} className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  </button> */}
+                  <a
+                    href={"/signin"}
+                    className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent"
+                  >
                     Sign In
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

@@ -47,23 +47,25 @@ const LoginPage = () => {
   //using random x and y position astronout float around background
   useEffect(() => {
     if (!mounted) return;
-    async function sequence() {
-      for (let i = 0; i < 5; i++) {
-        const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
-        const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
-        if (controls) {
-          await controls.start({
-            x,
-            y,
-            rotate: [10, -10, 10],
-            transition: { duration: 4, ease: "easeInOut" },
-          });
+    if (mounted) {
+      const sequence = async() => {
+        for (let i = 0; i < 5; i++) {
+          const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
+          const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
+          if (controls) {
+            await controls.start({
+              x,
+              y,
+              rotate: [10, -10, 10],
+              transition: { duration: 4, ease: "easeInOut" },
+            });
+          }
         }
+        sequence(); // Call the sequence function again to create a loop
       }
-      sequence(); // Call the sequence function again to create a loop
-    }
-    if (controls) {
-      sequence();
+      if (controls) {
+        sequence();
+      }
     }
   }, [mounted,controls]);
 
@@ -240,9 +242,9 @@ const LoginPage = () => {
                     <Image src={wallet} alt="wallet icon" />
                     Connect a Wallet
                   </button>
-                  <Link href={'/signup'} className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  <a href={'/signup'} className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
                     Sign Up
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

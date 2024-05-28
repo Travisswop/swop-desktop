@@ -11,6 +11,7 @@ import { SlCalender } from "react-icons/sl";
 import { CiLocationOn } from "react-icons/ci";
 import SelectAvatorModal from "@/components/SelectAvatorModal";
 import { useDisclosure } from "@nextui-org/react";
+import { decryptData } from "@/util/cryptoUtils";
 
 const ParentProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -49,6 +50,11 @@ const ParentProfilePage = () => {
     "27.png",
     "28.png",
   ];
+
+  const encInfo = localStorage.getItem("info");
+
+  const decryptInfo = decryptData(encInfo);
+  console.log("decry info", decryptInfo);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -137,7 +143,7 @@ const ParentProfilePage = () => {
           {/* <div className="border border-r border-black h-5/6 my-10"></div> */}
           <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
             <h6 className="font-semibold mb-4">Parent Profile</h6>
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-4">
               <div className="">
                 <label htmlFor="fullName" className="mb-2 block">
                   Name<span className="text-red-500 font-bold">*</span>
@@ -150,13 +156,15 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="fullName"
+                    defaultValue={decryptInfo.name}
+                    placeholder="Enter name"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
               </div>
               <div className="">
                 <label htmlFor="bio" className="mb-2 block">
-                  Bio
+                  Bio<span className="text-red-500 font-bold">*</span>
                 </label>
                 <div className="relative">
                   <FaRegUserCircle
@@ -166,6 +174,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="bio"
+                    placeholder="Enter bio"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
@@ -182,6 +191,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="phone"
+                    placeholder="Enter phone"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
@@ -198,6 +208,8 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="email"
+                    defaultValue={decryptInfo.email}
+                    placeholder="Enter email"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
@@ -214,6 +226,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="birthDate"
+                    placeholder="Enter birth date"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
@@ -230,6 +243,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="address"
+                    placeholder="Enter address"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
                 </div>
