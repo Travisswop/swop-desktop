@@ -12,26 +12,60 @@ import { CiLocationOn } from "react-icons/ci";
 import SelectAvatorModal from "@/components/SelectAvatorModal";
 import { useDisclosure } from "@nextui-org/react";
 import { decryptData } from "@/util/cryptoUtils";
+import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import axios from "axios";
+import ProfileLoading from "@/util/loading/ProfileLoading";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const ParentProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [galleryImage, setGalleryImage] = useState(null);
-
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const [countryCode, setCountryCode] = useState("us");
+  const [loading, setLoading] = useState(true);
+
+  const [value, setValue] = useState<any>(null);
+
+  const [phone, setPhone] = useState("");
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
+    //need this to get data from localstorage
     if (typeof window !== "undefined") {
       // Safe to use localStorage here
       const encInfo = localStorage.getItem("info");
       const decryptInfo = decryptData(encInfo);
       setUserData(decryptInfo);
     }
+  }, []);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+      axios
+        .get(url)
+        .then((response) => {
+          // if (response.data) {
+          setCountryCode(response.data.address.country_code);
+          // }
+          console.log("location", response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching geolocation data:", error);
+        });
+    });
   }, []);
 
   const images = [
@@ -65,8 +99,37 @@ const ParentProfilePage = () => {
     "28.png",
   ];
 
+  if (galleryImage) {
+    //get cloudinery uploaded image
+    sendCloudinaryImage(galleryImage)
+      .then((url) => {
+        console.log("Uploaded image URL:", url);
+        setUploadedImageUrl(url);
+      })
+      .catch((err) => {
+        console.error("Error uploading image:", err);
+      });
+  }
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userInfo = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: userData.password,
+      mobileNo: formData.get("mobileNo"),
+      address: formData.get("address"),
+      bio: formData.get("bio"),
+      dob: formData.get("dob"),
+      profilePic: selectedImage || uploadedImageUrl || "1",
+      socialSignUp: false,
+      isPremiumUser: false,
+      NotificationToken: "swop-desktop",
+      countryCode: "",
+      countryFlag: "",
+      apt: "",
+    };
     console.log("form submitted successfully");
   };
 
@@ -77,7 +140,7 @@ const ParentProfilePage = () => {
 
   console.log("galleryImage", galleryImage);
 
-  // console.log("selectedImage", selectedImage);
+  console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();
@@ -96,6 +159,8 @@ const ParentProfilePage = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  // console.log("value", value);
 
   return (
     <section className="bg-white sm:bg-[#F7F7F9] flex sm:items-center justify-center w-full h-full sm:h-screen">
@@ -149,116 +214,131 @@ const ParentProfilePage = () => {
             </div>
             <UploadImageButton handleModal={handleModal} />
           </div>
-          {/* <div className="border border-r border-black h-5/6 my-10"></div> */}
-          <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
-            <h6 className="font-semibold mb-4">Parent Profile</h6>
-            <div className="flex flex-col gap-y-4">
-              <div className="">
-                <label htmlFor="fullName" className="mb-2 block">
-                  Name<span className="text-red-500 font-bold">*</span>
-                </label>
-                <div className="relative">
-                  <FiUser
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="fullName"
-                    defaultValue={userData.name}
-                    placeholder="Enter name"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+          {loading ? (
+            <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
+              <ProfileLoading />
+            </div>
+          ) : (
+            <div className="flex-1 lg:flex-[1.5] xl:flex-[2]">
+              <h6 className="font-semibold mb-4 text-lg">Parent Profile</h6>
+              {/* <p>country code: {countryCode}</p> */}
+              <div className="flex flex-col gap-y-4">
+                <div className="">
+                  <label htmlFor="fullName" className="mb-2 block">
+                    Name<span className="text-red-500 font-bold">*</span>
+                  </label>
+                  <div className="relative">
+                    <FiUser
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="fullName"
+                      defaultValue={userData.name}
+                      placeholder="Enter name"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="">
-                <label htmlFor="bio" className="mb-2 block">
-                  Bio<span className="text-red-500 font-bold">*</span>
-                </label>
-                <div className="relative">
-                  <FaRegUserCircle
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="bio"
-                    placeholder="Enter bio"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+                <div className="">
+                  <label htmlFor="bio" className="mb-2 block">
+                    Bio<span className="text-red-500 font-bold">*</span>
+                  </label>
+                  <div className="relative">
+                    <FaRegUserCircle
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="bio"
+                      placeholder="Enter bio"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="">
-                <label htmlFor="phone" className="mb-2 block">
-                  Phone Number<span className="text-red-500 font-bold">*</span>
-                </label>
-                <div className="relative">
-                  <MdOutlinePhoneInTalk
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="phone"
-                    placeholder="Enter phone"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+                <div className="">
+                  <label htmlFor="phone" className="mb-2 block">
+                    Phone Number
+                    <span className="text-red-500 font-bold">*</span>
+                  </label>
+                  {loading ? (
+                    "loading..."
+                  ) : (
+                    <PhoneInput
+                      defaultCountry={countryCode}
+                      forceDialCode={true}
+                      value={phone}
+                      onChange={(phone) => setPhone(phone)}
+                      className="w-full"
+                    />
+                  )}
                 </div>
-              </div>
-              <div className="">
-                <label htmlFor="email" className="mb-2 block">
-                  Email<span className="text-red-500 font-bold">*</span>
-                </label>
-                <div className="relative">
-                  <MdOutlineEmail
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="email"
-                    defaultValue={userData.email}
-                    placeholder="Enter email"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+                <div className="">
+                  <label htmlFor="email" className="mb-2 block">
+                    Email<span className="text-red-500 font-bold">*</span>
+                  </label>
+                  <div className="relative">
+                    <MdOutlineEmail
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="email"
+                      defaultValue={userData.email}
+                      placeholder="Enter email"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="">
-                <label htmlFor="birthDate" className="mb-2 block">
-                  Birth Date
-                </label>
-                <div className="relative">
-                  <SlCalender
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="birthDate"
-                    placeholder="Enter birth date"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+                <div className="">
+                  <label htmlFor="birthDate" className="mb-2 block">
+                    Birth Date
+                  </label>
+                  <div className="relative">
+                    <SlCalender
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="birthDate"
+                      placeholder="Enter birth date"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="">
-                <label htmlFor="address" className="mb-2 block">
-                  Address (Shopping Delivery Address)
-                </label>
-                <div className="relative">
-                  <CiLocationOn
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
+                <div className="">
+                  <label htmlFor="address" className="mb-2 block">
+                    Address (Shopping Delivery Address)
+                  </label>
+
+                  {/* <p>value: {value && value?.label}</p> */}
+                  <GooglePlacesAutocomplete
+                    apiKey="AIzaSyDaERPmsWGDCk2MrKXsqkMfPkSu614Simk"
+                    selectProps={{
+                      value,
+                      onChange: setValue as any,
+                    }}
                   />
-                  <input
-                    type="text"
-                    id="address"
-                    placeholder="Enter address"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
+                  {/* <div className="relative">
+                    <CiLocationOn
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="address"
+                      id="address"
+                      placeholder="Enter address"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
+                  </div> */}
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         <button
           type="submit"
