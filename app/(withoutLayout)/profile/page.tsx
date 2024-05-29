@@ -1,5 +1,5 @@
 "use client"; // for onsubmit -> replace this with server action
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import defaultAvator from "../../../public/images/avator/default_avator.svg";
 import Image from "next/image";
 import UploadImageButton from "@/components/SignUp/UploadImageButton";
@@ -18,7 +18,21 @@ const ParentProfilePage = () => {
   const [galleryImage, setGalleryImage] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Safe to use localStorage here
+      const encInfo = localStorage.getItem("info");
+      const decryptInfo = decryptData(encInfo);
+      setUserData(decryptInfo);
+    }
+  }, []);
 
   const images = [
     "01.png",
@@ -50,11 +64,6 @@ const ParentProfilePage = () => {
     "27.png",
     "28.png",
   ];
-
-  const encInfo = localStorage.getItem("info");
-
-  const decryptInfo = decryptData(encInfo);
-  console.log("decry info", decryptInfo);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -156,7 +165,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="fullName"
-                    defaultValue={decryptInfo.name}
+                    defaultValue={userData.name}
                     placeholder="Enter name"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />
@@ -208,7 +217,7 @@ const ParentProfilePage = () => {
                   <input
                     type="text"
                     id="email"
-                    defaultValue={decryptInfo.email}
+                    defaultValue={userData.email}
                     placeholder="Enter email"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                   />

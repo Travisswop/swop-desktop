@@ -166,7 +166,7 @@ const SignUpPage = () => {
                   <ConfirmPasswordInput />
                   {!isPasswordMatch && (
                     <p className="text-red-600 text-sm">
-                      password and confirm password doesn't match
+                      {`password and confirm password doesn't match`}
                     </p>
                   )}
                   <SignUpButton loading={loading} />
