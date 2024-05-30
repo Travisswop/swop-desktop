@@ -15,7 +15,7 @@ const UploadImageButton = ({ handleModal }: any) => {
         handleOnClick={handleClickOnUploadImage}
         preIcon={<MdFileUpload size={18} />}
       >
-        Upload Image
+        Edit Image
       </PrimaryButton>
     </div>
   );

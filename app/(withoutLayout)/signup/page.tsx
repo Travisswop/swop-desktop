@@ -143,6 +143,7 @@ const SignUpPage = () => {
                       type="text"
                       name="name"
                       autoComplete="off"
+                      required
                       placeholder="Enter your name"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
                     />
@@ -154,6 +155,7 @@ const SignUpPage = () => {
                     <input
                       type="email"
                       name="email"
+                      required
                       autoComplete="off"
                       placeholder="Enter your email address"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"

@@ -1,5 +1,5 @@
 "use client"; // for onsubmit -> replace this with server action
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import defaultAvator from "../../../public/images/avator/default_avator.svg";
 import Image from "next/image";
 import UploadImageButton from "@/components/SignUp/UploadImageButton";
@@ -10,7 +10,7 @@ import { MdOutlineEmail, MdOutlinePhoneInTalk } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 import { CiLocationOn } from "react-icons/ci";
 import SelectAvatorModal from "@/components/SelectAvatorModal";
-import { useDisclosure } from "@nextui-org/react";
+import { Spinner, useDisclosure } from "@nextui-org/react";
 import { decryptData } from "@/util/cryptoUtils";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { PhoneInput } from "react-international-phone";
@@ -18,6 +18,11 @@ import "react-international-phone/style.css";
 import axios from "axios";
 import ProfileLoading from "@/util/loading/ProfileLoading";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parse } from "date-fns";
+import { handleSignUp } from "@/actions/signUp";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const ParentProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -29,14 +34,20 @@ const ParentProfilePage = () => {
     email: "",
     password: "",
   });
-  const [countryCode, setCountryCode] = useState("us");
+  const [userLocation, setUserLocation] = useState<any>(null);
+
   const [loading, setLoading] = useState(true);
-
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [value, setValue] = useState<any>(null);
-
   const [phone, setPhone] = useState("");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("");
+  const [dobDate, setDobDate] = useState<any>(new Date().getTime());
+
+  const router = useRouter();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  // console.log("selectedCountryCode", selectedCountryCode);
 
   useEffect(() => {
     //need this to get data from localstorage
@@ -49,61 +60,86 @@ const ParentProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    // Request geolocation permission and fetch user's current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          console.log("Location coordinates:", latitude, longitude);
 
-      axios
-        .get(url)
-        .then((response) => {
-          // if (response.data) {
-          setCountryCode(response.data.address.country_code);
-          // }
-          console.log("location", response.data);
+          // Fetch country code based on coordinates
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          axios
+            .get(url)
+            .then((response) => {
+              setUserLocation(response.data);
+              console.log("Location data:", response.data);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error("Error fetching geolocation data:", error);
+              setLoading(false);
+            });
+        },
+        (error) => {
+          console.error("Error retrieving geolocation:", error);
           setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching geolocation data:", error);
-        });
-    });
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+      setLoading(false);
+    }
   }, []);
 
   const images = [
-    "01.png",
-    "02.png",
-    "03.png",
-    "04.png",
-    "05.png",
-    "06.png",
-    "07.png",
-    "08.png",
-    "09.png",
-    "10.png",
-    "11.png",
-    "12.png",
-    "13.png",
-    "14.png",
-    "15.png",
-    "16.png",
-    "17.png",
-    "18.png",
-    "19.png",
-    "20.png",
-    "21.png",
-    "22.png",
-    "23.png",
-    "24.png",
-    "25.png",
-    "26.png",
-    "27.png",
-    "28.png",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "36",
+    "37",
+    "38",
+    "39",
+    "40",
   ];
 
   if (galleryImage) {
     //get cloudinery uploaded image
     sendCloudinaryImage(galleryImage)
       .then((url) => {
-        console.log("Uploaded image URL:", url);
+        // console.log("Uploaded image URL:", url);
         setUploadedImageUrl(url);
       })
       .catch((err) => {
@@ -111,26 +147,41 @@ const ParentProfilePage = () => {
       });
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
+    setSubmitLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const countryCode = formData.get("mobileNo") as string;
     const userInfo = {
       name: formData.get("name"),
-      email: formData.get("email"),
+      email: userData.email,
       password: userData.password,
-      mobileNo: formData.get("mobileNo"),
-      address: formData.get("address"),
+      mobileNo: formData.get("mobileNo") || "",
+      address: value?.label || "",
       bio: formData.get("bio"),
-      dob: formData.get("dob"),
+      dob: dobDate,
       profilePic: selectedImage || uploadedImageUrl || "1",
-      socialSignUp: false,
+      socialSignup: false,
       isPremiumUser: false,
-      NotificationToken: "swop-desktop",
-      countryCode: "",
-      countryFlag: "",
-      apt: "",
+      notificationToken: "swop-desktop",
+      countryCode: countryCode?.split(" ")[0] || "+1",
+      countryFlag:
+        selectedCountryCode || userLocation.address.country_code || "us",
+      apt: "N/A",
     };
-    console.log("form submitted successfully");
+
+    try {
+      const response = await handleSignUp(userInfo);
+      if (response.state === "success") {
+        localStorage.removeItem("info");
+        router.push("/");
+        toast.success("Welcome to swop");
+      }
+    } catch (error) {
+      toast.error("something went wrong!");
+      setSubmitLoading(false);
+    }
+    // console.log("form submitted successfully", userInfo);
   };
 
   const handleSelectImage = (image: any) => {
@@ -138,9 +189,9 @@ const ParentProfilePage = () => {
     setGalleryImage(null);
   };
 
-  console.log("galleryImage", galleryImage);
+  // console.log("galleryImage", galleryImage);
 
-  console.log("selectedImage", selectedImage);
+  // console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();
@@ -160,7 +211,26 @@ const ParentProfilePage = () => {
     }
   };
 
-  // console.log("value", value);
+  const dateInputRef = useRef<any>(null);
+
+  const handleDateIconClick = () => {
+    dateInputRef?.current?.showPicker(); // Triggers the native date picker
+  };
+
+  // console.log("dobDate", dobDate.getTime());
+
+  // const handleChange = (e) => {
+  //   const { value } = e.target;
+  //   const parsedDate = parse(value, "yyyy-MM-dd", new Date());
+  //   setDobDate(parsedDate);
+  // };
+
+  const handleChange = (e: any) => {
+    const { value } = e.target;
+    const parsedDate = parse(value, "yyyy-MM-dd", new Date());
+    const timestamp = parsedDate.getTime(); // Get Unix timestamp (milliseconds)
+    setDobDate(timestamp);
+  };
 
   return (
     <section className="bg-white sm:bg-[#F7F7F9] flex sm:items-center justify-center w-full h-full sm:h-screen">
@@ -175,29 +245,66 @@ const ParentProfilePage = () => {
               This is your account profile used to <br /> manage the Swop
               ecosystem
             </p>
-            <div className="relative w-52 h-52 overflow-hidden rounded-full">
-              <div className="bg-[#A7B3C4]">
+            <div className="w-52 h-52 overflow-hidden rounded-full border-2 border-[#8A2BE2] border-opacity-20 relative">
+              <div className="bg-white ">
                 {galleryImage ? (
                   <Image
                     src={galleryImage}
-                    width={260}
-                    height={260}
-                    alt="default avator"
+                    width={400}
+                    height={400}
+                    alt="image"
                     quality={100}
-                    className="rounded-full w-full h-full"
+                    className="rounded-full bg-white w-52 h-52"
                   />
                 ) : (
                   <Image
                     src={
                       selectedImage
-                        ? `/images/avator/${selectedImage}`
-                        : defaultAvator
+                        ? `/images/user_avator/${selectedImage}.png`
+                        : `/images/user_avator/1.png`
                     }
                     width={260}
                     height={260}
-                    alt="default avator"
+                    alt="avator"
                     quality={100}
-                    className="rounded-full w-full h-full"
+                    className="rounded-full w-full h-full bg-white"
+                  />
+                )}
+              </div>
+              <div className="bg-[#3f3f3f50] absolute top-1/2 w-full h-full">
+                <button type="button" onClick={handleModal}>
+                  <Image
+                    src={uploadImgIcon}
+                    alt="upload image icon"
+                    width={28}
+                    className="absolute left-1/2 top-8 -translate-x-[50%]"
+                  />
+                </button>
+              </div>
+            </div>
+            {/* <div className="relative w-52 h-52 overflow-hidden rounded-full">
+              <div className="bg-white">
+                {galleryImage ? (
+                  <Image
+                    src={galleryImage}
+                    width={260}
+                    height={260}
+                    alt="image"
+                    quality={100}
+                    className="rounded-full w-full h-full bg-white"
+                  />
+                ) : (
+                  <Image
+                    src={
+                      selectedImage
+                        ? `/images/user_avator/${selectedImage}.png`
+                        : `/images/user_avator/1.png`
+                    }
+                    width={260}
+                    height={260}
+                    alt="avator"
+                    quality={100}
+                    className="rounded-full w-full h-full bg-white"
                   />
                 )}
               </div>
@@ -211,7 +318,7 @@ const ParentProfilePage = () => {
                   />
                 </button>
               </div>
-            </div>
+            </div> */}
             <UploadImageButton handleModal={handleModal} />
           </div>
           {loading ? (
@@ -230,12 +337,14 @@ const ParentProfilePage = () => {
                   <div className="relative">
                     <FiUser
                       className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                      size={18}
+                      size={19}
                     />
                     <input
                       type="text"
                       id="fullName"
+                      name="name"
                       defaultValue={userData.name}
+                      required
                       placeholder="Enter name"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                     />
@@ -243,7 +352,7 @@ const ParentProfilePage = () => {
                 </div>
                 <div className="">
                   <label htmlFor="bio" className="mb-2 block">
-                    Bio<span className="text-red-500 font-bold">*</span>
+                    Bio
                   </label>
                   <div className="relative">
                     <FaRegUserCircle
@@ -253,6 +362,7 @@ const ParentProfilePage = () => {
                     <input
                       type="text"
                       id="bio"
+                      name="bio"
                       placeholder="Enter bio"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                     />
@@ -261,16 +371,21 @@ const ParentProfilePage = () => {
                 <div className="">
                   <label htmlFor="phone" className="mb-2 block">
                     Phone Number
-                    <span className="text-red-500 font-bold">*</span>
                   </label>
                   {loading ? (
                     "loading..."
                   ) : (
                     <PhoneInput
-                      defaultCountry={countryCode}
+                      defaultCountry={
+                        userLocation?.address?.country_code || "us"
+                      }
                       forceDialCode={true}
                       value={phone}
-                      onChange={(phone) => setPhone(phone)}
+                      name="mobileNo"
+                      onChange={(phone, country) => {
+                        setPhone(phone);
+                        setSelectedCountryCode(country.country.iso2); // Update the selected country code
+                      }}
                       className="w-full"
                     />
                   )}
@@ -282,31 +397,45 @@ const ParentProfilePage = () => {
                   <div className="relative">
                     <MdOutlineEmail
                       className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                      size={18}
+                      size={19}
                     />
                     <input
                       type="text"
                       id="email"
                       defaultValue={userData.email}
+                      required
+                      readOnly
                       placeholder="Enter email"
-                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                      className="w-full cursor-not-allowed border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                     />
                   </div>
                 </div>
                 <div className="">
                   <label htmlFor="birthDate" className="mb-2 block">
-                    Birth Date
+                    Birth Date<span className="text-red-500 font-bold">*</span>
                   </label>
-                  <div className="relative">
-                    <SlCalender
-                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                      size={18}
-                    />
+                  <div className="relative" onClick={handleDateIconClick}>
+                    <button type="button">
+                      <SlCalender
+                        className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                        size={16}
+                      />
+                    </button>
                     <input
-                      type="text"
+                      type="date"
                       id="birthDate"
+                      ref={dateInputRef}
+                      required
+                      // value={dobDate}
+                      value={format(dobDate, "yyyy-MM-dd")} // Format dobDate to 'yyyy-MM-dd'
+                      // onChange={(e) =>
+                      //   setDobDate(
+                      //     format(new Date(e.target.value), "yyyy-MM-dd")
+                      //   )
+                      // }
+                      onChange={handleChange}
                       placeholder="Enter birth date"
-                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                      className="w-full border appearance-none pr-2 border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                     />
                   </div>
                 </div>
@@ -315,26 +444,14 @@ const ParentProfilePage = () => {
                     Address (Shopping Delivery Address)
                   </label>
 
-                  {/* <p>value: {value && value?.label}</p> */}
                   <GooglePlacesAutocomplete
                     apiKey="AIzaSyDaERPmsWGDCk2MrKXsqkMfPkSu614Simk"
                     selectProps={{
                       value,
                       onChange: setValue as any,
+                      placeholder: "Enter address",
                     }}
                   />
-                  {/* <div className="relative">
-                    <CiLocationOn
-                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                      size={18}
-                    />
-                    <input
-                      type="address"
-                      id="address"
-                      placeholder="Enter address"
-                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                    />
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -342,9 +459,10 @@ const ParentProfilePage = () => {
         </div>
         <button
           type="submit"
+          disabled={submitLoading}
           className="bg-black text-white py-2 rounded-xl flex items-center gap-1 justify-center px-10 mx-auto text-sm w-full sm:w-auto"
         >
-          Save
+          Save {submitLoading && <Spinner size="sm" color="white" />}
         </button>
       </form>
 

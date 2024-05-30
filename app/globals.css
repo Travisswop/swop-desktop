@@ -125,6 +125,7 @@
   width: 100% !important;
 } */
 
+/* phone number input for profile page custom css start */
 .react-international-phone-input {
   width: 100% !important; /* w-full */
   border: 1px solid #ede8e8 !important; /* border border-[#ede8e8] */
@@ -154,6 +155,46 @@
 .react-international-phone-flag-emoji {
   width: var(--react-international-phone-flag-width, 30px) !important;
   height: var(--react-international-phone-flag-height, 30px) !important;
-  /* width: 30px !important;
-  height: 30px !important; */
+}
+/* phone number input for profile page custom css end */
+
+/* places input custom css for profile page start  */
+.css-13cymwt-control {
+  border-color: #ede8e8 !important;
+  box-shadow: #ede8e8 !important;
+  border-radius: 13px !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+  background-color: #f3f4f6 !important;
+  padding-left: 4px;
+}
+.css-13cymwt-control:hover {
+  border-color: #ede8e8 !important;
+  background-color: #f3f4f6 !important;
+}
+.css-t3ipsp-control {
+  border-color: #ede8e8 !important;
+  box-shadow: 0 0 0 0px#ede8e8 !important;
+  background-color: #f3f4f6 !important;
+  border-radius: 13px !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+  padding-left: 4px;
+}
+.css-t3ipsp-control:focus {
+  border-color: #ede8e8 !important;
+}
+.css-t3ipsp-control:hover {
+  border-color: #ede8e8 !important;
+}
+/* places input custom css for profile page end  */
+
+input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
 }

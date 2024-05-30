@@ -36,7 +36,7 @@ export async function signInWithCredentials(formData: FormData) {
 }
 export async function checkIsUserExist(email: string) {
   try {
-    console.log("email", email);
+    // console.log("email", email);
 
     const emailData = {
       email: email,

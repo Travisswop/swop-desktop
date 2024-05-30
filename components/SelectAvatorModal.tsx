@@ -25,6 +25,8 @@ export default function SelectAvatorModal({
     fileInputRef?.current?.click();
   };
 
+  // console.log("images", images);
+
   return (
     <>
       {isOpen && (
@@ -48,10 +50,10 @@ export default function SelectAvatorModal({
                     </p>
                   </div>
                   <div className="grid grid-cols-8 gap-3">
-                    {images.map((image: string) => (
-                      <div key={image}>
+                    {images.map((image: string, index: number) => (
+                      <div key={index}>
                         <Image
-                          src={`/images/avator/${image}`}
+                          src={`/images/user_avator/${image}.png`}
                           alt="avator"
                           width={180}
                           height={180}
@@ -69,6 +71,7 @@ export default function SelectAvatorModal({
                     <hr className="w-full h-[1.5px] bg-gray-300" />
                   </div>
                   <button
+                    type="button"
                     onClick={handleButtonClick}
                     className="bg-black text-white w-max mx-auto py-2 rounded-xl flex items-center gap-2 justify-center px-4 text-sm"
                   >
