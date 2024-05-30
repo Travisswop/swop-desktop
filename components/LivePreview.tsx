@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import banner1 from "@/public/images/live-preview/banner/banner-1.png";
-import avator from "@/public/images/avator/01.png";
+import avator from "@/public/images/user_avator/1.png";
 import { BsTwitterX } from "react-icons/bs";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { CgMail } from "react-icons/cg";

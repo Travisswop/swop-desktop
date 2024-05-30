@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import userAvator from "@/public/images/avator/01.png";
+import userAvator from "@/public/images/user_avator/1.png";
 import editIcon from "@/public/images/websites/edit-icon.svg";
 import { FiUser } from "react-icons/fi";
 import { TbUserSquare } from "react-icons/tb";
