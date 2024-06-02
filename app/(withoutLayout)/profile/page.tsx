@@ -23,6 +23,7 @@ import { format, parse } from "date-fns";
 import { handleSignUp } from "@/actions/signUp";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const ParentProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -173,12 +174,26 @@ const ParentProfilePage = () => {
     try {
       const response = await handleSignUp(userInfo);
       if (response.state === "success") {
-        localStorage.removeItem("info");
-        router.push("/");
-        toast.success("Welcome to swop");
+        const data = await signIn("credentials", {
+          email: userInfo.email,
+          password: userInfo.password,
+          redirect: false,
+        });
+        console.log("response for login", data);
+
+        if (data && !data.error) {
+          localStorage.removeItem("info");
+          localStorage.setItem("modalShown", "true");
+          router.push("/?signup=success");
+          // toast.success("Welcome to swop");
+        } else {
+          toast.warn("Automatic Sign In failed! Please Sign In.");
+        }
       }
     } catch (error) {
-      toast.error("something went wrong!");
+      toast.error("something went wrong! Please try again");
+      console.error("error from hola", error);
+
       setSubmitLoading(false);
     }
     // console.log("form submitted successfully", userInfo);

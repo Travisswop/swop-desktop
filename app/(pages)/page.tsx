@@ -13,6 +13,7 @@ import edit from "@/public/images/websites/icon/edit.svg";
 import send from "@/public/images/websites/icon/send.svg";
 import wallet from "@/public/images/websites/icon/wallet.svg";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
+import SetupMainAccount from "@/components/SetupMainAccount";
 
 export default async function HomePage() {
   await isUserAuthenticate(); // check is user exist
@@ -150,6 +151,7 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      <SetupMainAccount />
     </main>
   );
 }
