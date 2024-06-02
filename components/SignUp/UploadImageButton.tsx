@@ -12,6 +12,7 @@ const UploadImageButton = ({ handleModal }: any) => {
   return (
     <div className="w-full sm:w-max">
       <PrimaryButton
+        type="button"
         handleOnClick={handleClickOnUploadImage}
         preIcon={<MdFileUpload size={18} />}
       >
