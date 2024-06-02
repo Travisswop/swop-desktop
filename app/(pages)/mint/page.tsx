@@ -10,8 +10,15 @@ import productMint4 from "@/public/images/mint/productMint4.png";
 import MintCart from "@/components/MintCart";
 import Link from "next/link";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const MintDashboard = () => {
+const MintDashboard = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
+
   const couponsArray = [
     {
       _id: 12354,

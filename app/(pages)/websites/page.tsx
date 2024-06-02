@@ -11,8 +11,14 @@ import { BiWallet } from "react-icons/bi";
 import { MdQrCodeScanner } from "react-icons/md";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import Link from "next/link";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const WebsitesPage = () => {
+const WebsitesPage = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
   return (
     <div className="main-container">
       <div className="flex items-center justify-between mb-3">

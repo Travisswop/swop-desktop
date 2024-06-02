@@ -92,7 +92,7 @@ const LoginPage = () => {
         setLoading(false);
       } else {
         router.push("/");
-        setLoading(false);
+        // setLoading(false);
       }
       // }
       // setLoading(false);

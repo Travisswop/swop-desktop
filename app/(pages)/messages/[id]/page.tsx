@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import React from "react";
 import { BsSend, BsThreeDots } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
@@ -8,7 +10,11 @@ import { IoSend, IoWalletOutline } from "react-icons/io5";
 import { LuSendHorizonal } from "react-icons/lu";
 import { PiDotsThreeCircleDuotone, PiDotsThreeDuotone } from "react-icons/pi";
 
-const IndividualMessage = () => {
+const IndividualMessage = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-7 items-start">

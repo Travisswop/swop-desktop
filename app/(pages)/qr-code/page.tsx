@@ -1,17 +1,24 @@
 // "use client";
+import { auth } from "@/auth";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import { Checkbox, Switch } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoQrCodeSharp } from "react-icons/io5";
 import { TbEdit } from "react-icons/tb";
 
-const QrCodePage = () => {
+const QrCodePage = async () => {
   // const { toggle } = useSideBarToggleStore();
   // console.log("toggle form qr code ", toggle);
+
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
 
   return (
     <div className="main-container">

@@ -1,9 +1,15 @@
+import { auth } from "@/auth";
 import { Checkbox } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const MessagesPage = () => {
+const MessagesPage = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
   return (
     <div className="main-container">
       <div className="flex items-start justify-between">

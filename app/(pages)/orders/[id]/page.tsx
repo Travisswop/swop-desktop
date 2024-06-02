@@ -1,9 +1,15 @@
+import { auth } from "@/auth";
 import OrderDetailsTab from "@/components/OrderDetailsTab";
 import { Switch } from "@nextui-org/react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const OrderDetails = () => {
+const OrderDetails = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/signin`);
+  }
   return (
     <div className="main-container">
       <div className="bg-white p-4 flex flex-col gap-4">

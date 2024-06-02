@@ -12,6 +12,8 @@ import { IoMdLink } from "react-icons/io";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import LivePreview from "@/components/LivePreview";
 import SelectBackgroudOrBannerModal from "@/components/SelectBackgroudOrBannerModal/SelectBackgroudOrBannerModal";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const EditSmartSite = () => {
   const [selectedImage, setSelectedImage] = useState(null);
