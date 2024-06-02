@@ -12,31 +12,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         let user = null;
+
+        // console.log("credentials", credentials);
+
         try {
           const response = await fetch(
-            "http://localhost:8000/api/v1/user/signin",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/login`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(credentials),
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
             }
           );
           // console.log("response, ", response);
 
           if (response.ok) {
             const data = await response.json();
-            const token = data.accessToken;
+            console.log("data", data);
+
+            const token = data.token;
             // cookies().set("accessToken", token, {
             //   httpOnly: true,
             // });
             if (data) {
               const sessionData = {
-                name: data.data.fullName,
+                _id: data.data._id,
+                name: data.data.name,
                 email: data.data.email,
-                image: data.data.imageUrl,
-                accessToken: data.accessToken,
+                image: data.data.profilePic,
+                accessToken: token,
               };
               user = sessionData;
               // console.log("user data from auth.js", sessionData);
@@ -65,7 +74,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "http://localhost:3000/signin",
+    // signIn: "http://localhost:3000/signin",
     error: "/auth/error",
   },
   session: {
@@ -77,21 +86,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }: any) {
+      console.log("session", session);
+      console.log("token", token);
+
       if (!token?.accessToken) {
         try {
           const response = await fetch(
-            "http://localhost:8000/api/v1/user/social-signin",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/sociallogin`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ email: "shahak@gmail.com" }),
+              body: JSON.stringify({ email: token.email }),
             }
           );
           if (response.ok) {
             const data = await response.json();
-            const accessToken = data?.accessToken;
+            const accessToken = data?.token;
             // cookies().set("accessToken", accessToken, {
             //   httpOnly: true,
             //   // sameSite: "lax",
@@ -99,20 +111,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             // });
             const dataWithToken = {
               ...token,
+              _id: data.data._id,
               accessToken: accessToken,
             };
             session.user = dataWithToken;
             return session;
           }
         } catch (error) {
-          console.log(error);
+          console.log("error occur from social signin", error);
         }
-        const data = {
-          ...token,
-          accessToken: "rerefddsshhdfd",
-        };
-        session.user = data;
-        return session;
+        // const data = {
+        //   ...token,
+        //   accessToken: "rerefddsshhdfd",
+        // };
+        // session.user = data;
+        // return session;
       } else {
         session.user = token;
         return session;

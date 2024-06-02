@@ -48,7 +48,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (!mounted) return;
     if (mounted) {
-      const sequence = async() => {
+      const sequence = async () => {
         for (let i = 0; i < 5; i++) {
           const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
           const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
@@ -62,12 +62,12 @@ const LoginPage = () => {
           }
         }
         sequence(); // Call the sequence function again to create a loop
-      }
+      };
       if (controls) {
         sequence();
       }
     }
-  }, [mounted,controls]);
+  }, [mounted, controls]);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -85,6 +85,8 @@ const LoginPage = () => {
 
       // if (Object.keys(formErrors).length === 0) {
       const response = await signInWithCredentials(formData);
+      console.log("response form signin page", response);
+
       if (response.error) {
         setError("Incorrect email or password");
         setLoading(false);
@@ -103,7 +105,7 @@ const LoginPage = () => {
         });
         setFormErrors(fieldErrors);
       } else {
-        setError("Incorrect email or password*");
+        setError("Authentication Failed !");
       }
     }
   }
@@ -140,7 +142,12 @@ const LoginPage = () => {
                   {/* action for google sing in */}
                   <form action={doSignInWithGoogle}>
                     <button type="submit">
-                      <Image src={googleIcon} alt="swop-logo" width={44} className="mt-1.5" />
+                      <Image
+                        src={googleIcon}
+                        alt="swop-logo"
+                        width={44}
+                        className="mt-1.5"
+                      />
                     </button>
                   </form>
 
@@ -242,7 +249,10 @@ const LoginPage = () => {
                     <Image src={wallet} alt="wallet icon" />
                     Connect a Wallet
                   </button>
-                  <a href={'/signup'} className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  <a
+                    href={"/signup"}
+                    className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent"
+                  >
                     Sign Up
                   </a>
                 </div>

@@ -69,7 +69,7 @@ const SignUpPage = () => {
       } else {
         toast.warn(
           <div className="flex flex-col">
-            <p>Email already exists error</p>
+            <p>Email already exists</p>
             {/* <p>Please sign in</p> */}
           </div>
         );
