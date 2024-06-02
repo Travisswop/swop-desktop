@@ -12,8 +12,6 @@ import qrcode from "@/public/images/websites/qrcode.png";
 import edit from "@/public/images/websites/icon/edit.svg";
 import send from "@/public/images/websites/icon/send.svg";
 import wallet from "@/public/images/websites/icon/wallet.svg";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 export default async function HomePage() {

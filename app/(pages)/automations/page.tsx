@@ -1,16 +1,12 @@
-import { auth } from "@/auth";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import React from "react";
 import { GoDotFill } from "react-icons/go";
 
 const AutomationPage = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect(`/signin`);
-  }
+  await isUserAuthenticate(); // check is user exist
   return (
     <div className="main-container">
       <h6 className="heading-4">Automations</h6>

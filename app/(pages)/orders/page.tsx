@@ -1,14 +1,10 @@
 import React from "react";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import OrdersCollections from "@/components/OrdersCollections";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 const OrderPage = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect(`/signin`);
-  }
+  await isUserAuthenticate(); // check is user exist
   return (
     <main className="main-container">
       <div className="bg-white">

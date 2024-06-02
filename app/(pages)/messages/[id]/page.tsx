@@ -1,20 +1,15 @@
-import { auth } from "@/auth";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import React from "react";
-import { BsSend, BsThreeDots } from "react-icons/bs";
+import { BsThreeDots } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrEmoji } from "react-icons/gr";
-import { IoSend, IoWalletOutline } from "react-icons/io5";
+import { IoWalletOutline } from "react-icons/io5";
 import { LuSendHorizonal } from "react-icons/lu";
-import { PiDotsThreeCircleDuotone, PiDotsThreeDuotone } from "react-icons/pi";
 
 const IndividualMessage = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect(`/signin`);
-  }
+  await isUserAuthenticate(); // check is user exist
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-7 items-start">

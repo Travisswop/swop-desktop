@@ -1,15 +1,13 @@
 import { auth } from "@/auth";
 import OrderDetailsTab from "@/components/OrderDetailsTab";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 import { Switch } from "@nextui-org/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const OrderDetails = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect(`/signin`);
-  }
+  await isUserAuthenticate(); // check is user exist
   return (
     <div className="main-container">
       <div className="bg-white p-4 flex flex-col gap-4">

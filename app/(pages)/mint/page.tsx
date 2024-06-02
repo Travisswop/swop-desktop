@@ -12,12 +12,10 @@ import Link from "next/link";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 const MintDashboard = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect(`/signin`);
-  }
+  await isUserAuthenticate(); // check is user exist
 
   const couponsArray = [
     {
