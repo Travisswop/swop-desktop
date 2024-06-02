@@ -60,6 +60,8 @@ const SignUpPage = () => {
       const email = userData.email;
 
       const response = await checkIsUserExist(email as string);
+      console.log("response", response);
+
       if (response.state === "success") {
         const encryptedData = encryptData(userData);
         localStorage.setItem("info", encryptedData);
@@ -67,7 +69,7 @@ const SignUpPage = () => {
       } else {
         toast.warn(
           <div className="flex flex-col">
-            <p>Email already exists</p>
+            <p>Email already exists error</p>
             {/* <p>Please sign in</p> */}
           </div>
         );
