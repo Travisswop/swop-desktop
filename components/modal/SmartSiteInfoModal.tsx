@@ -1,28 +1,46 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import astronot from "@/public/images/setup-account/account-astronot.png";
+import { FaTimes } from "react-icons/fa";
+import smartsite from "@/public/images/create-smartsite-logo.png";
 
-const Modal = () => {
+const SmartSiteInfoModal = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const search = searchParams.get("signup");
   const [open, setOpen] = useState(true);
 
-  const handleNext = () => {
-    router.push("/smartsite-opening-info/?signup=success");
+  // Function to close the modal
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  // Function to handle click on the backdrop
+  const handleBackdropClick = (e: any) => {
+    // Check if the click is on the backdrop element (with class 'backdrop')
+    if (e.target.classList.contains("backdrop")) {
+      closeModal();
+    }
   };
 
   return (
     <>
       {search && open && (
-        <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50">
+        <div
+          className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
+          onClick={handleBackdropClick}
+        >
           <div className="h-max w-96 lg:w-[28rem] bg-white relative rounded-xl">
+            <button
+              className="btn btn-sm btn-circle absolute right-3 top-[9px]"
+              onClick={closeModal}
+            >
+              <FaTimes color="gray" />
+            </button>
             <div className="text-primary-color text-center py-7 mx-4">
               <Image
-                src={astronot}
+                src={smartsite}
                 alt="bridal_top"
                 width={160}
                 height={90}
@@ -31,22 +49,22 @@ const Modal = () => {
               <div className="px-10">
                 <div className="flex flex-col gap-4">
                   <p className="text-xl font-bold text-gray-700">
-                    Setup Your Main Account
+                    Create Your SmartSite
                   </p>
                   <p className="text-sm text-center font-medium text-gray-400">
-                    Your Main Account Manages Your Connections, Leads, Wallets,
-                    Smartsites For The Swop Ecosystem
+                    Your SmartSite is a Web3 Enabled Website Built For
+                    Connecting With People Via Blockchain
                   </p>
                   <div className="flex items-center gap-1 justify-center">
-                    <div className="bg-black w-2 h-2 rounded-full"></div>
                     <div className="bg-gray-300 w-2 h-2 rounded-full"></div>
+                    <div className="bg-black w-2 h-2 rounded-full"></div>
                     <div className="bg-gray-300 w-2 h-2 rounded-full"></div>
                   </div>
                   <button
-                    onClick={handleNext}
+                    onClick={() => setOpen(false)}
                     className="w-full py-1.5 rounded-lg bg-gray-300 font-medium"
                   >
-                    Next
+                    Close
                   </button>
                 </div>
               </div>
@@ -58,4 +76,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default SmartSiteInfoModal;

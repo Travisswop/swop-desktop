@@ -18,7 +18,7 @@ const SetupMainAccount = () => {
     }
   }, [router]);
 
-  console.log("showmodal", showModal);
+  // console.log("showmodal", showModal);
 
   return <div>{showModal && <SetUpMainAccountModal />}</div>;
 };

@@ -25,6 +25,7 @@ export default async function PageLayout({
             <LayoutComponent>
               <TopBar />
               {children}
+              <div id="modal-root"></div>
             </LayoutComponent>
           </SideBarToggleProvider>
         </main>
