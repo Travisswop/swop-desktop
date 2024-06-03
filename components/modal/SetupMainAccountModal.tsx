@@ -11,10 +11,11 @@ import {
   //   useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
-import astronot from "../public/images/setup-account/account-astronot.png";
-import ModalButton from "./ModalButton";
+import astronot from "@/public/images/setup-account/account-astronot.png";
+// import ModalButton from "@/";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ModalButton from "../ModalButton";
 
 export default function SetUpMainAccountModal() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function SetUpMainAccountModal() {
         defaultOpen={true}
         isDismissable={false}
         //   isKeyboardDismissDisabled={true}
-        backdrop={"blur"}
+        backdrop={"opaque"}
         hideCloseButton={true}
       >
         <ModalContent>

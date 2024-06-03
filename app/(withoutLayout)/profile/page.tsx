@@ -9,7 +9,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineEmail, MdOutlinePhoneInTalk } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 import { CiLocationOn } from "react-icons/ci";
-import SelectAvatorModal from "@/components/SelectAvatorModal";
+import SelectAvatorModal from "@/components/modal/SelectAvatorModal";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import { decryptData } from "@/util/cryptoUtils";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
