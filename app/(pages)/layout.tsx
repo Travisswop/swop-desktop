@@ -23,9 +23,10 @@ export default async function PageLayout({
           <ToastContainer position="top-center" />
           <SideBarToggleProvider>
             <LayoutComponent>
-              <TopBar />
-              {children}
-              <div id="modal-root"></div>
+              <div className="flex flex-col min-h-screen">
+                <TopBar />
+                {children}
+              </div>
             </LayoutComponent>
           </SideBarToggleProvider>
         </main>

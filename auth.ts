@@ -29,7 +29,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }),
             }
           );
-          // console.log("response, ", response);
 
           if (response.ok) {
             const data = await response.json();
@@ -86,8 +85,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }: any) {
-      console.log("session", session);
-      console.log("token", token);
+      // console.log("session", session);
+      // console.log("token", token);
 
       if (!token?.accessToken) {
         try {

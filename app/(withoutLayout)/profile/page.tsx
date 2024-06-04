@@ -174,6 +174,10 @@ const ParentProfilePage = () => {
     try {
       const response = await handleSignUp(userInfo);
       if (response.state === "success") {
+        localStorage.setItem(
+          "primaryMicrosite",
+          response.data.microsites[0]._id
+        );
         const data = await signIn("credentials", {
           email: userInfo.email,
           password: userInfo.password,
