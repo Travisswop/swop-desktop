@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import email from "@/public/images/social-icon/email.svg";
 import facebook from "@/public/images/social-icon/facebook.svg";
 import instagram from "@/public/images/social-icon/instagram.svg";
@@ -360,7 +360,9 @@ const SmartsideOpeningInfo = ({
           </form>
         </div>
       </div>
-      <SmartSiteInfoModal />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SmartSiteInfoModal />
+      </Suspense>
     </div>
   );
 };
