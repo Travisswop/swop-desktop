@@ -3,9 +3,9 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import travisImage from "../public/travis-image.svg";
 
-const Connections = () => {
+const Connections = ({ data }: any) => {
   return (
-    <div className=" py-5 px-6 bg-white">
+    <div className="h-full py-5 px-6 bg-white">
       <p className="text-xl text-gray-700 font-bold mb-4">Connections</p>
       <div className="relative w-full mb-4">
         <CiSearch
@@ -18,35 +18,47 @@ const Connections = () => {
           className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
         />
       </div>
-      <div className="bg-white py-4 px-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Image src={travisImage} alt="user image" width={50} height={50} />
-          <div className="flex flex-col gap-1">
-            <h3 className="font-semibold">Travis Herron</h3>
-            <p className="text-sm text-gray-500 font-medium">CEO Of Swop</p>
+      <div className="flex flex-col gap-3 h-full">
+        {data.data.connections.childConnection.map(
+          (data: any, index: number) => (
+            <div
+              key={index}
+              className="bg-white py-4 px-3 flex items-center justify-between shadow-small rounded-xl hover:shadow-medium"
+            >
+              <div className="flex items-center gap-3">
+                <Image
+                  src={data.account.profilePic}
+                  alt="user image"
+                  width={100}
+                  height={100}
+                  className="border w-14 h-14 rounded-full"
+                />
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="font-bold">{data.account.name}</h3>
+                  <p className="text-sm text-gray-500 font-medium">
+                    {data.account.bio}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Charlotte, NC</p>
+            </div>
+          )
+        )}
+        {/* <div className="bg-white py-4 px-3 flex items-center justify-between shadow-medium rounded-xl hover:shadow-large">
+          <div className="flex items-center gap-3">
+            <Image
+              src={travisImage}
+              alt="user image"
+              width={100}
+              height={100}
+              className="border w-14 h-14 rounded-full"
+            />
+            <div className="flex flex-col gap-0.5">
+              <h3 className="font-bold">terra</h3>
+              <p className="text-sm text-gray-500 font-medium">nau</p>
+            </div>
           </div>
-        </div>
-        <p className="text-sm text-gray-500 font-medium">Charlotte, NC</p>
-      </div>
-      <div className="bg-white py-4 px-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Image src={travisImage} alt="user image" width={50} height={50} />
-          <div className="flex flex-col gap-1">
-            <h3 className="font-semibold">Travis Herron</h3>
-            <p className="text-sm text-gray-500 font-medium">CEO Of Swop</p>
-          </div>
-        </div>
-        <p className="text-sm text-gray-500 font-medium">Charlotte, NC</p>
-      </div>
-      <div className="bg-white py-4 px-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Image src={travisImage} alt="user image" width={50} height={50} />
-          <div className="flex flex-col gap-1">
-            <h3 className="font-semibold">Travis Herron</h3>
-            <p className="text-sm text-gray-500 font-medium">CEO Of Swop</p>
-          </div>
-        </div>
-        <p className="text-sm text-gray-500 font-medium">Charlotte, NC</p>
+        </div> */}
       </div>
     </div>
   );

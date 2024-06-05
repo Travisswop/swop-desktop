@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-const ParentProfilePage = () => {
+const UpdateProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [galleryImage, setGalleryImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
@@ -50,15 +50,15 @@ const ParentProfilePage = () => {
 
   // console.log("selectedCountryCode", selectedCountryCode);
 
-  useEffect(() => {
-    //need this to get data from localstorage
-    if (typeof window !== "undefined") {
-      // Safe to use localStorage here
-      const encInfo = localStorage.getItem("info");
-      const decryptInfo = decryptData(encInfo);
-      setUserData(decryptInfo);
-    }
-  }, []);
+  // useEffect(() => {
+  //   //need this to get data from localstorage
+  //   if (typeof window !== "undefined") {
+  //     // Safe to use localStorage here
+  //     const encInfo = localStorage.getItem("info");
+  //     const decryptInfo = decryptData(encInfo);
+  //     setUserData(decryptInfo);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const geoTimeout = setTimeout(() => {
@@ -503,4 +503,4 @@ const ParentProfilePage = () => {
   );
 };
 
-export default ParentProfilePage;
+export default UpdateProfile;

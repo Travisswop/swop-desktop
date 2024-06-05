@@ -14,9 +14,11 @@ import send from "@/public/images/websites/icon/send.svg";
 import wallet from "@/public/images/websites/icon/wallet.svg";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import SetupMainAccount from "@/components/SetupMainAccount";
+import getHomePageData from "@/util/fetchingData/homePageDataFetching";
+import Link from "next/link";
 
 export default async function HomePage() {
-  await isUserAuthenticate(); // check is user exist
+  const session: any = await isUserAuthenticate(); // check is user exist
 
   const websiteAnalyticsArr = [
     {
@@ -48,39 +50,54 @@ export default async function HomePage() {
       percentage: -24,
     },
   ];
+
+  // console.log(session);
+
+  const data = await getHomePageData(session?.accessToken as string);
+  // console.log("data", data);
+
   return (
     <main className="main-container">
-      <div className="flex gap-6 items-start">
-        <div className="w-3/5">
+      <div className="flex gap-6 h-full items-stretch">
+        <div className="w-3/5 h-full">
           <div className="bg-white py-5 px-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Image
-                src={travisImage}
+                src={data.data.profilePic}
                 alt="user image"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
+                className="w-16 h-16 rounded-full"
               />
               <div className="flex flex-col gap-1">
-                <h3 className="font-bold text-gray-700">Travis Herron</h3>
+                <h3 className="font-bold text-gray-800">{data.data.name}</h3>
                 <p className="text-sm text-gray-500 font-medium">
-                  Travis.Swopple.ID
+                  {data.data.bio}
                 </p>
-                <p className="text-sm text-gray-500 font-medium">
-                  Charlotte, NC
-                </p>
+                {false ? (
+                  <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
+                    $ travis.swop.id
+                  </button>
+                ) : (
+                  <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
+                    $ Setup Your Wallet
+                  </button>
+                )}
               </div>
             </div>
-            <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
-              <BiSolidEdit />
-              Edit
-            </button>
+            <Link href={"/update-profile"}>
+              <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
+                <BiSolidEdit />
+                Edit
+              </button>
+            </Link>
           </div>
           <Chart />
         </div>
 
         {/* connections */}
-        <div className="w-2/5">
-          <Connections />
+        <div className="w-2/5 min-h-full">
+          <Connections data={data} />
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-8">
