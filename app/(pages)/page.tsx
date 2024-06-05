@@ -66,7 +66,7 @@ export default async function HomePage() {
               <div className="bg-white py-5 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={data.data.profilePic}
+                    src={data?.data?.profilePic}
                     alt="user image"
                     width={100}
                     height={100}
@@ -74,10 +74,10 @@ export default async function HomePage() {
                   />
                   <div className="flex flex-col gap-1">
                     <h3 className="font-bold text-gray-800">
-                      {data.data.name}
+                      {data?.data?.name}
                     </h3>
                     <p className="text-sm text-gray-500 font-medium">
-                      {data.data.bio}
+                      {data?.data?.bio}
                     </p>
                     {false ? (
                       <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
