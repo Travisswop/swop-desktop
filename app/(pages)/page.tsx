@@ -16,6 +16,7 @@ import isUserAuthenticate from "@/util/isUserAuthenticate";
 import SetupMainAccount from "@/components/SetupMainAccount";
 import getHomePageData from "@/util/fetchingData/homePageDataFetching";
 import Link from "next/link";
+import HomePageLoading from "@/components/loading/HomePageLoading";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
@@ -58,7 +59,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {data && (
+      {data ? (
         <main className="main-container">
           <div className="flex gap-6 h-full items-stretch">
             <div className="w-3/5 h-full">
@@ -174,6 +175,8 @@ export default async function HomePage() {
           </div>
           <SetupMainAccount />
         </main>
+      ) : (
+        <HomePageLoading />
       )}
     </>
   );
