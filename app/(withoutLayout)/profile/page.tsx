@@ -479,7 +479,7 @@ const ParentProfilePage = () => {
         <button
           type="submit"
           disabled={submitLoading}
-          className="bg-black text-white py-2 rounded-xl flex items-center gap-1 justify-center px-10 mx-auto text-sm w-full sm:w-auto"
+          className="bg-black text-white py-2 rounded-xl flex items-center gap-2 justify-center px-10 mx-auto text-sm w-full sm:w-auto"
         >
           Save {submitLoading && <Spinner size="sm" color="white" />}
         </button>

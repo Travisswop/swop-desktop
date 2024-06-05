@@ -49,7 +49,7 @@ const SmartsideOpeningInfo = ({
   const infoBar = [] as any;
   const contacts = [] as any;
 
-  console.log("social small", socialSmall);
+  // console.log("social small", socialSmall);
 
   const handleSubmit = async (event: any) => {
     setIsLoading(true);
@@ -207,7 +207,7 @@ const SmartsideOpeningInfo = ({
 
       if (response.ok) {
         if (data.state === "success") {
-          toast.success("hola congress");
+          toast.success("smartsite info updated");
           router.push("/ens-swop-id/?signup=success");
         }
       } else {
@@ -215,7 +215,7 @@ const SmartsideOpeningInfo = ({
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("hola error", error);
+      console.error("error from smartsite info page", error);
       setIsLoading(false);
     }
   };

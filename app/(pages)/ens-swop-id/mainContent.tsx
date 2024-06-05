@@ -22,6 +22,9 @@ import { Checkbox, Spinner, Tooltip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { debounce } from "lodash";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { GoCheckCircleFill } from "react-icons/go";
+import { BsXCircleFill } from "react-icons/bs";
 
 const ClaimEnsUserName = () => {
   //state
@@ -30,12 +33,13 @@ const ClaimEnsUserName = () => {
   const [isEnsSearchLoading, setIsEnsSearchLoading] = useState<boolean>(false);
   const [isSelected, setIsSelected] = React.useState(false);
   const [username, setUsername] = useState("");
+  const [canProceed, setCanProceed] = useState(false);
   const [isUsernameNotAvailable, setIsUsernameNotAvailable] = useState<
     boolean | null
   >(null);
 
   //   console.log("username", username);
-  //   console.log("isUsernameAvailable", isUsernameAvailable);
+  // console.log("isUsernameAvailable", isUsernameNotAvailable);
 
   const router = useRouter();
 
@@ -49,9 +53,21 @@ const ClaimEnsUserName = () => {
   }, []);
 
   const handleSubmit = async (event: any) => {
-    setIsLoading(true);
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    if (!canProceed) {
+      return;
+    }
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/createWallet/${username}`
+    );
+    const data = await response.json();
+    if (data.state === "success") {
+      toast.success("ENS name created successfully");
+      router.push("/");
+    } else {
+      toast.success("something went wrong");
+    }
   };
 
   const checkUsernameAvailability = useCallback(
@@ -63,19 +79,14 @@ const ClaimEnsUserName = () => {
           //   setUsername("");
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/checkEnsName/${username}`
-            // {
-            //   method: "GET",
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //   },
-            //   body: JSON.stringify({ username }),
-            // }
           );
           const data = await response.json();
           console.log("daatatat", data);
 
           if (data.state === "success") {
             setIsUsernameNotAvailable(true);
+          } else {
+            setIsUsernameNotAvailable(false);
           }
         } catch (error) {
           console.error("Error checking username availability:", error);
@@ -90,6 +101,17 @@ const ClaimEnsUserName = () => {
   useEffect(() => {
     checkUsernameAvailability(username);
   }, [username, checkUsernameAvailability]);
+
+  useEffect(() => {
+    // if (username.length > 0 && username.length < 3) {
+    //   setCanProceed(false);
+    // }
+    if (isSelected && isUsernameNotAvailable && username.length > 2) {
+      setCanProceed(true);
+    } else {
+      setCanProceed(false);
+    }
+  }, [username.length, isSelected, isUsernameNotAvailable]);
 
   const handleUsernameChange = (event: any) => {
     setUsername(event.target.value);
@@ -142,26 +164,28 @@ const ClaimEnsUserName = () => {
             </Tooltip>
           </h3>
         </div>
-        <div className="">
+        <div className="relative mb-4">
           <input
             type="text"
             name="userName"
             value={username}
             onChange={handleUsernameChange}
             placeholder="Register your free ENS Swop.ID"
-            className="w-full py-2 bg-gray-100 px-4 focus:outline-none rounded-lg border mb-4 font-medium"
+            className="w-full py-2 bg-gray-100 px-4 focus:outline-none rounded-lg border  font-medium"
           />
-          {isEnsSearchLoading ? (
-            <Spinner size="sm" color="primary" />
-          ) : isUsernameNotAvailable === null || username.length === 0 ? (
-            ""
-          ) : username.length > 0 && username.length < 3 ? (
-            <p className="text-red-500">Username is already takens.</p>
-          ) : isUsernameNotAvailable && username.length > 2 ? (
-            <p className="text-green-500">Username is available!</p>
-          ) : (
-            <p className="text-red-500">Username is already taken.</p>
-          )}
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+            {isEnsSearchLoading ? (
+              <Spinner size="sm" color="secondary" />
+            ) : isUsernameNotAvailable === null || username.length === 0 ? (
+              ""
+            ) : username.length > 0 && username.length < 3 ? (
+              <BsXCircleFill color="red" size={20} />
+            ) : isUsernameNotAvailable && username.length > 2 ? (
+              <GoCheckCircleFill color="green" size={20} />
+            ) : (
+              <BsXCircleFill color="red" size={19} />
+            )}
+          </div>
         </div>
         <Checkbox
           isSelected={isSelected}
@@ -176,9 +200,9 @@ const ClaimEnsUserName = () => {
         </Checkbox>
         <DynamicPrimaryBtn
           className={`!px-10 mx-auto mt-8 ${
-            !isSelected && "!bg-gray-400 cursor-not-allowed"
+            !canProceed && "!bg-gray-400 cursor-not-allowed"
           }`}
-          disabled={!isSelected}
+          disabled={!canProceed}
         >
           Continue {isLoading && <Spinner size="sm" color="white" />}
         </DynamicPrimaryBtn>
