@@ -21,7 +21,7 @@ import EditMicrositeBtn from "../Button/EditMicrositeBtn";
 
 const AddSmallIcon = () => {
   const [selectedIcon, setSelectedIcon] = useState("");
-  console.log("selectedIcon", selectedIcon);
+  // console.log("selectedIcon", selectedIcon);
   const selectArry: any = [
     {
       _id: 123,

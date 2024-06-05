@@ -85,7 +85,7 @@ const LoginPage = () => {
 
       // if (Object.keys(formErrors).length === 0) {
       const response = await signInWithCredentials(formData);
-      console.log("response form signin page", response);
+      // console.log("response form signin page", response);
 
       if (response.error) {
         setError("Incorrect email or password");

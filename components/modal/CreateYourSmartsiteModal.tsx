@@ -40,7 +40,7 @@ export default function CreateYourSmartsiteModal() {
   //     setOpenModal(false);
   //   };
 
-  console.log("openModal", isOpen);
+  // console.log("openModal", isOpen);
 
   return (
     <div className="hidden">

@@ -6,7 +6,7 @@ import { MdFileUpload } from "react-icons/md";
 
 const UploadImageButton = ({ handleModal }: any) => {
   const handleClickOnUploadImage = () => {
-    console.log("clicked");
+    // console.log("clicked");
     handleModal();
   };
   return (

@@ -8,7 +8,7 @@ const SetupMainAccount = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("signup");
-  console.log("search", search);
+  // console.log("search", search);
 
   useEffect(() => {
     if (search === "success" || localStorage.getItem("modalShown")) {
@@ -16,7 +16,7 @@ const SetupMainAccount = () => {
       //   localStorage.setItem("modalShown", "true");
       //   router.replace("/", undefined);
     }
-  }, [router]);
+  }, [router, search]);
 
   // console.log("showmodal", showModal);
 

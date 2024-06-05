@@ -1,7 +1,7 @@
 "use server";
 export async function handleSignUp(userInfo: any) {
   try {
-    console.log("userInfo", userInfo);
+    // console.log("userInfo", userInfo);
 
     // const userData = {
     //     name: userInfo.name,
@@ -19,7 +19,7 @@ export async function handleSignUp(userInfo: any) {
       }
     );
     const data = await response.json();
-    console.log("data from action", data);
+    // console.log("data from action", data);
 
     return data;
   } catch (error) {

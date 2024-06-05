@@ -61,20 +61,21 @@ const ParentProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    // Request geolocation permission and fetch user's current location
+    const geoTimeout = setTimeout(() => {
+      console.error("Geolocation request timed out.");
+      setLoading(false);
+    }, 5000); // 4 seconds timeout
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
+          clearTimeout(geoTimeout);
           const { latitude, longitude } = pos.coords;
-          console.log("Location coordinates:", latitude, longitude);
-
-          // Fetch country code based on coordinates
           const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
           axios
             .get(url)
             .then((response) => {
               setUserLocation(response.data);
-              console.log("Location data:", response.data);
               setLoading(false);
             })
             .catch((error) => {
@@ -83,9 +84,11 @@ const ParentProfilePage = () => {
             });
         },
         (error) => {
+          clearTimeout(geoTimeout);
           console.error("Error retrieving geolocation:", error);
           setLoading(false);
-        }
+        },
+        { timeout: 5000 } // 10 seconds timeout for geolocation API
       );
     } else {
       console.error("Geolocation is not supported by this browser");
@@ -183,7 +186,7 @@ const ParentProfilePage = () => {
           password: userInfo.password,
           redirect: false,
         });
-        console.log("response for login", data);
+        // console.log("response for login", data);
 
         if (data && !data.error) {
           localStorage.removeItem("info");

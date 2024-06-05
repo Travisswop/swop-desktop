@@ -3,7 +3,7 @@ import AddSmallIcon from "./AddSmallIcon";
 import AddEmbed from "./AddEmbed";
 
 const AddIcon = ({ data }: { data: string }) => {
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <div>

@@ -60,7 +60,7 @@ const SignUpPage = () => {
       const email = userData.email;
 
       const response = await checkIsUserExist(email as string);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response.state === "success") {
         const encryptedData = encryptData(userData);

@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (response.ok) {
             const data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
 
             const token = data.token;
             // cookies().set("accessToken", token, {
@@ -54,7 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
         } catch (error) {
-          console.log("hola error", error);
+          console.error("error in auth", error);
           return null;
         }
         return user;
@@ -117,7 +117,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return session;
           }
         } catch (error) {
-          console.log("error occur from social signin", error);
+          console.error("error occur from social signin", error);
         }
         // const data = {
         //   ...token,

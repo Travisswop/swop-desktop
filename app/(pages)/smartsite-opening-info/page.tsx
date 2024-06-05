@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 
 const SmartsideOpeningInfoPage = async () => {
   const session: any = await auth();
-  console.log("session form open", session);
+  // console.log("session form open", session);
 
   return (
     <main>

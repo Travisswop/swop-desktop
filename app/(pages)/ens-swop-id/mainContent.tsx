@@ -81,7 +81,7 @@ const ClaimEnsUserName = () => {
             `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/checkEnsName/${username}`
           );
           const data = await response.json();
-          console.log("daatatat", data);
+          // console.log("daatatat", data);
 
           if (data.state === "success") {
             setIsUsernameNotAvailable(true);
