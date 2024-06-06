@@ -1,5 +1,4 @@
 import Image from "next/image";
-import travisImage from "../../public/travis-image.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import Connections from "@/components/Connections";
 import Chart from "@/components/Chart";
@@ -19,14 +18,7 @@ import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
-import { signOut } from "@/auth";
-import Testing from "@/components/Testing";
-
-// async function handleSignOut() {
-//   "use server";
-//   await signOut();
-// }
-
+import ForceSignOut from "@/components/ForceSignOut";
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
 
@@ -61,13 +53,10 @@ export default async function HomePage() {
     },
   ];
 
-  // console.log(session);
-
   const data = await getHomePageData(session?.accessToken as string);
-  console.log("datasss", data);
 
   if (data && data.state === "fail") {
-    return <Testing />;
+    return <ForceSignOut />;
   }
 
   const imageSrc = isUrl(data?.data?.profilePic)

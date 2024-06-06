@@ -18,6 +18,10 @@ import "swiper/css/effect-creative";
 import { Navigation } from "swiper/modules";
 import { EffectCreative } from "swiper/modules";
 import isUrl from "@/util/isUrl";
+import Link from "next/link";
+import { FaDownload } from "react-icons/fa";
+import { IoMdCloudDownload } from "react-icons/io";
+import { FiDownload } from "react-icons/fi";
 
 const Microsite = ({ microsites }: any) => {
   // console.log("microsites", microsites);
@@ -49,11 +53,13 @@ const Microsite = ({ microsites }: any) => {
           <SwiperSlide key={microsite._id}>
             <div className="py-8 px-8 bg-white">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl text-gray-700 font-bold">Websites</h3>
-                <button className="border border-gray-500 rounded-lg px-4 py-2 flex items-center gap-1 font-medium hover:bg-gray-700 hover:text-white">
-                  <CiSettings size={20} />
-                  Manage Sites
-                </button>
+                <h3 className="text-xl text-gray-700 font-bold">Smart Sites</h3>
+                <Link href={`/smartsites/icons/${microsite._id}`}>
+                  <button className="border border-gray-500 rounded-lg px-4 py-2 flex items-center gap-1 font-medium hover:bg-gray-700 hover:text-white">
+                    <CiSettings size={20} />
+                    Manage Sites
+                  </button>
+                </Link>
               </div>
               <div className={`shadow-medium rounded-2xl my-6 mx-10 pt-3 pb-8`}>
                 <div className="">
@@ -101,13 +107,15 @@ const Microsite = ({ microsites }: any) => {
                     {microsite.bio}
                   </p>
                 </div>
-                <div className="flex items-center gap-4 justify-center mt-6">
-                  <button className="bg-black p-2.5 rounded-lg">
-                    <Image alt="edit" src={edit} width={18} />
-                  </button>
-                  <button className="bg-black p-2.5 rounded-lg">
+                <div className="flex items-center gap-3 justify-center mt-6">
+                  <Link href={`/smartsites/${microsite._id}`}>
+                    <button className="bg-black p-2.5 rounded-lg">
+                      <Image alt="edit" src={edit} width={18} />
+                    </button>
+                  </Link>
+                  {/* <button className="bg-black p-2.5 rounded-lg">
                     <Image alt="barcode" src={barcode} width={18} />
-                  </button>
+                  </button> */}
                   <button className="bg-black p-2.5 rounded-lg">
                     <Image alt="send" src={send} width={18} />
                   </button>
@@ -116,19 +124,36 @@ const Microsite = ({ microsites }: any) => {
                   </button>
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-3">
                 <Image
                   alt="qr code"
-                  src={qrcode}
+                  src={microsite.qrcodeUrl}
                   width={150}
+                  height={150}
                   className="border-2 p-2 border-gray-500 rounded-2xl"
                 />
+                <div className="flex items-center gap-3">
+                  <Link href={`/qr-code/${microsite._id}`}>
+                    <button className="bg-black p-2.5 rounded-lg">
+                      <Image alt="edit" src={edit} width={18} />
+                    </button>
+                  </Link>
+                  <button className="bg-black p-2.5 rounded-lg">
+                    <Image alt="send" src={send} width={18} />
+                  </button>
+                  <button className="bg-black p-2 rounded-lg">
+                    <FiDownload color="white" size={20} />
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-center mt-5">
+              <div className="flex justify-center mt-10">
                 <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
-                  <LiaFileMedicalSolid size={22} /> Create Microsite
+                  <LiaFileMedicalSolid size={22} /> Create Smart Site
                 </button>
               </div>
+              <p className="text-sm text-gray-500 text-center mt-3">
+                Deploy a website with decentralized content hosting
+              </p>
             </div>
           </SwiperSlide>
         ))}

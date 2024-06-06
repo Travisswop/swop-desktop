@@ -4,6 +4,13 @@ import { SideBarToggleProvider } from "../../contexts/sideBarToggleContext";
 import TopBar from "@/components/TopBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Poppins } from "next/font/google";
+
+const popins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default async function PageLayout({
   children,
@@ -17,7 +24,7 @@ export default async function PageLayout({
   //   }
   // }
   return (
-    <html lang="en">
+    <html lang="en" className={popins.className}>
       <body>
         <main className="">
           <ToastContainer position="top-center" />

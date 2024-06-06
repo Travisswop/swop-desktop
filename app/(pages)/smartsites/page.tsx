@@ -50,7 +50,7 @@ const WebsitesPage = async () => {
               <p className="font-medium text-gray-500">Founder & CEO at SWOP</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-1">
-              <Link href={"/websites/travis-herron"}>
+              <Link href={"/smartsites/icons/travis-herron"}>
                 <SecondaryButton>
                   <span className="text-sm">Edit</span>
                   <TbEdit size={18} />
@@ -83,7 +83,7 @@ const WebsitesPage = async () => {
               <p className="font-medium text-gray-500">Founder & CEO at SWOP</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-1">
-              <Link href={"/websites/travis-herron"}>
+              <Link href={"/smartsites/icons/travis-herron"}>
                 <SecondaryButton>
                   <span className="text-sm">Edit</span>
                   <TbEdit size={18} />
@@ -116,7 +116,7 @@ const WebsitesPage = async () => {
               <p className="font-medium text-gray-500">Founder & CEO at SWOP</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-1">
-              <Link href={"/websites/travis-herron"}>
+              <Link href={"/smartsites/icons/travis-herron"}>
                 <SecondaryButton>
                   <span className="text-sm">Edit</span>
                   <TbEdit size={18} />

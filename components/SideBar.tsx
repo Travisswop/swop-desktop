@@ -24,8 +24,8 @@ const SideBar = ({ toggle, onToggle }: any) => {
     {
       id: 102,
       icon: <RiBarChartLine />,
-      title: "Websites",
-      href: "/websites",
+      title: "Smartsites",
+      href: "/smartsites",
     },
     {
       id: 103,

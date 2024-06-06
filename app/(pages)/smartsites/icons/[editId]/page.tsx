@@ -50,7 +50,7 @@ const MicrositeEditPage = () => {
               <LiaFileMedicalSolid size={20} />
               Edit Background
             </EditMicrositeBtn>
-            <Link href={`/websites/microsites/travis-herron`}>
+            <Link href={`/smartsites/travis-herron`}>
               <EditMicrositeBtn>
                 <LiaFileMedicalSolid size={20} />
                 Microsite Settings

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { signOut } from "next-auth/react";
 import HomePageLoading from "./loading/HomePageLoading";
 
-const Testing = () => {
+const ForceSignOut = () => {
   useEffect(() => {
     signOut();
   }, []);
@@ -11,4 +11,4 @@ const Testing = () => {
   return <HomePageLoading />;
 };
 
-export default Testing;
+export default ForceSignOut;
