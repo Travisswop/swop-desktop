@@ -2,16 +2,8 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import React from "react";
 import travis from "../../public/travis-image.svg";
+import isUrl from "@/util/isUrl";
 // import SignOut from "./SignOut";
-
-function isUrl(str: any) {
-  try {
-    new URL(str);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
 
 const UserProfile = async () => {
   const session = await auth();

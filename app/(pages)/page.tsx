@@ -17,6 +17,7 @@ import SetupMainAccount from "@/components/SetupMainAccount";
 import getHomePageData from "@/util/fetchingData/homePageDataFetching";
 import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
+import isUrl from "@/util/isUrl";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
@@ -57,6 +58,10 @@ export default async function HomePage() {
   const data = await getHomePageData(session?.accessToken as string);
   // console.log("data", data);
 
+  const imageSrc = isUrl(data?.data?.profilePic)
+    ? data?.data?.profilePic
+    : `/images/user_avator/${data?.data?.profilePic}.png`;
+
   return (
     <>
       {data ? (
@@ -66,7 +71,7 @@ export default async function HomePage() {
               <div className="bg-white py-5 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={data?.data?.profilePic}
+                    src={imageSrc}
                     alt="user image"
                     width={100}
                     height={100}

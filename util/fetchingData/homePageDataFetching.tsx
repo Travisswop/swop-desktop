@@ -8,7 +8,7 @@ async function getHomePageData(token: string) {
     }
   );
 
-  return res.json();
+  return await res.json();
 }
 
 export default getHomePageData;
