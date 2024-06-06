@@ -18,6 +18,14 @@ import getHomePageData from "@/util/fetchingData/homePageDataFetching";
 import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
+import { FaUserTie } from "react-icons/fa";
+import { signOut } from "@/auth";
+import Testing from "@/components/Testing";
+
+// async function handleSignOut() {
+//   "use server";
+//   await signOut();
+// }
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
@@ -56,7 +64,11 @@ export default async function HomePage() {
   // console.log(session);
 
   const data = await getHomePageData(session?.accessToken as string);
-  // console.log("data", data);
+  console.log("datasss", data);
+
+  if (data && data.state === "fail") {
+    return <Testing />;
+  }
 
   const imageSrc = isUrl(data?.data?.profilePic)
     ? data?.data?.profilePic
@@ -70,13 +82,20 @@ export default async function HomePage() {
             <div className="w-3/5 h-full">
               <div className="bg-white py-5 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Image
-                    src={imageSrc}
-                    alt="user image"
-                    width={100}
-                    height={100}
-                    className="w-16 h-16 rounded-full"
-                  />
+                  {data?.data?.profilePic ? (
+                    <Image
+                      src={imageSrc}
+                      alt="user image"
+                      width={100}
+                      height={100}
+                      className="w-[3.6rem] h-[3.6rem] rounded-full border"
+                    />
+                  ) : (
+                    <div className="border rounded-full p-2">
+                      <FaUserTie size={40} />
+                    </div>
+                  )}
+
                   <div className="flex flex-col gap-1">
                     <h3 className="font-bold text-gray-800">
                       {data?.data?.name}
@@ -135,7 +154,7 @@ export default async function HomePage() {
             </div>
             <div>
               <div className="bg-white rounded-lg overflow-hidden">
-                <Microsite />
+                <Microsite microsites={data?.data?.microsites} />
               </div>
               <div className="bg-white rounded-lg mt-4 p-6">
                 <h5 className="text-xl text-gray-700 font-bold">QR</h5>

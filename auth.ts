@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-// import { cookies } from "next/headers";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -32,12 +31,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (response.ok) {
             const data = await response.json();
-            // console.log("data", data);
 
             const token = data.token;
-            // cookies().set("accessToken", token, {
-            //   httpOnly: true,
-            // });
+
             if (data) {
               const sessionData = {
                 _id: data.data._id,
@@ -85,9 +81,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }: any) {
-      // console.log("session", session);
-      // console.log("token", token);
-
       if (!token?.accessToken) {
         try {
           const response = await fetch(
@@ -103,11 +96,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (response.ok) {
             const data = await response.json();
             const accessToken = data?.token;
-            // cookies().set("accessToken", accessToken, {
-            //   httpOnly: true,
-            //   // sameSite: "lax",
-            //   // secure: true,
-            // });
             const dataWithToken = {
               ...token,
               _id: data.data._id,
@@ -119,12 +107,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } catch (error) {
           console.error("error occur from social signin", error);
         }
-        // const data = {
-        //   ...token,
-        //   accessToken: "rerefddsshhdfd",
-        // };
-        // session.user = data;
-        // return session;
       } else {
         session.user = token;
         return session;
