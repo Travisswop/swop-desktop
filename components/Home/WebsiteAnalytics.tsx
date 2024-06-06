@@ -4,8 +4,8 @@ import square from "@/public/images/homepage/square.svg";
 
 interface WebsiteAnalyticsProps {
   title: string;
-  value: number;
-  days: number;
+  value: any;
+  days: any;
   percentage: number;
 }
 

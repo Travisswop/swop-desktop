@@ -22,37 +22,6 @@ import ForceSignOut from "@/components/ForceSignOut";
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
 
-  const websiteAnalyticsArr = [
-    {
-      _id: 123,
-      title: "Leads",
-      value: 34,
-      days: 30,
-      percentage: 24,
-    },
-    {
-      _id: 133,
-      title: "Taps",
-      value: 34,
-      days: 30,
-      percentage: 24,
-    },
-    {
-      _id: 124,
-      title: "Taps",
-      value: 24,
-      days: 20,
-      percentage: 24,
-    },
-    {
-      _id: 1673,
-      title: "Connections",
-      value: 34,
-      days: 30,
-      percentage: -24,
-    },
-  ];
-
   const data = await getHomePageData(session?.accessToken as string);
 
   if (data && data.state === "fail") {
@@ -62,6 +31,59 @@ export default async function HomePage() {
   const imageSrc = isUrl(data?.data?.profilePic)
     ? data?.data?.profilePic
     : `/images/user_avator/${data?.data?.profilePic}.png`;
+
+  const getLast30DaysTap = () => {
+    // Get the current timestamp
+    const currentTimestamp = Date.now();
+
+    // Calculate the timestamp for 30 days ago
+    const thirtyDaysAgoTimestamp = currentTimestamp - 30 * 24 * 60 * 60 * 1000;
+
+    // Filter the array to include only taps within the last 30 days
+    const tapsInLast30Days =
+      data &&
+      data.data.tap.filter(
+        (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
+      );
+
+    // Get the length of the filtered array
+    const tapsInLast30DaysCount = tapsInLast30Days.length;
+
+    return tapsInLast30DaysCount;
+  };
+
+  const last30Taps = getLast30DaysTap();
+
+  const websiteAnalyticsArr = [
+    {
+      _id: 123,
+      title: "Taps",
+      value: last30Taps ? last30Taps : 0,
+      days: 30,
+      percentage: 24,
+    },
+    {
+      _id: 133,
+      title: "Taps",
+      value: data ? data.data.tap.length : 0,
+      days: "Life Time",
+      percentage: 24,
+    },
+    {
+      _id: 124,
+      title: "Connections",
+      value: data ? data.data.totalConnection : 0,
+      days: 20,
+      percentage: 24,
+    },
+    {
+      _id: 1673,
+      title: "Connections",
+      value: data ? data.data.totalConnection : 0,
+      days: "Life Time",
+      percentage: -24,
+    },
+  ];
 
   return (
     <>
@@ -128,7 +150,7 @@ export default async function HomePage() {
                   <WebsiteAnalytics
                     key={data._id}
                     title={data.title}
-                    days={data.days}
+                    days={data.days as any}
                     percentage={data.percentage}
                     value={data.value}
                   />
