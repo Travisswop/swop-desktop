@@ -97,7 +97,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           if (response.ok) {
             const data = await response.json();
-            console.log("data form auth", data);
+            // console.log("data form auth", data);
 
             const dataWithToken = {
               ...token,

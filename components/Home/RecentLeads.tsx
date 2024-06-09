@@ -59,14 +59,14 @@ const RecentLeads = ({ subscribers }: any) => {
                       {subscriber.bio}
                     </p>
                     <p className="text-base font-medium text-gray-500 flex items-center gap-1">
-                      <HiOutlinePhone />
+                      <HiOutlinePhone size={18} />
                       {subscriber.mobileNo}
                     </p>
                     <p className="text-base font-medium text-gray-500 flex items-center gap-1">
-                      <CgMail /> {subscriber.email}
+                      <CgMail size={20} /> {subscriber.email}
                     </p>
                   </div>
-                  <button className="flex items-center gap-2 px-6 py-2 border border-gray-400 rounded-xl font-semibold hover:bg-gray-700 hover:text-white">
+                  <button className="flex items-center gap-2 px-6 py-2 border border-gray-400 rounded-xl font-semibold hover:bg-gray-700 hover:text-white text-gray-600">
                     <LuPhoneCall /> Contact Lead
                   </button>
                 </div>

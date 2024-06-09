@@ -1,5 +1,5 @@
 async function getHomePageData(token: string) {
-  console.log("token", token);
+  // console.log("token", token);
 
   try {
     if (token) {
@@ -14,9 +14,9 @@ async function getHomePageData(token: string) {
         }
       );
 
-      const data = await res.json();
+      const data = res.json();
 
-      console.log("data fetchg", data);
+      // console.log("data fetchg", data);
 
       return data;
     } else {

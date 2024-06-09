@@ -18,22 +18,20 @@ import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
-import ForceSignOut from "@/components/ForceSignOut";
+// import ForceSignOut from "@/components/ForceSignOut";
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
-  // console.log("session", session);
-
-  // console.log("hit on session");
 
   if (session) {
     const data = await getHomePageData(
       session && (session.accessToken as string)
     );
 
-    // console.log("hit on data");
+    console.log("session", session);
+    console.log("data", data);
 
-    if (data && data.data) {
-      console.log("data from home", data);
+    if (data.state === "success") {
+      // console.log("data from home", data);
       // if (data && data.state === "fail") {
       //   return <ForceSignOut />;
       // }
@@ -226,6 +224,14 @@ export default async function HomePage() {
           )}
         </>
       );
+    } else {
+      return (
+        <div className="main-container">
+          <p>data fetching error</p>
+        </div>
+      );
     }
+  } else {
+    <p>no session found . please login or try again</p>;
   }
 }
