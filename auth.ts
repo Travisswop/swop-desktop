@@ -81,6 +81,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }: any) {
+      // console.log("token from auth", token);
+
       if (!token?.accessToken) {
         try {
           const response = await fetch(
@@ -95,13 +97,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           if (response.ok) {
             const data = await response.json();
-            const accessToken = data?.token;
+            console.log("data form auth", data);
+
             const dataWithToken = {
               ...token,
               _id: data.data._id,
-              accessToken: accessToken,
+              accessToken: data.token,
             };
             session.user = dataWithToken;
+
+            // console.log("session form auth", session);
+
             return session;
           }
         } catch (error) {

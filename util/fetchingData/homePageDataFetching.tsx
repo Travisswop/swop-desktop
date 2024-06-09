@@ -1,16 +1,27 @@
 async function getHomePageData(token: string) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DEV_URL}/api/v1/desktop/user`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  console.log("token", token);
 
-    const data = await res.json();
-    return data;
+  try {
+    if (token) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_DEV_URL}/api/v1/desktop/user`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+          cache: "no-store",
+        }
+      );
+
+      const data = await res.json();
+
+      console.log("data fetchg", data);
+
+      return data;
+    } else {
+      console.log("token doesn't exist on data load");
+    }
   } catch (error) {
     console.error(error);
   }

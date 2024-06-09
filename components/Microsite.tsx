@@ -64,7 +64,7 @@ const Microsite = ({ microsites }: any) => {
               <div className={`shadow-medium rounded-2xl my-6 mx-10 pt-3 pb-8`}>
                 <div className="">
                   <div className="relative px-6">
-                    {!microsite.theme && (
+                    {/* {!microsite.theme && (
                       <Image
                         alt="background image"
                         src={`/images/live-preview/banner/${microsite.backgroundImg}.png`}
@@ -73,18 +73,19 @@ const Microsite = ({ microsites }: any) => {
                         height={120}
                         className="w-full"
                       />
-                    )}
+                    )} */}
                     {isUrl(microsite.profilePic) ? (
                       <Image
                         alt="travis image"
                         src={microsite.profilePic}
                         width={130}
                         height={130}
-                        className={`rounded-full border ${
-                          !microsite.theme
-                            ? "absolute -translate-y-24 left-1/2 -translate-x-[50%]"
-                            : "mx-auto translate-y-6"
-                        }`}
+                        className={`rounded-full border mx-auto translate-y-6`}
+                        // className={`rounded-full border ${
+                        //   !microsite.theme
+                        //     ? "absolute -translate-y-24 left-1/2 -translate-x-[50%]"
+                        //     : "mx-auto translate-y-6"
+                        // }`}
                       />
                     ) : (
                       <Image
@@ -92,11 +93,12 @@ const Microsite = ({ microsites }: any) => {
                         src={`/images/user_avator/${microsite.profilePic}.png`}
                         width={130}
                         height={130}
-                        className={`rounded-full border ${
-                          !microsite.theme
-                            ? "absolute -translate-y-24 left-1/2 -translate-x-[50%]"
-                            : "mx-auto translate-y-6"
-                        }`}
+                        className={`rounded-full border mx-auto translate-y-6`}
+                        // className={`rounded-full border ${
+                        //   !microsite.theme
+                        //     ? "absolute -translate-y-24 left-1/2 -translate-x-[50%]"
+                        //     : "mx-auto translate-y-6"
+                        // }`}
                       />
                     )}
                   </div>

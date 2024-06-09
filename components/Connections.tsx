@@ -1,3 +1,4 @@
+import isUrl from "@/util/isUrl";
 import Image from "next/image";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
@@ -27,13 +28,23 @@ const Connections = ({ data }: any) => {
                 className="bg-white py-4 px-3 flex items-center justify-between shadow-small rounded-xl hover:shadow-medium"
               >
                 <div className="flex items-center gap-3">
-                  <Image
-                    src={data?.account?.profilePic}
-                    alt="user image"
-                    width={100}
-                    height={100}
-                    className="border w-14 h-14 rounded-full"
-                  />
+                  {isUrl(data.account.profilePic) ? (
+                    <Image
+                      src={data?.account?.profilePic}
+                      alt="user image"
+                      width={100}
+                      height={100}
+                      className="border w-14 h-14 rounded-full"
+                    />
+                  ) : (
+                    <Image
+                      src={`/images/user_avator/${data?.account?.profilePic}.png`}
+                      alt="user image"
+                      width={100}
+                      height={100}
+                      className="border w-14 h-14 rounded-full"
+                    />
+                  )}
                   <div className="flex flex-col gap-0.5">
                     <h3 className="font-bold">{data?.account?.name}</h3>
                     <p className="text-sm text-gray-500 font-medium">
