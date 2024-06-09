@@ -22,216 +22,195 @@ import { FaUserTie } from "react-icons/fa";
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
 
-  if (session) {
-    const data = await getHomePageData(
-      session && (session.accessToken as string)
-    );
+  const data = await getHomePageData(session.accessToken as string);
 
-    console.log("session", session);
-    console.log("data", data);
+  console.log("data", data);
 
-    if (data.state === "success") {
-      // console.log("data from home", data);
-      // if (data && data.state === "fail") {
-      //   return <ForceSignOut />;
-      // }
+  const imageSrc = isUrl(data && data?.data?.profilePic)
+    ? data?.data?.profilePic
+    : `/images/user_avator/${data?.data?.profilePic}.png`;
 
-      const imageSrc = isUrl(data && data?.data?.profilePic)
-        ? data?.data?.profilePic
-        : `/images/user_avator/${data?.data?.profilePic}.png`;
+  const getLast30DaysTap = () => {
+    // Get the current timestamp
+    const currentTimestamp = Date.now();
 
-      const getLast30DaysTap = () => {
-        // Get the current timestamp
-        const currentTimestamp = Date.now();
+    // Calculate the timestamp for 30 days ago
+    const thirtyDaysAgoTimestamp = currentTimestamp - 30 * 24 * 60 * 60 * 1000;
 
-        // Calculate the timestamp for 30 days ago
-        const thirtyDaysAgoTimestamp =
-          currentTimestamp - 30 * 24 * 60 * 60 * 1000;
+    // Filter the array to include only taps within the last 30 days
+    const tapsInLast30Days =
+      data &&
+      data?.data?.tap.filter(
+        (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
+      );
 
-        // Filter the array to include only taps within the last 30 days
-        const tapsInLast30Days =
-          data &&
-          data?.data?.tap.filter(
-            (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
-          );
+    // Get the length of the filtered array
+    const tapsInLast30DaysCount = tapsInLast30Days.length;
 
-        // Get the length of the filtered array
-        const tapsInLast30DaysCount = tapsInLast30Days.length;
+    return tapsInLast30DaysCount;
+  };
 
-        return tapsInLast30DaysCount;
-      };
+  const last30Taps = getLast30DaysTap();
 
-      const last30Taps = getLast30DaysTap();
+  const websiteAnalyticsArr = [
+    {
+      _id: 123,
+      title: "Taps",
+      value: last30Taps ? last30Taps : 0,
+      days: 30,
+      percentage: 24,
+    },
+    {
+      _id: 133,
+      title: "Taps",
+      value: data ? data.data.tap.length : 0,
+      days: "Life Time",
+      percentage: 24,
+    },
+    {
+      _id: 124,
+      title: "Connections",
+      value: data ? data.data.totalConnection : 0,
+      days: 20,
+      percentage: 24,
+    },
+    {
+      _id: 1673,
+      title: "Connections",
+      value: data ? data.data.totalConnection : 0,
+      days: "Life Time",
+      percentage: -24,
+    },
+  ];
 
-      const websiteAnalyticsArr = [
-        {
-          _id: 123,
-          title: "Taps",
-          value: last30Taps ? last30Taps : 0,
-          days: 30,
-          percentage: 24,
-        },
-        {
-          _id: 133,
-          title: "Taps",
-          value: data ? data.data.tap.length : 0,
-          days: "Life Time",
-          percentage: 24,
-        },
-        {
-          _id: 124,
-          title: "Connections",
-          value: data ? data.data.totalConnection : 0,
-          days: 20,
-          percentage: 24,
-        },
-        {
-          _id: 1673,
-          title: "Connections",
-          value: data ? data.data.totalConnection : 0,
-          days: "Life Time",
-          percentage: -24,
-        },
-      ];
-
-      return (
-        <>
-          {data ? (
-            <main className="main-container">
-              <div className="flex gap-6 h-full items-stretch">
-                <div className="w-3/5 h-full">
-                  <div className="bg-white py-5 px-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {data?.data?.profilePic ? (
-                        <Image
-                          src={imageSrc}
-                          alt="user image"
-                          width={100}
-                          height={100}
-                          className="w-[3.6rem] h-[3.6rem] rounded-full border"
-                        />
-                      ) : (
-                        <div className="border rounded-full p-2">
-                          <FaUserTie size={40} />
-                        </div>
-                      )}
-
-                      <div className="flex flex-col gap-1">
-                        <h3 className="font-bold text-gray-800">
-                          {data?.data?.name}
-                        </h3>
-                        <p className="text-sm text-gray-500 font-medium">
-                          {data?.data?.bio}
-                        </p>
-                        {false ? (
-                          <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
-                            $ travis.swop.id
-                          </button>
-                        ) : (
-                          <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
-                            $ Setup Your Wallet
-                          </button>
-                        )}
-                      </div>
+  return (
+    <>
+      {data ? (
+        <main className="main-container">
+          <div className="flex gap-6 h-full items-stretch">
+            <div className="w-3/5 h-full">
+              <div className="bg-white py-5 px-6 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {data?.data?.profilePic ? (
+                    <Image
+                      src={imageSrc}
+                      alt="user image"
+                      width={100}
+                      height={100}
+                      className="w-[3.6rem] h-[3.6rem] rounded-full border"
+                    />
+                  ) : (
+                    <div className="border rounded-full p-2">
+                      <FaUserTie size={40} />
                     </div>
-                    <Link href={"/update-profile"}>
-                      <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
-                        <BiSolidEdit />
-                        Edit
+                  )}
+
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-bold text-gray-800">
+                      {data?.data?.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 font-medium">
+                      {data?.data?.bio}
+                    </p>
+                    {false ? (
+                      <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
+                        $ travis.swop.id
                       </button>
-                    </Link>
+                    ) : (
+                      <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
+                        $ Setup Your Wallet
+                      </button>
+                    )}
                   </div>
-                  <Chart />
                 </div>
-
-                {/* connections */}
-                <div className="w-2/5 min-h-full">
-                  <Connections data={data} />
-                </div>
+                <Link href={"/update-profile"}>
+                  <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
+                    <BiSolidEdit />
+                    Edit
+                  </button>
+                </Link>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-8">
-                <div className="p-6 bg-white">
-                  <h3 className="text-xl text-gray-700 font-bold mb-4">
-                    Website Analytics
-                  </h3>
-                  <div className="grid grid-cols-2 gap-6">
-                    {websiteAnalyticsArr.map((data) => (
-                      <WebsiteAnalytics
-                        key={data._id}
-                        title={data.title}
-                        days={data.days as any}
-                        percentage={data.percentage}
-                        value={data.value}
-                      />
-                    ))}
-                  </div>
-                  <h3 className="text-xl text-gray-700 font-bold mt-6 mb-4">
-                    Recent Leads
-                  </h3>
-                  <div>
-                    <RecentLeads subscribers={data.data.subscriber} />
-                  </div>
-                </div>
+              <Chart />
+            </div>
+
+            {/* connections */}
+            <div className="w-2/5 min-h-full">
+              <Connections data={data} />
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-8">
+            <div className="p-6 bg-white">
+              <h3 className="text-xl text-gray-700 font-bold mb-4">
+                Website Analytics
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
+                {websiteAnalyticsArr.map((data) => (
+                  <WebsiteAnalytics
+                    key={data._id}
+                    title={data.title}
+                    days={data.days as any}
+                    percentage={data.percentage}
+                    value={data.value}
+                  />
+                ))}
+              </div>
+              <h3 className="text-xl text-gray-700 font-bold mt-6 mb-4">
+                Recent Leads
+              </h3>
+              <div>
+                <RecentLeads subscribers={data.data.subscriber} />
+              </div>
+            </div>
+            <div>
+              <div className="bg-white rounded-lg overflow-hidden">
+                <Microsite microsites={data?.data?.microsites} />
+              </div>
+              <div className="bg-white rounded-lg mt-4 p-6">
+                <h5 className="text-xl text-gray-700 font-bold">QR</h5>
                 <div>
-                  <div className="bg-white rounded-lg overflow-hidden">
-                    <Microsite microsites={data?.data?.microsites} />
-                  </div>
-                  <div className="bg-white rounded-lg mt-4 p-6">
-                    <h5 className="text-xl text-gray-700 font-bold">QR</h5>
+                  <div className="flex gap-6 items-center justify-between">
+                    <form className="w-full">
+                      <input
+                        type="text"
+                        placeholder="URL"
+                        className="w-full bg-gray-200 py-1.5 rounded-2xl px-4 focus:outline-none"
+                      />
+                      <div className="flex justify-center w-full mt-4">
+                        <MainButton
+                          title={"Generate QR"}
+                          icon={<MdOutlineQrCode />}
+                        />
+                      </div>
+                    </form>
                     <div>
-                      <div className="flex gap-6 items-center justify-between">
-                        <form className="w-full">
-                          <input
-                            type="text"
-                            placeholder="URL"
-                            className="w-full bg-gray-200 py-1.5 rounded-2xl px-4 focus:outline-none"
-                          />
-                          <div className="flex justify-center w-full mt-4">
-                            <MainButton
-                              title={"Generate QR"}
-                              icon={<MdOutlineQrCode />}
-                            />
-                          </div>
-                        </form>
-                        <div>
-                          <Image
-                            alt="qr code"
-                            src={qrcode}
-                            width={130}
-                            className="border-2 p-2 border-gray-500 rounded-2xl"
-                          />
-                          <div className="flex items-center gap-2 justify-center mt-2">
-                            <button className="bg-black p-2 rounded-lg">
-                              <Image alt="edit" src={edit} width={18} />
-                            </button>
-                            <button className="bg-black p-2 rounded-lg">
-                              <Image alt="send" src={send} width={18} />
-                            </button>
-                            <button className="bg-black p-2 rounded-lg">
-                              <Image alt="wallet" src={wallet} width={18} />
-                            </button>
-                          </div>
-                        </div>
+                      <Image
+                        alt="qr code"
+                        src={qrcode}
+                        width={130}
+                        className="border-2 p-2 border-gray-500 rounded-2xl"
+                      />
+                      <div className="flex items-center gap-2 justify-center mt-2">
+                        <button className="bg-black p-2 rounded-lg">
+                          <Image alt="edit" src={edit} width={18} />
+                        </button>
+                        <button className="bg-black p-2 rounded-lg">
+                          <Image alt="send" src={send} width={18} />
+                        </button>
+                        <button className="bg-black p-2 rounded-lg">
+                          <Image alt="wallet" src={wallet} width={18} />
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <SetupMainAccount />
-            </main>
-          ) : (
-            <HomePageLoading />
-          )}
-        </>
-      );
-    } else {
-      return (
-        <div className="main-container">
-          <p>data fetching error</p>
-        </div>
-      );
-    }
-  } else {
-    <p>no session found . please login or try again</p>;
-  }
+            </div>
+          </div>
+          <SetupMainAccount />
+        </main>
+      ) : (
+        <HomePageLoading />
+      )}
+    </>
+  );
 }
