@@ -17,12 +17,6 @@ export default async function PageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // if (process.env.NODE_ENV === "development") {
-  //   const session = await auth();
-  //   if (!session?.user) {
-  //     return redirect("/signin");
-  //   }
-  // }
   return (
     <html lang="en" className={popins.className}>
       <body>

@@ -6,7 +6,7 @@ const isUserAuthenticate = async () => {
   if (!session?.user) {
     redirect(`/signin`);
   } else {
-    return session.user;
+    return session;
   }
 };
 

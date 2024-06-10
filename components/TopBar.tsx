@@ -2,8 +2,8 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { PiBellSimpleRinging } from "react-icons/pi";
 import TopBarButtons from "./topBarButtons";
-import UserProfile from "./topBar/UserProfile";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
+import UserProfile from "./topBar/UserProfile";
 
 const TopBar = async () => {
   const session = await isUserAuthenticate();
@@ -29,7 +29,7 @@ const TopBar = async () => {
         <div className="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center">
           <PiBellSimpleRinging size={18} />
         </div>
-        {session && <UserProfile />}
+        {session && <UserProfile session={session} />}
       </div>
     </div>
   );

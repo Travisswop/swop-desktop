@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import axios from "axios";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -12,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         let user = null;
 
-        // console.log("credentials", credentials);
+        console.log("credentials", credentials);
 
         try {
           const response = await fetch(
@@ -43,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 accessToken: token,
               };
               user = sessionData;
-              // console.log("user data from auth.js", sessionData);
+              console.log("user data from auth.js", user);
               return user;
             }
           } else {
@@ -69,7 +70,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    // signIn: "http://localhost:3000/signin",
     error: "/auth/error",
   },
   session: {
@@ -77,13 +77,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 1 * 24 * 60 * 60,
   },
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
-    async session({ session, token }: any) {
-      // console.log("token from auth", token);
+    async jwt({ token, user, account }) {
+      console.log("initial token", token);
+      console.log("jwt user", user);
+      console.log("jwt account", account);
 
-      if (!token?.accessToken) {
+      if (account && account.provider === "google") {
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/sociallogin`,
@@ -92,31 +91,127 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ email: token.email }),
+              body: JSON.stringify({ email: user.email }),
             }
           );
           if (response.ok) {
             const data = await response.json();
-            // console.log("data form auth", data);
-
             const dataWithToken = {
               ...token,
               _id: data.data._id,
               accessToken: data.token,
             };
-            session.user = dataWithToken;
-
-            // console.log("session form auth", session);
-
-            return session;
+            token = dataWithToken;
           }
         } catch (error) {
           console.error("error occur from social signin", error);
         }
+        return token;
       } else {
-        session.user = token;
-        return session;
+        const data = {
+          ...token,
+          ...user,
+        };
+        return data;
       }
     },
+
+    session({ session, token }) {
+      console.log("session token", token);
+      console.log("session data", session);
+      const value = {
+        ...token,
+        ...session,
+      };
+      return value;
+    },
+
+    // async jwt({ token, user }) {
+    //   console.log("call on every time");
+
+    //   return { ...token, ...user };
+    // },
+
+    // async signIn({ user, account }) {
+    //   console.log("user", user);
+
+    //   if (account?.provider === "google") {
+    //     const response = await axios.post(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/sociallogin`,
+    //       {
+    //         email: user.email,
+    //       }
+    //     );
+
+    //     if (response.data) {
+    //       account = {
+    //         ...account,
+    //         _id: response.data.data._id,
+    //         accessToken: response.data.token,
+    //       };
+
+    //       // account._id = response.data._id;
+    //       // account.accessToken = response.data.token;
+    //     }
+    //     console.log("account in signIn", account);
+    //   }
+    //   return true;
+    // },
+
+    // async jwt({ token, account }) {
+    //   if (account?.provider === "google") {
+    //     console.log("token", token);
+    //     console.log("account in jwt", account);
+
+    //     token._id = account._id;
+    //     token.accessToken = account.acessToken;
+    //   }
+    //   return token;
+    // },
+
+    // async session({ session, token }) {
+    //   console.log("session", session);
+
+    //   session.user._id = token._id;
+    //   session.user.accessToken = token.accessToken;
+    //   return session;
+    // },
+
+    // async jwt({ token, account }) {
+    //   if (account && account.provider === "google") {
+    //     try {
+    //       const response = await fetch(
+    //         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/sociallogin`,
+    //         {
+    //           method: "POST",
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //           },
+    //           body: JSON.stringify({ email: token.email }),
+    //         }
+    //       );
+    //       if (response.ok) {
+    //         const data = await response.json();
+    //         // console.log("token data in auth.ts", data.token);
+    //         // console.log("data form auth", data);
+
+    //         const dataWithToken = {
+    //           ...token,
+    //           _id: data.data._id,
+    //           accessToken: data.token,
+    //         };
+    //         token = dataWithToken;
+    //       }
+    //     } catch (error) {
+    //       console.error("error occur from social signin", error);
+    //     }
+    //     return token;
+    //   }
+    // },
+    // async session({ session, token }) {
+    //   session.user.accessToken = token.accessToken; // Add the token to the session
+    //   session.user._id = token._id; // Add the token to the session
+    //   return session;
+    // },
   },
 });
