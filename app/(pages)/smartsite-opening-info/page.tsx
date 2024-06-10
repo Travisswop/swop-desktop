@@ -10,9 +10,9 @@ const SmartsideOpeningInfoPage = async () => {
     <main>
       {" "}
       <SmartsideOpeningInfo
-        userSessionName={session?.user?.name as string}
-        userSessionEmail={session?.user?.email as string}
-        token={session?.user?.accessToken}
+        userSessionName={session?.name as string}
+        userSessionEmail={session?.email as string}
+        token={session?.accessToken}
       />
     </main>
   );

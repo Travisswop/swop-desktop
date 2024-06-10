@@ -36,6 +36,10 @@ const SmartsideOpeningInfo = ({
 
   const router = useRouter();
 
+  console.log("micrositeId", micrositeId);
+
+  // console.log(userSessionName, userSessionEmail, token);
+
   useEffect(() => {
     //need this to get data from localstorage
     if (typeof window !== "undefined") {
@@ -204,6 +208,8 @@ const SmartsideOpeningInfo = ({
       );
 
       const data = await response.json();
+
+      console.log("dataaaa", data);
 
       if (response.ok) {
         if (data.state === "success") {
