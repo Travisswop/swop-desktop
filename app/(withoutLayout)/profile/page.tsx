@@ -176,6 +176,8 @@ const ParentProfilePage = () => {
 
     try {
       const response = await handleSignUp(userInfo);
+      console.log("response", response);
+
       if (response.state === "success") {
         localStorage.setItem(
           "primaryMicrosite",
