@@ -88,7 +88,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
     <div className={`sticky top-0 ${toggle && "pl-1.5"}`}>
       <div
         className={`h-[6.8rem] ${
-          !toggle ? "pl-4 justify-between gap-3" : "px-2"
+          !toggle ? "pl-4 justify-between gap-4" : "px-2"
         } flex items-center`}
       >
         {!toggle && (
@@ -127,7 +127,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <form action={doSignOut}>
           <button
             type="submit"
-            className={`flex items-center justify-center gap-1 mt-6 ${
+            className={`flex items-center justify-center gap-1 mt-6 pb-6 ${
               !toggle ? "pl-4" : "px-2"
             } font-medium text-[#424651]`}
           >
