@@ -22,7 +22,7 @@ import ForceSignOut from "@/components/ForceSignOut";
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
 
-  console.log("session from frontend", session);
+  // console.log("session from frontend", session);
 
   const data = await getHomePageData(session.accessToken as string);
 
