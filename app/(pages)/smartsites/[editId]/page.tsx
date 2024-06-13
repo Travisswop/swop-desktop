@@ -14,7 +14,6 @@ const SmartsiteUpdatePage = async ({
     params.editId,
     session.accessToken as string
   );
-  console.log("data", data);
 
   if (data && data.state === "fail") {
     return <ForceSignOut />;
@@ -22,7 +21,7 @@ const SmartsiteUpdatePage = async ({
 
   return (
     <div>
-      <EditSmartSite />
+      <EditSmartSite data={data} />
     </div>
   );
 };
