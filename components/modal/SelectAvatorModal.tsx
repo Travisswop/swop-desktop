@@ -59,7 +59,7 @@ export default function SelectAvatorModal({
                           height={180}
                           className="cursor-pointer"
                           placeholder="blur"
-                          blurDataURL="/images/avator/placeholder.png"
+                          blurDataURL="/images/user_avator/placeholder.png"
                           onClick={() => selectAvator(image)}
                         />
                       </div>

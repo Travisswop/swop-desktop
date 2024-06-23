@@ -1,6 +1,6 @@
 "use client"; // for onsubmit -> replace this with server action
 import React, { useEffect, useRef, useState } from "react";
-import defaultAvator from "../../../public/images/avator/default_avator.svg";
+// import defaultAvator from "../../../public/images/avator/default_avator.svg";
 import Image from "next/image";
 import UploadImageButton from "@/components/SignUp/UploadImageButton";
 import uploadImgIcon from "../../../public/images/upload_image_icon.svg";
@@ -8,7 +8,7 @@ import { FiUser } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineEmail, MdOutlinePhoneInTalk } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
-import { CiLocationOn } from "react-icons/ci";
+// import { CiLocationOn } from "react-icons/ci";
 import SelectAvatorModal from "@/components/modal/SelectAvatorModal";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import { decryptData } from "@/util/cryptoUtils";
@@ -24,6 +24,7 @@ import { handleSignUp } from "@/actions/signUp";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import userProfileImages from "@/util/data/userProfileImage";
 
 const ParentProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -35,6 +36,8 @@ const ParentProfilePage = () => {
     email: "",
     password: "",
   });
+  // console.log("selected", selectedImage, "gallery", galleryImage);
+
   const [userLocation, setUserLocation] = useState<any>(null);
 
   const [loading, setLoading] = useState(true);
@@ -96,48 +99,48 @@ const ParentProfilePage = () => {
     }
   }, []);
 
-  const images = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31",
-    "32",
-    "33",
-    "34",
-    "35",
-    "36",
-    "37",
-    "38",
-    "39",
-    "40",
-  ];
+  // const images = [
+  //   "1",
+  //   "2",
+  //   "3",
+  //   "4",
+  //   "5",
+  //   "6",
+  //   "7",
+  //   "8",
+  //   "9",
+  //   "10",
+  //   "11",
+  //   "12",
+  //   "13",
+  //   "14",
+  //   "15",
+  //   "16",
+  //   "17",
+  //   "18",
+  //   "19",
+  //   "20",
+  //   "21",
+  //   "22",
+  //   "23",
+  //   "24",
+  //   "25",
+  //   "26",
+  //   "27",
+  //   "28",
+  //   "29",
+  //   "30",
+  //   "31",
+  //   "32",
+  //   "33",
+  //   "34",
+  //   "35",
+  //   "36",
+  //   "37",
+  //   "38",
+  //   "39",
+  //   "40",
+  // ];
 
   if (galleryImage) {
     //get cloudinery uploaded image
@@ -495,7 +498,7 @@ const ParentProfilePage = () => {
         <SelectAvatorModal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
-          images={images}
+          images={userProfileImages}
           onSelectImage={handleSelectImage}
           setIsModalOpen={setIsModalOpen}
           handleFileChange={handleFileChange}

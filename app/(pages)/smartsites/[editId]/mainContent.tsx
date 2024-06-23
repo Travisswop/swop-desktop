@@ -13,67 +13,58 @@ import LivePreview from "@/components/LivePreview";
 import SelectBackgroudOrBannerModal from "@/components/SelectBackgroudOrBannerModal/SelectBackgroudOrBannerModal";
 import isUrl from "@/util/isUrl";
 import { PiAddressBook } from "react-icons/pi";
+import SelectAvatorModal from "@/components/modal/SelectAvatorModal";
+import userProfileImages from "@/util/data/userProfileImage";
+import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import smatsiteBackgroundImageList from "@/util/data/smatsiteBackgroundImageList";
+import smatsiteBannerImageList from "@/util/data/smartsiteBannerImageList";
+import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 
 const EditSmartSite = ({ data }: any) => {
-  const [isGatedAccessOpen, setIsGatedAccessOpen] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null); // get user avator image
+  const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
+
+  // console.log(
+  //   "selected",
+  //   selectedImage,
+  //   "gallery",
+  //   galleryImage,
+  //   "upload url",
+  //   uploadedImageUrl
+  // );
+
+  const [isGatedAccessOpen, setIsGatedAccessOpen] = useState(false);
+  const [gatedAccessError, setGatedAccessError] = useState({
+    contractAddress: "",
+    tokenId: "",
+    eventLink: "",
+    network: "",
+  });
   const [isPrimaryMicrosite, setIsPrimaryMicrosite] = useState(false);
   const [brandImage, setBrandImage] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-  const [backgrundImage, setBackgrundImage] = useState("");
+  const [name, setName] = useState(data.data.name);
+  console.log("name", name);
+
+  // const [profileImage, setProfileImage] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState({
+    background: "",
+    banner: "",
+  });
+  console.log("backgroundImage", backgroundImage);
+
   const [isBackgrundImageSelected, setIsBackgrundImageSelected] =
     useState(false);
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
+  const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
+
+  // console.log("gatedAccessError", gatedAccessError);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const backgroundImgArr = [
-    "BackgroundImage1.png",
-    "BackgroundImage2.png",
-    "BackgroundImage3.png",
-    "BackgroundImage4.png",
-    "BackgroundImage5.png",
-    "BackgroundImage6.png",
-    "BackgroundImage7.png",
-    "BackgroundImage8.png",
-    "BackgroundImage9.png",
-    "BackgroundImage10.png",
-    "BackgroundImage11.png",
-    "BackgroundImage12.png",
-  ];
-  const bannerImgArr = [
-    "1.png",
-    "2.png",
-    "3.png",
-    "4.png",
-    "5.png",
-    "6.png",
-    "7.png",
-    "8.png",
-    "9.png",
-    "10.png",
-    "11.png",
-    "12.png",
-    "13.png",
-    "14.png",
-    "15.png",
-    "16.png",
-    "17.png",
-    "18.png",
-    "19.png",
-    "20.png",
-    "21.png",
-    "22.png",
-    "23.png",
-    "24.png",
-    "25.png",
-    "26.png",
-    "27.png",
-    "29.png",
-    "30.png",
-    "31.png",
-    "32.png",
-    "33.png",
-  ];
-  const handleModal = () => {
+  const handleBannerModal = () => {
+    setIsUserProfileModalOpen(false);
+    setIsBannerModalOpen(true);
     onOpen();
   };
 
@@ -84,34 +75,128 @@ const EditSmartSite = ({ data }: any) => {
     if (data.data.gatedAccess) {
       setIsGatedAccessOpen(true);
     }
-  }, [data.data.primary]);
+    if (data.data.theme) {
+      setIsBackgrundImageSelected(true);
+    }
+  }, [data.data.primary, data.data.theme, data.data.gatedAccess]);
+
+  // image upload for user profile
+  const handleSelectImage = (image: any) => {
+    setSelectedImage(image);
+    setFormData("profileImg", image);
+    setGalleryImage(null);
+  };
+
+  const handleUserProfileModal = () => {
+    onOpen();
+    setIsBannerModalOpen(false);
+    setIsUserProfileModalOpen(true);
+  };
+
+  if (galleryImage) {
+    //get cloudinery uploaded image
+    sendCloudinaryImage(galleryImage)
+      .then((url) => {
+        // console.log("Uploaded image URL:", url);
+        setUploadedImageUrl(url);
+        setFormData("profileImg", url);
+      })
+      .catch((err) => {
+        console.error("Error uploading image:", err);
+      });
+  }
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(null);
+      setIsUserProfileModalOpen(false);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setGalleryImage(reader.result as any);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSmartSiteUpdateInfo = async (e: any) => {
     // setSubmitLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    console.log("formData", formData);
+    // console.log("formData", formData);
+
+    setGatedAccessError({
+      contractAddress: "",
+      tokenId: "",
+      eventLink: "",
+      network: "",
+    });
+
+    //set gated access error
+    if (isGatedAccessOpen) {
+      const errors = {
+        contractAddress: "",
+        tokenId: "",
+        eventLink: "",
+        network: "",
+      };
+
+      if (!formData.get("contractAddress")) {
+        errors.contractAddress = "Contract address can't be empty!";
+      }
+
+      if (!formData.get("tokenId")) {
+        errors.tokenId = "Token ID can't be empty!";
+      }
+
+      if (!formData.get("eventLink")) {
+        errors.eventLink = "Mint Url can't be empty!";
+      } else {
+        const urlPattern = /^(https?:\/\/)/i;
+        if (!urlPattern.test(formData.get("eventLink") as string)) {
+          errors.eventLink = "Mint Url must start with http:// or https://";
+        }
+      }
+
+      if (!formData.get("network")) {
+        errors.network = "Network can't be empty!";
+      }
+
+      setGatedAccessError(errors);
+      if (
+        errors.contractAddress ||
+        errors.eventLink ||
+        errors.tokenId ||
+        errors.network
+      ) {
+        return;
+      }
+    }
+
+    const selectedTheme = backgroundImage.background ? true : false;
 
     const smartSiteInfo = {
       _id: data.data._id,
       name: formData.get("name") || "",
       bio: formData.get("bio") || "",
-      brandImg: brandImage,
-      userName: data.data.userName || "",
-      profilePic: profileImage,
-      backgroundImg: backgrundImage,
+      brandImg: brandImage, //need to setup
+      userName: data.data.username || "",
+      profilePic: uploadedImageUrl || selectedImage || data.data.profilePic,
+      backgroundImg: backgroundImage.background || backgroundImage.banner,
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
         contractAddress: formData.get("contractAddress") || "",
-        eventLink: formData.get("eventLink") || "",
         tokenId: formData.get("tokenId") || "",
+        eventLink: formData.get("eventLink") || "",
         network: formData.get("network") || "",
       },
-      theme: isBackgrundImageSelected,
+      theme: selectedTheme,
       ens: data.data.ens || "",
       primary: isPrimaryMicrosite,
       web3enabled: data.data.web3enabled,
     };
+
+    console.log("smartsite info", smartSiteInfo);
 
     // try {
     //   const response = await handleSignUp(userInfo);
@@ -144,6 +229,15 @@ const EditSmartSite = ({ data }: any) => {
     // }
     // console.log("form submitted successfully", userInfo);
   };
+
+  const { formData, setFormData }: any = useSmartsiteFormStore();
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData(name, value);
+  };
+
+  console.log("formdata", formData);
+
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-7 items-start">
@@ -154,30 +248,58 @@ const EditSmartSite = ({ data }: any) => {
           <div className="bg-white rounded-xl p-6">
             <div className="flex justify-center">
               <div className="w-max relative">
-                {isUrl(data.data.profilePic) ? (
-                  <Image
-                    alt="user image"
-                    src={data.data.profilePic}
-                    width={160}
-                    height={160}
-                    className="rounded-full"
-                  />
+                {selectedImage || galleryImage ? (
+                  <>
+                    {selectedImage ? (
+                      <Image
+                        alt="user image"
+                        src={
+                          selectedImage
+                            ? `/images/user_avator/${selectedImage}.png`
+                            : `/images/user_avator/1.png`
+                        }
+                        width={160}
+                        height={160}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        alt="user image"
+                        src={galleryImage as any}
+                        width={160}
+                        height={160}
+                        className="rounded-full w-44 h-44"
+                      />
+                    )}
+                  </>
                 ) : (
-                  <Image
-                    alt="user image"
-                    src={`/images/user_avator/${data.data.profilePic}.png`}
-                    width={160}
-                    height={160}
-                    className="rounded-full"
-                  />
+                  <>
+                    {isUrl(data.data.profilePic) ? (
+                      <Image
+                        alt="user image"
+                        src={data.data.profilePic}
+                        width={160}
+                        height={160}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        alt="user image"
+                        src={`/images/user_avator/${data.data.profilePic}.png`}
+                        width={160}
+                        height={160}
+                        className="rounded-full"
+                      />
+                    )}
+                  </>
                 )}
-
-                <Image
-                  alt="edit icon"
-                  src={editIcon}
-                  width={40}
+                <button
                   className="absolute right-0 bottom-4"
-                />
+                  onClick={handleUserProfileModal}
+                  type="button"
+                >
+                  <Image alt="edit icon" src={editIcon} width={40} />
+                </button>
               </div>
             </div>
             <div className="flex flex-col gap-4 mt-6">
@@ -195,6 +317,7 @@ const EditSmartSite = ({ data }: any) => {
                     name="name"
                     placeholder={`Jhon Smith`}
                     defaultValue={data.data.name}
+                    onChange={handleChange}
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                   />
                 </div>
@@ -210,6 +333,7 @@ const EditSmartSite = ({ data }: any) => {
                   />
                   <input
                     type="text"
+                    readOnly
                     value={data.data.profileUrl}
                     placeholder={`https://swopme.app/sp/fghh`}
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white cursor-not-allowed"
@@ -228,6 +352,7 @@ const EditSmartSite = ({ data }: any) => {
                   <textarea
                     placeholder={`Real Estate Manager`}
                     defaultValue={data.data.bio}
+                    onChange={handleChange}
                     name="bio"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                     rows={4}
@@ -249,12 +374,13 @@ const EditSmartSite = ({ data }: any) => {
                 aria-label="Lead Captures"
               />
             </div>
-            <div onClick={handleModal}>
-              <EditMicrositeBtn className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max">
-                <LiaFileMedicalSolid size={20} color="#001534" /> Edit
-                Background/Banner
-              </EditMicrositeBtn>
-            </div>
+            <EditMicrositeBtn
+              onClick={handleBannerModal}
+              className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
+            >
+              <LiaFileMedicalSolid size={20} color="#001534" /> Edit
+              Background/Banner
+            </EditMicrositeBtn>
           </div>
           <div>
             <p className="text-gray-700 font-semibold">
@@ -296,9 +422,16 @@ const EditSmartSite = ({ data }: any) => {
                 <input
                   type="text"
                   placeholder={`Contract Address`}
+                  defaultValue={data.data.gatedInfo.contractAddress}
+                  name="contractAddress"
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                 />
               </div>
+              {gatedAccessError.contractAddress && (
+                <p className="text-sm text-red-600 font-medium">
+                  {gatedAccessError.contractAddress}
+                </p>
+              )}
               <div className="relative flex-1 mt-1">
                 <FiUser
                   className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
@@ -307,9 +440,16 @@ const EditSmartSite = ({ data }: any) => {
                 <input
                   type="text"
                   placeholder={`Token ID`}
+                  name="tokenId"
+                  defaultValue={data.data.gatedInfo.tokenId}
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                 />
               </div>
+              {gatedAccessError.tokenId && (
+                <p className="text-sm text-red-600 font-medium">
+                  {gatedAccessError.tokenId}
+                </p>
+              )}
               <div className="relative flex-1 mt-1">
                 <IoMdLink
                   className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
@@ -318,26 +458,38 @@ const EditSmartSite = ({ data }: any) => {
                 <input
                   type="text"
                   placeholder={`Mint URL`}
+                  name="eventLink"
+                  defaultValue={data.data.gatedInfo.eventLink}
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                 />
               </div>
+              {gatedAccessError.eventLink && (
+                <p className="text-sm text-red-600 font-medium">
+                  {gatedAccessError.eventLink}
+                </p>
+              )}
               <div className="relative flex-1 mt-1">
                 <IoMdLink
                   className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
                   size={18}
                 />
                 <select
-                  // type="text"
-                  // placeholder={`Mint URL`}
+                  name="network"
+                  defaultValue={data.data.gatedInfo.network || ""}
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     Select Network
                   </option>
                   <option value="etherium">Ethereum</option>
                   <option value="matic">Polygon</option>
                 </select>
               </div>
+              {gatedAccessError.network && (
+                <p className="text-sm text-red-600 font-medium">
+                  {gatedAccessError.network}
+                </p>
+              )}
             </div>
           )}
 
@@ -347,18 +499,30 @@ const EditSmartSite = ({ data }: any) => {
           </DynamicPrimaryBtn>
         </form>
         <div className="w-[38%]">
-          <LivePreview isBackgroundImg={true} />
+          <LivePreview data={data.data} isBackgroundImg={true} />
         </div>
       </div>
-      <SelectBackgroudOrBannerModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        bannerImgArr={bannerImgArr}
-        backgroundImgArr={backgroundImgArr}
-        // onSelectImage={handleSelectImage}
-        // setIsModalOpen={setIsModalOpen}
-        // handleFileChange={handleFileChange}
-      />
+
+      {isUserProfileModalOpen && (
+        <SelectAvatorModal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          images={userProfileImages}
+          onSelectImage={handleSelectImage}
+          setIsModalOpen={setIsUserProfileModalOpen}
+          handleFileChange={handleFileChange}
+        />
+      )}
+
+      {isBannerModalOpen && (
+        <SelectBackgroudOrBannerModal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          bannerImgArr={smatsiteBannerImageList}
+          backgroundImgArr={smatsiteBackgroundImageList}
+          setBackgroundImage={setBackgroundImage}
+        />
+      )}
     </main>
   );
 };
