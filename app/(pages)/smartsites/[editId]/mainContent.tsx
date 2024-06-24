@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import editIcon from "@/public/images/websites/edit-icon.svg";
 import { FiUser } from "react-icons/fi";
 import { TbUserSquare } from "react-icons/tb";
-import { Switch, useDisclosure } from "@nextui-org/react";
+import { Spinner, Switch, useDisclosure } from "@nextui-org/react";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import { IoMdLink } from "react-icons/io";
@@ -19,8 +19,10 @@ import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import smatsiteBackgroundImageList from "@/util/data/smatsiteBackgroundImageList";
 import smatsiteBannerImageList from "@/util/data/smartsiteBannerImageList";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
+import { handleSmartSiteUpdate } from "@/actions/update";
+import { toast } from "react-toastify";
 
-const EditSmartSite = ({ data }: any) => {
+const EditSmartSite = ({ data, token }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
@@ -42,19 +44,20 @@ const EditSmartSite = ({ data }: any) => {
     network: "",
   });
   const [isPrimaryMicrosite, setIsPrimaryMicrosite] = useState(false);
-  const [brandImage, setBrandImage] = useState("");
-  const [name, setName] = useState(data.data.name);
-  console.log("name", name);
+  const [brandImage, setBrandImage] = useState(""); //need to set brand image
 
   // const [profileImage, setProfileImage] = useState("");
   const [backgroundImage, setBackgroundImage] = useState({
     background: "",
     banner: "",
   });
-  console.log("backgroundImage", backgroundImage);
+  // console.log("backgroundImage", backgroundImage);
 
-  const [isBackgrundImageSelected, setIsBackgrundImageSelected] =
-    useState(false);
+  // const [isBackgrundImageSelected, setIsBackgrundImageSelected] =
+  //   useState(false);
+
+  const [isFormSubmitLoading, setIsFormSubmitLoading] = useState(false);
+
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
 
@@ -75,9 +78,9 @@ const EditSmartSite = ({ data }: any) => {
     if (data.data.gatedAccess) {
       setIsGatedAccessOpen(true);
     }
-    if (data.data.theme) {
-      setIsBackgrundImageSelected(true);
-    }
+    // if (data.data.theme) {
+    //   setIsBackgrundImageSelected(true);
+    // }
   }, [data.data.primary, data.data.theme, data.data.gatedAccess]);
 
   // image upload for user profile
@@ -85,6 +88,7 @@ const EditSmartSite = ({ data }: any) => {
     setSelectedImage(image);
     setFormData("profileImg", image);
     setGalleryImage(null);
+    setFormData("galleryImg", "");
   };
 
   const handleUserProfileModal = () => {
@@ -93,18 +97,18 @@ const EditSmartSite = ({ data }: any) => {
     setIsUserProfileModalOpen(true);
   };
 
-  if (galleryImage) {
-    //get cloudinery uploaded image
-    sendCloudinaryImage(galleryImage)
-      .then((url) => {
-        // console.log("Uploaded image URL:", url);
-        setUploadedImageUrl(url);
-        setFormData("profileImg", url);
-      })
-      .catch((err) => {
-        console.error("Error uploading image:", err);
-      });
-  }
+  useEffect(() => {
+    if (galleryImage) {
+      sendCloudinaryImage(galleryImage)
+        .then((url) => {
+          setUploadedImageUrl(url);
+          setFormData("profileImg", url);
+        })
+        .catch((err) => {
+          console.error("Error uploading image:", err);
+        });
+    }
+  }, [galleryImage]);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -114,13 +118,14 @@ const EditSmartSite = ({ data }: any) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setGalleryImage(reader.result as any);
+        setFormData("galleryImg", reader.result as any);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSmartSiteUpdateInfo = async (e: any) => {
-    // setSubmitLoading(true);
+    setIsFormSubmitLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     // console.log("formData", formData);
@@ -169,6 +174,7 @@ const EditSmartSite = ({ data }: any) => {
         errors.tokenId ||
         errors.network
       ) {
+        setIsFormSubmitLoading(false);
         return;
       }
     }
@@ -180,9 +186,12 @@ const EditSmartSite = ({ data }: any) => {
       name: formData.get("name") || "",
       bio: formData.get("bio") || "",
       brandImg: brandImage, //need to setup
-      userName: data.data.username || "",
+      username: data.data.username || "",
       profilePic: uploadedImageUrl || selectedImage || data.data.profilePic,
-      backgroundImg: backgroundImage.background || backgroundImage.banner,
+      backgroundImg:
+        backgroundImage.background ||
+        backgroundImage.banner ||
+        data.data.backgroundImg,
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
         contractAddress: formData.get("contractAddress") || "",
@@ -198,36 +207,19 @@ const EditSmartSite = ({ data }: any) => {
 
     console.log("smartsite info", smartSiteInfo);
 
-    // try {
-    //   const response = await handleSignUp(userInfo);
-    //   if (response.state === "success") {
-    //     localStorage.setItem(
-    //       "primaryMicrosite",
-    //       response.data.microsites[0]._id
-    //     );
-    //     const data = await signIn("credentials", {
-    //       email: userInfo.email,
-    //       password: userInfo.password,
-    //       redirect: false,
-    //     });
-    //     // console.log("response for login", data);
+    try {
+      const response = await handleSmartSiteUpdate(smartSiteInfo, token);
+      console.log("response", response);
 
-    //     if (data && !data.error) {
-    //       localStorage.removeItem("info");
-    //       localStorage.setItem("modalShown", "true");
-    //       router.push("/?signup=success");
-    //       // toast.success("Welcome to swop");
-    //     } else {
-    //       toast.warn("Automatic Sign In failed! Please Sign In.");
-    //     }
-    //   }
-    // } catch (error) {
-    //   toast.error("something went wrong! Please try again");
-    //   console.error("error from hola", error);
-
-    //   setSubmitLoading(false);
-    // }
-    // console.log("form submitted successfully", userInfo);
+      if (response.state === "success") {
+        toast.success("Smartsite updated successfully");
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsFormSubmitLoading(false);
+    }
+    // console.log("form submitted successfully", response);
   };
 
   const { formData, setFormData }: any = useSmartsiteFormStore();
@@ -493,13 +485,22 @@ const EditSmartSite = ({ data }: any) => {
             </div>
           )}
 
-          <DynamicPrimaryBtn className="py-3 text-base !gap-1">
-            <LiaFileMedicalSolid size={20} />
-            Update
+          <DynamicPrimaryBtn
+            className="py-3 text-base !gap-1"
+            disabled={isFormSubmitLoading}
+          >
+            {isFormSubmitLoading ? (
+              <Spinner size="sm" color="white" className="py-0.5" />
+            ) : (
+              <>
+                <LiaFileMedicalSolid size={20} />
+                Update
+              </>
+            )}
           </DynamicPrimaryBtn>
         </form>
         <div className="w-[38%]">
-          <LivePreview data={data.data} isBackgroundImg={true} />
+          <LivePreview data={data.data} />
         </div>
       </div>
 
@@ -521,6 +522,7 @@ const EditSmartSite = ({ data }: any) => {
           bannerImgArr={smatsiteBannerImageList}
           backgroundImgArr={smatsiteBackgroundImageList}
           setBackgroundImage={setBackgroundImage}
+          setIsBannerModalOpen={setIsBannerModalOpen}
         />
       )}
     </main>

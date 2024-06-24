@@ -21,7 +21,7 @@ const SmartsiteUpdatePage = async ({
 
   return (
     <div>
-      <EditSmartSite data={data} />
+      <EditSmartSite token={session.accessToken} data={data} />
     </div>
   );
 };

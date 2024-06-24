@@ -13,14 +13,9 @@ import contacts from "@/public/images/live-preview/icon/contacts.svg";
 import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
+import isUrl from "@/util/isUrl";
 
-const LivePreview = ({
-  isBackgroundImg,
-  data,
-}: {
-  isBackgroundImg: boolean;
-  data?: any;
-}) => {
+const LivePreview = ({ data }: { data?: any }) => {
   const listArry = [
     {
       _id: 123,
@@ -56,42 +51,117 @@ const LivePreview = ({
 
   // console.log("data form live", data);
   const { formData, setFormData }: any = useSmartsiteFormStore();
+  // console.log("galleryyyy", formData.galleryImg);
 
   return (
     <section className="">
       <p className="text-sm text-gray-500 mb-2">Preview</p>
       <div
-        className={`shadow-md ${
-          isBackgroundImg &&
-          "bg-[url('/images/live-preview/background/background-1.png')]"
-        } bg-white rounded-xl`}
+        className={`shadow-md bg-white rounded-xl bg-cover`}
+        style={{
+          backgroundImage:
+            formData.theme &&
+            `url(/images/smartsite-background/${formData.backgroundImg}.png)`,
+        }}
       >
         <div className="relative">
-          {!isBackgroundImg && (
-            <div className="bg-white p-2 rounded-xl shadow-md">
-              <Image alt="banner image" src={banner1} className="rounded-xl" />
-            </div>
+          {!formData.theme && (
+            <>
+              {formData.backgroundImg ? (
+                <>
+                  <div className="bg-white p-2 rounded-xl shadow-md">
+                    <Image
+                      alt="banner image"
+                      src={`/images/smartsite-banner/${formData.backgroundImg}.png`}
+                      width={800}
+                      height={400}
+                      className="rounded-xl w-full h-auto"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="bg-white p-2 rounded-xl shadow-md">
+                    <Image
+                      alt="banner image"
+                      src={`/images/smartsite-banner/${data.backgroundImg}.png`}
+                      width={800}
+                      height={400}
+                      className="rounded-xl w-full h-auto"
+                    />
+                  </div>
+                </>
+              )}
+            </>
           )}
 
           <div
             className={`${
-              !isBackgroundImg
+              !formData.theme
                 ? "absolute top-full -translate-y-1/2 left-1/2 -translate-x-1/2"
                 : "flex justify-center pt-24"
             } `}
           >
-            <Image
-              alt="user image"
-              src={`/images/user_avator/${data?.profilePic}.png`}
-              width={140}
-              height={140}
-              className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-md"
-            />
+            {formData.galleryImg ? (
+              <>
+                <Image
+                  alt="user image"
+                  src={formData.galleryImg}
+                  width={140}
+                  height={140}
+                  className="rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium"
+                />
+              </>
+            ) : (
+              <>
+                {formData.profileImg ? (
+                  <>
+                    {isUrl(formData.profileImg) ? (
+                      <Image
+                        alt="user image"
+                        src={formData.galleryImg}
+                        width={140}
+                        height={140}
+                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium"
+                      />
+                    ) : (
+                      <Image
+                        alt="user image"
+                        src={`/images/user_avator/${formData.profileImg}.png`}
+                        width={140}
+                        height={140}
+                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {isUrl(data.profilePic) ? (
+                      <Image
+                        alt="user image"
+                        src={data.profilePic}
+                        width={140}
+                        height={140}
+                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-md"
+                      />
+                    ) : (
+                      <Image
+                        alt="user image"
+                        src={`/images/user_avator/${data.profilePic}.png`}
+                        width={140}
+                        height={140}
+                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
         <div
           className={`${
-            !isBackgroundImg && "mt-16 xl:mt-20 2xl:mt-28"
+            !formData.theme && "mt-[4.5rem] xl:mt-20 2xl:mt-28"
           }  flex flex-col gap-6 mt-6`}
         >
           <div className="flex flex-col items-center">

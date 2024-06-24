@@ -7,6 +7,7 @@ const useSmartsiteFormStore = create((set) => ({
     profileImg: "",
     backgroundImg: "",
     theme: "",
+    galleryImg: "",
   },
   setFormData: (field: any, value: any) =>
     set((state: any) => ({

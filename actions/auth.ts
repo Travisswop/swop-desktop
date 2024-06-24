@@ -1,8 +1,8 @@
 "use server";
 
 import { signIn, signOut } from "@/auth";
-import { delay } from "@/util/WaitAMoment";
-import { cookies } from "next/headers";
+// import { delay } from "@/util/WaitAMoment";
+// import { cookies } from "next/headers";
 // import { redirect } from "next/navigation";
 
 export async function doSignOut() {
