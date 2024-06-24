@@ -19,13 +19,15 @@ export default function SmartSiteIconLoading() {
             <Skeleton className="h-40 w-28 rounded-lg" />
             <Skeleton className="h-40 w-28 rounded-lg" />
           </div>
-          <div className="flex items-center justify-between mb-9">
-            <Skeleton className="h-11 w-52 rounded-lg" />
-            <Skeleton className="h-11 w-52 rounded-lg" />
+          <div className="flex items-center gap-3 justify-center">
+            <Skeleton className="h-11 w-52 rounded-full" />
+            <Skeleton className="h-11 w-52 rounded-full" />
+            <Skeleton className="h-11 w-52 rounded-full" />
           </div>
-          <Skeleton className="h-24 w-full rounded-lg mb-9" />
-          <Skeleton className="h-11 w-52 rounded-lg mb-9" />
-          <Skeleton className="h-11 w-full rounded-lg mb-9" />
+          <Skeleton className="h-11 w-full rounded-full" />
+          <Skeleton className="h-11 w-48 rounded-lg" />
+          <Skeleton className="h-48 w-full rounded-lg" />
+          <Skeleton className="h-48 w-full rounded-lg" />
         </div>
         <div className="w-[40%] bg-white rounded-xl">
           <Skeleton className="rounded-full w-40 h-40 mx-auto mt-20 mb-10" />

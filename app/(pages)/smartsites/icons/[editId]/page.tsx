@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import getSingleSmartsiteData from "@/util/fetchingData/singleSmartsiteDataFetching";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import ForceSignOut from "@/components/ForceSignOut";
-import EditSmartSite from "../../[editId]/mainContent";
 import MicrositeEditMainContentPage from "./mainContent";
 import SmartSiteIconLoading from "./loading";
 

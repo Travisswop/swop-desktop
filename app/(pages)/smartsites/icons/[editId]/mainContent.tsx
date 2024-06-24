@@ -8,12 +8,10 @@ import { Switch } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsSend } from "react-icons/bs";
-import { GoArrowSwitch } from "react-icons/go";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 
 const MicrositeEditMainContentPage = ({ token, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
-  const [isBackgroundImg, setIsBackgroundImg] = useState<any>(true);
 
   const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
@@ -29,7 +27,7 @@ const MicrositeEditMainContentPage = ({ token, data }: any) => {
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-6 items-start">
-        <div className="w-[62%] relative border-r border-gray-300 pr-8 flex flex-col gap-4">
+        <div className="w-[62%] relative border-r border-gray-200 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <h5 className="heading-3">Microsite Builder</h5>
             <EditMicrositeBtn>
