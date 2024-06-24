@@ -1,6 +1,6 @@
 import { Card, Skeleton } from "@nextui-org/react";
 
-export default function Loading() {
+export default function SmartSiteIconLoading() {
   return (
     <Card className="h-screen shadow-none rounded-none m-8 overflow-hidden bg-[#F3F4F6]">
       <div className="flex gap-10 mb-6">

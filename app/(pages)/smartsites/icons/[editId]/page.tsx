@@ -4,6 +4,7 @@ import isUserAuthenticate from "@/util/isUserAuthenticate";
 import ForceSignOut from "@/components/ForceSignOut";
 import EditSmartSite from "../../[editId]/mainContent";
 import MicrositeEditMainContentPage from "./mainContent";
+import SmartSiteIconLoading from "./loading";
 
 const SmartsiteUpdatePage = async ({
   params,
@@ -22,7 +23,7 @@ const SmartsiteUpdatePage = async ({
 
   return (
     <div>
-      <Suspense fallback={<p>Loading feed...</p>}>
+      <Suspense fallback={<SmartSiteIconLoading />}>
         <MicrositeEditMainContentPage token={session.accessToken} data={data} />
       </Suspense>
     </div>
