@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import appIconImg from "@/public/images/websites/edit-microsite/add-icon/app-icon.svg";
 import {
   Dropdown,
@@ -9,7 +9,7 @@ import {
   Switch,
 } from "@nextui-org/react";
 import { BsTwitterX } from "react-icons/bs";
-import { AiFillInstagram } from "react-icons/ai";
+import { AiFillInstagram, AiOutlineDownCircle } from "react-icons/ai";
 import { MdDeleteOutline, MdOutlineFacebook } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { IoLinkOutline } from "react-icons/io5";
@@ -18,54 +18,92 @@ import { CiImageOn } from "react-icons/ci";
 import { PiUploadBold } from "react-icons/pi";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import EditMicrositeBtn from "../Button/EditMicrositeBtn";
+import { icon, newIcons } from "@/util/data/smartsiteIconData";
+import { BiChevronDownCircle } from "react-icons/bi";
+import { isEmptyObject } from "@/util/checkIsEmptyObject";
 
 const AddSmallIcon = () => {
-  const [selectedIcon, setSelectedIcon] = useState("");
-  // console.log("selectedIcon", selectedIcon);
-  const selectArry: any = [
-    {
-      _id: 123,
-      icon: <BsTwitterX size={18} className="ml-1" />,
-      title: "twitter",
-    },
-    {
-      _id: 133,
-      icon: <AiFillInstagram color="red" size={20} />,
-      title: "instagram",
-    },
-    {
-      _id: 143,
-      icon: <MdOutlineFacebook color="blue" size={20} />,
-      title: "facebook",
-    },
-  ];
+  const [selectedIconType, setSelectedIconType] = useState("");
+  const [selectedIconData, setSelectedIconData] = useState<any>({});
+  // console.log("selected icon name", selectedIcon);
+  console.log("selected icon data", selectedIconData);
+
+  const iconData: any = newIcons[0];
+  console.log("iconData", iconData);
+
+  useEffect(() => {
+    if (selectedIconType) {
+      const data = iconData.icons.find(
+        (item: any) => item.category === selectedIconType
+      );
+      setSelectedIconData(data);
+    }
+  }, [selectedIconType]);
+
+  const tintStyle = {
+    filter: "brightness(0) invert(0)",
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="font-bold text-gray-700">Small Icon</h3>
-          <Image alt="app-icon" src={appIconImg} width={30} />
+          <h3 className="font-bold text-gray-700">Small Icon Type</h3>
+          {!selectedIconType && (
+            <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
+          )}
+          {selectedIconType === "Social Media" && (
+            <Image
+              alt="app-icon"
+              src={icon.SocialIconType}
+              className="w-5 h-auto"
+            />
+          )}
+          {selectedIconType === "Chat Links" && (
+            <Image
+              alt="app-icon"
+              src={icon.ChatlinkType}
+              className="w-5 h-auto"
+            />
+          )}
+          {selectedIconType === "Commands" && (
+            <Image
+              alt="app-icon"
+              src={icon.CommandType}
+              className="w-5 h-auto"
+            />
+          )}
+
           <Dropdown className="ml-44 w-max">
             <DropdownTrigger>
               <button>
-                <FaAngleDown />
+                <AiOutlineDownCircle size={20} color="gray" />
               </button>
             </DropdownTrigger>
-            <DropdownMenu disabledKeys={["title"]} aria-label="Static Actions">
+            <DropdownMenu
+              disabledKeys={["title"]}
+              aria-label="Static Actions"
+              className="p-2"
+            >
               <DropdownItem
                 key={"title"}
                 className=" hover:!bg-white opacity-100 cursor-text disabled dropDownTitle"
               >
-                <p>Choose Small Icon</p>
+                <p>Choose Icon Type</p>
               </DropdownItem>
-              {selectArry.map((data: any) => (
+              {iconData.icons.map((data: any, index: number) => (
                 <DropdownItem
-                  key={data._id}
-                  onClick={() => setSelectedIcon(data.title)}
+                  key={index}
+                  onClick={() => setSelectedIconType(data.category)}
+                  className="border-b rounded-none hover:rounded-md"
                 >
-                  <div className="flex items-center gap-2 font-semibold">
-                    {data.icon} {data.title}
+                  <div className="flex items-center gap-2 font-semibold text-sm">
+                    <Image
+                      src={data.categoryIcon}
+                      alt={data.category}
+                      className="w-5 h-auto"
+                    />{" "}
+                    {data.category}
                   </div>
                 </DropdownItem>
               ))}
@@ -81,6 +119,85 @@ const AddSmallIcon = () => {
             aria-label="Lead Captures"
           />
         </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <h3 className="font-bold text-gray-700">Select Icon</h3>
+        {!selectedIconType && (
+          <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
+        )}
+        {selectedIconType === "Social Media" && (
+          <Image
+            alt="app-icon"
+            src={icon.SocialIconType}
+            className="w-5 h-auto"
+          />
+        )}
+        {selectedIconType === "Chat Links" && (
+          <Image
+            alt="app-icon"
+            src={icon.ChatlinkType}
+            className="w-5 h-auto"
+          />
+        )}
+        {selectedIconType === "Commands" && (
+          <Image alt="app-icon" src={icon.CommandType} className="w-5 h-auto" />
+        )}
+
+        <Dropdown className="ml-44 w-max">
+          <DropdownTrigger>
+            <div
+              className={`${
+                isEmptyObject(selectedIconData) && "relative group"
+              }`}
+            >
+              <button
+                disabled={isEmptyObject(selectedIconData)}
+                className={`${
+                  isEmptyObject(selectedIconData) && "cursor-not-allowed"
+                } `}
+              >
+                <AiOutlineDownCircle size={20} color="gray" />
+              </button>
+              {isEmptyObject(selectedIconData) && (
+                <div className="hidden text-xs text-gray-600 px-2 w-28 py-1.5 bg-slate-200 shadow-medium z-50 absolute left-6 top-0 group-hover:flex justify-center">
+                  <p>select icon type</p>
+                </div>
+              )}
+            </div>
+          </DropdownTrigger>
+          {selectedIconData && selectedIconData?.icons?.length > 0 && (
+            <DropdownMenu
+              disabledKeys={["title"]}
+              aria-label="Static Actions"
+              className="p-2"
+            >
+              <DropdownItem
+                key={"title"}
+                className=" hover:!bg-white opacity-100 cursor-text disabled dropDownTitle"
+              >
+                <p>Choose Icon</p>
+              </DropdownItem>
+              {selectedIconData.icons.map((data: any) => (
+                <DropdownItem
+                  key={data._id}
+                  onClick={() => setSelectedIconType(data.category)}
+                  className="border-b rounded-none hover:rounded-md"
+                >
+                  <div className="flex items-center gap-2 font-semibold text-sm">
+                    <Image
+                      src={data.icon}
+                      alt={data.inputText}
+                      className="w-4 h-auto"
+                      quality={100}
+                      style={tintStyle}
+                    />
+                    {data.name}
+                  </div>
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          )}
+        </Dropdown>
       </div>
       <p className="font-medium">URL</p>
       <form>
