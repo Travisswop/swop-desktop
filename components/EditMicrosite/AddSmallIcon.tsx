@@ -24,9 +24,11 @@ import { isEmptyObject } from "@/util/checkIsEmptyObject";
 
 const AddSmallIcon = () => {
   const [selectedIconType, setSelectedIconType] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState<any>("");
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   // console.log("selected icon name", selectedIcon);
   console.log("selected icon data", selectedIconData);
+  console.log("selected icon", selectedIcon);
 
   const iconData: any = newIcons[0];
   console.log("iconData", iconData);
@@ -42,6 +44,11 @@ const AddSmallIcon = () => {
 
   const tintStyle = {
     filter: "brightness(0) invert(0)",
+  };
+
+  const handleSelectIconType = (category: string) => {
+    setSelectedIconType(category);
+    setSelectedIcon("");
   };
 
   return (
@@ -94,7 +101,7 @@ const AddSmallIcon = () => {
               {iconData.icons.map((data: any, index: number) => (
                 <DropdownItem
                   key={index}
-                  onClick={() => setSelectedIconType(data.category)}
+                  onClick={() => handleSelectIconType(data.category)}
                   className="border-b rounded-none hover:rounded-md"
                 >
                   <div className="flex items-center gap-2 font-semibold text-sm">
@@ -125,28 +132,44 @@ const AddSmallIcon = () => {
         {!selectedIconType && (
           <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
         )}
-        {selectedIconType === "Social Media" && (
+
+        {selectedIcon && selectedIcon?.icon ? (
           <Image
             alt="app-icon"
-            src={icon.SocialIconType}
+            src={selectedIcon?.icon}
             className="w-5 h-auto"
+            style={tintStyle}
           />
-        )}
-        {selectedIconType === "Chat Links" && (
-          <Image
-            alt="app-icon"
-            src={icon.ChatlinkType}
-            className="w-5 h-auto"
-          />
-        )}
-        {selectedIconType === "Commands" && (
-          <Image alt="app-icon" src={icon.CommandType} className="w-5 h-auto" />
+        ) : (
+          <>
+            {selectedIconType === "Social Media" && (
+              <Image
+                alt="app-icon"
+                src={icon.SocialIconType}
+                className="w-5 h-auto"
+              />
+            )}
+            {selectedIconType === "Chat Links" && (
+              <Image
+                alt="app-icon"
+                src={icon.ChatlinkType}
+                className="w-5 h-auto"
+              />
+            )}
+            {selectedIconType === "Commands" && (
+              <Image
+                alt="app-icon"
+                src={icon.CommandType}
+                className="w-5 h-auto"
+              />
+            )}
+          </>
         )}
 
         <Dropdown className="ml-44 w-max">
           <DropdownTrigger>
             <div
-              className={`${
+              className={`flex items-center ${
                 isEmptyObject(selectedIconData) && "relative group"
               }`}
             >
@@ -180,7 +203,12 @@ const AddSmallIcon = () => {
               {selectedIconData.icons.map((data: any) => (
                 <DropdownItem
                   key={data._id}
-                  onClick={() => setSelectedIconType(data.category)}
+                  onClick={() =>
+                    setSelectedIcon({
+                      name: data.name,
+                      icon: data.icon,
+                    })
+                  }
                   className="border-b rounded-none hover:rounded-md"
                 >
                   <div className="flex items-center gap-2 font-semibold text-sm">
