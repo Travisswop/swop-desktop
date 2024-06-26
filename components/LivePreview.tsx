@@ -14,8 +14,11 @@ import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import isUrl from "@/util/isUrl";
 import getSmallIconImage from "@/util/getSmallIconImage";
 import { tintStyle } from "@/util/IconTintStyle";
+import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 
 const LivePreview = ({ data }: { data?: any }) => {
+  const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
+
   const listArry = [
     {
       _id: 123,
@@ -53,10 +56,17 @@ const LivePreview = ({ data }: { data?: any }) => {
   const { formData }: any = useSmartsiteFormStore();
   // console.log("galleryyyy", formData.galleryImg);
 
-  const imgSrc = data.info.socialTop.map((info: any) =>
-    getSmallIconImage(info.name, info.group)
-  );
-  console.log("imgsrcccc", imgSrc);
+  // const imgSrc = data.info.socialTop.map((info: any) =>
+  //   getSmallIconImage(info.name, info.group)
+  // );
+  // console.log("imgsrcccc", imgSrc);
+
+  const handleTriggerUpdate = (data: {
+    data: any;
+    categoryForTrigger: string;
+  }) => {
+    setSmartSiteData(data);
+  };
 
   return (
     <section className="">
@@ -178,11 +188,7 @@ const LivePreview = ({ data }: { data?: any }) => {
             </p>
           </div>
           <div className="flex gap-4 justify-center items-center flex-wrap px-16">
-            {/* <BsTwitterX size={20} />
-            <FaInstagram size={20} />
-            <FaLinkedinIn size={21} />
-            <CgMail size={23} /> */}
-            {imgSrc.map((src: any) => (
+            {/* {imgSrc.map((src: any) => (
               <Image
                 src={src}
                 alt="icon"
@@ -190,6 +196,26 @@ const LivePreview = ({ data }: { data?: any }) => {
                 className="w-5"
                 quality={100}
               />
+            ))} */}
+
+            {data.info.socialTop.map((data: any, index: number) => (
+              <button
+                key={index}
+                onClick={() =>
+                  handleTriggerUpdate({
+                    data,
+                    categoryForTrigger: "socialTop",
+                  })
+                }
+              >
+                <Image
+                  src={getSmallIconImage(data.name, data.group) as any}
+                  alt="icon"
+                  style={tintStyle}
+                  className="w-5"
+                  quality={100}
+                />
+              </button>
             ))}
           </div>
           <div className="flex flex-col gap-4 px-4">

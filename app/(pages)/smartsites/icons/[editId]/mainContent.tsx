@@ -3,8 +3,10 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
+import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import { Switch } from "@nextui-org/react";
 import Link from "next/link";
@@ -14,13 +16,18 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 
 const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
+  // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
+  const [open, setOpen] = useState(false);
+
   const setSmartSiteData = useSmartSiteApiDataStore(
     (state: any) => state.setSmartSiteData
-  ); //get setter for setting smartsite info into store
+  ); //get setter for setting smartsite info from zustand store
 
   const setLoggedInUserInfo = useLoggedInUserStore(
     (state: any) => state.setState
-  ); //get setter for setting session info into store
+  ); //get setter for setting session info from zustand store
+
+  const iconData: any = useUpdateSmartIcon(); //get trigger smarticon from zustand store
 
   const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
@@ -42,7 +49,10 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
     if (session) {
       setLoggedInUserInfo(session);
     }
-  }, [data, session]);
+    if (iconData) {
+      setOpen(true);
+    }
+  }, [data, session, iconData, setLoggedInUserInfo, setSmartSiteData]);
 
   return (
     <main className="main-container overflow-hidden">
@@ -87,6 +97,10 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
               aria-label="Lead Captures"
             />
           </div>
+          {open && iconData?.categoryForTrigger === "socialTop" && (
+            <UpdateSmallIcon iconDataObj={iconData} setOpen={setOpen} />
+          )}
+
           {toggleIcon.map((info: any, index: number) => (
             <AddIcon key={index} data={info} />
           ))}
