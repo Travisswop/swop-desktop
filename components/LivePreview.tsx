@@ -12,6 +12,8 @@ import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import isUrl from "@/util/isUrl";
+import getSmallIconImage from "@/util/getSmallIconImage";
+import { tintStyle } from "@/util/IconTintStyle";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const listArry = [
@@ -47,9 +49,14 @@ const LivePreview = ({ data }: { data?: any }) => {
     },
   ];
 
-  // console.log("data form live", data);
+  console.log("data form live", data);
   const { formData }: any = useSmartsiteFormStore();
   // console.log("galleryyyy", formData.galleryImg);
+
+  const imgSrc = data.info.socialTop.map((info: any) =>
+    getSmallIconImage(info.name, info.group)
+  );
+  console.log("imgsrcccc", imgSrc);
 
   return (
     <section className="">
@@ -170,11 +177,20 @@ const LivePreview = ({ data }: { data?: any }) => {
               {formData.bio || data?.bio}
             </p>
           </div>
-          <div className="flex gap-3 justify-center items-center">
-            <BsTwitterX size={20} />
+          <div className="flex gap-4 justify-center items-center flex-wrap px-16">
+            {/* <BsTwitterX size={20} />
             <FaInstagram size={20} />
             <FaLinkedinIn size={21} />
-            <CgMail size={23} />
+            <CgMail size={23} /> */}
+            {imgSrc.map((src: any) => (
+              <Image
+                src={src}
+                alt="icon"
+                style={tintStyle}
+                className="w-5"
+                quality={100}
+              />
+            ))}
           </div>
           <div className="flex flex-col gap-4 px-4">
             {listArry.map((data) => (

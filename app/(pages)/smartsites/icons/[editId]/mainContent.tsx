@@ -4,14 +4,23 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
 import LivePreview from "@/components/LivePreview";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import { Switch } from "@nextui-org/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 
-const MicrositeEditMainContentPage = ({ token, data }: any) => {
+const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
+  const setSmartSiteData = useSmartSiteApiDataStore(
+    (state: any) => state.setSmartSiteData
+  ); //get setter for setting smartsite info into store
+
+  const setLoggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.setState
+  ); //get setter for setting session info into store
 
   const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
@@ -23,6 +32,17 @@ const MicrositeEditMainContentPage = ({ token, data }: any) => {
 
     setToggleIcon(filteredIcon);
   };
+
+  //set smartsite info into zustand store
+  //set session info into zustand store
+  useEffect(() => {
+    if (data) {
+      setSmartSiteData(data);
+    }
+    if (session) {
+      setLoggedInUserInfo(session);
+    }
+  }, [data, session]);
 
   return (
     <main className="main-container overflow-hidden">
@@ -67,8 +87,8 @@ const MicrositeEditMainContentPage = ({ token, data }: any) => {
               aria-label="Lead Captures"
             />
           </div>
-          {toggleIcon.map((data: any, index: number) => (
-            <AddIcon key={index} data={data} />
+          {toggleIcon.map((info: any, index: number) => (
+            <AddIcon key={index} data={info} />
           ))}
         </div>
         <div className="w-[38%]">

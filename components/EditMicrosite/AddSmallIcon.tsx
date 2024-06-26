@@ -6,32 +6,39 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Spinner,
   Switch,
 } from "@nextui-org/react";
-import { BsTwitterX } from "react-icons/bs";
-import { AiFillInstagram, AiOutlineDownCircle } from "react-icons/ai";
-import { MdDeleteOutline, MdOutlineFacebook } from "react-icons/md";
-import { FaAngleDown } from "react-icons/fa";
+import { AiOutlineDownCircle } from "react-icons/ai";
 import { IoLinkOutline } from "react-icons/io5";
-import { RiBarChartLine } from "react-icons/ri";
-import { CiImageOn } from "react-icons/ci";
-import { PiUploadBold } from "react-icons/pi";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import EditMicrositeBtn from "../Button/EditMicrositeBtn";
 import { icon, newIcons } from "@/util/data/smartsiteIconData";
-import { BiChevronDownCircle } from "react-icons/bi";
 import { isEmptyObject } from "@/util/checkIsEmptyObject";
+import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
+import { handleSmallIcon } from "@/actions/createSmallIcon";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import { toast } from "react-toastify";
 
 const AddSmallIcon = () => {
-  const [selectedIconType, setSelectedIconType] = useState("");
-  const [selectedIcon, setSelectedIcon] = useState<any>("");
+  const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
+  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const [selectedIconType, setSelectedIconType] = useState("Social Media");
+  const [selectedIcon, setSelectedIcon] = useState({
+    name: "X",
+    icon: icon.SmallIconTwitter,
+    placeHolder: "https://x.com/username",
+    inputText: "X Username",
+    url: "www.x.com",
+  });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // console.log("selected icon name", selectedIcon);
-  console.log("selected icon data", selectedIconData);
-  console.log("selected icon", selectedIcon);
+  // console.log("selected icon data", selectedIconData);
+  // console.log("selected icon", selectedIcon);
 
   const iconData: any = newIcons[0];
-  console.log("iconData", iconData);
+  // console.log("iconData", iconData);
 
   useEffect(() => {
     if (selectedIconType) {
@@ -48,14 +55,72 @@ const AddSmallIcon = () => {
 
   const handleSelectIconType = (category: string) => {
     setSelectedIconType(category);
-    setSelectedIcon("");
+    if (category === "Social Media") {
+      setSelectedIcon({
+        name: "X",
+        icon: icon.SmallIconTwitter,
+        placeHolder: "https://x.com/username",
+        inputText: "X Username",
+        url: "www.x.com",
+      });
+    } else if (category === "Chat Links") {
+      setSelectedIcon({
+        name: "Whatsapp",
+        icon: icon.smallIconWhatsapp,
+        placeHolder: "+123456789",
+        inputText: "Whatsapp Number",
+        url: "www.whatsapp.com",
+      });
+    } else if (category === "Commands") {
+      setSelectedIcon({
+        name: "Email",
+        icon: icon.smallIconEmail,
+        placeHolder: "xyz@gmail.com",
+        inputText: "Email Address",
+        url: "www.gmail.com",
+      });
+    }
   };
+
+  const handleSmallIconFormSubmit = async (e: any) => {
+    setIsLoading(true);
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const smallIconInfo = {
+      micrositeId: state.data._id,
+      name: selectedIcon.name,
+      value: formData.get("url"),
+      url: selectedIcon.url,
+      iconName: selectedIcon.name,
+      iconPath: "",
+      group: selectedIconData.category,
+    };
+    // console.log("smallIconInfo", smallIconInfo);
+    try {
+      const data = await handleSmallIcon(
+        smallIconInfo,
+        sesstionState.accessToken
+      );
+      if ((data.state = "success")) {
+        toast.success("small icon created successfully");
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // console.log("smartSiteData", state);
+  // console.log("sesstionState", sesstionState);
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="font-bold text-gray-700">Small Icon Type</h3>
+          <h3 className="font-semibold text-gray-700">Small Icon Type</h3>
           {!selectedIconType && (
             <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
           )}
@@ -128,7 +193,7 @@ const AddSmallIcon = () => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <h3 className="font-bold text-gray-700">Select Icon</h3>
+        <h3 className="font-semibold text-gray-700">Select Icon</h3>
         {!selectedIconType && (
           <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
         )}
@@ -137,8 +202,9 @@ const AddSmallIcon = () => {
           <Image
             alt="app-icon"
             src={selectedIcon?.icon}
-            className="w-5 h-auto"
+            className="w-4 h-auto"
             style={tintStyle}
+            quality={100}
           />
         ) : (
           <>
@@ -207,6 +273,9 @@ const AddSmallIcon = () => {
                     setSelectedIcon({
                       name: data.name,
                       icon: data.icon,
+                      placeHolder: data.placeHolder,
+                      inputText: data.inputText,
+                      url: data.url,
                     })
                   }
                   className="border-b rounded-none hover:rounded-md"
@@ -227,38 +296,42 @@ const AddSmallIcon = () => {
           )}
         </Dropdown>
       </div>
-      <p className="font-medium">URL</p>
-      <form>
-        <div className="relative">
-          <IoLinkOutline
-            className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-            size={20}
-          />
-          <input
-            type="text"
-            className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-3 text-gray-700 bg-gray-100"
-          />
-        </div>
-      </form>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button>
-            <RiBarChartLine size={20} />
-          </button>
-          <button>
-            <CiImageOn size={20} />
-          </button>
-          <button>
-            <PiUploadBold size={20} />
-          </button>
-          <button>
-            <MdDeleteOutline size={20} />
-          </button>
-        </div>
-        <EditMicrositeBtn className="!gap-1 border-gray-400">
-          <LiaFileMedicalSolid size={20} />
-          Save Changes
-        </EditMicrositeBtn>
+      <div>
+        <p className="font-semibold text-gray-700 mb-1">
+          {selectedIcon.inputText} :
+        </p>
+        <form onSubmit={handleSmallIconFormSubmit}>
+          <div className="relative">
+            <IoLinkOutline
+              className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+              size={20}
+            />
+            <input
+              type="text"
+              name="url"
+              className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-2 text-gray-700 bg-gray-100"
+              placeholder={selectedIcon.placeHolder}
+              required
+            />
+          </div>
+          <div className="flex justify-end mt-3">
+            <EditMicrositeBtn
+              type="submit"
+              className="!gap-1 border-gray-400 !w-48 justify-center"
+            >
+              {isLoading ? (
+                <>
+                  <Spinner size="sm" className="py-0.5" color="default" />
+                </>
+              ) : (
+                <>
+                  <LiaFileMedicalSolid size={20} />
+                  Save Changes
+                </>
+              )}
+            </EditMicrositeBtn>
+          </div>
+        </form>
       </div>
     </div>
   );
