@@ -19,6 +19,7 @@ import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import { handleSmallIcon } from "@/actions/createSmallIcon";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
+import AnimateButton from "../Button/AnimateButton";
 
 const AddSmallIcon = () => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
@@ -315,21 +316,10 @@ const AddSmallIcon = () => {
             />
           </div>
           <div className="flex justify-end mt-3">
-            <EditMicrositeBtn
-              type="submit"
-              className="!gap-1 border-gray-400 !w-48 justify-center"
-            >
-              {isLoading ? (
-                <>
-                  <Spinner size="sm" className="py-0.5" color="default" />
-                </>
-              ) : (
-                <>
-                  <LiaFileMedicalSolid size={20} />
-                  Save Changes
-                </>
-              )}
-            </EditMicrositeBtn>
+            <AnimateButton isLoading={isLoading} width={"w-52"}>
+              <LiaFileMedicalSolid size={20} />
+              Save Changes
+            </AnimateButton>
           </div>
         </form>
       </div>

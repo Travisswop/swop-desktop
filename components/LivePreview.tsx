@@ -15,6 +15,7 @@ import isUrl from "@/util/isUrl";
 import getSmallIconImage from "@/util/getSmallIconImage";
 import { tintStyle } from "@/util/IconTintStyle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
+import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -52,20 +53,16 @@ const LivePreview = ({ data }: { data?: any }) => {
     },
   ];
 
-  console.log("data form live", data);
+  // console.log("data form live", data);
   const { formData }: any = useSmartsiteFormStore();
-  // console.log("galleryyyy", formData.galleryImg);
-
-  // const imgSrc = data.info.socialTop.map((info: any) =>
-  //   getSmallIconImage(info.name, info.group)
-  // );
-  // console.log("imgsrcccc", imgSrc);
+  const { setOn }: any = useSmallIconToggleStore();
 
   const handleTriggerUpdate = (data: {
     data: any;
     categoryForTrigger: string;
   }) => {
     setSmartSiteData(data);
+    setOn(true);
   };
 
   return (

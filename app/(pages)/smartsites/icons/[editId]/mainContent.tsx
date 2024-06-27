@@ -6,6 +6,7 @@ import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import { Switch } from "@nextui-org/react";
@@ -17,7 +18,7 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
   // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const setSmartSiteData = useSmartSiteApiDataStore(
     (state: any) => state.setSmartSiteData
@@ -27,7 +28,11 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
     (state: any) => state.setState
   ); //get setter for setting session info from zustand store
 
+  const { isOn, setOff }: any = useSmallIconToggleStore();
+
   const iconData: any = useUpdateSmartIcon(); //get trigger smarticon from zustand store
+
+  console.log("iconData", iconData);
 
   const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
@@ -49,10 +54,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
     if (session) {
       setLoggedInUserInfo(session);
     }
-    if (iconData) {
-      setOpen(true);
-    }
+    // if (iconData) {
+    //   setOpen(true);
+    // }
   }, [data, session, iconData, setLoggedInUserInfo, setSmartSiteData]);
+
+  // console.log("open", open);
 
   return (
     <main className="main-container overflow-hidden">
@@ -97,8 +104,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
               aria-label="Lead Captures"
             />
           </div>
-          {open && iconData?.categoryForTrigger === "socialTop" && (
-            <UpdateSmallIcon iconDataObj={iconData} setOpen={setOpen} />
+          {isOn && iconData && iconData?.categoryForTrigger === "socialTop" && (
+            <UpdateSmallIcon
+              iconDataObj={iconData}
+              isOn={isOn}
+              setOff={setOff}
+            />
           )}
 
           {toggleIcon.map((info: any, index: number) => (

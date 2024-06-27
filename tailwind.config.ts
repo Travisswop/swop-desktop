@@ -18,6 +18,16 @@ const config: Config = {
       colors: {
         white: "#FFFFFF",
       },
+      keyframes: {
+        "bg-slide": {
+          "0%": { "background-position": "100% 0" },
+          "100%": { "background-position": "0 0" },
+        },
+      },
+      animation: {
+        "bg-slide": "bg-slide 1.5s linear",
+        // "bg-slide": "bg-slide 1s linear infinite",
+      },
     },
   },
   plugins: [
