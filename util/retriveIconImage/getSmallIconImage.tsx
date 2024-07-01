@@ -1,4 +1,4 @@
-import { smallIconData } from "./data/smartsiteIconData";
+import { smallIconData } from "../data/smartsiteIconData";
 
 const getSmallIconImage = (name: any, group: any) => {
   if (group === "Social Media") {

@@ -1,8 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import { BsTwitterX } from "react-icons/bs";
-import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { CgMail } from "react-icons/cg";
 import message from "@/public/images/live-preview/icon/message.svg";
 import deposit from "@/public/images/live-preview/icon/deposit.svg";
 import location from "@/public/images/live-preview/icon/location.svg";
@@ -12,10 +9,11 @@ import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import isUrl from "@/util/isUrl";
-import getSmallIconImage from "@/util/getSmallIconImage";
 import { tintStyle } from "@/util/IconTintStyle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
+import getSmallIconImage from "@/util/retriveIconImage/getSmallIconImage";
+import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -184,17 +182,9 @@ const LivePreview = ({ data }: { data?: any }) => {
               {formData.bio || data?.bio}
             </p>
           </div>
-          <div className="flex gap-4 justify-center items-center flex-wrap px-16">
-            {/* {imgSrc.map((src: any) => (
-              <Image
-                src={src}
-                alt="icon"
-                style={tintStyle}
-                className="w-5"
-                quality={100}
-              />
-            ))} */}
 
+          {/* small icon display here start */}
+          <div className="flex gap-x-4 gap-y-2 justify-center items-center flex-wrap px-16">
             {data.info.socialTop.map((data: any, index: number) => (
               <button
                 key={index}
@@ -215,6 +205,65 @@ const LivePreview = ({ data }: { data?: any }) => {
               </button>
             ))}
           </div>
+          {/* small icon display here end */}
+
+          {/* app icon display here start */}
+          <div className="flex gap-x-5 gap-y-3 justify-center items-center flex-wrap px-10">
+            {data.info.socialLarge.map((data: any, index: number) => (
+              <div className="flex flex-col items-center gap-1" key={index}>
+                <button
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data,
+                      categoryForTrigger: "socialLarge",
+                    })
+                  }
+                >
+                  <Image
+                    src={getAppIconImage(data.name, data.group) as any}
+                    alt="icon"
+                    // style={tintStyle}
+                    className="w-[4.2rem]"
+                    quality={100}
+                  />
+                </button>
+                <p className="text-sm">{data.name}</p>
+              </div>
+            ))}
+          </div>
+          {/* app icon display here end */}
+
+          {/* contact card display here start */}
+          <div className="flex flex-col gap-y-3 px-4">
+            {data.info.contact.map((data: any) => (
+              <button
+                key={data._id}
+                onClick={() =>
+                  handleTriggerUpdate({
+                    data,
+                    categoryForTrigger: "contactCard",
+                  })
+                }
+                className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+              >
+                <Image
+                  src={
+                    "/images/iconShop/outline-icons/dark/business-card-outline@3x.png"
+                  }
+                  alt="icon"
+                  width={40}
+                  height={40}
+                  style={tintStyle}
+                />
+                <div className="flex flex-col items-start gap-0.5 text-start">
+                  <p className="font-semibold text-gray-700">{data.name}</p>
+                  <p className="text-xs text-gray-400">{data.mobileNo}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+          {/* contact card display here end */}
+
           <div className="flex flex-col gap-4 px-4">
             {listArry.map((data) => (
               <div

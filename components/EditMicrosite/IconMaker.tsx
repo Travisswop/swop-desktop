@@ -10,6 +10,7 @@ import youtube from "@/public/images/websites/edit-microsite/youtube.svg";
 import linkedin from "@/public/images/websites/edit-microsite/linkedin.svg";
 import swopPay from "@/public/images/websites/edit-microsite/swop-pay.svg";
 import contactCard from "@/public/images/websites/edit-microsite/contact-card.svg";
+import x from "@/public/images/IconShop/x@3x.png";
 import mp4 from "@/public/images/websites/edit-microsite/mp4.svg";
 import photosVideos from "@/public/images/websites/edit-microsite/photos-videos.svg";
 import redeemLink from "@/public/images/websites/edit-microsite/redeem-link.svg";
@@ -91,6 +92,11 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
       title: "Small Icon",
     },
     {
+      _id: 45234,
+      src: x,
+      title: "App Icon",
+    },
+    {
       _id: 1235,
       src: youtube,
       title: "Embed",
@@ -138,7 +144,12 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
                   {data.title}
                 </p>
                 <div className="h-[45%]  my-auto w-full flex justify-center items-center">
-                  <Image alt="icon" src={data.src} />
+                  <Image
+                    alt="icon"
+                    src={data.src}
+                    quality={100}
+                    className={`${data.title === "App Icon" && "w-8 h-auto"}`}
+                  />
                 </div>
                 {toggleIcon.find((item: any) => item == data.title) ? (
                   <button

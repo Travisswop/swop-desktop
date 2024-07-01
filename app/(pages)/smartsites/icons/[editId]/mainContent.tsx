@@ -4,6 +4,8 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
+import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
+import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
@@ -104,6 +106,8 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
               aria-label="Lead Captures"
             />
           </div>
+
+          {/* small icon start  */}
           {isOn && iconData && iconData?.categoryForTrigger === "socialTop" && (
             <UpdateSmallIcon
               iconDataObj={iconData}
@@ -111,6 +115,31 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
               setOff={setOff}
             />
           )}
+          {/* small icon end   */}
+
+          {/* app icon start  */}
+          {isOn &&
+            iconData &&
+            iconData?.categoryForTrigger === "socialLarge" && (
+              <UpdateAppIcon
+                iconDataObj={iconData}
+                isOn={isOn}
+                setOff={setOff}
+              />
+            )}
+          {/* small icon end   */}
+
+          {/* app icon start  */}
+          {isOn &&
+            iconData &&
+            iconData?.categoryForTrigger === "contactCard" && (
+              <UpdateContactCard
+                iconDataObj={iconData}
+                isOn={isOn}
+                setOff={setOff}
+              />
+            )}
+          {/* small icon end   */}
 
           {toggleIcon.map((info: any, index: number) => (
             <AddIcon key={index} data={info} />

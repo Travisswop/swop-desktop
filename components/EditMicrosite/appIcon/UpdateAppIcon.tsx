@@ -1,18 +1,16 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import appIconImg from "@/public/images/websites/edit-microsite/add-icon/app-icon.svg";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Spinner,
   Switch,
 } from "@nextui-org/react";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { IoLinkOutline } from "react-icons/io5";
 import { LiaFileMedicalSolid } from "react-icons/lia";
-import EditMicrositeBtn from "../Button/EditMicrositeBtn";
 import { icon, newIcons } from "@/util/data/smartsiteIconData";
 import { isEmptyObject } from "@/util/checkIsEmptyObject";
 import {
@@ -23,16 +21,17 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
-import AnimateButton from "../Button/AnimateButton";
+import AnimateButton from "@/components/Button/AnimateButton";
+import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
+// import AnimateButton from "../Button/AnimateButton";
 
-const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
+const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
 
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
   const [selectedIcon, setSelectedIcon] = useState({
     name: "X",
-    icon: icon.SmallIconTwitter,
+    icon: icon.appIconTwitter,
     placeHolder: "https://x.com/username",
     inputText: "X Username",
     url: "www.x.com",
@@ -44,14 +43,17 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const [isHit, setIsHit] = useState<boolean>(true);
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
   // console.log("ishit", isHit);
 
   // console.log("selectedIconType", selectedIconType);
   // console.log("selected icon data", selectedIconData);
   // console.log("selected icon", selectedIcon);
   // console.log("open", open);
+  console.log("icondataobj", iconDataObj);
 
-  const iconData: any = newIcons[0];
+  const iconData: any = newIcons[1];
   // console.log("selectedIconByLivePreview", selectedIconByLivePreview);
 
   useEffect(() => {
@@ -83,9 +85,9 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
     }
   }, [selectedIconData, isHit]);
 
-  const tintStyle = {
-    filter: "brightness(0) invert(0)",
-  };
+  //   const tintStyle = {
+  //     filter: "brightness(0) invert(0)",
+  //   };
 
   const handleSelectedIcon = (data: any) => {
     // setSelectedIconByLivePreview(null);
@@ -95,43 +97,82 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const handleSelectIconType = (category: string) => {
     setSelectedIconType(category);
     // console.log("cateogy", category);
-
     if (category === "Social Media") {
       setSelectedIcon({
         name: "X",
-        icon: icon.SmallIconTwitter,
+        icon: icon.appIconTwitter,
         placeHolder: "https://x.com/username",
         inputText: "X Username",
         url: "www.x.com",
       });
+    } else if (category === "Dapps") {
+      setSelectedIcon({
+        name: "Etherscan",
+        icon: icon.appIconEtherscan,
+        placeHolder: "https://etherscan.com/abc",
+        inputText: "Etherscan Link",
+        url: "etherscan.com",
+      });
+    } else if (category === "App Links") {
+      setSelectedIcon({
+        name: "Calendly",
+        icon: icon.appIconCalendly,
+        placeHolder: "https://www.calendly.com/xyz",
+        inputText: "Calendly Link",
+        url: "https://calendly.com",
+      });
+    } else if (category === "Music/Video Links") {
+      setSelectedIcon({
+        name: "YouTube",
+        icon: icon.appIconYoutube,
+        placeHolder: "https:www.youtube.com/abc",
+        inputText: "YouTube Link",
+        url: "https://youtube.com",
+      });
     } else if (category === "Chat Links") {
       setSelectedIcon({
         name: "Whatsapp",
-        icon: icon.smallIconWhatsapp,
+        icon: icon.appIconWhatsApp,
         placeHolder: "+123456789",
         inputText: "Whatsapp Number",
         url: "www.whatsapp.com",
       });
-    } else if (category === "Commands") {
+    } else if (category === "General Links") {
+      setSelectedIcon({
+        name: "Calendar",
+        icon: icon.appIconCalendar,
+        placeHolder: "https://www.calendarapp.com/xyz",
+        inputText: "Calendar Event",
+        url: "www.calendarapp.com",
+      });
+    } else if (category === "Copy Address") {
+      setSelectedIcon({
+        name: "Solana",
+        icon: icon.appIconSolana,
+        placeHolder: "Your Solana Address",
+        inputText: "Solana Address",
+        url: "www.solana.com",
+      });
+    } else if (category === "Command/Action") {
       setSelectedIcon({
         name: "Email",
-        icon: icon.smallIconEmail,
-        placeHolder: "xyz@gmail.com",
+        icon: icon.appIconEmail,
+        placeHolder: "Type Your Email Address",
         inputText: "Email Address",
-        url: "www.gmail.com",
+        url: "www.email.com",
       });
     }
   };
 
   // console.log("icondaa", iconDataObj);
 
-  const handleSmallIconFormSubmit = async (e: any) => {
+  const handleAppIcon = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const smallIconInfo = {
-      _id: iconDataObj.data._id,
+    const appIconInfo = {
       micrositeId: iconDataObj.data.micrositeId,
+      _id: iconDataObj.data._id,
       name: selectedIcon.name,
       value: formData.get("url"),
       url: selectedIcon.url,
@@ -139,16 +180,15 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
       iconPath: "",
       group: selectedIconData.category,
     };
-    // console.log("smallIconInfoupdate", smallIconInfo);
     try {
-      const data: any = await handleUpdateSmallIcon(
-        smallIconInfo,
+      const data: any = await handleUpdateAppIcon(
+        appIconInfo,
         sesstionState.accessToken
       );
-      // console.log("data,", data);
+      console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("small icon updated successfully");
+        toast.success("app icon updated successfully");
         setOff();
       } else {
         toast.error("something went wrong");
@@ -170,8 +210,10 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
 
   // Function to handle click on the backdrop
   const handleBackdropClick = (e: any) => {
-    // Check if the click is on the backdrop element (with class 'backdrop')
-    if (e.target.classList.contains("backdrop")) {
+    if (
+      e.target.classList.contains("backdrop") &&
+      !e.target.closest(".modal-content")
+    ) {
       closeModal();
     }
   };
@@ -183,14 +225,14 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
       micrositeId: iconDataObj.data.micrositeId,
     };
     try {
-      const data: any = await handleDeleteSmallIcon(
+      const data: any = await handleDeleteAppIcon(
         submitData,
         sesstionState.accessToken
       );
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("small icon deleted successfully");
+        toast.success("app icon deleted successfully");
         setOff();
       } else {
         toast.error("something went wrong");
@@ -209,9 +251,12 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
       {isOn && (
         <div
           className="fixed z-50 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
-          onClick={handleBackdropClick}
+          onMouseDown={handleBackdropClick}
         >
-          <div className="h-max w-96 lg:w-[40rem] bg-white relative rounded-xl">
+          <div
+            ref={modalRef}
+            className="modal-content h-max w-96 lg:w-[40rem] bg-white relative rounded-xl"
+          >
             <button
               className="btn btn-sm btn-circle absolute right-4 top-[12px]"
               onClick={closeModal}
@@ -239,6 +284,27 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
                       className="w-5 h-auto"
                     />
                   )}
+                  {selectedIconType === "Dapps" && (
+                    <Image
+                      alt="app-icon"
+                      src={icon.DappType}
+                      className="w-5 h-auto"
+                    />
+                  )}
+                  {selectedIconType === "App Links" && (
+                    <Image
+                      alt="app-icon"
+                      src={icon.AppLinkType}
+                      className="w-5 h-auto"
+                    />
+                  )}
+                  {selectedIconType === "Music/Video Links" && (
+                    <Image
+                      alt="app-icon"
+                      src={icon.MusicVideo}
+                      className="w-5 h-auto"
+                    />
+                  )}
                   {selectedIconType === "Chat Links" && (
                     <Image
                       alt="app-icon"
@@ -246,7 +312,21 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
                       className="w-5 h-auto"
                     />
                   )}
-                  {selectedIconType === "Commands" && (
+                  {selectedIconType === "General Links" && (
+                    <Image
+                      alt="app-icon"
+                      src={icon.generalLinkType}
+                      className="w-5 h-auto"
+                    />
+                  )}
+                  {selectedIconType === "Copy Address" && (
+                    <Image
+                      alt="app-icon"
+                      src={icon.copyAddressType}
+                      className="w-5 h-auto"
+                    />
+                  )}
+                  {selectedIconType === "Command/Action" && (
                     <Image
                       alt="app-icon"
                       src={icon.CommandType}
@@ -315,7 +395,7 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
                     alt="app-icon"
                     src={selectedIcon?.icon}
                     className="w-4 h-auto"
-                    style={tintStyle}
+                    // style={tintStyle}
                     quality={100}
                   />
                 ) : (
@@ -399,7 +479,7 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
                               alt={data.inputText}
                               className="w-4 h-auto"
                               quality={100}
-                              style={tintStyle}
+                              //   style={tintStyle}
                             />
                             {data.name}
                           </div>
@@ -413,7 +493,7 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
                 <p className="font-semibold text-gray-700 mb-1">
                   {selectedIcon?.inputText} :
                 </p>
-                <form onSubmit={handleSmallIconFormSubmit}>
+                <form onSubmit={handleAppIcon}>
                   <div className="relative">
                     <IoLinkOutline
                       className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
@@ -453,4 +533,4 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
   );
 };
 
-export default UpdateSmallIcon;
+export default UpdateAppIcon;
