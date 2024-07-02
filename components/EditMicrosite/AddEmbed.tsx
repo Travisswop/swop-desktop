@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import embedImg from "@/public/images/websites/edit-microsite/add-icon/embed.svg";
 import {
   Dropdown,
   DropdownItem,
@@ -8,64 +7,128 @@ import {
   DropdownTrigger,
   Switch,
 } from "@nextui-org/react";
-import { BsTwitterX } from "react-icons/bs";
-import { AiFillInstagram } from "react-icons/ai";
-import { MdDeleteOutline, MdOutlineFacebook } from "react-icons/md";
-import { FaAngleDown } from "react-icons/fa";
+import { AiOutlineDownCircle } from "react-icons/ai";
 import { IoLinkOutline } from "react-icons/io5";
-import { RiBarChartLine } from "react-icons/ri";
-import { CiImageOn } from "react-icons/ci";
-import { PiUploadBold } from "react-icons/pi";
 import { LiaFileMedicalSolid } from "react-icons/lia";
-import EditMicrositeBtn from "../Button/EditMicrositeBtn";
+import { embedItems, icon } from "@/util/data/smartsiteIconData";
+import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import AnimateButton from "../Button/AnimateButton";
+import { toast } from "react-toastify";
+import { postEmbedLink } from "@/actions/embedLink";
 
 const AddEmbed = () => {
-  const [selectedIcon, setSelectedIcon] = useState("");
-  // console.log("selectedIcon", selectedIcon);
-  const selectArry: any = [
-    {
-      _id: 123,
-      icon: <BsTwitterX size={18} className="ml-1" />,
-      title: "twitter",
-    },
-    {
-      _id: 133,
-      icon: <AiFillInstagram color="red" size={20} />,
-      title: "instagram",
-    },
-    {
-      _id: 143,
-      icon: <MdOutlineFacebook color="blue" size={20} />,
-      title: "facebook",
-    },
-  ];
+  const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
+  // console.log("state", state);
+
+  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+
+  const [selectedIcon, setSelectedIcon] = useState({
+    category: "X",
+    categoryIcon: icon.appIconTwitter,
+    placeHolder: "https://www.x.com/{xUserName}/status/{tweetID}",
+    inputText: "X Embeded Link",
+    url: "www.x.com",
+  });
+
+  // console.log("selectted icon", selectedIcon);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleEmbed = async (e: any) => {
+    setIsLoading(true);
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const embedInfo = {
+      micrositeId: state.data._id,
+      link: formData.get("url"),
+      type:
+        selectedIcon.category === "X"
+          ? "twitter"
+          : selectedIcon.category.toLowerCase(),
+    };
+
+    try {
+      const data = await postEmbedLink(embedInfo, sesstionState.accessToken);
+      console.log("data", data);
+
+      if ((data.state = "success")) {
+        toast.success("embed created successfully");
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // console.log("smartSiteData", state);
+  // console.log("sesstionState", sesstionState);
+
+  const getEmbedItems: any = embedItems;
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="font-bold text-gray-700">Embed</h3>
-          <Image alt="app-icon" src={embedImg} width={40} />
+          <h3 className="font-semibold text-gray-700">Select Embed Type</h3>
+
+          {selectedIcon && (
+            <Image
+              alt="app-icon"
+              src={selectedIcon?.categoryIcon}
+              className="w-4 h-auto"
+              quality={100}
+            />
+          )}
+
           <Dropdown className="ml-44 w-max">
             <DropdownTrigger>
-              <button>
-                <FaAngleDown />
-              </button>
+              <div className={`flex items-center`}>
+                <button>
+                  <AiOutlineDownCircle size={20} color="gray" />
+                </button>
+                {/* {isEmptyObject(selectedIconData) && ( */}
+                <div className="hidden text-xs text-gray-600 px-2 w-28 py-1.5 bg-slate-200 shadow-medium z-50 absolute left-6 top-0 group-hover:flex justify-center">
+                  <p>Embed Type</p>
+                </div>
+              </div>
             </DropdownTrigger>
-            <DropdownMenu disabledKeys={["title"]} aria-label="Static Actions">
+            <DropdownMenu
+              disabledKeys={["title"]}
+              aria-label="Static Actions"
+              className="p-2"
+            >
               <DropdownItem
                 key={"title"}
                 className=" hover:!bg-white opacity-100 cursor-text disabled dropDownTitle"
               >
-                <p>Choose Small Icon</p>
+                <p>Choose Embed Type</p>
               </DropdownItem>
-              {selectArry.map((data: any) => (
+              {getEmbedItems.map((data: any) => (
                 <DropdownItem
-                  key={data._id}
-                  onClick={() => setSelectedIcon(data.title)}
+                  key={data.category}
+                  onClick={() =>
+                    setSelectedIcon({
+                      category: data.category,
+                      categoryIcon: data.categoryIcon,
+                      placeHolder: data.placeHolder,
+                      inputText: data.inputText,
+                      url: data.url,
+                    })
+                  }
+                  className="border-b rounded-none hover:rounded-md"
                 >
-                  <div className="flex items-center gap-2 font-semibold">
-                    {data.icon} {data.title}
+                  <div className="flex items-center gap-2 font-semibold text-sm">
+                    <Image
+                      src={data.categoryIcon}
+                      alt={data.category}
+                      className="w-4 h-auto"
+                      quality={100}
+                    />
+                    {data.category}
                   </div>
                 </DropdownItem>
               ))}
@@ -82,38 +145,31 @@ const AddEmbed = () => {
           />
         </div>
       </div>
-      <p className="font-medium">URL</p>
-      <form>
-        <div className="relative">
-          <IoLinkOutline
-            className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-            size={20}
-          />
-          <input
-            type="text"
-            className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-3 text-gray-700 bg-gray-100"
-          />
-        </div>
-      </form>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button>
-            <RiBarChartLine size={20} />
-          </button>
-          <button>
-            <CiImageOn size={20} />
-          </button>
-          <button>
-            <PiUploadBold size={20} />
-          </button>
-          <button>
-            <MdDeleteOutline size={20} />
-          </button>
-        </div>
-        <EditMicrositeBtn className="!gap-1 border-gray-400">
-          <LiaFileMedicalSolid size={20} />
-          Save Changes
-        </EditMicrositeBtn>
+      <div>
+        <p className="font-semibold text-gray-700 mb-1">
+          {selectedIcon.inputText} :
+        </p>
+        <form onSubmit={handleEmbed}>
+          <div className="relative">
+            <IoLinkOutline
+              className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+              size={20}
+            />
+            <input
+              type="text"
+              name="url"
+              className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-2 text-gray-700 bg-gray-100"
+              placeholder={selectedIcon.placeHolder}
+              required
+            />
+          </div>
+          <div className="flex justify-end mt-3">
+            <AnimateButton isLoading={isLoading} width={"w-52"}>
+              <LiaFileMedicalSolid size={20} />
+              Save Changes
+            </AnimateButton>
+          </div>
+        </form>
       </div>
     </div>
   );

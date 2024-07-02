@@ -198,3 +198,68 @@ input[type="date"] {
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
 }
+
+/* embed link responsive  */
+.embed-responsive {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100% !important;
+  border-radius: 12px; /* Adjust the radius as needed */
+}
+
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  border: 0;
+  border-radius: 12px; /* Adjust the radius as needed */
+}
+
+.embed-container {
+  position: relative;
+  /* overflow: hidden;
+  padding-bottom: 56.25%;
+  height: 0;
+  max-width: 100%; */
+  border-radius: 12px; /* Adjust the radius as needed */
+}
+
+.embed-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px !important;
+  height: 100%;
+  border: 0;
+}
+
+.embed-container-tiktok blockquote {
+  max-width: 1000px !important;
+  min-width: 100px !important;
+}
+
+.css-vptvdy {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  min-width: 325px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: 1px solid rgb(22 24 35 / 12%);
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 540px;
+  max-width: 1000px !important;
+}
+
+/* #embed-video-container div {
+  max-width: 1000px !important;
+} */

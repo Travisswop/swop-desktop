@@ -14,6 +14,9 @@ import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import getSmallIconImage from "@/util/retriveIconImage/getSmallIconImage";
 import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
+import { FaEdit } from "react-icons/fa";
+import TikTokEmbed from "./embed/tiktokEmbed";
+import TwitterEmbed from "./embed/twitterEmbed";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -263,6 +266,50 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* contact card display here end */}
+
+          {/* embed link display here start */}
+          <div className="flex flex-col gap-y-3 px-4 w-full">
+            {data.info.videoUrl.map((videoData: any) => (
+              <div
+                key={videoData._id}
+                className="flex items-center gap-2 w-full"
+              >
+                <div className="w-[96%] h-full border-4 border-[#c685ff] rounded-2xl">
+                  {videoData.type === "tiktok" ? (
+                    <div className="embed-container-tiktok">
+                      <TikTokEmbed embedHtml={videoData.videoUrl} />
+                    </div>
+                  ) : videoData.type === "twitter" ? (
+                    <div className="embed-container">
+                      {" "}
+                      <TwitterEmbed embedHtml={videoData.videoUrl} />
+                    </div>
+                  ) : (
+                    <div className="embed-responsive">
+                      <div
+                        className="w-full h-full"
+                        dangerouslySetInnerHTML={{ __html: videoData.videoUrl }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="w-[4%]">
+                  <button
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: videoData,
+                        categoryForTrigger: "embed",
+                      })
+                    }
+                    className=""
+                  >
+                    <FaEdit size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* embed link display here end */}
 
           <div className="flex flex-col gap-4 px-4">
             {listArry.map((data) => (

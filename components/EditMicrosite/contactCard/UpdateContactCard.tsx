@@ -5,7 +5,11 @@ import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import { handleDeleteAppIcon } from "@/actions/appIcon";
-import { updateContactCard } from "@/actions/contactCard";
+import {
+  handleDeleteContactCard,
+  updateContactCard,
+} from "@/actions/contactCard";
+import { MdDelete } from "react-icons/md";
 
 const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
   const sesstionState: any = useLoggedInUserStore((state) => state); // get small icon store value
@@ -87,7 +91,7 @@ const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
       micrositeId: iconDataObj.data.micrositeId,
     };
     try {
-      const data: any = await handleDeleteAppIcon(
+      const data: any = await handleDeleteContactCard(
         submitData,
         sesstionState.accessToken
       );
@@ -219,10 +223,19 @@ const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
                       placeholder="email@swop.com"
                     />
                   </div>
-                  <div className="flex justify-end mt-3">
-                    <AnimateButton isLoading={isLoading} width={"w-32"}>
+                  <div className="flex justify-between mt-6">
+                    <AnimateButton isLoading={isLoading} width={"w-52"}>
                       <LiaFileMedicalSolid size={20} />
-                      Update
+                      Update Changes
+                    </AnimateButton>
+
+                    <AnimateButton
+                      type="button"
+                      onClick={handleDeleteIcon}
+                      isLoading={isDeleteLoading}
+                      width={"w-28"}
+                    >
+                      <MdDelete size={20} /> Delete
                     </AnimateButton>
                   </div>
                 </form>
