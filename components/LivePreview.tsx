@@ -287,10 +287,11 @@ const LivePreview = ({ data }: { data?: any }) => {
                   alt="icon"
                   width={40}
                   height={40}
-                  // style={tintStyle}
                 />
                 <div className="flex flex-col items-start gap-0.5 text-start">
-                  <p className="font-semibold text-gray-700">{data.iconName}</p>
+                  <p className="font-semibold text-gray-700">
+                    {data.buttonName}
+                  </p>
                   <p className="text-xs text-gray-400">{data.description}</p>
                 </div>
               </button>

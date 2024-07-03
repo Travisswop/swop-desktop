@@ -7,6 +7,7 @@ import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
 import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
+import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
@@ -147,6 +148,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <UpdateEmbed iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* embed end   */}
+
+          {/* update info bar start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "infoBar" && (
+            <UpdateInfoBar iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* update info bar end   */}
 
           {toggleIcon.map((info: any, index: number) => (
             <AddIcon key={index} data={info} />

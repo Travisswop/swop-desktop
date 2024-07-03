@@ -146,7 +146,7 @@ const AddInfoBar = () => {
       console.log("data", data);
 
       if ((data.state = "success")) {
-        toast.success("embed created successfully");
+        toast.success("info bar created successfully");
       } else {
         toast.error("something went wrong");
       }
