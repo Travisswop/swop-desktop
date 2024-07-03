@@ -29,20 +29,20 @@ export async function postEmbedLink(embedInfo: any, token: string) {
   }
 }
 
-export async function updateEmbedLink(appIconInfo: any, token: string) {
+export async function updateEmbedLink(embedInfo: any, token: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/socialLarge`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/embed`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(appIconInfo),
+        body: JSON.stringify(embedInfo),
       }
     );
-    revalidatePath(`/smartsites/icons/${appIconInfo.micrositeId}`);
+    revalidatePath(`/smartsites/icons/${embedInfo.micrositeId}`);
     const data = await response.json();
     // console.log("data from action", data);
     return data;
@@ -51,20 +51,20 @@ export async function updateEmbedLink(appIconInfo: any, token: string) {
   }
 }
 
-export async function deleteEmbedLink(appIconInfo: any, token: string) {
+export async function deleteEmbedLink(info: any, token: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/socialLarge`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/embed`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(appIconInfo),
+        body: JSON.stringify(info),
       }
     );
-    revalidatePath(`/smartsites/icons/${appIconInfo.micrositeId}`);
+    revalidatePath(`/smartsites/icons/${info.micrositeId}`);
     const data = await response.json();
     // console.log("data from action", data);
     return data;

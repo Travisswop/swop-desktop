@@ -13,7 +13,7 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 import { embedItems, icon } from "@/util/data/smartsiteIconData";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
-import AnimateButton from "../Button/AnimateButton";
+import AnimateButton from "../../Button/AnimateButton";
 import { toast } from "react-toastify";
 import { postEmbedLink } from "@/actions/embedLink";
 

@@ -104,7 +104,7 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
     {
       _id: 1236,
       src: linkedin,
-      title: "Info Button",
+      title: "Info Bar",
     },
     {
       _id: 1237,

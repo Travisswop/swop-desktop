@@ -6,6 +6,7 @@ import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
+import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
@@ -127,9 +128,9 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
                 setOff={setOff}
               />
             )}
-          {/* small icon end   */}
+          {/* app icon end   */}
 
-          {/* app icon start  */}
+          {/* contact card start  */}
           {isOn &&
             iconData &&
             iconData?.categoryForTrigger === "contactCard" && (
@@ -139,7 +140,13 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
                 setOff={setOff}
               />
             )}
-          {/* small icon end   */}
+          {/* contact card end   */}
+
+          {/* embed start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "embed" && (
+            <UpdateEmbed iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* embed end   */}
 
           {toggleIcon.map((info: any, index: number) => (
             <AddIcon key={index} data={info} />

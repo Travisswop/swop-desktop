@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import AnimateButton from "../../Button/AnimateButton";
 import { postAppIcon } from "@/actions/appIcon";
 
-const AddAppIcon = () => {
+const AddInfoBar = () => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
@@ -152,7 +152,7 @@ const AddAppIcon = () => {
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-gray-700">App Icon Types</h3>
+          <h3 className="font-semibold text-gray-700">Info Bar Types</h3>
           {!selectedIconType && (
             <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
           )}
@@ -336,24 +336,56 @@ const AddAppIcon = () => {
         </Dropdown>
       </div>
       <div>
-        <p className="font-semibold text-gray-700 mb-1">
-          {selectedIcon.inputText} :
-        </p>
-        <form onSubmit={handleAppIconFormSubmit}>
-          <div className="relative">
-            <IoLinkOutline
-              className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-              size={20}
-            />
-            <input
-              type="text"
-              name="url"
-              className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-2 text-gray-700 bg-gray-100"
-              placeholder={selectedIcon.placeHolder}
-              required
-            />
+        <form
+          onSubmit={handleAppIconFormSubmit}
+          className="flex flex-col gap-3"
+        >
+          <div>
+            <p className="font-semibold text-gray-700 mb-1">Button Name</p>
+            <div>
+              <input
+                type="text"
+                name="url"
+                defaultValue={selectedIcon.name}
+                className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none px-4 py-2 text-gray-700 bg-gray-100"
+                placeholder={"Enter Button Name"}
+                required
+              />
+            </div>
           </div>
-          <div className="flex justify-end mt-3">
+          <div>
+            <p className="font-semibold text-gray-700 mb-1">
+              {selectedIcon.inputText}
+            </p>
+            <div className="relative">
+              <IoLinkOutline
+                className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                size={20}
+              />
+              <input
+                type="text"
+                name="url"
+                className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-11 py-2 text-gray-700 bg-gray-100"
+                placeholder={selectedIcon.placeHolder}
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-700 mb-1">Description</p>
+            <div>
+              <input
+                type="text"
+                name="url"
+                defaultValue={selectedIcon.name}
+                className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none px-4 py-2 text-gray-700 bg-gray-100"
+                placeholder={"Enter Button Name"}
+                required
+              />
+              <textarea name="" id=""></textarea>
+            </div>
+          </div>
+          <div className="flex justify-end">
             <AnimateButton isLoading={isLoading} width={"w-52"}>
               <LiaFileMedicalSolid size={20} />
               Save Changes
@@ -365,4 +397,4 @@ const AddAppIcon = () => {
   );
 };
 
-export default AddAppIcon;
+export default AddInfoBar;

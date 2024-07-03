@@ -17,9 +17,11 @@ import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
 import { FaEdit } from "react-icons/fa";
 import TikTokEmbed from "./embed/tiktokEmbed";
 import TwitterEmbed from "./embed/twitterEmbed";
+import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
+  const { toggle } = useSideBarToggleStore();
 
   const listArry = [
     {
@@ -274,7 +276,17 @@ const LivePreview = ({ data }: { data?: any }) => {
                 key={videoData._id}
                 className="flex items-center gap-2 w-full"
               >
-                <div className="w-[96%] h-full border-4 border-[#c685ff] rounded-2xl">
+                <div
+                  className={`w-[96%] ${
+                    videoData.type === "spotify"
+                      ? `${
+                          !toggle
+                            ? "h-[90px] lg:h-[160px] xl:h-[160px] 2xl:h-[240px]"
+                            : "h-[100px] lg:h-[160px] 2xl:h-[240px]"
+                        }`
+                      : "h-full"
+                  } border-4 border-[#c685ff] rounded-2xl overflow-hidden`}
+                >
                   {videoData.type === "tiktok" ? (
                     <div className="embed-container-tiktok">
                       <TikTokEmbed embedHtml={videoData.videoUrl} />
@@ -287,7 +299,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                   ) : (
                     <div className="embed-responsive">
                       <div
-                        className="w-full h-full"
+                        className="w-full"
                         dangerouslySetInnerHTML={{ __html: videoData.videoUrl }}
                       />
                     </div>
