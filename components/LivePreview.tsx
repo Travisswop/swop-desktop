@@ -269,6 +269,35 @@ const LivePreview = ({ data }: { data?: any }) => {
           </div>
           {/* contact card display here end */}
 
+          {/* info bar display here start */}
+          <div className="flex flex-col gap-y-3 px-4">
+            {data.info.infoBar.map((data: any) => (
+              <button
+                key={data._id}
+                onClick={() =>
+                  handleTriggerUpdate({
+                    data,
+                    categoryForTrigger: "infoBar",
+                  })
+                }
+                className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+              >
+                <Image
+                  src={getAppIconImage(data.iconName, data.group) as any}
+                  alt="icon"
+                  width={40}
+                  height={40}
+                  // style={tintStyle}
+                />
+                <div className="flex flex-col items-start gap-0.5 text-start">
+                  <p className="font-semibold text-gray-700">{data.iconName}</p>
+                  <p className="text-xs text-gray-400">{data.description}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+          {/* info bar display here end */}
+
           {/* embed link display here start */}
           <div className="flex flex-col gap-y-3 px-4 w-full">
             {data.info.videoUrl.map((videoData: any) => (

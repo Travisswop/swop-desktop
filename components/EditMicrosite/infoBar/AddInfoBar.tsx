@@ -17,7 +17,7 @@ import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "../../Button/AnimateButton";
-import { postAppIcon } from "@/actions/appIcon";
+import { postInfoBar } from "@/actions/infoBar";
 
 const AddInfoBar = () => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
@@ -32,6 +32,7 @@ const AddInfoBar = () => {
   });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [buttonName, setButtonName] = useState(selectedIcon.name);
   // console.log("selected icon name", selectedIcon);
   // console.log("selected icon data", selectedIconData);
   // console.log("selected icon", selectedIcon);
@@ -58,6 +59,7 @@ const AddInfoBar = () => {
         inputText: "X Username",
         url: "www.x.com",
       });
+      setButtonName("X");
     } else if (category === "Dapps") {
       setSelectedIcon({
         name: "Etherscan",
@@ -66,6 +68,7 @@ const AddInfoBar = () => {
         inputText: "Etherscan Link",
         url: "etherscan.com",
       });
+      setButtonName("Etherscan");
     } else if (category === "App Links") {
       setSelectedIcon({
         name: "Calendly",
@@ -74,6 +77,7 @@ const AddInfoBar = () => {
         inputText: "Calendly Link",
         url: "https://calendly.com",
       });
+      setButtonName("Calendly");
     } else if (category === "Music/Video Links") {
       setSelectedIcon({
         name: "YouTube",
@@ -82,6 +86,7 @@ const AddInfoBar = () => {
         inputText: "YouTube Link",
         url: "https://youtube.com",
       });
+      setButtonName("YouTube");
     } else if (category === "Chat Links") {
       setSelectedIcon({
         name: "Whatsapp",
@@ -90,6 +95,7 @@ const AddInfoBar = () => {
         inputText: "Whatsapp Number",
         url: "www.whatsapp.com",
       });
+      setButtonName("Whatsapp");
     } else if (category === "General Links") {
       setSelectedIcon({
         name: "Calendar",
@@ -98,6 +104,7 @@ const AddInfoBar = () => {
         inputText: "Calendar Event",
         url: "www.calendarapp.com",
       });
+      setButtonName("Calendar");
     } else if (category === "Copy Address") {
       setSelectedIcon({
         name: "Solana",
@@ -106,6 +113,7 @@ const AddInfoBar = () => {
         inputText: "Solana Address",
         url: "www.solana.com",
       });
+      setButtonName("Solana");
     } else if (category === "Command/Action") {
       setSelectedIcon({
         name: "Email",
@@ -114,27 +122,31 @@ const AddInfoBar = () => {
         inputText: "Email Address",
         url: "www.email.com",
       });
+      setButtonName("Email");
     }
   };
 
-  const handleAppIconFormSubmit = async (e: any) => {
+  const handleInfoBarFormSubmit = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const appIconInfo = {
+    const infobarInfo = {
       micrositeId: state.data._id,
-      name: selectedIcon.name,
-      value: formData.get("url"),
-      url: selectedIcon.url,
+      title: formData.get("url"),
+      link: selectedIcon.url,
+      buttonName: buttonName,
+      description: formData.get("description"),
       iconName: selectedIcon.name,
       iconPath: "",
       group: selectedIconData.category,
     };
-    // console.log("smallIconInfo", smallIconInfo);
+    console.log("smallIconInfo", infobarInfo);
     try {
-      const data = await postAppIcon(appIconInfo, sesstionState.accessToken);
+      const data = await postInfoBar(infobarInfo, sesstionState.accessToken);
+      console.log("data", data);
+
       if ((data.state = "success")) {
-        toast.success("app icon created successfully");
+        toast.success("embed created successfully");
       } else {
         toast.error("something went wrong");
       }
@@ -145,8 +157,19 @@ const AddInfoBar = () => {
     }
   };
 
-  // console.log("smartSiteData", state);
-  // console.log("sesstionState", sesstionState);
+  console.log("selected icon", selectedIcon);
+  console.log("button", buttonName);
+
+  const addSelectedIcon = (data: any) => {
+    setSelectedIcon({
+      name: data.name,
+      icon: data.icon,
+      placeHolder: data.placeHolder,
+      inputText: data.inputText,
+      url: data.url,
+    });
+    setButtonName(data.name);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
@@ -308,15 +331,7 @@ const AddInfoBar = () => {
               {selectedIconData.icons.map((data: any) => (
                 <DropdownItem
                   key={data._id}
-                  onClick={() =>
-                    setSelectedIcon({
-                      name: data.name,
-                      icon: data.icon,
-                      placeHolder: data.placeHolder,
-                      inputText: data.inputText,
-                      url: data.url,
-                    })
-                  }
+                  onClick={() => addSelectedIcon(data)}
                   className="border-b rounded-none hover:rounded-md"
                 >
                   <div className="flex items-center gap-2 font-semibold text-sm">
@@ -337,7 +352,7 @@ const AddInfoBar = () => {
       </div>
       <div>
         <form
-          onSubmit={handleAppIconFormSubmit}
+          onSubmit={handleInfoBarFormSubmit}
           className="flex flex-col gap-3"
         >
           <div>
@@ -345,8 +360,9 @@ const AddInfoBar = () => {
             <div>
               <input
                 type="text"
-                name="url"
-                defaultValue={selectedIcon.name}
+                name="buttonName"
+                value={buttonName}
+                onChange={(e) => setButtonName(e.target.value)}
                 className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none px-4 py-2 text-gray-700 bg-gray-100"
                 placeholder={"Enter Button Name"}
                 required
@@ -374,15 +390,11 @@ const AddInfoBar = () => {
           <div>
             <p className="font-semibold text-gray-700 mb-1">Description</p>
             <div>
-              <input
-                type="text"
-                name="url"
-                defaultValue={selectedIcon.name}
+              <textarea
+                name="description"
                 className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none px-4 py-2 text-gray-700 bg-gray-100"
-                placeholder={"Enter Button Name"}
-                required
+                placeholder="Enter description"
               />
-              <textarea name="" id=""></textarea>
             </div>
           </div>
           <div className="flex justify-end">

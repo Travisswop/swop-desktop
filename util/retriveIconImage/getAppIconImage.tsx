@@ -1,4 +1,4 @@
-import { newIcons, smallIconData } from "../data/smartsiteIconData";
+import { newIcons } from "../data/smartsiteIconData";
 
 const getAppIconImage = (name: any, group: any) => {
   const icons = newIcons[1];
