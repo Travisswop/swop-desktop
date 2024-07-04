@@ -14,6 +14,13 @@ import x from "@/public/images/IconShop/x@3x.png";
 import mp4 from "@/public/images/websites/edit-microsite/mp4.svg";
 import photosVideos from "@/public/images/websites/edit-microsite/photos-videos.svg";
 import redeemLink from "@/public/images/websites/edit-microsite/redeem-link.svg";
+import appIcon from "@/public/images/websites/edit-microsite/updated/app-icon.svg";
+import blog from "@/public/images/websites/edit-microsite/updated/blog.svg";
+import contact from "@/public/images/websites/edit-microsite/updated/contact-card.svg";
+import embedIcon from "@/public/images/websites/edit-microsite/updated/embed-icon.svg";
+import infoBar from "@/public/images/websites/edit-microsite/updated/info-bar.svg";
+import referral from "@/public/images/websites/edit-microsite/updated/referral.svg";
+import message from "@/public/images/websites/edit-microsite/updated/message.svg";
 import { FaRegSquareMinus } from "react-icons/fa6";
 
 function SampleNextArrow(props: any) {
@@ -88,48 +95,65 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
   const iconBuilderArry = [
     {
       _id: 1234,
-      src: twitter,
+      src: x,
       title: "Small Icon",
     },
+
     {
       _id: 45234,
-      src: x,
+      src: appIcon,
       title: "App Icon",
     },
     {
+      _id: 4555234,
+      src: blog,
+      title: "Blog",
+    },
+
+    {
+      _id: 1238,
+      src: contact,
+      title: "Contact Card",
+    },
+    {
       _id: 1235,
-      src: youtube,
+      src: embedIcon,
       title: "Embed",
     },
     {
       _id: 1236,
-      src: linkedin,
+      src: infoBar,
       title: "Info Bar",
     },
     {
-      _id: 1237,
-      src: swopPay,
-      title: "Sell Products",
-    },
-    {
-      _id: 1238,
-      src: contactCard,
-      title: "Contact Card",
+      _id: 126338,
+      src: message,
+      title: "Message",
     },
     {
       _id: 1239,
       src: mp4,
-      title: "Music Files",
+      title: "Music File",
     },
     {
       _id: 1244,
       src: photosVideos,
-      title: "Photos / Videos",
+      title: "Photo / Video",
     },
     {
       _id: 1254,
       src: redeemLink,
-      title: "Redeem Links",
+      title: "Redeem Link",
+    },
+    {
+      _id: 1237,
+      src: swopPay,
+      title: "Swop Pay",
+    },
+    {
+      _id: 1254,
+      src: referral,
+      title: "Referral",
     },
   ];
 
@@ -148,7 +172,7 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
                     alt="icon"
                     src={data.src}
                     quality={100}
-                    className={`${data.title === "App Icon" && "w-8 h-auto"}`}
+                    className={`${data.title === "Small Icon" && "w-9 h-auto"}`}
                   />
                 </div>
                 {toggleIcon.find((item: any) => item == data.title) ? (

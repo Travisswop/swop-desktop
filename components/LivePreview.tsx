@@ -212,6 +212,42 @@ const LivePreview = ({ data }: { data?: any }) => {
           </div>
           {/* small icon display here end */}
 
+          {/* blog display here start */}
+          <div className="flex flex-col gap-y-3 px-4">
+            {data.info.blog.map((item: any, index: number) => (
+              <div key={index} className="shadow-small p-3">
+                <div>
+                  <div>
+                    <div className="relative">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        width={400}
+                        height={300}
+                        className="w-full h-80 object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p>{item.title}</p>
+                      <p>{item.headline}</p>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data: item,
+                      categoryForTrigger: "blog",
+                    })
+                  }
+                >
+                  edit
+                </button>
+              </div>
+            ))}
+          </div>
+          {/* blog display here end */}
+
           {/* app icon display here start */}
           <div className="flex gap-x-5 gap-y-3 justify-center items-center flex-wrap px-10">
             {data.info.socialLarge.map((data: any, index: number) => (
@@ -318,10 +354,10 @@ const LivePreview = ({ data }: { data?: any }) => {
                   } border-4 border-[#c685ff] rounded-2xl overflow-hidden`}
                 >
                   {videoData.type === "tiktok" ? (
-                    <div className="embed-container-tiktok">
-                      <TikTokEmbed embedHtml={videoData.videoUrl} />
-                    </div>
-                  ) : videoData.type === "twitter" ? (
+                    // <div className="tiktok-container">
+                    <TikTokEmbed embedHtml={videoData.videoUrl} />
+                  ) : // </div>
+                  videoData.type === "twitter" ? (
                     <div className="embed-container">
                       {" "}
                       <TwitterEmbed embedHtml={videoData.videoUrl} />

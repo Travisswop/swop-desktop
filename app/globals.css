@@ -199,7 +199,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-/* embed link responsive  */
+/* smartsite embed link start */
 .embed-responsive {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
@@ -219,16 +219,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 100% !important;
   height: 100% !important;
   border: 0;
-  border-radius: 12px; /* Adjust the radius as needed */
+  border-radius: 12px;
 }
 
 .embed-container {
   position: relative;
-  /* overflow: hidden;
-  padding-bottom: 56.25%;
-  height: 0;
-  max-width: 100%; */
-  border-radius: 12px; /* Adjust the radius as needed */
+  border-radius: 12px;
 }
 
 .embed-container iframe {
@@ -239,8 +235,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 100%;
   border: 0;
 }
+/* smartsite embed link end */
 
-.embed-container-tiktok blockquote {
-  max-width: 1000px !important;
-  min-width: 100px !important;
+/* smartsite blog start */
+.blog .ql-container {
+  min-height: 120px;
 }
+/* smartsite blog end */

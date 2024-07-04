@@ -19,8 +19,9 @@ import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import AnimateButton from "@/components/Button/AnimateButton";
 import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
-import { postInfoBar, updateInfoBar } from "@/actions/infoBar";
+import { deleteInfoBar, postInfoBar, updateInfoBar } from "@/actions/infoBar";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
+import { deleteEmbedLink } from "@/actions/embedLink";
 // import AnimateButton from "../Button/AnimateButton";
 
 const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
@@ -37,12 +38,14 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [buttonName, setButtonName] = useState(iconDataObj.data.buttonName);
+  const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
-  console.log("selected icon type", selectedIconType);
-  console.log("selected icon name", selectedIcon);
-  console.log("selected icon data", selectedIconData);
-  console.log("iconDataObj", iconDataObj);
+  // console.log("selected icon type", selectedIconType);
+  // console.log("selected icon name", selectedIcon);
+  // console.log("selected icon data", selectedIconData);
+  // console.log("iconDataObj", iconDataObj);
 
   const iconData: any = newIcons[1];
   // console.log("iconData", iconData);
@@ -173,10 +176,10 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       iconPath: "",
       group: selectedIconType,
     };
-    console.log("smallIconInfo", infobarInfo);
+    // console.log("smallIconInfo", infobarInfo);
     try {
       const data = await updateInfoBar(infobarInfo, sesstionState.accessToken);
-      console.log("data", data);
+      // console.log("data", data);
 
       if ((data.state = "success")) {
         toast.success("info bar updated successfully");
@@ -202,6 +205,34 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       url: data.url,
     });
     setButtonName(data.name);
+  };
+
+  const handleDelete = async () => {
+    setIsDeleteLoading(true);
+    const submitData = {
+      _id: iconDataObj.data._id,
+      micrositeId: iconDataObj.data.micrositeId,
+    };
+    console.log("submit data", submitData);
+
+    try {
+      const data: any = await deleteInfoBar(
+        submitData,
+        sesstionState.accessToken
+      );
+      console.log("data,", data);
+
+      if (data && data?.state === "success") {
+        toast.success("info bar deleted successfully");
+        setOff();
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleteLoading(false);
+    }
   };
 
   return (
@@ -467,10 +498,19 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-between mt-6">
                     <AnimateButton isLoading={isLoading} width={"w-52"}>
                       <LiaFileMedicalSolid size={20} />
-                      Save Changes
+                      Update Changes
+                    </AnimateButton>
+
+                    <AnimateButton
+                      type="button"
+                      onClick={handleDelete}
+                      isLoading={isDeleteLoading}
+                      width={"w-28"}
+                    >
+                      <MdDelete size={20} /> Delete
                     </AnimateButton>
                   </div>
                 </form>
