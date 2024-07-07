@@ -138,7 +138,7 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
     {
       _id: 1244,
       src: photosVideos,
-      title: "Photo / Video",
+      title: "Video",
     },
     {
       _id: 1254,
