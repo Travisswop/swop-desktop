@@ -14,10 +14,11 @@ import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import getSmallIconImage from "@/util/retriveIconImage/getSmallIconImage";
 import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye } from "react-icons/fa";
 import TikTokEmbed from "./embed/tiktokEmbed";
 import TwitterEmbed from "./embed/twitterEmbed";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
+import AnimateButton from "./Button/AnimateButton";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -215,7 +216,10 @@ const LivePreview = ({ data }: { data?: any }) => {
           {/* blog display here start */}
           <div className="flex flex-col gap-y-3 px-4">
             {data.info.blog.map((item: any, index: number) => (
-              <div key={index} className="shadow-small p-3">
+              <div
+                key={index}
+                className="shadow-small hover:shadow-medium p-3 2xl:p-4 rounded-lg"
+              >
                 <div>
                   <div>
                     <div className="relative">
@@ -224,25 +228,63 @@ const LivePreview = ({ data }: { data?: any }) => {
                         alt={item.title}
                         width={400}
                         height={300}
-                        className="w-full h-80 object-cover"
+                        className="w-full h-32 2xl:h-60 object-cover rounded-lg"
                       />
                     </div>
                     <div>
-                      <p>{item.title}</p>
-                      <p>{item.headline}</p>
+                      {item?.title && (
+                        <p className="text-lg font-bold text-gray-700 mt-2 mb-1">
+                          {item.title}
+                        </p>
+                      )}
+                      {item?.headline && (
+                        <p className="text-sm font-medium text-gray-600 truncate">
+                          {item.headline}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() =>
-                    handleTriggerUpdate({
-                      data: item,
-                      categoryForTrigger: "blog",
-                    })
-                  }
-                >
-                  edit
-                </button>
+                <div className="flex justify-between items-center mt-3">
+                  {/* <button
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: item,
+                        categoryForTrigger: "blog",
+                      })
+                    }
+                    className="flex items-center gap-1"
+                  >
+                    <FaEdit /> Edit
+                  </button> */}
+                  <AnimateButton
+                    type="button"
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: item,
+                        categoryForTrigger: "blog",
+                      })
+                    }
+                    width="w-30"
+                    className="!py-1 !rounded-md"
+                  >
+                    <FaEdit /> Edit
+                  </AnimateButton>
+
+                  <AnimateButton
+                    type="button"
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: item,
+                        categoryForTrigger: "showBlog",
+                      })
+                    }
+                    width="w-30"
+                    className="!py-1 !rounded-md !gap-1.5"
+                  >
+                    <FaEye size={18} /> Read More
+                  </AnimateButton>
+                </div>
               </div>
             ))}
           </div>

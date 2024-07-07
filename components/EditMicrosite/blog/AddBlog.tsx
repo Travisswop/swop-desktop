@@ -16,23 +16,43 @@ const AddBlog = () => {
   const state: any = useSmartSiteApiDataStore((state) => state);
   const sesstionState: any = useLoggedInUserStore((state) => state);
   const [value, setValue] = useState("");
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});
   const [imageFile, setImageFile] = useState<any>(null);
+  const [fileError, setFileError] = useState<string>("");
+
+  console.log("file error", fileError);
+
+  // const handleFileChange = (event: any) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImageFile(reader.result as any);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageFile(reader.result as any);
-      };
-      reader.readAsDataURL(file);
+      if (file.size > 10 * 1024 * 1024) {
+        // Check if file size is greater than 10 MB
+        setFileError("File size should be less than 10 MB");
+        setImageFile(null);
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageFile(reader.result as any);
+          setFileError("");
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 
-  //   console.log("imagefile", imageFile);
+  console.log("imagefile", imageFile);
 
   const handleFormSubmit = async (e: any) => {
     setIsLoading(true);
@@ -40,6 +60,7 @@ const AddBlog = () => {
     const formData = new FormData(e.currentTarget);
 
     if (!imageFile) {
+      setIsLoading(false);
       return setInputError({ ...inputError, image: "image is required" });
     }
 
@@ -135,6 +156,12 @@ const AddBlog = () => {
                   Image is required
                 </p>
               )}
+
+              {fileError && (
+                <p className="text-red-600 font-medium text-sm mt-1">
+                  {fileError}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-1">
@@ -178,15 +205,17 @@ const AddBlog = () => {
         </div>
         <div className="gap-2 hidden 2xl:flex justify-end">
           <p className="font-semibold text-gray-700 text-sm">Photo </p>
-          <div className="border-2 border-[#d8acff] min-w-48 max-w-64 min-h-36 max-h-44 p-1 bg-slate-100 rounded-lg">
+          <div className="border-2 border-[#d8acff] min-w-56 max-w-64 min-h-32 max-h-36 p-1 bg-slate-100 rounded-lg">
             {imageFile ? (
-              <Image
-                src={imageFile}
-                alt="blog photo"
-                width={200}
-                height={200}
-                className="w-full max-h-full rounded-md"
-              />
+              <div className="relative h-full">
+                <Image
+                  src={imageFile}
+                  alt="blog photo"
+                  width={200}
+                  height={200}
+                  className="w-full max-h-full rounded-md object-cover"
+                />
+              </div>
             ) : (
               <Image
                 src={imagePlaceholder}
@@ -199,6 +228,11 @@ const AddBlog = () => {
             {inputError.image && (
               <p className="text-red-600 font-medium text-sm mt-2">
                 Image is required
+              </p>
+            )}
+            {fileError && (
+              <p className="text-red-600 font-medium text-sm mt-2">
+                {fileError}
               </p>
             )}
           </div>

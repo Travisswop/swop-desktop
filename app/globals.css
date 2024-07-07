@@ -14,6 +14,10 @@
   }
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 /* slick style => we don't use react-slick now  */
 .slick-prev:before,
 .slick-next:before {
@@ -240,5 +244,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* smartsite blog start */
 .blog .ql-container {
   min-height: 120px;
+}
+.blog-update .ql-container {
+  height: 160px;
+  /* max-height: 220px; */
 }
 /* smartsite blog end */

@@ -6,6 +6,8 @@ interface AnimateButtonProps {
   isLoading?: boolean;
   type?: "button" | "submit" | "reset";
   width?: string;
+  className?: string;
+  paddingY?: string;
   onClick?: any;
 }
 
@@ -15,14 +17,19 @@ const AnimateButton: React.FC<AnimateButtonProps> = ({
   type = "submit",
   width = "w-52",
   onClick,
+  className,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const defaultClasses = `${width} relative overflow-hidden flex justify-center items-center gap-0.5 border border-gray-400 px-4 py-1.5 rounded-xl text-gray-500 font-medium hover:text-white hover:bg-gradient-to-r hover:from-black hover:to-transparent hover:border-gray-400 hover:bg-[length:200%_100%] hover:animate-bg-slide`;
+  // Merge the default classes with the passed className
+  const mergedClasses = `${defaultClasses} ${className && className}`;
 
   return (
     <button
       onClick={onClick}
       type={type}
-      className={`${width} relative overflow-hidden flex justify-center items-center gap-0.5 border border-gray-400 px-4 py-1.5 rounded-xl text-gray-500 font-medium hover:text-white hover:bg-gradient-to-r hover:from-black hover:to-transparent hover:border-gray-400 hover:bg-[length:200%_100%] hover:animate-bg-slide`}
+      className={mergedClasses}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

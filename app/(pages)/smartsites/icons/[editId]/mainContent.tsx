@@ -5,6 +5,8 @@ import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
+import UpdateBlog from "@/components/EditMicrosite/blog/UpdateBlog";
+import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
 import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
 import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
@@ -154,6 +156,18 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <UpdateInfoBar iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* update info bar end   */}
+
+          {/* update blog start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "blog" && (
+            <UpdateBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* update blog end   */}
+
+          {/* show blog details start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "showBlog" && (
+            <ViewBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* show blog details end   */}
 
           {toggleIcon.map((info: any, index: number) => (
             <AddIcon key={index} data={info} />

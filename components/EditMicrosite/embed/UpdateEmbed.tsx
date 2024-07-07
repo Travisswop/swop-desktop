@@ -234,7 +234,7 @@ const UpdateEmbed = ({ iconDataObj, isOn, setOff }: any) => {
                   <div className="flex justify-between mt-4">
                     <AnimateButton isLoading={isLoading} width={"w-52"}>
                       <LiaFileMedicalSolid size={20} />
-                      Save Changes
+                      Update Changes
                     </AnimateButton>
                     <AnimateButton
                       type="button"
