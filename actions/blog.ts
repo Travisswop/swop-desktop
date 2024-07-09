@@ -1,6 +1,6 @@
 "use server";
 
-export const maxDuration = 60;
+// export const maxDuration = 60;
 
 import { revalidatePath } from "next/cache";
 

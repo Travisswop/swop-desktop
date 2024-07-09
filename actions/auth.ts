@@ -1,7 +1,5 @@
 "use server";
 
-export const maxDuration = 60;
-
 import { signIn, signOut } from "@/auth";
 // import { delay } from "@/util/WaitAMoment";
 // import { cookies } from "next/headers";
