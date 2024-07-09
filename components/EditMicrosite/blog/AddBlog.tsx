@@ -22,7 +22,7 @@ const AddBlog = () => {
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
 
-  console.log("file error", fileError);
+  // console.log("file error", fileError);
 
   // const handleFileChange = (event: any) => {
   //   const file = event.target.files[0];

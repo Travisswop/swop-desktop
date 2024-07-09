@@ -6,6 +6,7 @@ import AddContactCard from "./contactCard/AddContactCard";
 import AddInfoBar from "./infoBar/AddInfoBar";
 import AddBlog from "./blog/AddBlog";
 import AddVideo from "./Video/AddVideo";
+import AddAudio from "./audio/AddAudio";
 
 const AddIcon = ({ data }: { data: string }) => {
   // console.log("data", data);
@@ -19,6 +20,7 @@ const AddIcon = ({ data }: { data: string }) => {
       {data === "Contact Card" && <AddContactCard />}
       {data === "Embed" && <AddEmbed />}
       {data === "Video" && <AddVideo />}
+      {data === "Music File" && <AddAudio />}
     </div>
   );
 };

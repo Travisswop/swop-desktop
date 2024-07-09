@@ -27,6 +27,8 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
   // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
   // const [open, setOpen] = useState(false);
 
+  console.log("toogle icon", toggleIcon);
+
   const setSmartSiteData = useSmartSiteApiDataStore(
     (state: any) => state.setSmartSiteData
   ); //get setter for setting smartsite info from zustand store
@@ -176,9 +178,11 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
           )}
           {/* show blog details end   */}
 
-          {toggleIcon.map((info: any, index: number) => (
-            <AddIcon key={index} data={info} />
-          ))}
+          <div className="flex flex-col-reverse gap-4">
+            {toggleIcon.map((info: any, index: number) => (
+              <AddIcon key={index} data={info} />
+            ))}
+          </div>
         </div>
         <div className="w-[38%]">
           <LivePreview data={data.data} />
