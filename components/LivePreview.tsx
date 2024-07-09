@@ -246,17 +246,6 @@ const LivePreview = ({ data }: { data?: any }) => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-3">
-                  {/* <button
-                    onClick={() =>
-                      handleTriggerUpdate({
-                        data: item,
-                        categoryForTrigger: "blog",
-                      })
-                    }
-                    className="flex items-center gap-1"
-                  >
-                    <FaEdit /> Edit
-                  </button> */}
                   <AnimateButton
                     type="button"
                     onClick={() =>
@@ -376,6 +365,49 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* info bar display here end */}
+
+          {/* video display here start */}
+          <div className="flex flex-col gap-y-3 px-4">
+            {data.info.video.map((videoData: any) => (
+              <div
+                key={videoData._id}
+                className="flex items-center gap-2 w-full"
+              >
+                <div
+                  className={`w-[96%] h-full border-4 border-[#c685ff] rounded-2xl overflow-hidden`}
+                >
+                  <video
+                    key={videoData.link as string}
+                    className="w-full h-auto"
+                    controls
+                  >
+                    <source src={videoData.link} type="video/mp4" />
+                    <track
+                      src={videoData.link}
+                      kind="subtitles"
+                      srcLang="en"
+                      label="English"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <div className="w-[4%]">
+                  <button
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: videoData,
+                        categoryForTrigger: "video",
+                      })
+                    }
+                    className=""
+                  >
+                    <FaEdit size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* video display here end */}
 
           {/* embed link display here start */}
           <div className="flex flex-col gap-y-3 px-4 w-full">

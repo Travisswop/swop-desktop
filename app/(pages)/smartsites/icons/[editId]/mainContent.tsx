@@ -4,6 +4,7 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
+import UpdateVideo from "@/components/EditMicrosite/Video/UpdateVideo";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
 import UpdateBlog from "@/components/EditMicrosite/blog/UpdateBlog";
 import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
@@ -162,6 +163,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <UpdateBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* update blog end   */}
+
+          {/* update video start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "video" && (
+            <UpdateVideo iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* update video end   */}
 
           {/* show blog details start  */}
           {isOn && iconData && iconData?.categoryForTrigger === "showBlog" && (

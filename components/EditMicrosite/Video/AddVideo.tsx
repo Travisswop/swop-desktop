@@ -1,17 +1,15 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "@/components/Button/AnimateButton";
 import placeholder from "@/public/images/video_player_placeholder.gif";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import CustomFileInput from "@/components/CustomFileInput";
-import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
-import { postBlog } from "@/actions/blog";
 import { postVideo } from "@/actions/video";
+import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
 
 const AddVideo = () => {
   const state: any = useSmartSiteApiDataStore((state) => state);
@@ -21,21 +19,27 @@ const AddVideo = () => {
   const [videoFile, setVideoFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
     if (file && file.type.startsWith("video/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setVideoFile(reader.result);
-        setFileError("");
-      };
-      reader.readAsDataURL(file);
+      if (file.size > 20 * 1024 * 1024) {
+        // Check if file size is greater than 10 MB
+        setFileError("File size should be less than 20 MB");
+        setVideoFile(null);
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setVideoFile(reader.result as any);
+          setFileError("");
+        };
+        reader.readAsDataURL(file);
+      }
     } else {
       setFileError("Please upload a valid video file.");
     }
   };
 
-  //   console.log("videoFile", videoFile);
+  // console.log("videoFile", videoFile);
 
   const handleFormSubmit = async (e: any) => {
     setIsLoading(true);
@@ -63,7 +67,16 @@ const AddVideo = () => {
     } else {
       setInputError("");
       try {
+        const videoUrl = await sendCloudinaryVideo(info.file);
+        if (!videoUrl) {
+          toast.error("image upload failed!");
+        }
+        info.file = videoUrl;
+        console.log("videee", info);
+
         const data = await postVideo(info, sesstionState.accessToken);
+        console.log("data", data);
+
         if ((data.state = "success")) {
           toast.success("video created successfully");
         } else {
