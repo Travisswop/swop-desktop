@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 async function getHomePageData(token: string) {
   // console.log("token", token);
 

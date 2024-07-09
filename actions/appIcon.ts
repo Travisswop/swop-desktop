@@ -1,5 +1,7 @@
 "use server";
 
+export const maxDuration = 60;
+
 import { revalidatePath } from "next/cache";
 
 export async function postAppIcon(appIconInfo: any, token: string) {

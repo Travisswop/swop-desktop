@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 export const sendCloudinaryVideo = async (
   base64Video: string
 ): Promise<string> => {

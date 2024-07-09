@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 async function getSingleSmartsiteData(id: string, token: string) {
   try {
     const res = await fetch(

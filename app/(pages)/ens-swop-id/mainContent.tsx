@@ -1,30 +1,32 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
-import email from "@/public/images/social-icon/email.svg";
-import facebook from "@/public/images/social-icon/facebook.svg";
-import instagram from "@/public/images/social-icon/instagram.svg";
-import linkedin from "@/public/images/social-icon/linkedin.svg";
-import location from "@/public/images/social-icon/location.svg";
-// import message from "@/public/images/social-icon/message.svg";
-// import snapchat from "@/public/images/social-icon/snapchat.svg";
-import tiktok from "@/public/images/social-icon/tiktok.svg";
-// import video from "@/public/images/social-icon/video.svg";
-import website_link from "@/public/images/social-icon/website_link.svg";
-import whatsapp from "@/public/images/social-icon/whatsapp.svg";
-// import youtube from "@/public/images/social-icon/youtube.svg";
-import contact from "@/public/images/social-icon/contact.svg";
-import twitter from "@/public/images/social-icon/twitter.svg";
-import SmartSiteInfoModal from "@/components/modal/SmartSiteInfoModal";
+// import email from "@/public/images/social-icon/email.svg";
+// import facebook from "@/public/images/social-icon/facebook.svg";
+// import instagram from "@/public/images/social-icon/instagram.svg";
+// import linkedin from "@/public/images/social-icon/linkedin.svg";
+// import location from "@/public/images/social-icon/location.svg";
+// // import message from "@/public/images/social-icon/message.svg";
+// // import snapchat from "@/public/images/social-icon/snapchat.svg";
+// import tiktok from "@/public/images/social-icon/tiktok.svg";
+// // import video from "@/public/images/social-icon/video.svg";
+// import website_link from "@/public/images/social-icon/website_link.svg";
+// import whatsapp from "@/public/images/social-icon/whatsapp.svg";
+// // import youtube from "@/public/images/social-icon/youtube.svg";
+// import contact from "@/public/images/social-icon/contact.svg";
+// import twitter from "@/public/images/social-icon/twitter.svg";
+// import SmartSiteInfoModal from "@/components/modal/SmartSiteInfoModal";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import { toast } from "react-toastify";
 import { Checkbox, Spinner, Tooltip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { debounce } from "lodash";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+// import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { GoCheckCircleFill } from "react-icons/go";
 import { BsXCircleFill } from "react-icons/bs";
+
+export const maxDuration = 60;
 
 const ClaimEnsUserName = () => {
   //state

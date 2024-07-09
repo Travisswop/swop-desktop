@@ -1,4 +1,5 @@
 "use server";
+export const maxDuration = 60;
 export async function handleSignUp(userInfo: any) {
   try {
     // console.log("userInfo", userInfo);

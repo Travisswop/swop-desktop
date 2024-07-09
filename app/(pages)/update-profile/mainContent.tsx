@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
+export const maxDuration = 60;
+
 const UpdateProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [galleryImage, setGalleryImage] = useState(null);

@@ -16,6 +16,8 @@ const popins = Poppins({
   display: "swap",
 });
 
+export const maxDuration = 60;
+
 export default function RootLayout({
   children,
 }: Readonly<{

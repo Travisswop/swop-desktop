@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
+export const maxDuration = 60;
+
 const SmartsideOpeningInfo = ({
   userSessionName,
   userSessionEmail,

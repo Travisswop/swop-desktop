@@ -1,5 +1,5 @@
 "use server";
-
+export const maxDuration = 60;
 import { revalidatePath } from "next/cache";
 
 export async function postVideo(info: any, token: string) {
