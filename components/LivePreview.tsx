@@ -19,6 +19,7 @@ import TikTokEmbed from "./embed/tiktokEmbed";
 import TwitterEmbed from "./embed/twitterEmbed";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
+import AudioPlayer from "react-h5-audio-player";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -68,6 +69,8 @@ const LivePreview = ({ data }: { data?: any }) => {
     setSmartSiteData(data);
     setOn(true);
   };
+
+  console.log("audio", data.info.audio);
 
   return (
     <section className="">
@@ -305,66 +308,135 @@ const LivePreview = ({ data }: { data?: any }) => {
           </div>
           {/* app icon display here end */}
 
-          {/* contact card display here start */}
-          <div className="flex flex-col gap-y-3 px-4">
-            {data.info.contact.map((data: any) => (
-              <button
-                key={data._id}
-                onClick={() =>
-                  handleTriggerUpdate({
-                    data,
-                    categoryForTrigger: "contactCard",
-                  })
-                }
-                className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
-              >
-                <Image
-                  src={
-                    "/images/iconShop/outline-icons/dark/business-card-outline@3x.png"
+          <div className="flex flex-col gap-y-3">
+            {/* contact card display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.contact.map((data: any) => (
+                <button
+                  key={data._id}
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data,
+                      categoryForTrigger: "contactCard",
+                    })
                   }
-                  alt="icon"
-                  width={40}
-                  height={40}
-                  style={tintStyle}
-                />
-                <div className="flex flex-col items-start gap-0.5 text-start">
-                  <p className="font-semibold text-gray-700">{data.name}</p>
-                  <p className="text-xs text-gray-400">{data.mobileNo}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-          {/* contact card display here end */}
+                  className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+                >
+                  <Image
+                    src={
+                      "/images/iconShop/outline-icons/dark/business-card-outline@3x.png"
+                    }
+                    alt="icon"
+                    width={40}
+                    height={40}
+                    style={tintStyle}
+                  />
+                  <div className="flex flex-col items-start gap-0.5 text-start">
+                    <p className="font-semibold text-gray-700">{data.name}</p>
+                    <p className="text-xs text-gray-400">{data.mobileNo}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {/* contact card display here end */}
 
-          {/* info bar display here start */}
-          <div className="flex flex-col gap-y-3 px-4">
-            {data.info.infoBar.map((data: any) => (
-              <button
-                key={data._id}
-                onClick={() =>
-                  handleTriggerUpdate({
-                    data,
-                    categoryForTrigger: "infoBar",
-                  })
-                }
-                className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
-              >
-                <Image
-                  src={getAppIconImage(data.iconName, data.group) as any}
-                  alt="icon"
-                  width={40}
-                  height={40}
-                />
-                <div className="flex flex-col items-start gap-0.5 text-start">
-                  <p className="font-semibold text-gray-700">
-                    {data.buttonName}
-                  </p>
-                  <p className="text-xs text-gray-400">{data.description}</p>
+            {/* info bar display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.infoBar.map((data: any) => (
+                <button
+                  key={data._id}
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data,
+                      categoryForTrigger: "infoBar",
+                    })
+                  }
+                  className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+                >
+                  <Image
+                    src={getAppIconImage(data.iconName, data.group) as any}
+                    alt="icon"
+                    width={40}
+                    height={40}
+                  />
+                  <div className="flex flex-col items-start gap-0.5 text-start">
+                    <p className="font-semibold text-gray-700">
+                      {data.buttonName}
+                    </p>
+                    <p className="text-xs text-gray-400">{data.description}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {/* info bar display here end */}
+
+            {/* audio||music display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.audio.map((audioData: any) => (
+                <div
+                  key={audioData._id}
+                  className="flex items-center gap-2 w-full"
+                >
+                  <div
+                    className={`w-full h-full bg-white py-2 px-3 rounded-lg shadow-medium`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() =>
+                          handleTriggerUpdate({
+                            data: audioData,
+                            categoryForTrigger: "audio",
+                          })
+                        }
+                        className="flex items-center gap-3"
+                      >
+                        <div className="relative">
+                          <Image
+                            src={audioData.coverPhoto}
+                            alt="cover photo"
+                            width={120}
+                            height={60}
+                            className="w-11 h-11 rounded-md object-cover"
+                          />
+                        </div>
+                        <div className="text-left">
+                          <p className="font-medium">{audioData.name}</p>
+                          <p className="text-sm">
+                            Tap play button to listen the audio
+                          </p>
+                        </div>
+                      </button>
+                      <div className="custom-audio">
+                        <AudioPlayer
+                          autoPlay={false}
+                          src={audioData.fileUrl}
+                          showJumpControls={false}
+                          customAdditionalControls={[]}
+                          customVolumeControls={[]}
+                          layout="stacked-reverse"
+                          className="!w-max !p-0 !shadow-none translate-y-1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="w-[4%]">
+                  <button
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: audioData,
+                        categoryForTrigger: "audio",
+                      })
+                    }
+                    className=""
+                  >
+                    <FaEdit size={18} />
+                  </button>
+                </div> */}
                 </div>
-              </button>
-            ))}
+              ))}
+            </div>
+            {/* audio||music display here end */}
           </div>
-          {/* info bar display here end */}
 
           {/* video display here start */}
           <div className="flex flex-col gap-y-3 px-4">

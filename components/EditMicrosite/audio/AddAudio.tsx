@@ -14,6 +14,7 @@ import imagePlaceholder from "@/public/images/image_placeholder.png";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import { postAudio } from "@/actions/audio";
 
 const AddAudio = () => {
   const state: any = useSmartSiteApiDataStore((state) => state);
@@ -89,6 +90,9 @@ const AddAudio = () => {
     if (!info.file) {
       errors = { ...errors, image: "audio is required" };
     }
+    if (!info.coverPhoto) {
+      errors = { ...errors, image: "cover photo is required" };
+    }
 
     if (Object.keys(errors).length > 0) {
       setInputError(errors);
@@ -102,24 +106,26 @@ const AddAudio = () => {
         }
         info.file = audioUrl;
 
-        if (info.coverPhoto) {
-          const imageUrl = await sendCloudinaryImage(info.coverPhoto);
-          if (!imageUrl) {
-            toast.error("cover photo upload failed!");
-          }
-          info.coverPhoto = imageUrl;
+        const imageUrl = await sendCloudinaryImage(info.coverPhoto);
+        if (!imageUrl) {
+          return toast.error("cover photo upload failed!");
         }
+        info.coverPhoto = imageUrl;
 
         console.log("videee", info);
 
-        // const data = await postVideo(info, sesstionState.accessToken);
-        // console.log("data", data);
+        if (imageUrl) {
+          console.log("post hocche");
 
-        // if ((data.state = "success")) {
-        //   toast.success("video created successfully");
-        // } else {
-        //   toast.error("something went wrong");
-        // }
+          const data = await postAudio(info, sesstionState.accessToken);
+          console.log("data", data);
+
+          if ((data.state = "success")) {
+            toast.success("audio created successfully");
+          } else {
+            toast.error("something went wrong");
+          }
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -220,7 +226,7 @@ const AddAudio = () => {
               </div>
               {inputError.image && (
                 <p className="text-red-600 font-medium text-sm mt-1">
-                  conver is required
+                  cover photo is required
                 </p>
               )}
 
