@@ -7,6 +7,7 @@ import AddInfoBar from "./infoBar/AddInfoBar";
 import AddBlog from "./blog/AddBlog";
 import AddVideo from "./Video/AddVideo";
 import AddAudio from "./audio/AddAudio";
+import AddSwopPay from "./SwopPay/AddSwopPay";
 
 const AddIcon = ({ data }: { data: string }) => {
   // console.log("data", data);
@@ -21,6 +22,7 @@ const AddIcon = ({ data }: { data: string }) => {
       {data === "Embed" && <AddEmbed />}
       {data === "Video" && <AddVideo />}
       {data === "Music File" && <AddAudio />}
+      {data === "Swop Pay" && <AddSwopPay />}
     </div>
   );
 };

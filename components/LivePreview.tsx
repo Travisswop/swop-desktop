@@ -335,6 +335,58 @@ const LivePreview = ({ data }: { data?: any }) => {
             </div>
             {/* info bar display here end */}
 
+            {/* swop pay display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.product.map((data: any) => (
+                <div key={data._id} className="flex items-center gap-2 w-full">
+                  <div
+                    className={`w-full h-full bg-white py-2 px-3 rounded-lg shadow-medium`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() =>
+                          handleTriggerUpdate({
+                            data: data,
+                            categoryForTrigger: "audio",
+                          })
+                        }
+                        className="flex items-center gap-3"
+                      >
+                        <div className="relative">
+                          <Image
+                            src={data.imageUrl}
+                            alt="cover photo"
+                            width={120}
+                            height={60}
+                            className="w-11 h-11 rounded-md object-cover"
+                          />
+                        </div>
+                        <div className="text-left">
+                          <p className="font-medium">{data.title}</p>
+                          <p className="text-sm">{data.description}</p>
+                        </div>
+                      </button>
+                      <div className="custom-audio">${data.price}</div>
+                    </div>
+                  </div>
+                  {/* <div className="w-[4%]">
+                  <button
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        data: audioData,
+                        categoryForTrigger: "audio",
+                      })
+                    }
+                    className=""
+                  >
+                    <FaEdit size={18} />
+                  </button>
+                </div> */}
+                </div>
+              ))}
+            </div>
+            {/* swop pay display here end */}
+
             {/* audio||music display here start */}
             <div className="flex flex-col gap-y-3 px-4">
               {data.info.audio.map((audioData: any) => (
