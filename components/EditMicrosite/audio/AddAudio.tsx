@@ -1,20 +1,18 @@
 import Image from "next/image";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "@/components/Button/AnimateButton";
-import placeholder from "@/public/images/video_player_placeholder.gif";
 import "react-quill/dist/quill.snow.css";
 import CustomFileInput from "@/components/CustomFileInput";
-import { postVideo } from "@/actions/video";
-import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
 import imagePlaceholder from "@/public/images/image_placeholder.png";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { postAudio } from "@/actions/audio";
+import { sendCloudinaryAudio } from "@/util/sendCloudineryAudio";
 
 const AddAudio = () => {
   const state: any = useSmartSiteApiDataStore((state) => state);
@@ -100,7 +98,7 @@ const AddAudio = () => {
     } else {
       setInputError("");
       try {
-        const audioUrl = await sendCloudinaryVideo(info.file);
+        const audioUrl = await sendCloudinaryAudio(info.file);
         if (!audioUrl) {
           toast.error("audio upload failed!");
         }
@@ -121,7 +119,7 @@ const AddAudio = () => {
           console.log("data", data);
 
           if ((data.state = "success")) {
-            toast.success("audio created successfully");
+            toast.success("music created successfully");
           } else {
             toast.error("something went wrong");
           }

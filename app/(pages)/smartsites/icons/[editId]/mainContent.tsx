@@ -6,6 +6,7 @@ import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import UpdateVideo from "@/components/EditMicrosite/Video/UpdateVideo";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
+import UpdateAudio from "@/components/EditMicrosite/audio/UpdateAudio";
 import UpdateBlog from "@/components/EditMicrosite/blog/UpdateBlog";
 import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
@@ -177,6 +178,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <ViewBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* show blog details end   */}
+
+          {/* show audio details start  */}
+          {isOn && iconData && iconData?.categoryForTrigger === "audio" && (
+            <UpdateAudio iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* show audio details end   */}
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (

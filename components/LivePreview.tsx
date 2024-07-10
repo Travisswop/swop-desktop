@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 import message from "@/public/images/live-preview/icon/message.svg";
 import deposit from "@/public/images/live-preview/icon/deposit.svg";
 import location from "@/public/images/live-preview/icon/location.svg";
@@ -20,43 +20,11 @@ import TwitterEmbed from "./embed/twitterEmbed";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
 import AudioPlayer from "react-h5-audio-player";
+import EmbedPlayer from "./livePreviewSmartsitesIcons/renderEmbedPlayer";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
   const { toggle } = useSideBarToggleStore();
-
-  const listArry = [
-    {
-      _id: 123,
-      img: message,
-      title: "Travis.Swopple.Id",
-      text: "Message Me Using the Swopple Wallet",
-    },
-    {
-      _id: 133,
-      img: contacts,
-      title: "Travis Herron",
-      text: `(408) 555-1234`,
-    },
-    {
-      _id: 143,
-      img: deposit,
-      title: "Deposit",
-      text: "Use my Swopple.Id to send to my self wallet",
-    },
-    {
-      _id: 153,
-      img: location,
-      title: "Our Headquarters",
-      text: "Get A Free tour of Our headquarters",
-    },
-    {
-      _id: 12366,
-      img: website,
-      title: "Our Website",
-      text: "www.swopme.co",
-    },
-  ];
 
   // console.log("data form live", data);
   const { formData }: any = useSmartsiteFormStore();
@@ -191,7 +159,6 @@ const LivePreview = ({ data }: { data?: any }) => {
               {formData.bio || data?.bio}
             </p>
           </div>
-
           {/* small icon display here start */}
           <div className="flex gap-x-4 gap-y-2 justify-center items-center flex-wrap px-16">
             {data.info.socialTop.map((data: any, index: number) => (
@@ -215,7 +182,6 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* small icon display here end */}
-
           {/* blog display here start */}
           <div className="flex flex-col gap-y-3 px-4">
             {data.info.blog.map((item: any, index: number) => (
@@ -281,7 +247,6 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* blog display here end */}
-
           {/* app icon display here start */}
           <div className="flex gap-x-5 gap-y-3 justify-center items-center flex-wrap px-10">
             {data.info.socialLarge.map((data: any, index: number) => (
@@ -307,7 +272,7 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* app icon display here end */}
-
+          {/* card here  */}
           <div className="flex flex-col gap-y-3">
             {/* contact card display here start */}
             <div className="flex flex-col gap-y-3 px-4">
@@ -408,6 +373,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                       </button>
                       <div className="custom-audio">
                         <AudioPlayer
+                          key={audioData.fileUrl}
                           autoPlay={false}
                           src={audioData.fileUrl}
                           showJumpControls={false}
@@ -437,9 +403,8 @@ const LivePreview = ({ data }: { data?: any }) => {
             </div>
             {/* audio||music display here end */}
           </div>
-
           {/* video display here start */}
-          <div className="flex flex-col gap-y-3 px-4">
+          <div key={"video"} className="flex flex-col gap-y-3 px-4">
             {data.info.video.map((videoData: any) => (
               <div
                 key={videoData._id}
@@ -480,75 +445,15 @@ const LivePreview = ({ data }: { data?: any }) => {
             ))}
           </div>
           {/* video display here end */}
-
           {/* embed link display here start */}
-          <div className="flex flex-col gap-y-3 px-4 w-full">
-            {data.info.videoUrl.map((videoData: any) => (
-              <div
-                key={videoData._id}
-                className="flex items-center gap-2 w-full"
-              >
-                <div
-                  className={`w-[96%] ${
-                    videoData.type === "spotify"
-                      ? `${
-                          !toggle
-                            ? "h-[90px] lg:h-[160px] xl:h-[160px] 2xl:h-[240px]"
-                            : "h-[100px] lg:h-[160px] 2xl:h-[240px]"
-                        }`
-                      : "h-full"
-                  } border-4 border-[#c685ff] rounded-2xl overflow-hidden`}
-                >
-                  {videoData.type === "tiktok" ? (
-                    // <div className="tiktok-container">
-                    <TikTokEmbed embedHtml={videoData.videoUrl} />
-                  ) : // </div>
-                  videoData.type === "twitter" ? (
-                    <div className="embed-container">
-                      {" "}
-                      <TwitterEmbed embedHtml={videoData.videoUrl} />
-                    </div>
-                  ) : (
-                    <div className="embed-responsive">
-                      <div
-                        className="w-full"
-                        dangerouslySetInnerHTML={{ __html: videoData.videoUrl }}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="w-[4%]">
-                  <button
-                    onClick={() =>
-                      handleTriggerUpdate({
-                        data: videoData,
-                        categoryForTrigger: "embed",
-                      })
-                    }
-                    className=""
-                  >
-                    <FaEdit size={18} />
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div key={"embed"} className="flex flex-col gap-y-3 px-4 w-full">
+            <EmbedPlayer
+              items={data.info.videoUrl}
+              toggle={toggle}
+              handleTriggerUpdate={handleTriggerUpdate}
+            />
           </div>
           {/* embed link display here end */}
-
-          <div className="flex flex-col gap-4 px-4">
-            {listArry.map((data) => (
-              <div
-                key={data._id}
-                className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
-              >
-                <Image src={data.img} alt="icon" width={40} />
-                <div>
-                  <p className="font-semibold text-gray-700">{data.title}</p>
-                  <p className="text-xs text-gray-400">{data.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
           <div className="flex items-center justify-center gap-2 pb-6 pt-2">
             <Image alt="swop logo" src={swop} />
             <BiSolidEdit />
