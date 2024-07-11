@@ -414,7 +414,7 @@ const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
                 />
                 {inputError.description && (
                   <p className="text-red-600 font-medium text-sm">
-                    description is required
+                    {inputError.description}
                   </p>
                 )}
               </div>
