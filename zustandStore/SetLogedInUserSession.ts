@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface WalletState {
   account: string;
@@ -16,29 +17,33 @@ interface UserStore {
   setWallet: (wallet: WalletState | null) => void;
 }
 
-const useLoggedInUserStore = create<UserStore>((set, get) => ({
-  state: {
-    user: null,
-    wallet: null,
-  },
-  setUser: (user: any) =>
-    set((state) => ({
+const useLoggedInUserStore = create<UserStore>()(
+  persist(
+    (set) => ({
       state: {
-        ...state.state,
-        user,
+        user: null,
+        wallet: null,
       },
-    })),
-  setWallet: (wallet: WalletState | null) => {
-    console.log('Setting wallet data:', wallet);
-    set((state) => ({
-      state: {
-        ...state.state,
-        wallet,
-      },
-    }));
-    // Log the state after setting wallet data
-    console.log('State after setting wallet data:', get().state);
-  },
-}));
+      setUser: (user) =>
+        set((state) => ({
+          state: {
+            ...state.state,
+            user,
+          },
+        })),
+      setWallet: (wallet) =>
+        set((state) => ({
+          state: {
+            ...state.state,
+            wallet,
+          },
+        })),
+    }),
+    {
+      name: 'user-storage',
+      getStorage: () => localStorage,
+    }
+  )
+);
 
 export default useLoggedInUserStore;
