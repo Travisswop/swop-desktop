@@ -285,7 +285,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                       categoryForTrigger: "contactCard",
                     })
                   }
-                  className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+                  className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                 >
                   <Image
                     src={
@@ -316,7 +316,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                       categoryForTrigger: "infoBar",
                     })
                   }
-                  className="flex items-center gap-2 bg-white py-2 px-3 rounded-lg shadow-medium"
+                  className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                 >
                   <Image
                     src={getAppIconImage(data.iconName, data.group) as any}
@@ -342,16 +342,16 @@ const LivePreview = ({ data }: { data?: any }) => {
                   <div
                     className={`w-full h-full bg-white py-2 px-3 rounded-lg shadow-medium`}
                   >
-                    <div className="flex items-center justify-between">
-                      <button
-                        onClick={() =>
-                          handleTriggerUpdate({
-                            data: data,
-                            categoryForTrigger: "audio",
-                          })
-                        }
-                        className="flex items-center gap-3"
-                      >
+                    <button
+                      onClick={() =>
+                        handleTriggerUpdate({
+                          data: data,
+                          categoryForTrigger: "swopPay",
+                        })
+                      }
+                      className="flex items-center justify-between gap-3 w-full"
+                    >
+                      <div className="flex items-center gap-3 w-full">
                         <div className="relative">
                           <Image
                             src={data.imageUrl}
@@ -363,11 +363,13 @@ const LivePreview = ({ data }: { data?: any }) => {
                         </div>
                         <div className="text-left">
                           <p className="font-medium">{data.title}</p>
-                          <p className="text-sm">{data.description}</p>
+                          <p className="text-sm text-gray-600">
+                            {data.description}
+                          </p>
                         </div>
-                      </button>
+                      </div>
                       <div className="custom-audio">${data.price}</div>
-                    </div>
+                    </button>
                   </div>
                   {/* <div className="w-[4%]">
                   <button

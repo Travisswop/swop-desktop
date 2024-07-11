@@ -64,7 +64,7 @@ const AddSwopPay = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const info = {
+    const info: any = {
       micrositeId: state.data._id,
       title: formData.get("title"),
       price: formData.get("price"),
@@ -86,6 +86,12 @@ const AddSwopPay = () => {
     }
     if (!info.description) {
       errors = { ...errors, description: "description is required" };
+    }
+    if (info.description && info?.description?.length < 5) {
+      errors = {
+        ...errors,
+        description: "description must be atleast 5 characters long",
+      };
     }
     if (!info.paymentUrl) {
       errors = { ...errors, image: "product url is required" };
@@ -326,7 +332,7 @@ const AddSwopPay = () => {
         />
         {inputError.description && (
           <p className="text-red-600 font-medium text-sm">
-            description is required
+            {inputError.description}
           </p>
         )}
       </div>

@@ -3,6 +3,7 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
+import UpdateSwopPay from "@/components/EditMicrosite/SwopPay/UpdateSwopPay";
 import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
 import UpdateVideo from "@/components/EditMicrosite/Video/UpdateVideo";
 import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
@@ -184,6 +185,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <UpdateAudio iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* show audio details end   */}
+
+          {/* update swop pay modal start */}
+          {isOn && iconData && iconData?.categoryForTrigger === "swopPay" && (
+            <UpdateSwopPay iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* update swop pay modal end   */}
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (
