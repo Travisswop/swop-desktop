@@ -19,6 +19,8 @@ import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import ForceSignOut from "@/components/ForceSignOut";
+import WalletInfo from "@/components/WalletInfo";
+
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check is user exist
 
@@ -216,6 +218,9 @@ export default async function HomePage() {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="bg-white rounded-lg mt-4 p-6">
+                <WalletInfo />
               </div>
             </div>
           </div>

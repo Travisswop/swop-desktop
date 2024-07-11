@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
-import wallet from "../../../public/wallet_login_icon.svg";
+import walletIcon from "../../../public/wallet_login_icon.svg";
 import googleIcon from "../../../public/images/login-form/google-icon.svg";
 import appleIcon from "../../../public/images/login-form/apple-icon.svg";
 import login_astronot from "../../../public/images/login_astronot.svg";
@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
 import { z } from "zod";
 import Link from "next/link";
+import detectEthereumProvider from '@metamask/detect-provider';
+import useLoggedInUserStore from '../../../zustandStore/SetLogedInUserSession';
 
 // Type definitions for form errors
 interface FormErrors {
@@ -22,18 +24,29 @@ interface FormErrors {
   password?: string;
 }
 
+// Type definition for MetaMask provider
+interface MetaMaskProvider extends Window {
+  ethereum?: {
+    request: (args: { method: string, params?: any[] }) => Promise<any>
+  }
+}
+
 const LoginPage = () => {
   const router = useRouter();
   const controls = useAnimation();
   const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const setWallet = useLoggedInUserStore((state) => state.setWallet);
 
-  //generate random x position for astronout to float
+  //generate random x position for astronaut to float
   const getRandomXPosition = (min: number, max: number) => {
     return {
       x: Math.floor(Math.random() * (max - min + 1)) + min,
     };
   };
-  //generate random y position for astronout to float
+  //generate random y position for astronaut to float
   const getRandomYPosition = (min: number, max: number) => {
     return {
       y: Math.floor(Math.random() * (max - min + 1)) + min,
@@ -44,7 +57,7 @@ const LoginPage = () => {
     setMounted(true);
   }, []);
 
-  //using random x and y position astronout float around background
+  //using random x and y position astronaut float around background
   useEffect(() => {
     if (!mounted) return;
     if (mounted) {
@@ -69,11 +82,8 @@ const LoginPage = () => {
     }
   }, [mounted, controls]);
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
-
   async function handleSubmit(event: any) {
+    console.log('handleSubmit called');
     event.preventDefault();
     try {
       setError("");
@@ -83,19 +93,26 @@ const LoginPage = () => {
       const plainData = Object.fromEntries(formData.entries());
       signInSchema.parse(plainData); // Validate the plain object
 
-      // if (Object.keys(formErrors).length === 0) {
+      console.log('Attempting to connect MetaMask');
+      const walletData = await connectMetaMask();
+      if (walletData) {
+        console.log('Wallet Data:', walletData);
+        setWallet(walletData);
+        // Log the state to verify
+        console.log('Wallet state after set:', useLoggedInUserStore.getState());
+        // Store the wallet data or send it to your backend
+      } else {
+        console.log('MetaMask not connected or not installed');
+      }
+
       const response = await signInWithCredentials(formData);
-      // console.log("response form signin page", response);
 
       if (response.error) {
         setError("Incorrect email or password");
         setLoading(false);
       } else {
         router.push("/");
-        // setLoading(false);
       }
-      // }
-      // setLoading(false);
     } catch (err) {
       setLoading(false);
       if (err instanceof z.ZodError) {
@@ -109,6 +126,33 @@ const LoginPage = () => {
       }
     }
   }
+
+  const connectMetaMask = async () => {
+    try {
+      const provider = await detectEthereumProvider();
+      console.log('Provider:', provider);
+
+      if (provider && (window as MetaMaskProvider).ethereum) {
+        console.log('MetaMask is installed!');
+        const accounts = await (window as MetaMaskProvider).ethereum!.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+
+        // Get the balance
+        const balance = await (window as MetaMaskProvider).ethereum!.request({
+          method: 'eth_getBalance',
+          params: [account, 'latest']
+        });
+
+        return { account, balance };
+      } else {
+        console.log('Please install MetaMask!');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error connecting to MetaMask', error);
+      return null;
+    }
+  };
 
   return (
     <main className="overflow-hidden">
@@ -132,14 +176,10 @@ const LoginPage = () => {
         </section>
         <section className="">
           <div className="flex justify-center">
-            <div className="relative lg:w-auto w-[90%] sm:w-[70%] md:w-[60%]">
-              {/* <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute -bottom-6 -left-20 z-0"></div>
-              <div className="bg-gradient-to-br from-purple-200 to-blue-300 w-52 h-52 rounded-full absolute top-10 -right-20 z-0"></div>
-              <div className="bg-gradient-to-r from-purple-500 to-blue-500 w-20 h-20 rounded-full absolute top-32 left-28 z-0"></div>
-              <div className="bg-[#af87fd] w-12 h-12 rounded-full absolute top-40 left-10 z-0"></div> */}
+            <div className="relative lg:w-auto w-[90%] sm:w-[70%] md:w/[60%]">
               <div className="flex flex-col gap-4 justify-center mt-16 w-full lg:w-[32rem] h-full px-4 lg:px-10 pt-4 lg:pt-12 pb-4 backdrop-blur-[50px] bg-white bg-opacity-25 border shadow-md rounded-xl">
                 <div className="flex gap-2 justify-center">
-                  {/* action for google sing in */}
+                  {/* action for google sign in */}
                   <form action={doSignInWithGoogle}>
                     <button type="submit">
                       <Image
@@ -156,16 +196,11 @@ const LoginPage = () => {
                 {error && Object.keys(formErrors).length === 0 && (
                   <p className="text-red-600 text-sm">{error}</p>
                 )}
-                <form
-                  // action={signInWithCredentials}
-                  onSubmit={handleSubmit}
-                  className="flex flex-col gap-3"
-                >
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                   <div>
                     <input
                       type="text"
                       name="email"
-                      // required
                       placeholder="Enter your email address"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl bg-white focus:outline-none px-4 py-2 text-gray-700"
                     />
@@ -246,7 +281,7 @@ const LoginPage = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                    <Image src={wallet} alt="wallet icon" />
+                    <Image src={walletIcon} alt="wallet icon" />
                     Connect a Wallet
                   </button>
                   <a
