@@ -1,23 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
-import { handleDeleteAppIcon } from "@/actions/appIcon";
-import {
-  handleDeleteContactCard,
-  updateContactCard,
-} from "@/actions/contactCard";
 import { MdDelete } from "react-icons/md";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
-import ReactQuill from "react-quill";
 import Image from "next/image";
 import CustomFileInput from "@/components/CustomFileInput";
-import { icon } from "@/util/data/smartsiteIconData";
-import { deleteBlog, updateBlog } from "@/actions/blog";
-import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
-import { deleteAudio, postAudio, updateAudio } from "@/actions/audio";
+import { deleteAudio, updateAudio } from "@/actions/audio";
+import "react-h5-audio-player/lib/styles.css";
 import AudioPlayer from "react-h5-audio-player";
 import { sendCloudinaryAudio } from "@/util/sendCloudineryAudio";
 

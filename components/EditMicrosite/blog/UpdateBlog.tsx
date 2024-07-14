@@ -11,6 +11,7 @@ import {
 } from "@/actions/contactCard";
 import { MdDelete } from "react-icons/md";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import "react-quill/dist/quill.snow.css"; // Add this line if not already present
 import ReactQuill from "react-quill";
 import Image from "next/image";
 import CustomFileInput from "@/components/CustomFileInput";
@@ -18,6 +19,8 @@ import { icon } from "@/util/data/smartsiteIconData";
 import { deleteBlog, updateBlog } from "@/actions/blog";
 
 const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
+  console.log("hit");
+
   const sesstionState: any = useLoggedInUserStore((state) => state); // get small icon store value
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -300,6 +303,7 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
                     </span>
                   </p>
                   <ReactQuill
+                    key={value}
                     placeholder="Enter Description"
                     theme="snow"
                     value={value}

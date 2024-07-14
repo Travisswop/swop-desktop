@@ -3,18 +3,7 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
-import UpdateSwopPay from "@/components/EditMicrosite/SwopPay/UpdateSwopPay";
-import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
-import UpdateVideo from "@/components/EditMicrosite/Video/UpdateVideo";
-import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
-import UpdateAudio from "@/components/EditMicrosite/audio/UpdateAudio";
-import UpdateBlog from "@/components/EditMicrosite/blog/UpdateBlog";
-import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
-import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
-import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
-import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
-import UpdateENS from "@/components/EditMicrosite/message/UpdateMessage";
-import UpdateReferral from "@/components/EditMicrosite/referral/UpdateReferral";
+import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalComponents";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
@@ -28,8 +17,6 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 
 const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
-  // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
-  // const [open, setOpen] = useState(false);
 
   console.log("toogle icon", toggleIcon);
 
@@ -45,7 +32,7 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
 
   const iconData: any = useUpdateSmartIcon(); //get trigger smarticon from zustand store
 
-  console.log("iconData", iconData);
+  // console.log("iconData", iconData);
 
   const handleAddIcon = (title: { title: string }) => {
     setToggleIcon([...toggleIcon, title]);
@@ -70,7 +57,7 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
     // if (iconData) {
     //   setOpen(true);
     // }
-  }, [data, session, iconData, setLoggedInUserInfo, setSmartSiteData]);
+  }, [data, session, setLoggedInUserInfo, setSmartSiteData]);
 
   // console.log("open", open);
 
@@ -118,97 +105,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             />
           </div>
 
-          {/* small icon start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "socialTop" && (
-            <UpdateSmallIcon
-              iconDataObj={iconData}
-              isOn={isOn}
-              setOff={setOff}
-            />
-          )}
-          {/* small icon end   */}
-
-          {/* app icon start  */}
-          {isOn &&
-            iconData &&
-            iconData?.categoryForTrigger === "socialLarge" && (
-              <UpdateAppIcon
-                iconDataObj={iconData}
-                isOn={isOn}
-                setOff={setOff}
-              />
-            )}
-          {/* app icon end   */}
-
-          {/* contact card start  */}
-          {isOn &&
-            iconData &&
-            iconData?.categoryForTrigger === "contactCard" && (
-              <UpdateContactCard
-                iconDataObj={iconData}
-                isOn={isOn}
-                setOff={setOff}
-              />
-            )}
-          {/* contact card end   */}
-
-          {/* embed start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "embed" && (
-            <UpdateEmbed iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* embed end   */}
-
-          {/* update info bar start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "infoBar" && (
-            <UpdateInfoBar iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* update info bar end   */}
-
-          {/* update blog start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "blog" && (
-            <UpdateBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* update blog end   */}
-
-          {/* update video start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "video" && (
-            <UpdateVideo iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* update video end   */}
-
-          {/* show blog details start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "showBlog" && (
-            <ViewBlog iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* show blog details end   */}
-
-          {/* show audio details start  */}
-          {isOn && iconData && iconData?.categoryForTrigger === "audio" && (
-            <UpdateAudio iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* show audio details end   */}
-
-          {/* update swop pay modal start */}
-          {isOn && iconData && iconData?.categoryForTrigger === "swopPay" && (
-            <UpdateSwopPay iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* update swop pay modal end   */}
-
-          {/* update referral modal start */}
-          {isOn && iconData && iconData?.categoryForTrigger === "referral" && (
-            <UpdateReferral
-              iconDataObj={iconData}
-              isOn={isOn}
-              setOff={setOff}
-            />
-          )}
-          {/* update referral modal end   */}
-
-          {/* update message/ens modal start */}
-          {isOn && iconData && iconData?.categoryForTrigger === "ens" && (
-            <UpdateENS iconDataObj={iconData} isOn={isOn} setOff={setOff} />
-          )}
-          {/* update message/ens modal end   */}
+          {/* Update modal component list here  */}
+          <UpdateModalComponents
+            isOn={isOn}
+            iconData={iconData}
+            setOff={setOff}
+          />
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (

@@ -21,8 +21,25 @@ import smatsiteBannerImageList from "@/util/data/smartsiteBannerImageList";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import { handleSmartSiteUpdate } from "@/actions/update";
 import { toast } from "react-toastify";
+import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
+import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
+import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalComponents";
+import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import UpdateSmallIcon from "@/components/EditMicrosite/UpdateSmallIcon";
+import UpdateAppIcon from "@/components/EditMicrosite/appIcon/UpdateAppIcon";
+import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
+import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
+import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
+import UpdateBlog from "@/components/EditMicrosite/blog/UpdateBlog";
+import UpdateVideo from "@/components/EditMicrosite/Video/UpdateVideo";
+import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
+import UpdateAudio from "@/components/EditMicrosite/audio/UpdateAudio";
+import UpdateSwopPay from "@/components/EditMicrosite/SwopPay/UpdateSwopPay";
+import UpdateReferral from "@/components/EditMicrosite/referral/UpdateReferral";
+import UpdateENS from "@/components/EditMicrosite/message/UpdateMessage";
 
-const EditSmartSite = ({ data, token }: any) => {
+const EditSmartSite = ({ data, token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
@@ -62,6 +79,10 @@ const EditSmartSite = ({ data, token }: any) => {
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
 
   // console.log("gatedAccessError", gatedAccessError);
+
+  const { isOn, setOff }: any = useSmallIconToggleStore();
+
+  const iconData: any = useUpdateSmartIcon(); //get trigger smarticon from zustand store
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -205,7 +226,7 @@ const EditSmartSite = ({ data, token }: any) => {
       web3enabled: data.data.web3enabled,
     };
 
-    console.log("smartsite info", smartSiteInfo);
+    // console.log("smartsite info", smartSiteInfo);
 
     try {
       const response = await handleSmartSiteUpdate(smartSiteInfo, token);
@@ -228,7 +249,45 @@ const EditSmartSite = ({ data, token }: any) => {
     setFormData(name, value);
   };
 
-  console.log("formdata", formData);
+  // console.log("formdata", formData);
+
+  const [toggleIcon, setToggleIcon] = useState<any>([]);
+  // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
+  // const [open, setOpen] = useState(false);
+
+  // console.log("toogle icon", toggleIcon);
+
+  const setSmartSiteData = useSmartSiteApiDataStore(
+    (state: any) => state.setSmartSiteData
+  ); //get setter for setting smartsite info from zustand store
+
+  const setLoggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.setState
+  ); //get setter for setting session info from zustand store
+
+  // const { isOn, setOff }: any = useSmallIconToggleStore();
+
+  // const iconData: any = useUpdateSmartIcon(); //get trigger smarticon from zustand store
+
+  // console.log("iconData", iconData);
+
+  //set smartsite info into zustand store
+  //set session info into zustand store
+  useEffect(() => {
+    if (data) {
+      setSmartSiteData(data);
+    }
+    if (session) {
+      setLoggedInUserInfo(session);
+    }
+    // if (iconData) {
+    //   setOpen(true);
+    // }
+  }, [data, session, iconData, setLoggedInUserInfo, setSmartSiteData]);
+
+  // console.log("open", open);
+
+  console.log("icon data obbbjj", iconData);
 
   return (
     <main className="main-container overflow-hidden">
@@ -525,6 +584,9 @@ const EditSmartSite = ({ data, token }: any) => {
           setIsBannerModalOpen={setIsBannerModalOpen}
         />
       )}
+
+      {/* Update modal component list here  */}
+      <UpdateModalComponents isOn={isOn} iconData={iconData} setOff={setOff} />
     </main>
   );
 };
