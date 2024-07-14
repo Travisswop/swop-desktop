@@ -21,6 +21,8 @@ import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
 import AudioPlayer from "react-h5-audio-player";
 import EmbedPlayer from "./livePreviewSmartsitesIcons/renderEmbedPlayer";
+import businessCard from "@/public/images/iconShop/outline-icons/dark/business-card-outline@3x.png";
+import referral from "@/public/images/websites/referral.jpeg";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -274,6 +276,36 @@ const LivePreview = ({ data }: { data?: any }) => {
           {/* app icon display here end */}
           {/* card here  */}
           <div className="flex flex-col gap-y-3">
+            {/* referral display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.referral.map((data: any) => (
+                <button
+                  key={data._id}
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data,
+                      categoryForTrigger: "referral",
+                    })
+                  }
+                  className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
+                >
+                  <Image
+                    src={referral}
+                    alt="icon"
+                    width={40}
+                    height={40}
+                    // style={tintStyle}
+                  />
+                  <div className="flex flex-col items-start gap-0.5 text-start">
+                    <p className="font-semibold text-gray-700">
+                      {data.buttonName}
+                    </p>
+                    <p className="text-xs text-gray-400">{data.description}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {/* referral display here end */}
             {/* contact card display here start */}
             <div className="flex flex-col gap-y-3 px-4">
               {data.info.contact.map((data: any) => (
@@ -288,9 +320,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                   className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                 >
                   <Image
-                    src={
-                      "/images/iconShop/outline-icons/dark/business-card-outline@3x.png"
-                    }
+                    src={businessCard}
                     alt="icon"
                     width={40}
                     height={40}
