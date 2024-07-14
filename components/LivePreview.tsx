@@ -23,6 +23,7 @@ import AudioPlayer from "react-h5-audio-player";
 import EmbedPlayer from "./livePreviewSmartsitesIcons/renderEmbedPlayer";
 import businessCard from "@/public/images/iconShop/outline-icons/dark/business-card-outline@3x.png";
 import referral from "@/public/images/websites/referral.jpeg";
+import ethereum from "@/public/images/websites/ethereum-outline@3x.png";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -348,7 +349,13 @@ const LivePreview = ({ data }: { data?: any }) => {
                   }
                   className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                 >
-                  <Image src={referral} alt="icon" width={40} height={40} />
+                  <Image
+                    src={ethereum}
+                    style={tintStyle}
+                    alt="icon"
+                    width={40}
+                    height={40}
+                  />
                   <div className="flex flex-col items-start gap-0.5 text-start">
                     <p className="font-semibold text-gray-700">{data.domain}</p>
                     <p className="text-xs text-gray-400">

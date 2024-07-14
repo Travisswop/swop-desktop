@@ -5,11 +5,9 @@ import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import AnimateButton from "@/components/Button/AnimateButton";
-import { deleteReferral, updateReferral } from "@/actions/referral";
 import {
   deleteMessage,
   isENSAvailable,
-  postMessage,
   updateMessage,
 } from "@/actions/message";
 
