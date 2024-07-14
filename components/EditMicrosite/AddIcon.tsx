@@ -11,22 +11,42 @@ import AddSwopPay from "./SwopPay/AddSwopPay";
 import AddReferral from "./referral/AddReferral";
 import AddMessage from "./message/AddMessage";
 
-const AddIcon = ({ data }: { data: string }) => {
+const AddIcon = ({
+  data,
+  handleRemoveIcon,
+}: {
+  data: string;
+  handleRemoveIcon: any;
+}) => {
   // console.log("data", data);
 
   return (
     <div>
-      {data === "Small Icon" && <AddSmallIcon />}
-      {data === "Blog" && <AddBlog />}
-      {data === "App Icon" && <AddAppIcon />}
-      {data === "Info Bar" && <AddInfoBar />}
-      {data === "Contact Card" && <AddContactCard />}
-      {data === "Embed" && <AddEmbed />}
-      {data === "Video" && <AddVideo />}
-      {data === "Music File" && <AddAudio />}
-      {data === "Swop Pay" && <AddSwopPay />}
-      {data === "Referral" && <AddReferral />}
-      {data === "Message" && <AddMessage />}
+      {data === "Small Icon" && (
+        <AddSmallIcon handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Blog" && <AddBlog handleRemoveIcon={handleRemoveIcon} />}
+      {data === "App Icon" && (
+        <AddAppIcon handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Info Bar" && (
+        <AddInfoBar handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Contact Card" && (
+        <AddContactCard handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Embed" && <AddEmbed handleRemoveIcon={handleRemoveIcon} />}
+      {data === "Video" && <AddVideo handleRemoveIcon={handleRemoveIcon} />}
+      {data === "Music File" && (
+        <AddAudio handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Swop Pay" && (
+        <AddSwopPay handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Referral" && (
+        <AddReferral handleRemoveIcon={handleRemoveIcon} />
+      )}
+      {data === "Message" && <AddMessage handleRemoveIcon={handleRemoveIcon} />}
     </div>
   );
 };

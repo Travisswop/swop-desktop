@@ -290,275 +290,277 @@ const EditSmartSite = ({ data, token, session }: any) => {
   console.log("icon data obbbjj", iconData);
 
   return (
-    <main className="main-container overflow-hidden">
-      <div className="flex gap-7 items-start">
-        <form
-          onSubmit={handleSmartSiteUpdateInfo}
-          className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4"
-        >
-          <div className="bg-white rounded-xl p-6">
-            <div className="flex justify-center">
-              <div className="w-max relative">
-                {selectedImage || galleryImage ? (
-                  <>
-                    {selectedImage ? (
-                      <Image
-                        alt="user image"
-                        src={
-                          selectedImage
-                            ? `/images/user_avator/${selectedImage}.png`
-                            : `/images/user_avator/1.png`
-                        }
-                        width={160}
-                        height={160}
-                        className="rounded-full"
-                      />
-                    ) : (
-                      <Image
-                        alt="user image"
-                        src={galleryImage as any}
-                        width={160}
-                        height={160}
-                        className="rounded-full w-44 h-44"
-                      />
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {isUrl(data.data.profilePic) ? (
-                      <Image
-                        alt="user image"
-                        src={data.data.profilePic}
-                        width={160}
-                        height={160}
-                        className="rounded-full"
-                      />
-                    ) : (
-                      <Image
-                        alt="user image"
-                        src={`/images/user_avator/${data.data.profilePic}.png`}
-                        width={160}
-                        height={160}
-                        className="rounded-full"
-                      />
-                    )}
-                  </>
-                )}
-                <button
-                  className="absolute right-0 bottom-4"
-                  onClick={handleUserProfileModal}
-                  type="button"
-                >
-                  <Image alt="edit icon" src={editIcon} width={40} />
+    <main className="main-container">
+      <div className="flex gap-7 items-start h-[90vh]">
+        <div style={{ height: "100%" }} className="w-[62%] overflow-y-auto">
+          <form
+            onSubmit={handleSmartSiteUpdateInfo}
+            className=" border-r border-gray-300 pr-8 flex flex-col gap-4 overflow-auto"
+          >
+            <div className="bg-white rounded-xl p-6">
+              <div className="flex justify-center">
+                <div className="w-max relative">
+                  {selectedImage || galleryImage ? (
+                    <>
+                      {selectedImage ? (
+                        <Image
+                          alt="user image"
+                          src={
+                            selectedImage
+                              ? `/images/user_avator/${selectedImage}.png`
+                              : `/images/user_avator/1.png`
+                          }
+                          width={160}
+                          height={160}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          alt="user image"
+                          src={galleryImage as any}
+                          width={160}
+                          height={160}
+                          className="rounded-full w-44 h-44"
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {isUrl(data.data.profilePic) ? (
+                        <Image
+                          alt="user image"
+                          src={data.data.profilePic}
+                          width={160}
+                          height={160}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          alt="user image"
+                          src={`/images/user_avator/${data.data.profilePic}.png`}
+                          width={160}
+                          height={160}
+                          className="rounded-full"
+                        />
+                      )}
+                    </>
+                  )}
+                  <button
+                    className="absolute right-0 bottom-4"
+                    onClick={handleUserProfileModal}
+                    type="button"
+                  >
+                    <Image alt="edit icon" src={editIcon} width={40} />
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4 mt-6">
+                <div>
+                  <label htmlFor="name" className="font-medium text-gray-700">
+                    Name
+                  </label>
+                  <div className="relative flex-1 mt-1">
+                    <FiUser
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder={`Jhon Smith`}
+                      defaultValue={data.data.name}
+                      onChange={handleChange}
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="name" className="font-medium text-gray-700">
+                    Profile Url
+                  </label>
+                  <div className="relative flex-1 mt-1">
+                    <FiUser
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      readOnly
+                      value={data.data.profileUrl}
+                      placeholder={`https://swopme.app/sp/fghh`}
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="name" className="font-medium text-gray-700">
+                    Bio
+                  </label>
+                  <div className="relative flex-1 mt-1">
+                    <TbUserSquare
+                      className="absolute left-4 top-3 font-bold text-gray-600"
+                      size={18}
+                    />
+                    <textarea
+                      placeholder={`Real Estate Manager`}
+                      defaultValue={data.data.bio}
+                      onChange={handleChange}
+                      name="bio"
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                      rows={4}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
+                <p className="text-base">Make Primary Microsite</p>
+                <Switch
+                  color="default"
+                  size="sm"
+                  defaultSelected
+                  isSelected={isPrimaryMicrosite}
+                  onValueChange={setIsPrimaryMicrosite}
+                  // onClick={() => setIsPrimaryMicrosite(!isPrimaryMicrosite)}
+                  aria-label="Lead Captures"
+                />
+              </div>
+              <EditMicrositeBtn
+                onClick={handleBannerModal}
+                className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
+              >
+                <LiaFileMedicalSolid size={20} color="#001534" /> Edit
+                Background/Banner
+              </EditMicrositeBtn>
+            </div>
+            <div>
+              <p className="text-gray-700 font-semibold">
+                Select Message Address
+              </p>
+              <div className="relative flex-1 mt-1">
+                <TbUserSquare
+                  className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-600"
+                  size={18}
+                />
+                <input
+                  placeholder={`Swop Username, ENS or Public Address`}
+                  readOnly
+                  value={data.data.ens}
+                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-6 text-gray-700 bg-white"
+                />
+                <button className="absolute right-6 top-1/2 -translate-y-1/2 font-medium text-gray-500 border px-4 py-1 rounded-xl border-gray-300">
+                  Connect
                 </button>
               </div>
             </div>
-            <div className="flex flex-col gap-4 mt-6">
-              <div>
-                <label htmlFor="name" className="font-medium text-gray-700">
-                  Name
-                </label>
-                <div className="relative flex-1 mt-1">
-                  <FiUser
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder={`Jhon Smith`}
-                    defaultValue={data.data.name}
-                    onChange={handleChange}
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="name" className="font-medium text-gray-700">
-                  Profile Url
-                </label>
-                <div className="relative flex-1 mt-1">
-                  <FiUser
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    readOnly
-                    value={data.data.profileUrl}
-                    placeholder={`https://swopme.app/sp/fghh`}
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white cursor-not-allowed"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="name" className="font-medium text-gray-700">
-                  Bio
-                </label>
-                <div className="relative flex-1 mt-1">
-                  <TbUserSquare
-                    className="absolute left-4 top-3 font-bold text-gray-600"
-                    size={18}
-                  />
-                  <textarea
-                    placeholder={`Real Estate Manager`}
-                    defaultValue={data.data.bio}
-                    onChange={handleChange}
-                    name="bio"
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                    rows={4}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
-              <p className="text-base">Make Primary Microsite</p>
+              <p className="text-base">Gated Access</p>
               <Switch
                 color="default"
                 size="sm"
-                defaultSelected
-                isSelected={isPrimaryMicrosite}
-                onValueChange={setIsPrimaryMicrosite}
-                // onClick={() => setIsPrimaryMicrosite(!isPrimaryMicrosite)}
+                isSelected={isGatedAccessOpen}
+                onValueChange={setIsGatedAccessOpen}
                 aria-label="Lead Captures"
               />
             </div>
-            <EditMicrositeBtn
-              onClick={handleBannerModal}
-              className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
-            >
-              <LiaFileMedicalSolid size={20} color="#001534" /> Edit
-              Background/Banner
-            </EditMicrositeBtn>
-          </div>
-          <div>
-            <p className="text-gray-700 font-semibold">
-              Select Message Address
-            </p>
-            <div className="relative flex-1 mt-1">
-              <TbUserSquare
-                className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-600"
-                size={18}
-              />
-              <input
-                placeholder={`Swop Username, ENS or Public Address`}
-                readOnly
-                value={data.data.ens}
-                className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-6 text-gray-700 bg-white"
-              />
-              <button className="absolute right-6 top-1/2 -translate-y-1/2 font-medium text-gray-500 border px-4 py-1 rounded-xl border-gray-300">
-                Connect
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
-            <p className="text-base">Gated Access</p>
-            <Switch
-              color="default"
-              size="sm"
-              isSelected={isGatedAccessOpen}
-              onValueChange={setIsGatedAccessOpen}
-              aria-label="Lead Captures"
-            />
-          </div>
-          {isGatedAccessOpen && (
-            <div className="bg-white p-5 flex flex-col gap-2">
-              <div className="relative flex-1 mt-1">
-                <PiAddressBook
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={19}
-                />
-                <input
-                  type="text"
-                  placeholder={`Contract Address`}
-                  defaultValue={data.data.gatedInfo.contractAddress}
-                  name="contractAddress"
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                />
+            {isGatedAccessOpen && (
+              <div className="bg-white p-5 flex flex-col gap-2">
+                <div className="relative flex-1 mt-1">
+                  <PiAddressBook
+                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                    size={19}
+                  />
+                  <input
+                    type="text"
+                    placeholder={`Contract Address`}
+                    defaultValue={data.data.gatedInfo.contractAddress}
+                    name="contractAddress"
+                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                  />
+                </div>
+                {gatedAccessError.contractAddress && (
+                  <p className="text-sm text-red-600 font-medium">
+                    {gatedAccessError.contractAddress}
+                  </p>
+                )}
+                <div className="relative flex-1 mt-1">
+                  <FiUser
+                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                    size={18}
+                  />
+                  <input
+                    type="text"
+                    placeholder={`Token ID`}
+                    name="tokenId"
+                    defaultValue={data.data.gatedInfo.tokenId}
+                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                  />
+                </div>
+                {gatedAccessError.tokenId && (
+                  <p className="text-sm text-red-600 font-medium">
+                    {gatedAccessError.tokenId}
+                  </p>
+                )}
+                <div className="relative flex-1 mt-1">
+                  <IoMdLink
+                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                    size={18}
+                  />
+                  <input
+                    type="text"
+                    placeholder={`Mint URL`}
+                    name="eventLink"
+                    defaultValue={data.data.gatedInfo.eventLink}
+                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                  />
+                </div>
+                {gatedAccessError.eventLink && (
+                  <p className="text-sm text-red-600 font-medium">
+                    {gatedAccessError.eventLink}
+                  </p>
+                )}
+                <div className="relative flex-1 mt-1">
+                  <IoMdLink
+                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                    size={18}
+                  />
+                  <select
+                    name="network"
+                    defaultValue={data.data.gatedInfo.network || ""}
+                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
+                  >
+                    <option value="" disabled>
+                      Select Network
+                    </option>
+                    <option value="etherium">Ethereum</option>
+                    <option value="matic">Polygon</option>
+                  </select>
+                </div>
+                {gatedAccessError.network && (
+                  <p className="text-sm text-red-600 font-medium">
+                    {gatedAccessError.network}
+                  </p>
+                )}
               </div>
-              {gatedAccessError.contractAddress && (
-                <p className="text-sm text-red-600 font-medium">
-                  {gatedAccessError.contractAddress}
-                </p>
-              )}
-              <div className="relative flex-1 mt-1">
-                <FiUser
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder={`Token ID`}
-                  name="tokenId"
-                  defaultValue={data.data.gatedInfo.tokenId}
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                />
-              </div>
-              {gatedAccessError.tokenId && (
-                <p className="text-sm text-red-600 font-medium">
-                  {gatedAccessError.tokenId}
-                </p>
-              )}
-              <div className="relative flex-1 mt-1">
-                <IoMdLink
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder={`Mint URL`}
-                  name="eventLink"
-                  defaultValue={data.data.gatedInfo.eventLink}
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                />
-              </div>
-              {gatedAccessError.eventLink && (
-                <p className="text-sm text-red-600 font-medium">
-                  {gatedAccessError.eventLink}
-                </p>
-              )}
-              <div className="relative flex-1 mt-1">
-                <IoMdLink
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={18}
-                />
-                <select
-                  name="network"
-                  defaultValue={data.data.gatedInfo.network || ""}
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                >
-                  <option value="" disabled>
-                    Select Network
-                  </option>
-                  <option value="etherium">Ethereum</option>
-                  <option value="matic">Polygon</option>
-                </select>
-              </div>
-              {gatedAccessError.network && (
-                <p className="text-sm text-red-600 font-medium">
-                  {gatedAccessError.network}
-                </p>
-              )}
-            </div>
-          )}
-
-          <DynamicPrimaryBtn
-            className="py-3 text-base !gap-1"
-            disabled={isFormSubmitLoading}
-          >
-            {isFormSubmitLoading ? (
-              <Spinner size="sm" color="white" className="py-0.5" />
-            ) : (
-              <>
-                <LiaFileMedicalSolid size={20} />
-                Update
-              </>
             )}
-          </DynamicPrimaryBtn>
-        </form>
-        <div className="w-[38%]">
+
+            <DynamicPrimaryBtn
+              className="py-3 text-base !gap-1"
+              disabled={isFormSubmitLoading}
+            >
+              {isFormSubmitLoading ? (
+                <Spinner size="sm" color="white" className="py-0.5" />
+              ) : (
+                <>
+                  <LiaFileMedicalSolid size={20} />
+                  Update
+                </>
+              )}
+            </DynamicPrimaryBtn>
+          </form>
+        </div>
+        <div style={{ height: "90%" }} className="w-[38%] overflow-y-auto">
           <LivePreview data={data.data} />
         </div>
       </div>

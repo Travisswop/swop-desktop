@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import { postAppIcon } from "@/actions/appIcon";
 import AnimateButton from "@/components/Button/AnimateButton";
 import { postContactCard } from "@/actions/contactCard";
+import { FaTimes } from "react-icons/fa";
 
-const AddContactCard = () => {
+const AddContactCard = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
 
@@ -71,7 +72,13 @@ const AddContactCard = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Contact Card</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold">Contact Card</h1>
+        <button type="button" onClick={() => handleRemoveIcon("Contact Card")}>
+          <FaTimes size={20} />
+        </button>
+      </div>
+
       <div>
         <form
           onSubmit={handleContactFormData}

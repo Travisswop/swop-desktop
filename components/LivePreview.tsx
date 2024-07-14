@@ -40,7 +40,7 @@ const LivePreview = ({ data }: { data?: any }) => {
     <section className="">
       <p className="text-sm text-gray-500 mb-2">Preview</p>
       <div
-        className={`shadow-md bg-white rounded-xl bg-cover`}
+        className={`shadow-md bg-white rounded-xl bg-contain`}
         style={{
           backgroundImage:
             formData.theme &&

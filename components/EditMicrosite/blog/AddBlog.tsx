@@ -12,8 +12,9 @@ import "react-quill/dist/quill.snow.css";
 import CustomFileInput from "@/components/CustomFileInput";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { postBlog } from "@/actions/blog";
+import { FaTimes } from "react-icons/fa";
 
-const AddBlog = () => {
+const AddBlog = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state);
   const sesstionState: any = useLoggedInUserStore((state) => state);
   const [value, setValue] = useState("");
@@ -121,7 +122,12 @@ const AddBlog = () => {
       onSubmit={handleFormSubmit}
       className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4"
     >
-      <h1 className="font-semibold text-gray-700">Blog</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-semibold text-gray-700">Blog</h1>
+        <button type="button" onClick={() => handleRemoveIcon("Blog")}>
+          <FaTimes size={20} />
+        </button>
+      </div>
       <div className="flex justify-between gap-10">
         <div className="flex flex-col gap-3 flex-1">
           <div className="flex flex-col gap-2">

@@ -16,8 +16,9 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import AnimateButton from "../../Button/AnimateButton";
 import { toast } from "react-toastify";
 import { postEmbedLink } from "@/actions/embedLink";
+import { FaTimes } from "react-icons/fa";
 
-const AddEmbed = () => {
+const AddEmbed = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   // console.log("state", state);
 
@@ -135,15 +136,9 @@ const AddEmbed = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
-        <div className="flex items-center gap-2 font-medium text-gray-600">
-          <p>Redirect</p>
-          <Switch
-            color="success"
-            size="sm"
-            defaultSelected
-            aria-label="Lead Captures"
-          />
-        </div>
+        <button type="button" onClick={() => handleRemoveIcon("Embed")}>
+          <FaTimes size={20} />
+        </button>
       </div>
       <div>
         <p className="font-semibold text-gray-700 mb-1">
@@ -163,7 +158,16 @@ const AddEmbed = () => {
               required
             />
           </div>
-          <div className="flex justify-end mt-3">
+          <div className="flex justify-between mt-3">
+            <div className="flex items-center gap-2 font-medium text-gray-600">
+              <p>Redirect</p>
+              <Switch
+                color="success"
+                size="sm"
+                defaultSelected={false}
+                aria-label="Lead Captures"
+              />
+            </div>
             <AnimateButton isLoading={isLoading} width={"w-52"}>
               <LiaFileMedicalSolid size={20} />
               Save Changes

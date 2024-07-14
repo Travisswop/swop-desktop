@@ -13,8 +13,9 @@ import "react-h5-audio-player/lib/styles.css";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { postAudio } from "@/actions/audio";
 import { sendCloudinaryAudio } from "@/util/sendCloudineryAudio";
+import { FaTimes } from "react-icons/fa";
 
-const AddAudio = () => {
+const AddAudio = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state);
   const sesstionState: any = useLoggedInUserStore((state) => state);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -137,7 +138,13 @@ const AddAudio = () => {
       onSubmit={handleFormSubmit}
       className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4"
     >
-      <h1 className="font-semibold text-gray-700">Audio</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-semibold text-gray-700">Audio</h1>
+        <button type="button" onClick={() => handleRemoveIcon("Music File")}>
+          <FaTimes size={20} />
+        </button>
+      </div>
+
       <div className="flex justify-between gap-10">
         <div className="flex flex-col gap-3 flex-1">
           <div className="flex flex-col gap-1">

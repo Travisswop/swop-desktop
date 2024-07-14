@@ -63,8 +63,11 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
 
   return (
     <main className="main-container overflow-hidden">
-      <div className="flex gap-6 items-start">
-        <div className="w-[62%] relative border-r border-gray-200 pr-8 flex flex-col gap-4">
+      <div className="flex gap-6 items-start h-[90vh]">
+        <div
+          style={{ height: "100%" }}
+          className="w-[62%] relative border-r border-gray-200 pr-8 flex flex-col gap-4 overflow-y-auto"
+        >
           <div className="flex items-center justify-between">
             <h5 className="heading-3">Microsite Builder</h5>
             <EditMicrositeBtn>
@@ -114,11 +117,15 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (
-              <AddIcon key={index} data={info} />
+              <AddIcon
+                key={index}
+                data={info}
+                handleRemoveIcon={handleRemoveIcon}
+              />
             ))}
           </div>
         </div>
-        <div className="w-[38%]">
+        <div style={{ height: "100%" }} className="w-[38%] overflow-y-auto">
           <LivePreview data={data.data} />
         </div>
       </div>

@@ -5,8 +5,9 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "@/components/Button/AnimateButton";
 import { isENSAvailable, postMessage } from "@/actions/message";
+import { FaTimes } from "react-icons/fa";
 
-const AddMessage = () => {
+const AddMessage = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
 
@@ -60,7 +61,13 @@ const AddMessage = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Message</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold">Message</h1>
+        <button type="button" onClick={() => handleRemoveIcon("Message")}>
+          <FaTimes size={20} />
+        </button>
+      </div>
+
       <div>
         <form onSubmit={handleFormSubmit} className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-[2px]">

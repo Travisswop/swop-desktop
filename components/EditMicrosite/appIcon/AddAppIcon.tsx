@@ -18,8 +18,9 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "../../Button/AnimateButton";
 import { postAppIcon } from "@/actions/appIcon";
+import { FaTimes } from "react-icons/fa";
 
-const AddAppIcon = () => {
+const AddAppIcon = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
@@ -245,15 +246,10 @@ const AddAppIcon = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
-        <div className="flex items-center gap-2 font-medium text-gray-600">
-          <p>Redirect</p>
-          <Switch
-            color="success"
-            size="sm"
-            defaultSelected
-            aria-label="Lead Captures"
-          />
-        </div>
+
+        <button onClick={() => handleRemoveIcon("App Icon")}>
+          <FaTimes size={20} />
+        </button>
       </div>
       <div className="flex items-center gap-2">
         <h3 className="font-semibold text-gray-700">Select Icon</h3>
@@ -353,7 +349,16 @@ const AddAppIcon = () => {
               required
             />
           </div>
-          <div className="flex justify-end mt-3">
+          <div className="flex justify-between mt-3">
+            <div className="flex items-center gap-2 font-medium text-gray-600">
+              <p>Redirect</p>
+              <Switch
+                color="success"
+                size="sm"
+                defaultSelected={false}
+                aria-label="Lead Captures"
+              />
+            </div>
             <AnimateButton isLoading={isLoading} width={"w-52"}>
               <LiaFileMedicalSolid size={20} />
               Save Changes

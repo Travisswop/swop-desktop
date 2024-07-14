@@ -5,8 +5,9 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "@/components/Button/AnimateButton";
 import { postReferral } from "@/actions/referral";
+import { FaTimes } from "react-icons/fa";
 
-const AddReferral = () => {
+const AddReferral = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
 
@@ -65,7 +66,13 @@ const AddReferral = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Referral</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold">Referral</h1>
+        <button type="button" onClick={() => handleRemoveIcon("Referral")}>
+          <FaTimes size={20} />
+        </button>
+      </div>
+
       <div>
         <form onSubmit={handleFormSubmit} className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-[2px]">
