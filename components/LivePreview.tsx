@@ -335,6 +335,31 @@ const LivePreview = ({ data }: { data?: any }) => {
             </div>
             {/* contact card display here end */}
 
+            {/* ENS display here start */}
+            <div className="flex flex-col gap-y-3 px-4">
+              {data.info.ensDomain.map((data: any) => (
+                <button
+                  key={data._id}
+                  onClick={() =>
+                    handleTriggerUpdate({
+                      data,
+                      categoryForTrigger: "ens",
+                    })
+                  }
+                  className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
+                >
+                  <Image src={referral} alt="icon" width={40} height={40} />
+                  <div className="flex flex-col items-start gap-0.5 text-start">
+                    <p className="font-semibold text-gray-700">{data.domain}</p>
+                    <p className="text-xs text-gray-400">
+                      Pay me using my Swop.ID
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {/* ENS display here end */}
+
             {/* info bar display here start */}
             <div className="flex flex-col gap-y-3 px-4">
               {data.info.infoBar.map((data: any) => (

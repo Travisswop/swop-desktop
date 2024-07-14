@@ -13,6 +13,7 @@ import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
 import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
 import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
+import UpdateENS from "@/components/EditMicrosite/message/UpdateMessage";
 import UpdateReferral from "@/components/EditMicrosite/referral/UpdateReferral";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
@@ -202,6 +203,12 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             />
           )}
           {/* update referral modal end   */}
+
+          {/* update message/ens modal start */}
+          {isOn && iconData && iconData?.categoryForTrigger === "ens" && (
+            <UpdateENS iconDataObj={iconData} isOn={isOn} setOff={setOff} />
+          )}
+          {/* update message/ens modal end   */}
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (

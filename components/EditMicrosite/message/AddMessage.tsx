@@ -4,7 +4,7 @@ import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import AnimateButton from "@/components/Button/AnimateButton";
-import { postReferral } from "@/actions/referral";
+import { isENSAvailable, postMessage } from "@/actions/message";
 
 const AddMessage = () => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
@@ -13,29 +13,19 @@ const AddMessage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>({});
 
-  //   console.log("error", error);
-
   const handleFormSubmit = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const submitInfo = {
       micrositeId: state.data._id,
-      buttonName: formData.get("buttonName"),
-      referralCode: formData.get("referralCode"),
-      description: formData.get("description"),
+      domain: formData.get("ensName"),
     };
 
     let errors = {};
 
-    if (!submitInfo.buttonName) {
-      errors = { ...errors, buttonName: "Button name is required" };
-    }
-    if (!submitInfo.referralCode) {
-      errors = { ...errors, referralCode: "Referral code is required" };
-    }
-    if (!submitInfo.description) {
-      errors = { ...errors, description: "Description is required" };
+    if (!submitInfo.domain) {
+      errors = { ...errors, domain: "ENS domain is required" };
     }
 
     if (Object.keys(errors).length > 0) {
@@ -43,12 +33,20 @@ const AddMessage = () => {
       setIsLoading(false);
     } else {
       setError("");
-      console.log("contactCardInfo", submitInfo);
-
       try {
-        const data = await postReferral(submitInfo, sesstionState.accessToken);
+        const isAvailable = await isENSAvailable(
+          submitInfo.domain,
+          sesstionState.accessToken
+        );
+        console.log("isAvailable", isAvailable);
+
+        if (isAvailable?.message === "Name not found") {
+          return toast.error("ENS name not found");
+        }
+
+        const data = await postMessage(submitInfo, sesstionState.accessToken);
         if ((data.state = "success")) {
-          toast.success("referral created successfully");
+          toast.success("Successfully created");
         } else {
           toast.error("something went wrong");
         }
@@ -59,9 +57,6 @@ const AddMessage = () => {
       }
     }
   };
-
-  // console.log("smartSiteData", state);
-  // console.log("sesstionState", sesstionState);
 
   return (
     <div className="bg-white rounded-xl shadow-small p-6 flex flex-col gap-4">
@@ -76,9 +71,8 @@ const AddMessage = () => {
               type="text"
               id="ensName"
               name="ensName"
-              defaultValue={"My Referral"}
               className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none px-4 py-2 text-gray-700 bg-gray-100"
-              placeholder="Enter button name"
+              placeholder="example.swop.id"
               //   required
             />
             {error.ensName && (

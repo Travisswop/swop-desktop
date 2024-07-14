@@ -1,33 +1,11 @@
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Switch,
-} from "@nextui-org/react";
-import { AiOutlineDownCircle } from "react-icons/ai";
-import { IoLinkOutline } from "react-icons/io5";
+import React, { useRef, useState } from "react";
 import { LiaFileMedicalSolid } from "react-icons/lia";
-import { currencyItems, embedItems, icon } from "@/util/data/smartsiteIconData";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import AnimateButton from "@/components/Button/AnimateButton";
-import { deleteEmbedLink, updateEmbedLink } from "@/actions/embedLink";
-import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
-import { deleteVideo, postVideo, updateVideo } from "@/actions/video";
-import placeholder from "@/public/images/video_player_placeholder.gif";
-import CustomFileInput from "@/components/CustomFileInput";
-import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
-import { deleteSwopPay, updateSwopPay } from "@/actions/swopPay";
-import {
-  deleteReferral,
-  postReferral,
-  updateReferral,
-} from "@/actions/referral";
+import { deleteReferral, updateReferral } from "@/actions/referral";
 
 const UpdateReferral = ({ iconDataObj, isOn, setOff }: any) => {
   const modalRef = useRef<HTMLDivElement>(null);

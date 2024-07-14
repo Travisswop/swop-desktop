@@ -9,6 +9,7 @@ import AddVideo from "./Video/AddVideo";
 import AddAudio from "./audio/AddAudio";
 import AddSwopPay from "./SwopPay/AddSwopPay";
 import AddReferral from "./referral/AddReferral";
+import AddMessage from "./message/AddMessage";
 
 const AddIcon = ({ data }: { data: string }) => {
   // console.log("data", data);
@@ -25,7 +26,7 @@ const AddIcon = ({ data }: { data: string }) => {
       {data === "Music File" && <AddAudio />}
       {data === "Swop Pay" && <AddSwopPay />}
       {data === "Referral" && <AddReferral />}
-      {data === "Message" && <AddReferral />}
+      {data === "Message" && <AddMessage />}
     </div>
   );
 };
