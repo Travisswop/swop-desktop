@@ -1,10 +1,5 @@
 import Image from "next/image";
 import React, { useMemo } from "react";
-import message from "@/public/images/live-preview/icon/message.svg";
-import deposit from "@/public/images/live-preview/icon/deposit.svg";
-import location from "@/public/images/live-preview/icon/location.svg";
-import website from "@/public/images/live-preview/icon/website.svg";
-import contacts from "@/public/images/live-preview/icon/contacts.svg";
 import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
@@ -15,13 +10,11 @@ import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import getSmallIconImage from "@/util/retriveIconImage/getSmallIconImage";
 import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
 import { FaEdit, FaEye } from "react-icons/fa";
-import TikTokEmbed from "./embed/tiktokEmbed";
-import TwitterEmbed from "./embed/twitterEmbed";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
 import AudioPlayer from "react-h5-audio-player";
 import EmbedPlayer from "./livePreviewSmartsitesIcons/renderEmbedPlayer";
-import businessCard from "@/public/images/iconShop/outline-icons/dark/business-card-outline@3x.png";
+import businessCard from "@/public/images/IconShop/outline-icons/dark/business-card-outline@3x.png";
 import referral from "@/public/images/websites/referral.jpeg";
 import ethereum from "@/public/images/websites/ethereum-outline@3x.png";
 
