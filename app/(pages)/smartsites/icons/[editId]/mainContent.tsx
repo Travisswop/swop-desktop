@@ -13,6 +13,7 @@ import ViewBlog from "@/components/EditMicrosite/blog/ViewBlog";
 import UpdateContactCard from "@/components/EditMicrosite/contactCard/UpdateContactCard";
 import UpdateEmbed from "@/components/EditMicrosite/embed/UpdateEmbed";
 import UpdateInfoBar from "@/components/EditMicrosite/infoBar/UpdateInfoBar";
+import UpdateReferral from "@/components/EditMicrosite/referral/UpdateReferral";
 import LivePreview from "@/components/LivePreview";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
@@ -191,6 +192,16 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             <UpdateSwopPay iconDataObj={iconData} isOn={isOn} setOff={setOff} />
           )}
           {/* update swop pay modal end   */}
+
+          {/* update referral modal start */}
+          {isOn && iconData && iconData?.categoryForTrigger === "referral" && (
+            <UpdateReferral
+              iconDataObj={iconData}
+              isOn={isOn}
+              setOff={setOff}
+            />
+          )}
+          {/* update referral modal end   */}
 
           <div className="flex flex-col-reverse gap-4">
             {toggleIcon.map((info: any, index: number) => (

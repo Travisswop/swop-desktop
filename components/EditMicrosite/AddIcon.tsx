@@ -25,6 +25,7 @@ const AddIcon = ({ data }: { data: string }) => {
       {data === "Music File" && <AddAudio />}
       {data === "Swop Pay" && <AddSwopPay />}
       {data === "Referral" && <AddReferral />}
+      {data === "Message" && <AddReferral />}
     </div>
   );
 };
