@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
@@ -23,7 +23,7 @@ const LivePreview = ({ data }: { data?: any }) => {
   const { toggle } = useSideBarToggleStore();
 
   // console.log("data form live", data);
-  const { formData }: any = useSmartsiteFormStore();
+  const { formData, setFormData }: any = useSmartsiteFormStore();
   const { setOn }: any = useSmallIconToggleStore();
 
   const handleTriggerUpdate = (data: {
@@ -34,19 +34,30 @@ const LivePreview = ({ data }: { data?: any }) => {
     setOn(true);
   };
 
-  console.log("audio", data.info.audio);
+  // console.log("audio", data.info.audio);
+
+  // console.log("formdata", formData);
+  // console.log("data", data);
+
+  useEffect(() => {
+    if (data) {
+      setFormData("theme", data.theme);
+      setFormData("backgroundImg", data.backgroundImg);
+    }
+  }, [data, setFormData]);
 
   return (
-    <section className="">
-      <p className="text-sm text-gray-500 mb-2">Preview</p>
-      <div
-        className={`shadow-md bg-white rounded-xl bg-contain`}
-        style={{
-          backgroundImage:
-            formData.theme &&
-            `url(/images/smartsite-background/${formData.backgroundImg}.png)`,
-        }}
-      >
+    <section
+      style={{
+        backgroundImage:
+          formData.theme &&
+          `url(/images/smartsite-background/${formData.backgroundImg}.png)`,
+        height: "100%",
+      }}
+      className="w-[38%] overflow-y-auto shadow-md bg-white bg-cover"
+    >
+      {/* <p className="text-sm text-gray-500 mb-2">Preview</p> */}
+      <div className={``}>
         <div className="relative">
           {!formData.theme && (
             <>
@@ -183,7 +194,7 @@ const LivePreview = ({ data }: { data?: any }) => {
             {data.info.blog.map((item: any, index: number) => (
               <div
                 key={index}
-                className="shadow-small hover:shadow-medium p-3 2xl:p-4 rounded-lg"
+                className="shadow-small hover:shadow-medium p-3 2xl:p-4 rounded-lg bg-white"
               >
                 <div>
                   <div>

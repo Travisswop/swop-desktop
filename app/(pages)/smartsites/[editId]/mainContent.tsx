@@ -560,9 +560,9 @@ const EditSmartSite = ({ data, token, session }: any) => {
             </DynamicPrimaryBtn>
           </form>
         </div>
-        <div style={{ height: "90%" }} className="w-[38%] overflow-y-auto">
-          <LivePreview data={data.data} />
-        </div>
+        {/* <div style={{ height: "90%" }} className="w-[38%] overflow-y-auto"> */}
+        <LivePreview data={data.data} />
+        {/* </div> */}
       </div>
 
       {isUserProfileModalOpen && (

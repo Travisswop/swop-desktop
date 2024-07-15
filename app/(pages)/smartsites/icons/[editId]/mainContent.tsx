@@ -18,7 +18,7 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
 
-  console.log("toogle icon", toggleIcon);
+  // console.log("toogle icon", toggleIcon);
 
   const setSmartSiteData = useSmartSiteApiDataStore(
     (state: any) => state.setSmartSiteData
@@ -125,9 +125,9 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             ))}
           </div>
         </div>
-        <div style={{ height: "100%" }} className="w-[38%] overflow-y-auto">
-          <LivePreview data={data.data} />
-        </div>
+        {/* <div> */}
+        <LivePreview data={data.data} />
+        {/* </div> */}
       </div>
     </main>
   );
