@@ -1,11 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import useLoggedInUserStore from "../zustandStore/SetLogedInUserSession";
+import useTorus from "../components/useTorus";
 
 const WalletInfo = () => {
-  const { state } = useLoggedInUserStore();
+  const { state, setWallet } = useLoggedInUserStore();
+  const { walletAddress, balance, connectTorus } = useTorus();
 
-  console.log('Current state in WalletInfo:', state);
+  useEffect(() => {
+    if (walletAddress && balance !== null) {
+      console.log('Updating Zustand Store with:', walletAddress, balance); // Debug log
+      setWallet({ account: walletAddress, balance: balance.toString() });
+    }
+  }, [walletAddress, balance]);
+
+  useEffect(() => {
+    console.log('Zustand store state:', state); // Debug log
+  }, [state]);
 
   return (
     <div>
@@ -16,7 +27,7 @@ const WalletInfo = () => {
           <p>Balance: {state.wallet.balance}</p>
         </div>
       ) : (
-        <p>No wallet connected</p>
+        <button onClick={connectTorus}>Connect Torus</button>
       )}
     </div>
   );
