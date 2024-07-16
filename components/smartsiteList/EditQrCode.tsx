@@ -16,21 +16,24 @@ import {
   QrCode3,
   QrCode4,
 } from "@/util/data/qr-code-svg-data/QRData";
-import AnimateButton from "../Button/AnimateButton";
+import qrJson1 from "@/util/data/qr-code-json/1-A.json";
+import qrJson2 from "@/util/data/qr-code-json/2-A.json";
+import qrJson3 from "@/util/data/qr-code-json/3-A.json";
+import qrJson4 from "@/util/data/qr-code-json/4-A.json";
 import { FaSave } from "react-icons/fa";
+import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import CustomFileInput from "../CustomFileInput";
 
-const EditQRCode = () => {
+const EditQRCode = ({ profileUrl, id, token }: any) => {
   const [color, setColor] = useState("#B396FF");
   const [bgColor, setBgColor] = useState("");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState({
-    shape: "",
-    border: "",
-    text: "",
-    link: "",
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<any>(null);
+  const [fileError, setFileError] = useState<string>("");
+
   const [qrPattern, setQrPattern] = useState("QrCode1");
 
   const defaultColorArray = [
@@ -75,6 +78,94 @@ const EditQRCode = () => {
     setIsModalOpen(true);
   };
 
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        // Check if file size is greater than 10 MB
+        setFileError("*File size must be less than 10 MB");
+        setImageFile(null);
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageFile(reader.result as any);
+          setFileError("");
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const handleFormSubmit = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    let qrData;
+    switch (qrPattern) {
+      case "QrCode1":
+        qrData = { ...qrJson1 };
+        break;
+      case "QrCode2":
+        qrData = { ...qrJson2 };
+        break;
+      case "QrCode3":
+        qrData = { ...qrJson3 };
+        break;
+      case "QrCode4":
+        qrData = { ...qrJson4 };
+        break;
+      default:
+        qrData = { ...qrJson1 };
+    }
+
+    // Update the JSON data with current state values
+    // qrData.dotsOptions.color = color;
+    // qrData.backgroundOptions.color = bgColor || "#ffffff00";
+
+    if (imageFile) {
+      const imageUrl = await sendCloudinaryImage(imageFile);
+      qrData.image = imageUrl;
+    }
+
+    qrData.backgroundOptions = { color: bgColor };
+    qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
+    qrData.data = profileUrl;
+    // corner dot color
+    qrData.cornersDotOptions = {
+      ...qrData.cornersDotOptions,
+      color: color,
+    };
+    qrData.cornersSquareOptions = {
+      ...qrData.cornersSquareOptions,
+      color: color,
+    };
+
+    console.log("qrData", qrData);
+
+    const payload = {
+      micrositeId: id,
+      qrStyleData: qrData,
+    };
+
+    // Send the updated JSON data in a POST request
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/customQrCode`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await response.json();
+    console.log("data from qr post", data);
+
+    setIsLoading(false);
+  };
+
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-6 items-start">
@@ -88,11 +179,15 @@ const EditQRCode = () => {
               </EditMicrositeBtn>
             </div>
           </div>
-          <div className="bg-white py-6 px-10 flex flex-col gap-4">
+          <form
+            onSubmit={handleFormSubmit}
+            className="bg-white py-6 px-10 flex flex-col gap-4"
+          >
             <div>
               <p className="heading-4 mb-2">Choose A Pattern: </p>
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   className={`w-12 h-12 overflow-hidden rounded-lg ${
                     qrPattern === "QrCode1"
                       ? "bg-black border-2 border-black"
@@ -109,6 +204,7 @@ const EditQRCode = () => {
                 </button>
 
                 <button
+                  type="button"
                   className={`w-12 h-12 overflow-hidden rounded-lg ${
                     qrPattern === "QrCode2"
                       ? "bg-black border-2 border-black"
@@ -125,6 +221,7 @@ const EditQRCode = () => {
                 </button>
 
                 <button
+                  type="button"
                   className={`w-12 h-12 overflow-hidden rounded-lg ${
                     qrPattern === "QrCode3"
                       ? "bg-black border-2 border-black"
@@ -140,6 +237,7 @@ const EditQRCode = () => {
                   />
                 </button>
                 <button
+                  type="button"
                   className={`w-12 h-12 overflow-hidden rounded-lg ${
                     qrPattern === "QrCode4"
                       ? "bg-black border-2 border-black"
@@ -159,7 +257,7 @@ const EditQRCode = () => {
             <div>
               <p className="heading-4 mb-2">Pick QR Color: </p>
               <div className="flex items-center gap-3 bg-gray-100 p-2 rounded-lg">
-                <button onClick={() => setToggle(!toggle)}>
+                <button type="button" onClick={() => setToggle(!toggle)}>
                   <Image
                     alt="pick color"
                     src={"/images/color.png"}
@@ -178,6 +276,7 @@ const EditQRCode = () => {
               <div className="flex items-center gap-3">
                 {defaultColorArray.map((data) => (
                   <button
+                    type="button"
                     key={data._id}
                     onClick={() => setColor(data.hexCode)}
                     className={`rounded-full ${
@@ -196,6 +295,7 @@ const EditQRCode = () => {
               <p className="heading-4 mb-2">Choose Background Color: </p>
               <div className="flex items-center gap-3 bg-gray-100 p-2 rounded-lg">
                 <button
+                  type="button"
                   onClick={() =>
                     setBackgroundColorToggle(!backgroundColorToggle)
                   }
@@ -220,6 +320,7 @@ const EditQRCode = () => {
               <div className="flex items-center gap-3">
                 {defaultColorArray.map((data) => (
                   <button
+                    type="button"
                     key={data._id}
                     onClick={() => setBgColor(data.hexCode)}
                     className={`rounded-full ${
@@ -234,6 +335,13 @@ const EditQRCode = () => {
                   </button>
                 ))}
               </div>
+            </div>
+            <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-2">
+              <p className="font-semibold text-gray-700 text-sm">Edit Logo:</p>
+              <CustomFileInput handleFileChange={handleFileChange} />
+              {fileError && (
+                <p className="text-red-600 text-sm font-medium">{fileError}</p>
+              )}
             </div>
             {/* <div>
               <p className="heading-4 mb-2">Choose Frame Border: </p>
@@ -309,7 +417,7 @@ const EditQRCode = () => {
                 Save Changes
               </DynamicPrimaryBtn>
             </div>
-          </div>
+          </form>
         </div>
 
         {/* live preview  */}
@@ -334,16 +442,27 @@ const EditQRCode = () => {
               )}
 
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Image
-                  src={
-                    "https://res.cloudinary.com/bayshore/image/upload/v1706786605/qr-logo_mwasoz.png"
-                  }
-                  quality={100}
-                  alt="logo"
-                  width={200}
-                  height={200}
-                  className="w-12 h-12"
-                />
+                {imageFile ? (
+                  <Image
+                    src={imageFile}
+                    quality={100}
+                    alt="logo"
+                    width={200}
+                    height={200}
+                    className="w-12 h-12"
+                  />
+                ) : (
+                  <Image
+                    src={
+                      "https://res.cloudinary.com/bayshore/image/upload/v1706786605/qr-logo_mwasoz.png"
+                    }
+                    quality={100}
+                    alt="logo"
+                    width={200}
+                    height={200}
+                    className="w-12 h-12"
+                  />
+                )}
               </div>
             </div>
           </div>
