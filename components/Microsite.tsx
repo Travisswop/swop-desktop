@@ -135,7 +135,7 @@ const Microsite = ({ microsites }: any) => {
                   className="border-2 p-2 border-gray-500 rounded-2xl"
                 />
                 <div className="flex items-center gap-3">
-                  <Link href={`/qr-code/${microsite._id}`}>
+                  <Link href={`/smartsites/qr-code/${microsite._id}`}>
                     <button className="bg-black p-2.5 rounded-lg">
                       <Image alt="edit" src={edit} width={18} />
                     </button>
@@ -143,9 +143,13 @@ const Microsite = ({ microsites }: any) => {
                   <button className="bg-black p-2.5 rounded-lg">
                     <Image alt="send" src={send} width={18} />
                   </button>
-                  <button className="bg-black p-2 rounded-lg">
+                  <a
+                    href={microsite.qrcodeUrl}
+                    download="qrcode.png"
+                    className="bg-black p-2 rounded-lg"
+                  >
                     <FiDownload color="white" size={20} />
-                  </button>
+                  </a>
                 </div>
               </div>
               <div className="flex justify-center mt-10">
