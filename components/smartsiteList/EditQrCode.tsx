@@ -2,7 +2,13 @@
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
-import { Radio, RadioGroup, Switch, useDisclosure } from "@nextui-org/react";
+import {
+  Radio,
+  RadioGroup,
+  Spinner,
+  Switch,
+  useDisclosure,
+} from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
@@ -23,10 +29,12 @@ import qrJson4 from "@/util/data/qr-code-json/4-A.json";
 import { FaSave } from "react-icons/fa";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import CustomFileInput from "../CustomFileInput";
+import { toast } from "react-toastify";
+import { postCustomQrCode } from "@/actions/customQrCode";
 
 const EditQRCode = ({ profileUrl, id, token }: any) => {
   const [color, setColor] = useState("#B396FF");
-  const [bgColor, setBgColor] = useState("");
+  const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,48 +130,45 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
     // qrData.dotsOptions.color = color;
     // qrData.backgroundOptions.color = bgColor || "#ffffff00";
 
-    if (imageFile) {
-      const imageUrl = await sendCloudinaryImage(imageFile);
-      qrData.image = imageUrl;
-    }
-
-    qrData.backgroundOptions = { color: bgColor };
-    qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
-    qrData.data = profileUrl;
-    // corner dot color
-    qrData.cornersDotOptions = {
-      ...qrData.cornersDotOptions,
-      color: color,
-    };
-    qrData.cornersSquareOptions = {
-      ...qrData.cornersSquareOptions,
-      color: color,
-    };
-
-    console.log("qrData", qrData);
-
-    const payload = {
-      micrositeId: id,
-      qrStyleData: qrData,
-    };
-
-    // Send the updated JSON data in a POST request
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/customQrCode`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
+    try {
+      if (imageFile) {
+        const imageUrl = await sendCloudinaryImage(imageFile);
+        qrData.image = imageUrl;
       }
-    );
 
-    const data = await response.json();
-    console.log("data from qr post", data);
+      qrData.backgroundOptions = { color: bgColor };
+      qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
+      qrData.data = profileUrl;
+      // corner dot color
+      qrData.cornersDotOptions = {
+        ...qrData.cornersDotOptions,
+        color: color,
+      };
+      qrData.cornersSquareOptions = {
+        ...qrData.cornersSquareOptions,
+        color: color,
+      };
 
-    setIsLoading(false);
+      console.log("qrData", qrData);
+
+      const payload = {
+        micrositeId: id,
+        qrStyleData: qrData,
+      };
+
+      // Send the updated JSON data in a POST request
+      const data: any = await postCustomQrCode(payload, token);
+
+      if (data && data.state === "success") {
+        toast.success("Qr code updated");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -412,9 +417,16 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
               </div>
             </div> */}
             <div>
-              <DynamicPrimaryBtn className="mt-3">
-                <FaSave size={18} />
-                Save Changes
+              <DynamicPrimaryBtn disabled={isLoading} className="mt-3 w-48">
+                {isLoading ? (
+                  <Spinner className="py-0.5" size="sm" color="white" />
+                ) : (
+                  <>
+                    {" "}
+                    <FaSave size={18} />
+                    Save Changes
+                  </>
+                )}
               </DynamicPrimaryBtn>
             </div>
           </form>
@@ -422,7 +434,7 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
 
         {/* live preview  */}
         <div className="w-[38%] flex flex-col items-center gap-4">
-          <p className="text-gray-500 font-medium mb-6">Live Preview</p>
+          <p className="text-gray-500 font-medium mb-2">Live Preview</p>
           <div className="bg-white p-2.5 rounded-xl shadow-medium">
             <div
               style={{ backgroundColor: bgColor }}
@@ -466,7 +478,7 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
               </div>
             </div>
           </div>
-          <p className="heading-4 mt-4">Select Download Type</p>
+          {/* <p className="heading-4 mt-4">Select Download Type</p>
           <div>
             <RadioGroup value="PDF" orientation="horizontal" color="success">
               <Radio value="PDF">PDF</Radio>
@@ -478,7 +490,7 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
           <DynamicPrimaryBtn>
             <MdOutlineFileUpload size={18} />
             Download
-          </DynamicPrimaryBtn>
+          </DynamicPrimaryBtn> */}
         </div>
       </div>
       <QRCodeShareModal
