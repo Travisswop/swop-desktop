@@ -19,10 +19,10 @@ import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import ForceSignOut from "@/components/ForceSignOut";
-export default async function HomePage() {
-  const session: any = await isUserAuthenticate(); // check is user exist
+import WalletInfo from "@/components/WalletInfo";
 
-  // console.log("session from frontend", session);
+export default async function HomePage() {
+  const session: any = await isUserAuthenticate(); // check if user exists
 
   const data = await getHomePageData(session.accessToken as string);
 
@@ -30,31 +30,21 @@ export default async function HomePage() {
     return <ForceSignOut />;
   }
 
-  // console.log("data", data);
-
   const imageSrc = isUrl(data && data?.data?.profilePic)
     ? data?.data?.profilePic
     : `/images/user_avator/${data?.data?.profilePic}.png`;
 
   const getLast30DaysTap = () => {
-    // Get the current timestamp
     if (data.state === "success") {
       const currentTimestamp = Date.now();
-
-      // Calculate the timestamp for 30 days ago
       const thirtyDaysAgoTimestamp =
         currentTimestamp - 30 * 24 * 60 * 60 * 1000;
-
-      // Filter the array to include only taps within the last 30 days
       const tapsInLast30Days =
         data &&
         data?.data?.tap.filter(
           (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
         );
-
-      // Get the length of the filtered array
       const tapsInLast30DaysCount = tapsInLast30Days.length;
-
       return tapsInLast30DaysCount;
     } else {
       return 0;
@@ -216,6 +206,9 @@ export default async function HomePage() {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="bg-white rounded-lg mt-4 p-6">
+                <WalletInfo />
               </div>
             </div>
           </div>

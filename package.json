@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
     "@nextui-org/react": "^2.2.10",
+    "@toruslabs/torus-embed": "^5.0.0",
     "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
     "firebase": "^10.12.2",
@@ -34,9 +36,10 @@
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.7.5",
     "swiper": "^11.1.2",
     "zod": "^3.23.8",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
