@@ -22,6 +22,7 @@ import Link from "next/link";
 import { FaDownload } from "react-icons/fa";
 import { IoMdCloudDownload } from "react-icons/io";
 import { FiDownload } from "react-icons/fi";
+import AnimateButton from "./Button/AnimateButton";
 
 const Microsite = ({ microsites }: any) => {
   // console.log("microsites", microsites);
@@ -55,10 +56,13 @@ const Microsite = ({ microsites }: any) => {
               <div className="flex items-center justify-between">
                 <h3 className="text-xl text-gray-700 font-bold">Smart Sites</h3>
                 <Link href={`/smartsites/icons/${microsite._id}`}>
-                  <button className="border border-gray-500 rounded-lg px-4 py-2 flex items-center gap-1 font-medium hover:bg-gray-700 hover:text-white">
+                  <AnimateButton
+                    width="w-48"
+                    className="text-gray-700 flex gap-1"
+                  >
                     <CiSettings size={20} />
                     Manage Sites
-                  </button>
+                  </AnimateButton>
                 </Link>
               </div>
               <div className={`shadow-medium rounded-2xl my-6 mx-10 pt-3 pb-8`}>

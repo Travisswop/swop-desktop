@@ -262,7 +262,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
   ); //get setter for setting smartsite info from zustand store
 
   const setLoggedInUserInfo = useLoggedInUserStore(
-    (state: any) => state.setState
+    (state: any) => state.setUser
   ); //get setter for setting session info from zustand store
 
   // const { isOn, setOff }: any = useSmallIconToggleStore();

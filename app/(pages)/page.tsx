@@ -20,6 +20,7 @@ import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import ForceSignOut from "@/components/ForceSignOut";
 import WalletInfo from "@/components/WalletInfo";
+import AnimateButton from "@/components/Button/AnimateButton";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check if user exists
@@ -124,11 +125,14 @@ export default async function HomePage() {
                     )}
                   </div>
                 </div>
-                <Link href={"/update-profile"}>
-                  <button className="px-10 flex gap-2 font-medium items-center border-1.5 rounded-lg py-1.5 text-gray-500 border-gray-400 hover:bg-gray-700 hover:text-white">
-                    <BiSolidEdit />
+                <Link href={`/update-profile/${data.data._id}`}>
+                  <AnimateButton
+                    width="w-32"
+                    className="flex gap-1 text-gray-700"
+                  >
+                    <BiSolidEdit size={18} />
                     Edit
-                  </button>
+                  </AnimateButton>
                 </Link>
               </div>
               <Chart />

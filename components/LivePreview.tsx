@@ -221,7 +221,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between items-center mt-3">
+                <div className="flex flex-wrap justify-center lg:justify-between items-center mt-3 gap-2">
                   <AnimateButton
                     type="button"
                     onClick={() =>
@@ -230,8 +230,8 @@ const LivePreview = ({ data }: { data?: any }) => {
                         categoryForTrigger: "blog",
                       })
                     }
-                    width="w-30"
-                    className="!py-1 !rounded-md"
+                    width="w-28"
+                    className="!rounded-lg"
                   >
                     <FaEdit /> Edit
                   </AnimateButton>
@@ -244,8 +244,8 @@ const LivePreview = ({ data }: { data?: any }) => {
                         categoryForTrigger: "showBlog",
                       })
                     }
-                    width="w-30"
-                    className="!py-1 !rounded-md !gap-1.5"
+                    width="w-40"
+                    className="!rounded-lg"
                   >
                     <FaEye size={18} /> Read More
                   </AnimateButton>

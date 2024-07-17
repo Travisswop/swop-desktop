@@ -24,10 +24,12 @@ import { handleSignUp } from "@/actions/signUp";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import isUrl from "@/util/isUrl";
+import { updateUserProfile } from "@/actions/updateUserProfile";
 
 export const maxDuration = 60;
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ data, token }: any) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [galleryImage, setGalleryImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
@@ -39,7 +41,7 @@ const UpdateProfile = () => {
   });
   const [userLocation, setUserLocation] = useState<any>(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [value, setValue] = useState<any>(null);
   const [phone, setPhone] = useState("");
@@ -50,53 +52,8 @@ const UpdateProfile = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // console.log("selectedCountryCode", selectedCountryCode);
-
-  // useEffect(() => {
-  //   //need this to get data from localstorage
-  //   if (typeof window !== "undefined") {
-  //     // Safe to use localStorage here
-  //     const encInfo = localStorage.getItem("info");
-  //     const decryptInfo = decryptData(encInfo);
-  //     setUserData(decryptInfo);
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    const geoTimeout = setTimeout(() => {
-      console.error("Geolocation request timed out.");
-      setLoading(false);
-    }, 5000); // 4 seconds timeout
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          clearTimeout(geoTimeout);
-          const { latitude, longitude } = pos.coords;
-          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          axios
-            .get(url)
-            .then((response) => {
-              setUserLocation(response.data);
-              setLoading(false);
-            })
-            .catch((error) => {
-              console.error("Error fetching geolocation data:", error);
-              setLoading(false);
-            });
-        },
-        (error) => {
-          clearTimeout(geoTimeout);
-          console.error("Error retrieving geolocation:", error);
-          setLoading(false);
-        },
-        { timeout: 5000 } // 10 seconds timeout for geolocation API
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser");
-      setLoading(false);
-    }
-  }, []);
+  console.log("phone", phone);
+  console.log("selectedCountryCode", selectedCountryCode);
 
   const images = [
     "1",
@@ -145,7 +102,7 @@ const UpdateProfile = () => {
     //get cloudinery uploaded image
     sendCloudinaryImage(galleryImage)
       .then((url) => {
-        // console.log("Uploaded image URL:", url);
+        setSelectedImage(null);
         setUploadedImageUrl(url);
       })
       .catch((err) => {
@@ -157,52 +114,32 @@ const UpdateProfile = () => {
     setSubmitLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const countryCode = formData.get("mobileNo") as string;
+    const mobileNumber: any = formData.get("mobileNo");
     const userInfo = {
+      _id: data.data._id,
       name: formData.get("name"),
-      email: userData.email,
-      password: userData.password,
-      mobileNo: formData.get("mobileNo") || "",
+      mobileNo: phone || "",
       address: value?.label || "",
       bio: formData.get("bio"),
       dob: dobDate,
-      profilePic: selectedImage || uploadedImageUrl || "1",
-      socialSignup: false,
-      isPremiumUser: false,
-      notificationToken: "swop-desktop",
-      countryCode: countryCode?.split(" ")[0] || "+1",
-      countryFlag:
-        selectedCountryCode || userLocation.address.country_code || "us",
+      profilePic: selectedImage || uploadedImageUrl || data.data.profilePic,
+      countryCode: mobileNumber?.split(" ")[0] || data.data.countryCode || "+1",
+      countryFlag: selectedCountryCode || "us",
       apt: "N/A",
     };
 
     try {
-      const response = await handleSignUp(userInfo);
-      if (response.state === "success") {
-        localStorage.setItem(
-          "primaryMicrosite",
-          response.data.microsites[0]._id
-        );
-        const data = await signIn("credentials", {
-          email: userInfo.email,
-          password: userInfo.password,
-          redirect: false,
-        });
-        // console.log("response for login", data);
+      const data = await updateUserProfile(userInfo, token);
+      console.log("data", data);
 
-        if (data && !data.error) {
-          localStorage.removeItem("info");
-          localStorage.setItem("modalShown", "true");
-          router.push("/?signup=success");
-          // toast.success("Welcome to swop");
-        } else {
-          toast.warn("Automatic Sign In failed! Please Sign In.");
-        }
+      if (data.state === "success") {
+        toast.success("profile updated");
       }
     } catch (error) {
-      toast.error("something went wrong! Please try again");
+      toast.error("something went wrong!");
       console.error("error from hola", error);
-
+      setSubmitLoading(false);
+    } finally {
       setSubmitLoading(false);
     }
     // console.log("form submitted successfully", userInfo);
@@ -241,13 +178,33 @@ const UpdateProfile = () => {
     dateInputRef?.current?.showPicker(); // Triggers the native date picker
   };
 
-  // console.log("dobDate", dobDate.getTime());
+  useEffect(() => {
+    if (data.data.dob) {
+      return setDobDate(data.data.dob);
+    }
+  }, [data.data.dob]);
 
-  // const handleChange = (e) => {
-  //   const { value } = e.target;
-  //   const parsedDate = parse(value, "yyyy-MM-dd", new Date());
-  //   setDobDate(parsedDate);
-  // };
+  useEffect(() => {
+    if (data.data.mobileNo) {
+      setPhone(`${data.data.countryCode} ${data.data.mobileNo}`);
+    }
+  }, [data.data.countryCode, data.data.mobileNo]);
+
+  useEffect(() => {
+    if (data.data.address) {
+      setValue({
+        label: data.data.address,
+        value: {
+          description: data.data.address,
+          structured_formatting: {
+            main_text: data.data.address.split(",")[0],
+            secondary_text: data.data.address.split(",").slice(1).join(", "),
+          },
+        },
+      });
+    }
+  }, [data.data.address]);
+  console.log("phone", phone);
 
   const handleChange = (e: any) => {
     const { value } = e.target;
@@ -280,12 +237,22 @@ const UpdateProfile = () => {
                     quality={100}
                     className="rounded-full bg-white w-52 h-52"
                   />
+                ) : selectedImage ? (
+                  <Image
+                    src={`/images/user_avator/${selectedImage}.png`}
+                    width={260}
+                    height={260}
+                    alt="avator"
+                    quality={100}
+                    className="rounded-full w-full h-full bg-white"
+                  />
                 ) : (
+                  // <p>hola</p>
                   <Image
                     src={
-                      selectedImage
-                        ? `/images/user_avator/${selectedImage}.png`
-                        : `/images/user_avator/1.png`
+                      isUrl(data.data.profilePic)
+                        ? data.data.profilePic
+                        : `/images/user_avator/${data.data.profilePic}.png`
                     }
                     width={260}
                     height={260}
@@ -306,43 +273,6 @@ const UpdateProfile = () => {
                 </button>
               </div>
             </div>
-            {/* <div className="relative w-52 h-52 overflow-hidden rounded-full">
-              <div className="bg-white">
-                {galleryImage ? (
-                  <Image
-                    src={galleryImage}
-                    width={260}
-                    height={260}
-                    alt="image"
-                    quality={100}
-                    className="rounded-full w-full h-full bg-white"
-                  />
-                ) : (
-                  <Image
-                    src={
-                      selectedImage
-                        ? `/images/user_avator/${selectedImage}.png`
-                        : `/images/user_avator/1.png`
-                    }
-                    width={260}
-                    height={260}
-                    alt="avator"
-                    quality={100}
-                    className="rounded-full w-full h-full bg-white"
-                  />
-                )}
-              </div>
-              <div className="bg-[#3f3f3f43] absolute top-1/2 w-full h-full">
-                <button onClick={handleModal}>
-                  <Image
-                    src={uploadImgIcon}
-                    alt="upload image icon"
-                    width={28}
-                    className="absolute left-1/2 top-8 -translate-x-[50%]"
-                  />
-                </button>
-              </div>
-            </div> */}
             <UploadImageButton handleModal={handleModal} />
           </div>
           {loading ? (
@@ -367,7 +297,7 @@ const UpdateProfile = () => {
                       type="text"
                       id="fullName"
                       name="name"
-                      defaultValue={userData.name}
+                      defaultValue={data.data.name}
                       required
                       placeholder="Enter name"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
@@ -387,6 +317,7 @@ const UpdateProfile = () => {
                       type="text"
                       id="bio"
                       name="bio"
+                      defaultValue={data.data.bio}
                       placeholder="Enter bio"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
                     />
@@ -400,9 +331,7 @@ const UpdateProfile = () => {
                     "loading..."
                   ) : (
                     <PhoneInput
-                      defaultCountry={
-                        userLocation?.address?.country_code || "us"
-                      }
+                      defaultCountry={data.data.countryFlag.toLowerCase()}
                       forceDialCode={true}
                       value={phone}
                       name="mobileNo"
@@ -426,7 +355,7 @@ const UpdateProfile = () => {
                     <input
                       type="text"
                       id="email"
-                      defaultValue={userData.email}
+                      defaultValue={data.data.email}
                       required
                       readOnly
                       placeholder="Enter email"
@@ -478,16 +407,22 @@ const UpdateProfile = () => {
                   />
                 </div>
               </div>
+              <div className="mt-4 w-40">
+                <button
+                  type="submit"
+                  disabled={submitLoading}
+                  className="bg-black text-white py-2 rounded-xl px-2 mx-auto text-sm sm:w-auto !w-full block"
+                >
+                  {submitLoading ? (
+                    <Spinner size="sm" color="white" />
+                  ) : (
+                    <div className="py-0.5">Save</div>
+                  )}
+                </button>
+              </div>
             </div>
           )}
         </div>
-        <button
-          type="submit"
-          disabled={submitLoading}
-          className="bg-black text-white py-2 rounded-xl flex items-center gap-2 justify-center px-10 mx-auto text-sm w-full sm:w-auto"
-        >
-          Save {submitLoading && <Spinner size="sm" color="white" />}
-        </button>
       </form>
 
       {/* modal here  */}
