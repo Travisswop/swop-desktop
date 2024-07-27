@@ -1,4 +1,5 @@
 "use client";
+import { MotionButton } from "@/util/Motion";
 import { Spinner } from "@nextui-org/react";
 import React, { useState, ReactNode } from "react";
 
@@ -27,7 +28,8 @@ const AnimateButton: React.FC<AnimateButtonProps> = ({
   const mergedClasses = `${defaultClasses} ${className && className}`;
 
   return (
-    <button
+    <MotionButton
+      whileTap={{ scale: 0.85 }}
       onClick={onClick}
       type={type}
       className={mergedClasses}
@@ -43,7 +45,7 @@ const AnimateButton: React.FC<AnimateButtonProps> = ({
       ) : (
         children
       )}
-    </button>
+    </MotionButton>
   );
 };
 

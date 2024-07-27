@@ -19,6 +19,8 @@ const SmartsiteUpdatePage = async ({
     return <ForceSignOut />;
   }
 
+  console.log("data", data);
+
   return (
     <div>
       <EditSmartSite

@@ -19,7 +19,7 @@ import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import smatsiteBackgroundImageList from "@/util/data/smatsiteBackgroundImageList";
 import smatsiteBannerImageList from "@/util/data/smartsiteBannerImageList";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
-import { handleSmartSiteUpdate } from "@/actions/update";
+import { handleCreateSmartSite, handleSmartSiteUpdate } from "@/actions/update";
 import { toast } from "react-toastify";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
@@ -27,7 +27,7 @@ import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalCompone
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
-const EditSmartSite = ({ data, token, session }: any) => {
+const CreateSmartSite = ({ token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
@@ -70,18 +70,6 @@ const EditSmartSite = ({ data, token, session }: any) => {
     setIsBannerModalOpen(true);
     onOpen();
   };
-
-  useEffect(() => {
-    if (data.data.primary) {
-      setIsPrimaryMicrosite(true);
-    }
-    if (data.data.gatedAccess) {
-      setIsGatedAccessOpen(true);
-    }
-    // if (data.data.theme) {
-    //   setIsBackgrundImageSelected(true);
-    // }
-  }, [data.data.primary, data.data.theme, data.data.gatedAccess]);
 
   // image upload for user profile
   const handleSelectImage = (image: any) => {
@@ -182,16 +170,12 @@ const EditSmartSite = ({ data, token, session }: any) => {
     const selectedTheme = backgroundImage.background ? true : false;
 
     const smartSiteInfo = {
-      _id: data.data._id,
+      parentId: session._id,
       name: formData.get("name") || "",
       bio: formData.get("bio") || "",
       brandImg: brandImage, //need to setup
-      username: data.data.username || "",
-      profilePic: uploadedImageUrl || selectedImage || data.data.profilePic,
-      backgroundImg:
-        backgroundImage.background ||
-        backgroundImage.banner ||
-        data.data.backgroundImg,
+      profilePic: uploadedImageUrl || selectedImage,
+      backgroundImg: backgroundImage.background || backgroundImage.banner,
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
         contractAddress: formData.get("contractAddress") || "",
@@ -200,19 +184,19 @@ const EditSmartSite = ({ data, token, session }: any) => {
         network: formData.get("network") || "",
       },
       theme: selectedTheme,
-      ens: data.data.ens || "",
+      //   ens: data.data.ens || "",
       primary: isPrimaryMicrosite,
-      web3enabled: data.data.web3enabled,
+      //   web3enabled: data.data.web3enabled,
     };
 
     // console.log("smartsite info", smartSiteInfo);
 
     try {
-      const response = await handleSmartSiteUpdate(smartSiteInfo, token);
-      // console.log("response", response);
+      const response = await handleCreateSmartSite(smartSiteInfo, token);
+      //   console.log("response", response);
 
       if (response.state === "success") {
-        toast.success("Smartsite updated successfully");
+        toast.success("Smartsite created successfully");
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -253,16 +237,10 @@ const EditSmartSite = ({ data, token, session }: any) => {
   //set smartsite info into zustand store
   //set session info into zustand store
   useEffect(() => {
-    if (data) {
-      setSmartSiteData(data);
-    }
     if (session) {
       setLoggedInUserInfo(session);
     }
-    // if (iconData) {
-    //   setOpen(true);
-    // }
-  }, [data, session, iconData, setLoggedInUserInfo, setSmartSiteData]);
+  }, [session, setLoggedInUserInfo]);
 
   // console.log("open", open);
 
@@ -305,23 +283,13 @@ const EditSmartSite = ({ data, token, session }: any) => {
                     </>
                   ) : (
                     <>
-                      {isUrl(data.data.profilePic) ? (
-                        <Image
-                          alt="user image"
-                          src={data.data.profilePic}
-                          width={160}
-                          height={160}
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <Image
-                          alt="user image"
-                          src={`/images/user_avator/${data.data.profilePic}.png`}
-                          width={160}
-                          height={160}
-                          className="rounded-full"
-                        />
-                      )}
+                      <Image
+                        alt="user image"
+                        src={`/images/user_avator/1.png`}
+                        width={160}
+                        height={160}
+                        className="rounded-full"
+                      />
                     </>
                   )}
                   <button
@@ -346,28 +314,10 @@ const EditSmartSite = ({ data, token, session }: any) => {
                     <input
                       type="text"
                       name="name"
-                      placeholder={`Jhon Smith`}
-                      defaultValue={data.data.name}
+                      defaultValue={""}
+                      placeholder={`Type your name`}
                       onChange={handleChange}
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="name" className="font-medium text-gray-700">
-                    Profile Url
-                  </label>
-                  <div className="relative flex-1 mt-1">
-                    <FiUser
-                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                      size={18}
-                    />
-                    <input
-                      type="text"
-                      readOnly
-                      value={data.data.profileUrl}
-                      placeholder={`https://swopme.app/sp/fghh`}
-                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -381,8 +331,8 @@ const EditSmartSite = ({ data, token, session }: any) => {
                       size={18}
                     />
                     <textarea
-                      placeholder={`Real Estate Manager`}
-                      defaultValue={data.data.bio}
+                      placeholder={`Type your bio`}
+                      defaultValue={""}
                       onChange={handleChange}
                       name="bio"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
@@ -423,9 +373,9 @@ const EditSmartSite = ({ data, token, session }: any) => {
                   size={18}
                 />
                 <input
-                  placeholder={`Swop Username, ENS or Public Address`}
-                  readOnly
-                  value={data.data.ens}
+                  placeholder={`Register your free ENS Swop.ID`}
+                  //   readOnly
+                  //   value={data.data.ens}
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-6 text-gray-700 bg-white"
                 />
                 <button className="absolute right-6 top-1/2 -translate-y-1/2 font-medium text-gray-500 border px-4 py-1 rounded-xl border-gray-300">
@@ -453,7 +403,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
                   <input
                     type="text"
                     placeholder={`Contract Address`}
-                    defaultValue={data.data.gatedInfo.contractAddress}
+                    defaultValue={""}
                     name="contractAddress"
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                   />
@@ -472,7 +422,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
                     type="text"
                     placeholder={`Token ID`}
                     name="tokenId"
-                    defaultValue={data.data.gatedInfo.tokenId}
+                    defaultValue={""}
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                   />
                 </div>
@@ -490,7 +440,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
                     type="text"
                     placeholder={`Mint URL`}
                     name="eventLink"
-                    defaultValue={data.data.gatedInfo.eventLink}
+                    defaultValue={""}
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                   />
                 </div>
@@ -506,7 +456,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
                   />
                   <select
                     name="network"
-                    defaultValue={data.data.gatedInfo.network || ""}
+                    defaultValue={""}
                     className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
                   >
                     <option value="" disabled>
@@ -540,7 +490,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
           </form>
         </div>
         {/* <div style={{ height: "90%" }} className="w-[38%] overflow-y-auto"> */}
-        <LivePreview data={data.data} />
+        {/* <LivePreview data={data.data} /> */}
         {/* </div> */}
       </div>
 
@@ -572,4 +522,4 @@ const EditSmartSite = ({ data, token, session }: any) => {
   );
 };
 
-export default EditSmartSite;
+export default CreateSmartSite;

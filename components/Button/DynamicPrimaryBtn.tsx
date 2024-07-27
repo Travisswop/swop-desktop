@@ -1,3 +1,5 @@
+"use client";
+import { MotionButton } from "@/util/Motion";
 import React from "react";
 
 interface btnProps {
@@ -14,15 +16,19 @@ const DynamicPrimaryBtn = ({
   disabled = false,
 }: btnProps) => {
   // Define the default classes
-  const defaultClasses =
-    "bg-black text-white py-2 rounded-xl flex items-center gap-2 justify-center px-6 font-medium";
+
+  const defaultClasses = `relative overflow-hidden flex justify-center items-center gap-1 px-5 py-2 rounded-xl text-white bg-black font-medium hover:text-white hover:bg-gradient-to-r hover:from-black hover:to-white hover:bg-[length:200%_100%] hover:animate-bg-slide`;
   // Merge the default classes with the passed className
   const mergedClasses = `${defaultClasses} ${className && className}`;
 
   return (
-    <button disabled={disabled} className={mergedClasses}>
+    <MotionButton
+      whileTap={{ scale: 0.85 }}
+      disabled={disabled}
+      className={mergedClasses}
+    >
       {children}
-    </button>
+    </MotionButton>
   );
 };
 

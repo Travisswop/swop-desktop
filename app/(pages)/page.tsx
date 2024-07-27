@@ -30,6 +30,9 @@ export default async function HomePage() {
   //   return <ForceSignOut />;
   // }
 
+  console.log("home data", data);
+  console.log("parent", data.data.microsites);
+
   const getImgSrc = () => {
     const imageSrc = isUrl(data && data?.data?.profilePic)
       ? data?.data?.profilePic
