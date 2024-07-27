@@ -51,7 +51,7 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
   // console.log("selected icon data", selectedIconData);
   // console.log("selected icon", selectedIcon);
   // console.log("open", open);
-  console.log("icondataobj", iconDataObj);
+  // console.log("icondataobj", iconDataObj);
 
   const iconData: any = newIcons[1];
   // console.log("selectedIconByLivePreview", selectedIconByLivePreview);
@@ -184,7 +184,7 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
         appIconInfo,
         sesstionState.accessToken
       );
-      console.log("data,", data);
+      // console.log("data,", data);
 
       if (data && data?.state === "success") {
         toast.success("app icon updated successfully");

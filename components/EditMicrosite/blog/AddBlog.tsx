@@ -54,7 +54,7 @@ const AddBlog = ({ handleRemoveIcon }: any) => {
     }
   };
 
-  console.log("imagefile", imageFile);
+  // console.log("imagefile", imageFile);
 
   const handleFormSubmit = async (e: any) => {
     setIsLoading(true);

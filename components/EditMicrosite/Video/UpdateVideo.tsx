@@ -52,7 +52,7 @@ const UpdateVideo = ({ iconDataObj, isOn, setOff }: any) => {
   };
 
   // console.log("videoFile", videoFile);
-  console.log("icon data obj", iconDataObj);
+  // console.log("icon data obj", iconDataObj);
 
   const handleFormSubmit = async (e: any) => {
     setIsLoading(true);
@@ -90,7 +90,7 @@ const UpdateVideo = ({ iconDataObj, isOn, setOff }: any) => {
         }
 
         const data = await updateVideo(info, sesstionState.accessToken);
-        console.log("data", data);
+        // console.log("data", data);
 
         if ((data.state = "success")) {
           toast.success("video updated successfully");

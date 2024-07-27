@@ -230,7 +230,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
 
     try {
       const response = await handleSmartSiteUpdate(smartSiteInfo, token);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response.state === "success") {
         toast.success("Smartsite updated successfully");
@@ -287,7 +287,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
 
   // console.log("open", open);
 
-  console.log("icon data obbbjj", iconData);
+  // console.log("icon data obbbjj", iconData);
 
   return (
     <main className="main-container">

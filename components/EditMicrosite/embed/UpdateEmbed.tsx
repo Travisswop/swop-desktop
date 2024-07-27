@@ -62,7 +62,7 @@ const UpdateEmbed = ({ iconDataObj, isOn, setOff }: any) => {
         embedInfo,
         sesstionState.accessToken
       );
-      console.log("data,", data);
+      // console.log("data,", data);
 
       if (data && data?.state === "success") {
         toast.success("embed updated successfully");

@@ -213,14 +213,14 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       _id: iconDataObj.data._id,
       micrositeId: iconDataObj.data.micrositeId,
     };
-    console.log("submit data", submitData);
+    // console.log("submit data", submitData);
 
     try {
       const data: any = await deleteInfoBar(
         submitData,
         sesstionState.accessToken
       );
-      console.log("data,", data);
+      // console.log("data,", data);
 
       if (data && data?.state === "success") {
         toast.success("info bar deleted successfully");

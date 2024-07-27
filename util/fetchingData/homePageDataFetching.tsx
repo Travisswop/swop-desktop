@@ -1,4 +1,5 @@
-export const maxDuration = 60;
+import ForceSignOut from "@/components/ForceSignOut";
+
 async function getHomePageData(token: string) {
   // console.log("token", token);
 
@@ -15,13 +16,17 @@ async function getHomePageData(token: string) {
         }
       );
 
-      const data = res.json();
+      const data = await res.json();
 
       // console.log("data fetchg", data);
 
+      if (data && data.state === "fail") {
+        return <ForceSignOut />;
+      }
+
       return data;
     } else {
-      console.log("token doesn't exist on data load");
+      // console.log("token doesn't exist on data load");
     }
   } catch (error) {
     console.error(error);

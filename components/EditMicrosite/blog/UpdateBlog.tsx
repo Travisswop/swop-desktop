@@ -19,8 +19,6 @@ import { icon } from "@/util/data/smartsiteIconData";
 import { deleteBlog, updateBlog } from "@/actions/blog";
 
 const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
-  console.log("hit");
-
   const sesstionState: any = useLoggedInUserStore((state) => state); // get small icon store value
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,8 +26,6 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
-
-  console.log("data in update blog", iconDataObj);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const closeModal = () => {

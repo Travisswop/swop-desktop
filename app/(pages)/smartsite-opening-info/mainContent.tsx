@@ -38,7 +38,7 @@ const SmartsideOpeningInfo = ({
 
   const router = useRouter();
 
-  console.log("micrositeId", micrositeId);
+  // console.log("micrositeId", micrositeId);
 
   // console.log(userSessionName, userSessionEmail, token);
 
@@ -211,7 +211,7 @@ const SmartsideOpeningInfo = ({
 
       const data = await response.json();
 
-      console.log("dataaaa", data);
+      // console.log("dataaaa", data);
 
       if (response.ok) {
         if (data.state === "success") {

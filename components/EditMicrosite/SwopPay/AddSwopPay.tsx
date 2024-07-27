@@ -117,7 +117,7 @@ const AddSwopPay = ({ handleRemoveIcon }: any) => {
         }
         info.imageUrl = imageUrl;
         const data = await postSwopPay(info, sesstionState.accessToken);
-        console.log("data", data);
+        // console.log("data", data);
 
         if ((data.state = "success")) {
           toast.success("product created successfully");
@@ -134,7 +134,7 @@ const AddSwopPay = ({ handleRemoveIcon }: any) => {
 
   const currencyList: any = currencyItems;
 
-  console.log("selectedIcon", selectedIcon);
+  // console.log("selectedIcon", selectedIcon);
 
   return (
     <form

@@ -44,7 +44,7 @@ const AddReferral = ({ handleRemoveIcon }: any) => {
       setIsLoading(false);
     } else {
       setError("");
-      console.log("contactCardInfo", submitInfo);
+      // console.log("contactCardInfo", submitInfo);
 
       try {
         const data = await postReferral(submitInfo, sesstionState.accessToken);

@@ -149,7 +149,7 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
         color: color,
       };
 
-      console.log("qrData", qrData);
+      // console.log("qrData", qrData);
 
       const payload = {
         micrositeId: id,

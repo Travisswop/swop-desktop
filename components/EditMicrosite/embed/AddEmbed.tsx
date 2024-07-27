@@ -51,7 +51,7 @@ const AddEmbed = ({ handleRemoveIcon }: any) => {
 
     try {
       const data = await postEmbedLink(embedInfo, sesstionState.accessToken);
-      console.log("data", data);
+      // console.log("data", data);
 
       if ((data.state = "success")) {
         toast.success("embed created successfully");

@@ -23,7 +23,7 @@ const UpdateAudio = ({ iconDataObj, isOn, setOff }: any) => {
   const [fileError, setFileError] = useState<string>("");
   const [imageFileError, setImageFileError] = useState<string>("");
 
-  console.log("icon data", iconDataObj);
+  // console.log("icon data", iconDataObj);
 
   const handleFileChange = (event: any) => {
     // get audio file
@@ -116,10 +116,10 @@ const UpdateAudio = ({ iconDataObj, isOn, setOff }: any) => {
           info.coverPhoto = imageUrl;
         }
 
-        console.log("videee", info);
+        // console.log("videee", info);
 
         const data = await updateAudio(info, sesstionState.accessToken);
-        console.log("data", data);
+        // console.log("data", data);
 
         if ((data.state = "success")) {
           toast.success("audio updated successfully");

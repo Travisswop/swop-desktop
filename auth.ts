@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         let user = null;
 
-        console.log("credentials", credentials);
+        // console.log("credentials", credentials);
 
         try {
           const response = await fetch(
@@ -46,7 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 accessToken: token,
               };
               user = sessionData;
-              console.log("user data from auth.js", user);
+              // console.log("user data from auth.js", user);
               return user;
             }
           } else {
@@ -80,9 +80,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log("initial token", token);
-      console.log("jwt user", user);
-      console.log("jwt account", account);
+      // console.log("initial token", token);
+      // console.log("jwt user", user);
+      // console.log("jwt account", account);
 
       if (account && account.provider === "google") {
         try {
@@ -119,8 +119,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     session({ session, token }) {
-      console.log("session token", token);
-      console.log("session data", session);
+      // console.log("session token", token);
+      // console.log("session data", session);
       const value = {
         ...token,
         ...session,

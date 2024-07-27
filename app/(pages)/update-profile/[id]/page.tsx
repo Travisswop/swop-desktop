@@ -19,7 +19,7 @@ const UpdateProfilePage = async ({ params }: { params: { id: string } }) => {
   if (data && data.state === "fail") {
     return <ForceSignOut />;
   }
-  console.log("data from update profile", data);
+  // console.log("data from update profile", data);
 
   return (
     <div>

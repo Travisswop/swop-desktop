@@ -111,13 +111,13 @@ const AddAudio = ({ handleRemoveIcon }: any) => {
         }
         info.coverPhoto = imageUrl;
 
-        console.log("videee", info);
+        // console.log("videee", info);
 
         if (imageUrl) {
-          console.log("post hocche");
+          // console.log("post hocche");
 
           const data = await postAudio(info, sesstionState.accessToken);
-          console.log("data", data);
+          // console.log("data", data);
 
           if ((data.state = "success")) {
             toast.success("music created successfully");

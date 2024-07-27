@@ -39,7 +39,7 @@ const AddMessage = ({ handleRemoveIcon }: any) => {
           submitInfo.domain,
           sesstionState.accessToken
         );
-        console.log("isAvailable", isAvailable);
+        // console.log("isAvailable", isAvailable);
 
         if (isAvailable?.message === "Name not found") {
           return toast.error("ENS name not found");

@@ -18,7 +18,6 @@ import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
-import ForceSignOut from "@/components/ForceSignOut";
 import WalletInfo from "@/components/WalletInfo";
 import AnimateButton from "@/components/Button/AnimateButton";
 
@@ -27,16 +26,20 @@ export default async function HomePage() {
 
   const data = await getHomePageData(session.accessToken as string);
 
-  if (data && data.state === "fail") {
-    return <ForceSignOut />;
-  }
+  // if (data && data.state === "fail") {
+  //   return <ForceSignOut />;
+  // }
 
-  const imageSrc = isUrl(data && data?.data?.profilePic)
-    ? data?.data?.profilePic
-    : `/images/user_avator/${data?.data?.profilePic}.png`;
+  const getImgSrc = () => {
+    const imageSrc = isUrl(data && data?.data?.profilePic)
+      ? data?.data?.profilePic
+      : `/images/user_avator/${data?.data?.profilePic}.png`;
+
+    return imageSrc;
+  };
 
   const getLast30DaysTap = () => {
-    if (data.state === "success") {
+    if (data && data.state === "success") {
       const currentTimestamp = Date.now();
       const thirtyDaysAgoTimestamp =
         currentTimestamp - 30 * 24 * 60 * 60 * 1000;
@@ -46,19 +49,21 @@ export default async function HomePage() {
           (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
         );
       const tapsInLast30DaysCount = tapsInLast30Days.length;
-      return tapsInLast30DaysCount;
+      if (tapsInLast30DaysCount) {
+        return tapsInLast30DaysCount;
+      } else {
+        return 0;
+      }
     } else {
       return 0;
     }
   };
 
-  const last30Taps = getLast30DaysTap();
-
   const websiteAnalyticsArr = [
     {
       _id: 123,
       title: "Taps",
-      value: last30Taps ? last30Taps : 0,
+      value: getLast30DaysTap(),
       days: 30,
       percentage: 24,
     },
@@ -93,9 +98,9 @@ export default async function HomePage() {
             <div className="w-3/5 h-full">
               <div className="bg-white py-5 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {data?.data?.profilePic ? (
+                  {data && data?.data?.profilePic ? (
                     <Image
-                      src={imageSrc}
+                      src={getImgSrc()}
                       alt="user image"
                       width={100}
                       height={100}

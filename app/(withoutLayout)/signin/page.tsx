@@ -15,8 +15,8 @@ import { useRouter } from "next/navigation";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
 import { z } from "zod";
 import Link from "next/link";
-import detectEthereumProvider from '@metamask/detect-provider';
-import useLoggedInUserStore from '../../../zustandStore/SetLogedInUserSession';
+import detectEthereumProvider from "@metamask/detect-provider";
+import useLoggedInUserStore from "../../../zustandStore/SetLogedInUserSession";
 
 // Type definitions for form errors
 interface FormErrors {
@@ -27,8 +27,8 @@ interface FormErrors {
 // Type definition for MetaMask provider
 interface MetaMaskProvider extends Window {
   ethereum?: {
-    request: (args: { method: string, params?: any[] }) => Promise<any>
-  }
+    request: (args: { method: string; params?: any[] }) => Promise<any>;
+  };
 }
 
 const LoginPage = () => {
@@ -83,7 +83,7 @@ const LoginPage = () => {
   }, [mounted, controls]);
 
   async function handleSubmit(event: any) {
-    console.log('handleSubmit called');
+    // console.log('handleSubmit called');
     event.preventDefault();
     try {
       setError("");
@@ -93,16 +93,16 @@ const LoginPage = () => {
       const plainData = Object.fromEntries(formData.entries());
       signInSchema.parse(plainData); // Validate the plain object
 
-      console.log('Attempting to connect MetaMask');
+      // console.log('Attempting to connect MetaMask');
       const walletData = await connectMetaMask();
       if (walletData) {
-        console.log('Wallet Data:', walletData);
+        // console.log('Wallet Data:', walletData);
         setWallet(walletData);
         // Log the state to verify
-        console.log('Wallet state after set:', useLoggedInUserStore.getState());
+        console.log("Wallet state after set:", useLoggedInUserStore.getState());
         // Store the wallet data or send it to your backend
       } else {
-        console.log('MetaMask not connected or not installed');
+        console.log("MetaMask not connected or not installed");
       }
 
       const response = await signInWithCredentials(formData);
@@ -130,26 +130,28 @@ const LoginPage = () => {
   const connectMetaMask = async () => {
     try {
       const provider = await detectEthereumProvider();
-      console.log('Provider:', provider);
+      // console.log('Provider:', provider);
 
       if (provider && (window as MetaMaskProvider).ethereum) {
-        console.log('MetaMask is installed!');
-        const accounts = await (window as MetaMaskProvider).ethereum!.request({ method: 'eth_requestAccounts' });
+        // console.log('MetaMask is installed!');
+        const accounts = await (window as MetaMaskProvider).ethereum!.request({
+          method: "eth_requestAccounts",
+        });
         const account = accounts[0];
 
         // Get the balance
         const balance = await (window as MetaMaskProvider).ethereum!.request({
-          method: 'eth_getBalance',
-          params: [account, 'latest']
+          method: "eth_getBalance",
+          params: [account, "latest"],
         });
 
         return { account, balance };
       } else {
-        console.log('Please install MetaMask!');
+        console.log("Please install MetaMask!");
         return null;
       }
     } catch (error) {
-      console.error('Error connecting to MetaMask', error);
+      console.error("Error connecting to MetaMask", error);
       return null;
     }
   };

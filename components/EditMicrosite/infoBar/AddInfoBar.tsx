@@ -141,10 +141,10 @@ const AddInfoBar = ({ handleRemoveIcon }: any) => {
       iconPath: "",
       group: selectedIconData.category,
     };
-    console.log("smallIconInfo", infobarInfo);
+    // console.log("smallIconInfo", infobarInfo);
     try {
       const data = await postInfoBar(infobarInfo, sesstionState.accessToken);
-      console.log("data", data);
+      // console.log("data", data);
 
       if ((data.state = "success")) {
         toast.success("info bar created successfully");
@@ -158,8 +158,8 @@ const AddInfoBar = ({ handleRemoveIcon }: any) => {
     }
   };
 
-  console.log("selected icon", selectedIcon);
-  console.log("button", buttonName);
+  // console.log("selected icon", selectedIcon);
+  // console.log("button", buttonName);
 
   const addSelectedIcon = (data: any) => {
     setSelectedIcon({

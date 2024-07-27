@@ -46,7 +46,7 @@ const UpdateReferral = ({ iconDataObj, isOn, setOff }: any) => {
       setIsLoading(false);
     } else {
       setError("");
-      console.log("contactCardInfo", submitInfo);
+      // console.log("contactCardInfo", submitInfo);
 
       try {
         const data = await updateReferral(

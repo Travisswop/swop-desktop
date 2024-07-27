@@ -73,10 +73,10 @@ const AddVideo = ({ handleRemoveIcon }: any) => {
           toast.error("image upload failed!");
         }
         info.file = videoUrl;
-        console.log("videee", info);
+        // console.log("videee", info);
 
         const data = await postVideo(info, sesstionState.accessToken);
-        console.log("data", data);
+        // console.log("data", data);
 
         if ((data.state = "success")) {
           toast.success("video created successfully");

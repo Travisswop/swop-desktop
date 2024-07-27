@@ -51,7 +51,7 @@ const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
       setIsLoading(false);
     } else {
       setError("");
-      console.log("contactCardInfo", contactCardInfo);
+      // console.log("contactCardInfo", contactCardInfo);
 
       try {
         const data = await updateContactCard(

@@ -47,7 +47,7 @@ const AddContactCard = ({ handleRemoveIcon }: any) => {
       setIsLoading(false);
     } else {
       setError("");
-      console.log("contactCardInfo", contactCardInfo);
+      // console.log("contactCardInfo", contactCardInfo);
 
       try {
         const data = await postContactCard(

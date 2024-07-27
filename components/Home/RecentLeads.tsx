@@ -14,7 +14,7 @@ import "swiper/css/grid";
 import { Navigation, Grid } from "swiper/modules";
 
 const RecentLeads = ({ subscribers }: any) => {
-  console.log("subscribers", subscribers);
+  // console.log("subscribers", subscribers);
 
   return (
     <div className="">

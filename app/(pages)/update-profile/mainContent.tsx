@@ -52,8 +52,8 @@ const UpdateProfile = ({ data, token }: any) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  console.log("phone", phone);
-  console.log("selectedCountryCode", selectedCountryCode);
+  // console.log("phone", phone);
+  // console.log("selectedCountryCode", selectedCountryCode);
 
   const images = [
     "1",
@@ -130,7 +130,7 @@ const UpdateProfile = ({ data, token }: any) => {
 
     try {
       const data = await updateUserProfile(userInfo, token);
-      console.log("data", data);
+      // console.log("data", data);
 
       if (data.state === "success") {
         toast.success("profile updated");
@@ -204,7 +204,7 @@ const UpdateProfile = ({ data, token }: any) => {
       });
     }
   }, [data.data.address]);
-  console.log("phone", phone);
+  // console.log("phone", phone);
 
   const handleChange = (e: any) => {
     const { value } = e.target;

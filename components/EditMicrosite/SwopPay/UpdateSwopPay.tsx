@@ -40,7 +40,7 @@ const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
   });
 
   // console.log("file error", fileError);
-  console.log("icon data ggg", iconDataObj);
+  // console.log("icon data ggg", iconDataObj);
 
   const currencyList: any = currencyItems;
 
@@ -131,7 +131,7 @@ const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
           info.imageUrl = imageUrl;
         }
         const data = await updateSwopPay(info, sesstionState.accessToken);
-        console.log("data", data);
+        // console.log("data", data);
 
         if ((data.state = "success")) {
           toast.success("product created successfully");
