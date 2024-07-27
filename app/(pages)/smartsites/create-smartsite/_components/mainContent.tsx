@@ -9,9 +9,7 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import { IoMdLink } from "react-icons/io";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
-import LivePreview from "@/components/LivePreview";
 import SelectBackgroudOrBannerModal from "@/components/SelectBackgroudOrBannerModal/SelectBackgroudOrBannerModal";
-import isUrl from "@/util/isUrl";
 import { PiAddressBook } from "react-icons/pi";
 import SelectAvatorModal from "@/components/modal/SelectAvatorModal";
 import userProfileImages from "@/util/data/userProfileImage";
@@ -26,6 +24,7 @@ import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalComponents";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import { MdAssignmentAdd } from "react-icons/md";
 
 const CreateSmartSite = ({ token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
@@ -211,18 +210,6 @@ const CreateSmartSite = ({ token, session }: any) => {
     const { name, value } = e.target;
     setFormData(name, value);
   };
-
-  // console.log("formdata", formData);
-
-  const [toggleIcon, setToggleIcon] = useState<any>([]);
-  // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
-  // const [open, setOpen] = useState(false);
-
-  // console.log("toogle icon", toggleIcon);
-
-  const setSmartSiteData = useSmartSiteApiDataStore(
-    (state: any) => state.setSmartSiteData
-  ); //get setter for setting smartsite info from zustand store
 
   const setLoggedInUserInfo = useLoggedInUserStore(
     (state: any) => state.setUser
@@ -482,8 +469,8 @@ const CreateSmartSite = ({ token, session }: any) => {
                 <Spinner size="sm" color="white" className="py-0.5" />
               ) : (
                 <>
-                  <LiaFileMedicalSolid size={20} />
-                  Update
+                  <MdAssignmentAdd size={20} />
+                  Create
                 </>
               )}
             </DynamicPrimaryBtn>
