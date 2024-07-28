@@ -71,6 +71,12 @@ const CreateSmartSite = ({ token, session }: any) => {
     onOpen();
   };
 
+  const { formData, setFormData }: any = useSmartsiteFormStore();
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData(name, value);
+  };
+
   // image upload for user profile
   const handleSelectImage = (image: any) => {
     setSelectedImage(image);
@@ -174,8 +180,9 @@ const CreateSmartSite = ({ token, session }: any) => {
       name: formData.get("name") || "",
       bio: formData.get("bio") || "",
       brandImg: brandImage, //need to setup
-      profilePic: uploadedImageUrl || selectedImage,
-      backgroundImg: backgroundImage.background || backgroundImage.banner,
+      profilePic: uploadedImageUrl || selectedImage || "1",
+      backgroundImg:
+        backgroundImage.background || backgroundImage.banner || "8",
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
         contractAddress: formData.get("contractAddress") || "",
@@ -189,27 +196,21 @@ const CreateSmartSite = ({ token, session }: any) => {
       //   web3enabled: data.data.web3enabled,
     };
 
-    // console.log("smartsite info", smartSiteInfo);
+    console.log("smartsite info", smartSiteInfo);
 
     try {
       const response = await handleCreateSmartSite(smartSiteInfo, token);
-      //   console.log("response", response);
+      console.log("response", response);
 
       if (response.state === "success") {
         toast.success("Smartsite created successfully");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("something went wrong!");
     } finally {
       setIsFormSubmitLoading(false);
     }
     // console.log("form submitted successfully", response);
-  };
-
-  const { formData, setFormData }: any = useSmartsiteFormStore();
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData(name, value);
   };
 
   const setLoggedInUserInfo = useLoggedInUserStore(

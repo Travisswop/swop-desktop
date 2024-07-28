@@ -17,7 +17,7 @@ export async function handleCreateSmartSite(smartSiteInfo: any, token: string) {
         body: JSON.stringify(smartSiteInfo),
       }
     );
-    revalidatePath(`/smartsites/${smartSiteInfo._id}`);
+    revalidatePath(`/smartsites`);
     const data = await response.json();
     // console.log("data from action", data);
 

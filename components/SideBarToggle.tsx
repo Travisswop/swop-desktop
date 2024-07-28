@@ -12,7 +12,9 @@ const SideBarToggle = ({ toggle, onToggle }: any) => {
   return (
     <button onClick={handleToggle} className="">
       <FaBars
-        className={`text-gray-600 ${!toggle && "translate-x-4"} `}
+        className={`text-gray-600 ${
+          !toggle && "translate-x-4 2xl:translate-x-0"
+        } `}
         size={18}
       />
     </button>

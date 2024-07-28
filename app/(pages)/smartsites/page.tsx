@@ -85,7 +85,10 @@ const WebsitesPage = async () => {
                   </h3>
                   <p className="font-medium text-gray-500">{microsite.bio}</p>
                 </div>
-                <ButtonList microsite={microsite} />
+                <ButtonList
+                  microsite={microsite}
+                  token={userDetails.accessToken}
+                />
               </div>
             </div>
           ))}
