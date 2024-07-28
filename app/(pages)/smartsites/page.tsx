@@ -91,9 +91,12 @@ const WebsitesPage = async () => {
           ))}
 
         <div className="bg-white px-4 py-[4rem] rounded-xl shadow-small flex flex-col gap-6 items-center">
-          <div className="p-5 bg-gray-200 w-max rounded-full">
+          <Link
+            href={"/smartsites/create-smartsite"}
+            className="p-5 bg-gray-200 w-max rounded-full"
+          >
             <LiaFileMedicalSolid size={20} />
-          </div>
+          </Link>
           <p className="text-lg font-bold text-gray-700">
             Create New Microsite
           </p>

@@ -25,6 +25,7 @@ import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalCompone
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { MdAssignmentAdd } from "react-icons/md";
+import SmartsiteLivePreview from "@/components/CreateSmartsiteLivePreview";
 
 const CreateSmartSite = ({ token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
@@ -301,6 +302,7 @@ const CreateSmartSite = ({ token, session }: any) => {
                     <input
                       type="text"
                       name="name"
+                      required={true}
                       defaultValue={""}
                       placeholder={`Type your name`}
                       onChange={handleChange}
@@ -320,6 +322,7 @@ const CreateSmartSite = ({ token, session }: any) => {
                     <textarea
                       placeholder={`Type your bio`}
                       defaultValue={""}
+                      required={true}
                       onChange={handleChange}
                       name="bio"
                       className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-2 text-gray-700 bg-white"
@@ -477,7 +480,7 @@ const CreateSmartSite = ({ token, session }: any) => {
           </form>
         </div>
         {/* <div style={{ height: "90%" }} className="w-[38%] overflow-y-auto"> */}
-        {/* <LivePreview data={data.data} /> */}
+        <SmartsiteLivePreview />
         {/* </div> */}
       </div>
 
