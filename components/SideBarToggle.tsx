@@ -3,7 +3,7 @@ import SideBarToggleContext from "@/contexts/sideBarToggleContext";
 import React, { useContext } from "react";
 import { FaBars } from "react-icons/fa";
 
-const SideBarToggle = ({ onToggle }: any) => {
+const SideBarToggle = ({ toggle, onToggle }: any) => {
   const { settingToggle } = useContext(SideBarToggleContext);
   const handleToggle = () => {
     onToggle();
@@ -11,7 +11,10 @@ const SideBarToggle = ({ onToggle }: any) => {
   };
   return (
     <button onClick={handleToggle} className="">
-      <FaBars className="text-gray-600" size={18} />
+      <FaBars
+        className={`text-gray-600 ${!toggle && "translate-x-4"} `}
+        size={18}
+      />
     </button>
   );
 };

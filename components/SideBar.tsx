@@ -99,7 +99,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         {/* <button onClick={onClickToggle} className="">
           <FaBars className="text-gray-600" size={18} />
         </button> */}
-        <SideBarToggle onToggle={onToggle} />
+        <SideBarToggle toggle={toggle} onToggle={onToggle} />
       </div>
       <div>
         <ul className={`flex flex-col gap-y-4`}>

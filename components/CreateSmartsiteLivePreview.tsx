@@ -45,7 +45,7 @@ const SmartsiteLivePreview = () => {
       className="w-[38%] overflow-y-auto shadow-md bg-white bg-cover"
     >
       {/* <p className="text-sm text-gray-500 mb-2">Preview</p> */}
-      <div className={``}>
+      <div className={`h-full flex flex-col`}>
         <div className="relative">
           {!formData.theme && (
             <>
@@ -130,11 +130,12 @@ const SmartsiteLivePreview = () => {
               {formData.bio ? formData.bio : "Example Bio"}
             </p>
           </div>
-          {/* embed link display here end */}
-          {/* <div className="flex items-center justify-center gap-2 pb-6 pt-2">
+        </div>
+        <div className="flex h-full items-end justify-center">
+          <div className="flex items-center justify-center gap-1.5 pb-6 pt-2">
             <Image alt="swop logo" src={swop} />
-            <BiSolidEdit />
-          </div> */}
+            <BiSolidEdit size={18} />
+          </div>
         </div>
       </div>
     </section>
