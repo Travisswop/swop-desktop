@@ -21,11 +21,7 @@ const UpdateProfilePage = async ({ params }: { params: { id: string } }) => {
   }
   // console.log("data from update profile", data);
 
-  return (
-    <div>
-      <UpdateProfile data={data} token={session.accessToken} />
-    </div>
-  );
+  return <UpdateProfile data={data} token={session.accessToken} />;
 };
 
 export default UpdateProfilePage;

@@ -13,7 +13,21 @@ const QrCodePage = async () => {
   // const { toggle } = useSideBarToggleStore();
   // console.log("toggle form qr code ", toggle);
 
-  await isUserAuthenticate(); // check is user exist
+  const session: any = await isUserAuthenticate(); // check is user exist
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user/customQRCodes/66386320230410328029982b`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  console.log("respoose ", data);
 
   return (
     <div className="main-container">
@@ -70,87 +84,35 @@ const QrCodePage = async () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="w-[100%] bg-white mb-6 border-b">
-            <td className="flex items-center gap-1 w-[100%] py-2 pl-4">
-              <Checkbox size="sm"></Checkbox>
-              <Image
-                alt="qrcode"
-                src={"/images/qrcode.png"}
-                width={50}
-                height={50}
-              />
-              <div>
-                <p>TV Commercial QR</p>
-                <p className="text-xs text-gray-500">www.SwopMe.co</p>
-              </div>
-            </td>
-            <td className="w-[15%]">#1,224</td>
-            <td className="w-[15%] text-gray-700 font-semibold">Dynamic</td>
-            <td className="w-[15%] text-gray-400 font-semibold">
-              June 23, 2023
-            </td>
-            <td className="w-[15%]">
-              <Link className="w-full h-full" href={`/qr-code/12344`}>
-                <div className="bg-gray-200 px-4 py-2 w-max rounded-lg">
-                  <TbEdit color="gray" />
+          {data.data.map((item: any) => (
+            <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
+              <td className="flex items-center gap-1 w-[100%] py-2 pl-4">
+                <Checkbox size="sm"></Checkbox>
+                <Image
+                  alt="qrcode"
+                  src={item.qrCodeUrl}
+                  width={100}
+                  height={100}
+                />
+                <div>
+                  <p>TV Commercial QR</p>
+                  <p className="text-xs text-gray-500">www.SwopMe.co</p>
                 </div>
-              </Link>
-            </td>
-          </tr>
-          <tr className="w-[100%] bg-white border-b">
-            <td className="flex items-center gap-1 w-[100%] py-2 pl-4">
-              <Checkbox size="sm"></Checkbox>
-              <Image
-                alt="qrcode"
-                src={"/images/qrcode.png"}
-                width={50}
-                height={50}
-              />
-              <div>
-                <p>TV Commercial QR</p>
-                <p className="text-xs text-gray-500">www.SwopMe.co</p>
-              </div>
-            </td>
-            <td className="w-[15%]">#1,224</td>
-            <td className="w-[15%] text-gray-700 font-semibold">Static</td>
-            <td className="w-[15%] text-gray-400 font-semibold">
-              June 23, 2023
-            </td>
-            <td className="w-[15%]">
-              <Link className="w-full h-full" href={`/qr-code/12344`}>
-                <div className="bg-gray-200 px-4 py-2 w-max rounded-lg">
-                  <TbEdit color="gray" />
-                </div>
-              </Link>
-            </td>
-          </tr>
-          <tr className="w-[100%] bg-white border-b">
-            <td className="flex items-center gap-1 w-[100%] py-2 pl-4">
-              <Checkbox size="sm"></Checkbox>
-              <Image
-                alt="qrcode"
-                src={"/images/qrcode.png"}
-                width={50}
-                height={50}
-              />
-              <div>
-                <p>TV Commercial QR</p>
-                <p className="text-xs text-gray-500">www.SwopMe.co</p>
-              </div>
-            </td>
-            <td className="w-[15%]">#1,224</td>
-            <td className="w-[15%] text-gray-700 font-semibold">Dynamic</td>
-            <td className="w-[15%] text-gray-400 font-semibold">
-              June 23, 2023
-            </td>
-            <td className="w-[15%]">
-              <Link className="w-full h-full" href={`/qr-code/12344`}>
-                <div className="bg-gray-200 px-4 py-2 w-max rounded-lg">
-                  <TbEdit color="gray" />
-                </div>
-              </Link>
-            </td>
-          </tr>
+              </td>
+              <td className="w-[15%]">#1,224</td>
+              <td className="w-[15%] text-gray-700 font-semibold">Dynamic</td>
+              <td className="w-[15%] text-gray-400 font-semibold">
+                June 23, 2023
+              </td>
+              <td className="w-[15%]">
+                <Link className="w-full h-full" href={`/qr-code/12344`}>
+                  <div className="bg-gray-200 px-4 py-2 w-max rounded-lg">
+                    <TbEdit color="gray" />
+                  </div>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <DynamicPrimaryBtn className="!px-10 mx-auto mt-10">
