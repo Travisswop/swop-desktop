@@ -22,7 +22,7 @@ const CreateQrCodePage = async () => {
   //     return <ForceSignOut />;
   //   }
 
-  console.log("session", session);
+  //   console.log("session", session);
 
   return <CreateQRCode session={session} />;
 };

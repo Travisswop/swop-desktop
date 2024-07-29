@@ -1,12 +1,13 @@
 // "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
-import { Checkbox, Switch } from "@nextui-org/react";
+// import { Checkbox, Switch } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CiSearch } from "react-icons/ci";
+// import { CiSearch } from "react-icons/ci";
 import { IoQrCodeSharp } from "react-icons/io5";
+import { MdDeleteForever } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 
 const QrCodePage = async () => {
@@ -16,24 +17,31 @@ const QrCodePage = async () => {
   const session: any = await isUserAuthenticate(); // check is user exist
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user/customQRCodes/66386320230410328029982b`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user/customQRCodes/${session._id}`,
     {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.accessToken}`,
       },
+      next: { revalidate: 300 },
     }
   );
 
   const data = await response.json();
 
-  console.log("respoose ", data);
+  // console.log("respoose ", data);
 
   return (
     <div className="main-container">
-      <div className="flex items-start justify-between">
-        <p className="text-gray-700 font-semibold text-lg">QR Codes</p>
-        <div className="flex gap-3 items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-gray-700 font-semibold text-lg ">QR Codes</p>
+        <Link href={"/qr-code/create"}>
+          <DynamicPrimaryBtn className="!px-10 mx-auto">
+            <IoQrCodeSharp />
+            Create
+          </DynamicPrimaryBtn>
+        </Link>
+        {/* <div className="flex gap-3 items-center justify-between">
           <div className="relative flex-1">
             <CiSearch
               className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
@@ -58,12 +66,15 @@ const QrCodePage = async () => {
           <DynamicPrimaryBtn className="!rounded-full">
             Export
           </DynamicPrimaryBtn>
-        </div>
+        </div> */}
       </div>
       <table className="w-full">
         <thead>
           <tr>
-            <th className="flex items-center gap-4 w-[100%] mb-3">
+            <th className="flex items-center text-gray-500 gap-4 w-[100%] mb-1">
+              Details
+            </th>
+            {/* <th className="flex items-center gap-4 w-[100%] mb-3">
               <Checkbox className="bg-white py-2 px-4 rounded-full" size="sm">
                 <span className="text-gray-600">Select All</span>
               </Checkbox>
@@ -76,49 +87,55 @@ const QrCodePage = async () => {
                   aria-label="Map"
                 />
               </div>
-            </th>
+            </th> */}
             <th className="text-gray-500 w-[15%] text-start">Scans</th>
             <th className="text-gray-500 w-[15%] text-start">Type</th>
             <th className="text-gray-500 w-[15%] text-start">Created</th>
-            <th className="text-gray-500 w-[15%] text-start">Edit</th>
+            <th className="text-gray-500 w-[15%] text-start">Action</th>
           </tr>
         </thead>
         <tbody>
           {data.data.map((item: any) => (
             <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
-              <td className="flex items-center gap-1 w-[100%] py-2 pl-4">
-                <Checkbox size="sm"></Checkbox>
-                <Image
-                  alt="qrcode"
-                  src={item.qrCodeUrl}
-                  width={100}
-                  height={100}
-                />
-                <div>
-                  <p>TV Commercial QR</p>
-                  <p className="text-xs text-gray-500">www.SwopMe.co</p>
+              <td className="flex items-center gap-2 w-[100%] py-3 pl-4">
+                {/* <Checkbox size="sm"></Checkbox> */}
+                <div className="flex items-center gap-4">
+                  <Image
+                    alt="qrcode"
+                    src={item.qrCodeUrl}
+                    width={100}
+                    height={100}
+                    className="rounded"
+                  />
+                  <div>
+                    <p className="font-medium mb-1 text-gray-700">
+                      {item.name}
+                    </p>
+                    <p className="text-xs text-gray-500">{item.data}</p>
+                  </div>
                 </div>
               </td>
               <td className="w-[15%]">#1,224</td>
               <td className="w-[15%] text-gray-700 font-semibold">Dynamic</td>
               <td className="w-[15%] text-gray-400 font-semibold">
-                June 23, 2023
+                {item.createdAt}
               </td>
               <td className="w-[15%]">
-                <Link className="w-full h-full" href={`/qr-code/12344`}>
-                  <div className="bg-gray-200 px-4 py-2 w-max rounded-lg">
-                    <TbEdit color="gray" />
-                  </div>
-                </Link>
+                <div className="flex items-center gap-1">
+                  <Link className="" href={`/qr-code/${item._id}`}>
+                    <div className="bg-gray-200 px-4 py-2 w-max rounded-lg hover:bg-gray-300">
+                      <TbEdit color="gray" size={18} />
+                    </div>
+                  </Link>
+                  <button className="bg-gray-200 px-4 py-2 w-max rounded-lg hover:bg-gray-300">
+                    <MdDeleteForever color="gray" size={18} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <DynamicPrimaryBtn className="!px-10 mx-auto mt-10">
-        <IoQrCodeSharp />
-        Create
-      </DynamicPrimaryBtn>
     </div>
   );
 };
