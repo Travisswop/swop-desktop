@@ -20,18 +20,19 @@ import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import WalletInfo from "@/components/WalletInfo";
 import AnimateButton from "@/components/Button/AnimateButton";
+import ForceSignOut from "@/components/ForceSignOut";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check if user exists
 
   const data = await getHomePageData(session.accessToken as string);
 
-  // if (data && data.state === "fail") {
-  //   return <ForceSignOut />;
-  // }
+  if (data && data.state === "fail") {
+    return <ForceSignOut />;
+  }
 
-  console.log("home data", data);
-  console.log("parent", data.data.microsites);
+  // console.log("home data", data);
+  // console.log("parent", data.data.microsites);
 
   const getImgSrc = () => {
     const imageSrc = isUrl(data && data?.data?.profilePic)

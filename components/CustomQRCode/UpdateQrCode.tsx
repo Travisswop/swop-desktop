@@ -4,7 +4,7 @@ import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { FiSend } from "react-icons/fi";
 import {
@@ -21,11 +21,15 @@ import { FaSave } from "react-icons/fa";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import CustomFileInput from "../CustomFileInput";
 import { toast } from "react-toastify";
-import { postCustomQrCode, postUserCustomQrCode } from "@/actions/customQrCode";
+import {
+  postCustomQrCode,
+  postUserCustomQrCode,
+  updateUserCustomQrCode,
+} from "@/actions/customQrCode";
 import { IoMdLink } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
-const CreateQRCode = ({ session }: any) => {
+const UpdateQRCode = ({ session, data }: any) => {
   const [color, setColor] = useState("#B396FF");
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
@@ -38,6 +42,18 @@ const CreateQRCode = ({ session }: any) => {
   const router = useRouter();
 
   const [qrPattern, setQrPattern] = useState("QrCode1");
+
+  useEffect(() => {
+    setQrPattern(data.qrCodeSvgName);
+    setColor(data.qrDotColor);
+    setBgColor(data.backgroundColor);
+    setImageFile(data.overLayImage);
+  }, [
+    data.backgroundColor,
+    data.overLayImage,
+    data.qrCodeSvgName,
+    data.qrDotColor,
+  ]);
 
   const defaultColorArray = [
     {
@@ -131,7 +147,6 @@ const CreateQRCode = ({ session }: any) => {
 
     try {
       const payload = {
-        userId: session._id,
         customQrData: qrData,
         qrCodeName: formData.get("title"),
         data: formData.get("url"),
@@ -159,15 +174,16 @@ const CreateQRCode = ({ session }: any) => {
       // console.log("payload", payload);
 
       // Send the updated JSON data in a POST request
-      const data: any = await postUserCustomQrCode(
+      const info: any = await updateUserCustomQrCode(
         payload,
-        session.accessToken
+        session.accessToken,
+        data._id
       );
 
-      // console.log("create data ", data);
+      console.log("updated data ", info);
 
-      if (data && data.status === "success") {
-        toast.success("Qr code created");
+      if (info && info.status === "success") {
+        toast.success("Qr code updated");
         setIsLoading(false);
         router.push("/qr-code");
       } else {
@@ -371,6 +387,7 @@ const CreateQRCode = ({ session }: any) => {
                   type="text"
                   placeholder={`Enter qr code title`}
                   id="title"
+                  defaultValue={data.name}
                   name="title"
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-4"
                 />
@@ -392,6 +409,7 @@ const CreateQRCode = ({ session }: any) => {
                   type="text"
                   placeholder={`Enter qr code url`}
                   id="url"
+                  defaultValue={data.data}
                   name="url"
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-10"
                 />
@@ -415,14 +433,14 @@ const CreateQRCode = ({ session }: any) => {
               </div>
             </div> */}
             <div>
-              <DynamicPrimaryBtn disabled={isLoading} className="mt-3 w-48">
+              <DynamicPrimaryBtn disabled={isLoading} className="mt-3 w-52">
                 {isLoading ? (
                   <Spinner className="py-0.5" size="sm" color="white" />
                 ) : (
                   <>
                     {" "}
                     <FaSave size={18} />
-                    Save Changes
+                    Update Changes
                   </>
                 )}
               </DynamicPrimaryBtn>
@@ -504,4 +522,4 @@ const CreateQRCode = ({ session }: any) => {
   );
 };
 
-export default CreateQRCode;
+export default UpdateQRCode;

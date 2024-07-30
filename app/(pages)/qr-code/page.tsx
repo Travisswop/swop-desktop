@@ -1,5 +1,8 @@
 // "use client";
+import { deleteQrCode } from "@/actions/customQrCode";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import DeleteQRCode from "@/components/DeleteQRCode";
+import { getFormattedDate } from "@/util/getFormattedDate";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 // import { Checkbox, Switch } from "@nextui-org/react";
 import Image from "next/image";
@@ -29,7 +32,10 @@ const QrCodePage = async () => {
 
   const data = await response.json();
 
-  // console.log("respoose ", data);
+  // const handleDelete = async (id: string) => {
+  //   const data = await deleteQrCode(id, session.accessToken);
+  //   console.log("data delete", data);
+  // };
 
   return (
     <div className="main-container">
@@ -71,7 +77,7 @@ const QrCodePage = async () => {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="flex items-center text-gray-500 gap-4 w-[100%] mb-1">
+            <th className="flex items-center text-gray-500 w-[100%] mb-1">
               Details
             </th>
             {/* <th className="flex items-center gap-4 w-[100%] mb-3">
@@ -88,54 +94,63 @@ const QrCodePage = async () => {
                 />
               </div>
             </th> */}
-            <th className="text-gray-500 w-[15%] text-start">Scans</th>
-            <th className="text-gray-500 w-[15%] text-start">Type</th>
-            <th className="text-gray-500 w-[15%] text-start">Created</th>
-            <th className="text-gray-500 w-[15%] text-start">Action</th>
+            <th className="text-gray-500 w-[15%] text-start pb-1">Scans</th>
+            <th className="text-gray-500 w-[15%] text-start pb-1">Type</th>
+            <th className="text-gray-500 w-[15%] text-start pb-1">Created</th>
+            <th className="text-gray-500 w-[15%] text-start pb-1">Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.data.map((item: any) => (
-            <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
-              <td className="flex items-center gap-2 w-[100%] py-3 pl-4">
-                {/* <Checkbox size="sm"></Checkbox> */}
-                <div className="flex items-center gap-4">
-                  <Image
-                    alt="qrcode"
-                    src={item.qrCodeUrl}
-                    width={100}
-                    height={100}
-                    className="rounded"
-                  />
-                  <div>
-                    <p className="font-medium mb-1 text-gray-700">
-                      {item.name}
-                    </p>
-                    <p className="text-xs text-gray-500">{item.data}</p>
-                  </div>
-                </div>
-              </td>
-              <td className="w-[15%]">#1,224</td>
-              <td className="w-[15%] text-gray-700 font-semibold">Dynamic</td>
-              <td className="w-[15%] text-gray-400 font-semibold">
-                {item.createdAt}
-              </td>
-              <td className="w-[15%]">
-                <div className="flex items-center gap-1">
-                  <Link className="" href={`/qr-code/${item._id}`}>
-                    <div className="bg-gray-200 px-4 py-2 w-max rounded-lg hover:bg-gray-300">
-                      <TbEdit color="gray" size={18} />
+          {data.data.length > 0 && (
+            <>
+              {data.data.map((item: any) => (
+                <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
+                  <td className="flex items-center gap-2 w-[100%] py-3 pl-4">
+                    {/* <Checkbox size="sm"></Checkbox> */}
+                    <div className="flex items-center gap-4">
+                      <Image
+                        alt="qrcode"
+                        src={item.qrCodeUrl}
+                        width={100}
+                        height={100}
+                        className="rounded"
+                      />
+                      <div>
+                        <p className="font-medium mb-1 text-gray-700">
+                          {item.name}
+                        </p>
+                        <p className="text-xs text-gray-500">{item.data}</p>
+                      </div>
                     </div>
-                  </Link>
-                  <button className="bg-gray-200 px-4 py-2 w-max rounded-lg hover:bg-gray-300">
-                    <MdDeleteForever color="gray" size={18} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+                  </td>
+                  <td className="w-[15%]">#1,224</td>
+                  <td className="w-[15%] text-gray-700 font-semibold">
+                    Dynamic
+                  </td>
+                  <td className="w-[15%] text-gray-400 font-semibold">
+                    {getFormattedDate(item.createdAt)}
+                  </td>
+                  <td className="w-[15%]">
+                    <div className="flex items-center gap-1">
+                      <Link className="" href={`/qr-code/${item._id}`}>
+                        <div className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                          <TbEdit color="blue" size={18} />
+                        </div>
+                      </Link>
+                      <DeleteQRCode id={item._id} token={session.accessToken} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </>
+          )}
         </tbody>
       </table>
+      <div className="flex justify-center pt-10">
+        {data.data.length === 0 && (
+          <p className="font-medium">No QR Code Available!</p>
+        )}
+      </div>
     </div>
   );
 };

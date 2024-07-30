@@ -43,3 +43,47 @@ export async function postUserCustomQrCode(payload: any, token: string) {
     console.error("Error from create custom qr code action:", error);
   }
 }
+export async function updateUserCustomQrCode(
+  payload: any,
+  token: any,
+  id: string
+) {
+  try {
+    // console.log("sessionfff", session);
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user/customQRCodes/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+    revalidatePath(`/qr-code`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error from update custom qr code action:", error);
+  }
+}
+
+export async function deleteQrCode(id: any, token: string) {
+  try {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user/customQRCodes/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    revalidatePath(`/qr-code`);
+  } catch (error) {
+    console.error("Error from create custom qr code action:", error);
+  }
+}
