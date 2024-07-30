@@ -46,16 +46,6 @@ const DeleteQRCode = ({ id, token }: { id: string; token: string }) => {
         icon: "error",
       });
     }
-    // try {
-    //   setLoading(true);
-    //   const data = await deleteQrCode(id, token);
-    //   toast.success("qr code deleted");
-    //   console.log("data delete", data);
-    // } catch (error) {
-    //   toast.error("something went wrong!");
-    // } finally {
-    //   setLoading(false);
-    // }
   };
   return (
     <button
