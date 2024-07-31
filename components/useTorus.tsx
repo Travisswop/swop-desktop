@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Torus from '@toruslabs/torus-embed';
+import { useState, useEffect } from "react";
+import Torus from "@toruslabs/torus-embed";
 
 const useTorus = () => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
@@ -10,17 +10,17 @@ const useTorus = () => {
     const initializeTorus = async () => {
       const torus = new Torus();
       await torus.init({
-        buildEnv: 'production',
+        buildEnv: "production",
         enableLogging: true,
         network: {
-          host: 'mainnet',
+          host: "mainnet",
           chainId: 1,
-          networkName: 'Main Ethereum Network',
+          networkName: "Main Ethereum Network",
         },
         showTorusButton: true,
       });
       setProvider(torus.ethereum);
-      console.log('Torus initialized and provider set:', torus.ethereum); // Debug log
+      console.log("Torus initialized and provider set:", torus.ethereum); // Debug log
     };
 
     initializeTorus();
@@ -28,24 +28,24 @@ const useTorus = () => {
 
   const connectTorus = async () => {
     if (!provider) {
-      console.error('Provider not set');
+      console.error("Provider not set");
       return;
     }
 
     try {
-      await provider.request({ method: 'eth_requestAccounts' });
-      const accounts = await provider.request({ method: 'eth_accounts' });
-      console.log('Accounts retrieved:', accounts); // Debug log
+      await provider.request({ method: "eth_requestAccounts" });
+      const accounts = await provider.request({ method: "eth_accounts" });
+      console.log("Accounts retrieved:", accounts); // Debug log
       const balance = await provider.request({
-        method: 'eth_getBalance',
-        params: [accounts[0], 'latest'],
+        method: "eth_getBalance",
+        params: [accounts[0], "latest"],
       });
       setWalletAddress(accounts[0]);
-      console.log('Wallet Address set:', accounts[0]); // Debug log
+      console.log("Wallet Address set:", accounts[0]); // Debug log
       setBalance(balance.toString());
-      console.log('Balance set:', balance.toString()); // Debug log
+      console.log("Balance set:", balance.toString()); // Debug log
     } catch (error) {
-      console.error('Error connecting to Torus:', error);
+      console.error("Error connecting to Torus:", error);
     }
   };
 

@@ -7,15 +7,17 @@ const WalletInfo = () => {
   const { state, setWallet } = useLoggedInUserStore();
   const { walletAddress, balance, connectTorus } = useTorus();
 
+  // console.log("privateKey", privateKey);
+
   useEffect(() => {
     if (walletAddress && balance !== null) {
-      console.log('Updating Zustand Store with:', walletAddress, balance); // Debug log
+      console.log("Updating Zustand Store with:", walletAddress, balance); // Debug log
       setWallet({ account: walletAddress, balance: balance.toString() });
     }
   }, [walletAddress, balance]);
 
   useEffect(() => {
-    console.log('Zustand store state:', state); // Debug log
+    console.log("Zustand store state:", state); // Debug log
   }, [state]);
 
   return (
