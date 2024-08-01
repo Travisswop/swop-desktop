@@ -5,6 +5,10 @@ import TopBar from "@/components/TopBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Poppins } from "next/font/google";
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
+import { config } from "@/config";
+import Web3ModalProvider from "@/context";
 
 const popins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -19,19 +23,22 @@ export default async function PageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(config, headers().get("cookie"));
   return (
     <html lang="en" className={popins.className}>
       <body>
         <main className="">
           <ToastContainer position="top-center" />
-          <SideBarToggleProvider>
-            <LayoutComponent>
-              <div className="flex flex-col min-h-screen">
-                <TopBar />
-                {children}
-              </div>
-            </LayoutComponent>
-          </SideBarToggleProvider>
+          <Web3ModalProvider initialState={initialState}>
+            <SideBarToggleProvider>
+              <LayoutComponent>
+                <div className="flex flex-col min-h-screen">
+                  <TopBar />
+                  {children}
+                </div>
+              </LayoutComponent>
+            </SideBarToggleProvider>
+          </Web3ModalProvider>
         </main>
       </body>
     </html>

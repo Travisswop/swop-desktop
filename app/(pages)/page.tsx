@@ -18,7 +18,6 @@ import Link from "next/link";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
-import WalletInfo from "@/components/WalletInfo";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 
@@ -220,9 +219,7 @@ export default async function HomePage() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-lg mt-4 p-6">
-                <WalletInfo />
-              </div>
+              <w3m-button />
             </div>
           </div>
           <SetupMainAccount />

@@ -73,6 +73,8 @@ const MessagesLists: React.FC<MessagesListsProps> = ({ session }) => {
     setEns(event.target.value);
   };
 
+  console.log("ens data", ensData);
+
   return (
     <div className="main-container">
       <div className="flex items-start justify-between">
@@ -169,7 +171,10 @@ const MessagesLists: React.FC<MessagesListsProps> = ({ session }) => {
                 {ensData.createdAt}
               </td>
               <td className="w-[15%]">
-                <Link className="w-full h-full" href={`/messages/12ss3`}>
+                <Link
+                  className="w-full h-full"
+                  href={`/messages/${ensData.name}`}
+                >
                   <div className="bg-gray-200 px-4 py-2 w-max rounded-lg text-sm font-semibold">
                     view
                   </div>
