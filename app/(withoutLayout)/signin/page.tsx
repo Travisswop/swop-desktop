@@ -14,7 +14,6 @@ import SignInButton from "@/components/Button/SignInButton";
 import { useRouter } from "next/navigation";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
 import { z } from "zod";
-import useLoggedInUserStore from "../../../zustandStore/SetLogedInUserSession";
 
 // Type definitions for form errors
 interface FormErrors {
@@ -30,16 +29,21 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  //generate random x position for astronaut to float
-  const getRandomXPosition = (min: number, max: number) => {
+  // Generate random x position for astronaut to float within the screen width
+  const getRandomXPosition = () => {
+    const screenWidth = window.innerWidth;
+    const maxX = screenWidth - 200; // Adjust based on the image width
     return {
-      x: Math.floor(Math.random() * (max - min + 1)) + min,
+      x: Math.floor(Math.random() * maxX),
     };
   };
-  //generate random y position for astronaut to float
-  const getRandomYPosition = (min: number, max: number) => {
+
+  // Generate random y position for astronaut to float within the screen height
+  const getRandomYPosition = () => {
+    const screenHeight = window.innerHeight;
+    const maxY = screenHeight - 200; // Adjust based on the image height
     return {
-      y: Math.floor(Math.random() * (max - min + 1)) + min,
+      y: Math.floor(Math.random() * maxY),
     };
   };
 
@@ -47,33 +51,32 @@ const LoginPage = () => {
     setMounted(true);
   }, []);
 
-  //using random x and y position astronaut float around background
+  // Using random x and y position astronaut float around background
   useEffect(() => {
     if (!mounted) return;
-    if (mounted) {
-      const sequence = async () => {
-        for (let i = 0; i < 5; i++) {
-          const { x } = getRandomXPosition(100, 1500); // Adjust the range as needed
-          const { y } = getRandomYPosition(100, 500); // Adjust the range as needed
-          if (controls) {
-            await controls.start({
-              x,
-              y,
-              rotate: [10, -10, 10],
-              transition: { duration: 4, ease: "easeInOut" },
-            });
-          }
+
+    const sequence = async () => {
+      for (let i = 0; i < 5; i++) {
+        const { x } = getRandomXPosition();
+        const { y } = getRandomYPosition();
+        if (controls) {
+          await controls.start({
+            x,
+            y,
+            rotate: [10, -10, 10],
+            transition: { duration: 4, ease: "easeInOut" },
+          });
         }
-        sequence(); // Call the sequence function again to create a loop
-      };
-      if (controls) {
-        sequence();
       }
+      sequence(); // Call the sequence function again to create a loop
+    };
+
+    if (controls) {
+      sequence();
     }
   }, [mounted, controls]);
 
   async function handleSubmit(event: any) {
-    // console.log('handleSubmit called');
     event.preventDefault();
     try {
       setError("");
@@ -106,29 +109,29 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden relative py-10 2xl:py-16">
       <MotionSection animate={controls}>
         <Image
           alt="login_astronot"
           src={login_astronot}
-          className="fixed z-50 w-max"
+          className="absolute z-50 w-max"
         />
       </MotionSection>
 
-      <div className="pt-14 pb-20 lg:py-28 h-screen">
+      <div className="">
         <section className="flex justify-center relative -z-10">
           <Image
             src={swopLogo}
             alt="swop-logo"
             width={200}
             priority
-            className="w-48 lg:w-52"
+            className="w-44 2xl:w-52"
           />
         </section>
-        <section className="">
+        <section className="h-full pb-10 2xl:pb-16">
           <div className="flex justify-center">
             <div className="relative lg:w-auto w-[90%] sm:w-[70%] md:w/[60%]">
-              <div className="flex flex-col gap-4 justify-center mt-16 w-full lg:w-[32rem] h-full px-4 lg:px-10 pt-4 lg:pt-12 pb-4 backdrop-blur-[50px] bg-white bg-opacity-25 border shadow-md rounded-xl">
+              <div className="flex flex-col gap-4 justify-center mt-10 2xl:mt-16 w-full lg:w-[32rem] h-full px-4 lg:px-10 pt-4 lg:pt-12 pb-4 backdrop-blur-[50px] bg-white bg-opacity-25 border shadow-md rounded-xl">
                 <div className="flex gap-2 justify-center">
                   {/* action for google sign in */}
                   <form action={doSignInWithGoogle}>
