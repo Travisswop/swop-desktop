@@ -6,7 +6,7 @@ import isUserAuthenticate from "@/util/isUserAuthenticate";
 const IndividualChat = async ({ params }: any) => {
   const session: any = await isUserAuthenticate();
   const response = await isENSAvailable(params.ens, session.accessToken);
-  console.log("response from indivi", response);
+  // console.log("response from indivi", response);
 
   return (
     <div>

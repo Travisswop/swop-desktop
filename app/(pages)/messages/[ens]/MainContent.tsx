@@ -111,7 +111,7 @@
 
 import React from "react";
 
-const MainContent = () => {
+const MainContent = ({data}:any) => {
   return <div>chat here</div>;
 };
 
