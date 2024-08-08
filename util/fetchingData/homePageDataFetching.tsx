@@ -2,8 +2,9 @@
 async function getHomePageData(token: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DEV_URL}/api/v1/desktop/user`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/user`,
       {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,

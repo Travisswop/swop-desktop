@@ -20,13 +20,16 @@ import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
+import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check if user exists
 
   const data = await getHomePageData(session.accessToken as string);
 
-  if (data && data.state === "fail") {
+  console.log("home page data fetching", data);
+
+  if (!data || data.state === "fail" || data.state === "error") {
     return <ForceSignOut />;
   }
 
@@ -122,15 +125,7 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
-                    {false ? (
-                      <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
-                        $ travis.swop.id
-                      </button>
-                    ) : (
-                      <button className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
-                        $ Setup Your Wallet
-                      </button>
-                    )}
+                    <TriggerWalletConnectButton />
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>

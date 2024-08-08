@@ -2,7 +2,7 @@ export const maxDuration = 60;
 async function getSingleSmartsiteData(id: string, token: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DEV_URL}/api/v1/desktop/microsite/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/microsite/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
