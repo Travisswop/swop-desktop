@@ -27,7 +27,7 @@ export default async function HomePage() {
 
   const data = await getHomePageData(session.accessToken as string);
 
-  console.log("home page data fetching", data);
+  // console.log("home page data fetching", data);
 
   if (!data || data.state === "fail" || data.state === "error") {
     return <ForceSignOut />;

@@ -17,13 +17,15 @@ const IndividualMessage = async ({ data }: any) => {
           {/* top heading  */}
           <div className="py-4 px-6 border flex items-center justify-between rounded-xl">
             <div className="flex items-center gap-2 ">
-              <Image
-                alt="user image"
-                src={data.domainOwner.avatar}
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
+              {data?.domainOwner?.avatar && (
+                <Image
+                  alt="user image"
+                  src={data.domainOwner.avatar}
+                  width={60}
+                  height={60}
+                  className="rounded-full"
+                />
+              )}
               <div>
                 <h3 className="heading-3">{data.name}</h3>
                 <p className="text-[13px] text-gray-400 font-medium">
