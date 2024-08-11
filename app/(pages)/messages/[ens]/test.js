@@ -11,8 +11,8 @@ import ChatIcon from "../../public/chat.png";
 import Chat from "./Chat";
 import ConnectPage from "./Connect";
 import ConversationsList from "./ConversationsList";
-
 import CryptoJs from "crypto-js";
+
 export default function Home() {
   const { address } = useAccount();
 
