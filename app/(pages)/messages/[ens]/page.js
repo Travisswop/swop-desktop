@@ -9,6 +9,7 @@ import Image from "next/image";
 import Chat from "@/components/xmtp/Chat";
 import { CiSearch } from "react-icons/ci";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { Spinner } from "@nextui-org/react";
 
 const API_KEY = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_KEY;
 
@@ -25,6 +26,8 @@ const MessagePage = () => {
   const [peerAddress, setPeerAddress] = useState(null);
   const [hasFetchedConversations, setHasFetchedConversations] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [changeConversationLoading, setChangeConversationLoading] =
+    useState(false);
 
   const { open, close } = useWeb3Modal();
 
@@ -179,6 +182,27 @@ const MessagePage = () => {
     open();
   };
 
+  const loadConversation = async (addressTo) => {
+    try {
+      const conversation =
+        await clientRef.current.conversations.newConversation(addressTo);
+      convRef.current = conversation;
+      const messages = await conversation.messages();
+      setMessages(messages);
+    } catch (error) {
+      console.error("Error loading conversation:", error);
+    }
+  };
+
+  const handleWalletClick = async (chat) => {
+    setChangeConversationLoading(true);
+    setPeerAddress(chat.peerAddress);
+    setIsOnNetwork(false);
+    await loadConversation(chat.peerAddress);
+    setIsOnNetwork(true);
+    setChangeConversationLoading(false);
+  };
+
   return (
     <main className="main-container h-[calc(100vh-120px)]">
       {!address && (
@@ -189,7 +213,8 @@ const MessagePage = () => {
         <div className="flex gap-7 items-start h-full">
           <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
             {loading && <p>Loading conversations...</p>}
-            {!isOnNetwork && messageList && (
+            {/* {changeConversationLoading && <p>conversation loading....</p>} */}
+            {!isOnNetwork && !messageList && (
               <div className="flex flex-col justify-center items-center h-screen relative bg-gray-300">
                 <div className="w-full absolute top-0 border-gray-400">
                   {/* <ConnectButton
@@ -218,7 +243,7 @@ const MessagePage = () => {
               </div>
             )}
 
-            {isOnNetwork && messageList && (
+            {messageList && (
               <>
                 <p className="heading-4">All Inbox</p>
                 <div className="relative">
@@ -235,7 +260,8 @@ const MessagePage = () => {
                 {messageList.map((chat) => (
                   <div
                     key={chat.id}
-                    className="bg-black text-white flex items-center justify-between p-2 rounded-lg"
+                    onClick={() => handleWalletClick(chat)}
+                    className="bg-black text-white flex items-center justify-between p-2 rounded-lg cursor-pointer"
                   >
                     <div className="flex items-center gap-2 justify-between">
                       <Image
@@ -266,8 +292,13 @@ const MessagePage = () => {
             )}
           </div>
 
-          <div className="w-[62%] flex flex-col gap-4 bg-white rounded-xl h-full overflow-y-auto">
-            {!isOnNetwork && (
+          <div className="w-[62%] bg-white rounded-xl h-full overflow-y-auto">
+            {changeConversationLoading && (
+              <div className="w-full h-full flex items-center justify-center">
+                <Spinner label="Loading..." color="primary" />
+              </div>
+            )}
+            {!isOnNetwork && !changeConversationLoading && (
               <div>
                 <h1 className="text-4xl font-bold mb-4">
                   Explore the XMTP Universe
@@ -337,7 +368,7 @@ const MessagePage = () => {
               </div>
             )}
             {isOnNetwork && messages && (
-              <div className="flex w-full flex-col-reverse relative overflow-x-hidden">
+              <div className="w-full relative overflow-x-hidden h-full">
                 <Chat
                   client={clientRef.current}
                   conversation={convRef.current}

@@ -41,7 +41,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   // }, []);
 
   return (
-    <div className="sticky bottom-0 w-auto bg-white py-4">
+    <div className="absolute bottom-0 bg-white py-4 w-full">
       <form onSubmit={handleFormSubmit} className="">
         <div className="w-full px-4 md:px-8">
           <div className="flex justify-center items-center gap-2">

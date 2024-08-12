@@ -43,49 +43,51 @@ const Chat: React.FC<ChatProps> = ({
       (v: any, i: any, a: any) => a.findIndex((t: any) => t.id === v.id) === i
     );
     return (
-      <ul className="px-4 md:px-8">
-        {messages.map((message, index) => (
-          <li
-            key={message.id}
-            className="messageItem text-base text-gray-600 font-medium"
-            title="Click to log this message to the console"
-            ref={index === messages.length - 1 ? lastMessageRef : null}
-          >
-            {message.senderAddress === client.address ? (
-              <div className="flex flex-col items-end mb-5">
-                <div className="bg-[#d5d5f0] px-3 py-2 rounded-l-lg rounded-tr-lg max-w-[200px]">
-                  {message.content}
+      <div className="px-4 md:px-8 h-full">
+        <ul className="pb-20">
+          {messages.map((message, index) => (
+            <li
+              key={message.id}
+              className="messageItem text-base text-gray-600 font-medium"
+              title="Click to log this message to the console"
+              ref={index === messages.length - 1 ? lastMessageRef : null}
+            >
+              {message.senderAddress === client.address ? (
+                <div className="flex flex-col items-end mb-5">
+                  <div className="bg-[#d5d5f0] px-3 py-2 rounded-l-lg rounded-tr-lg max-w-[200px]">
+                    {message.content}
+                  </div>
+                  <div className=" text-xs mt-1">
+                    {message.sent.toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}
+                  </div>
                 </div>
-                <div className=" text-xs mt-1">
-                  {message.sent.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  })}
+              ) : (
+                <div className="flex flex-col mb-5">
+                  <div className=" bg-gray-200 px-3 py-2 rounded-r-lg rounded-t-lg max-w-[200px]">
+                    {message.content}
+                  </div>
+                  <div className="text-xs mt-1">
+                    {message.sent.toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col mb-5">
-                <div className=" bg-gray-200 px-3 py-2 rounded-r-lg rounded-t-lg max-w-[200px]">
-                  {message.content}
-                </div>
-                <div className="text-xs mt-1">
-                  {message.sent.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  })}
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
   return (
-    <div className="pt-4 w-full overflow-x-hidden">
+    <div className="pt-4 w-full overflow-x-hidden h-full">
       <MessageList messages={messageHistory} />
       <MessageInput onSendMessage={onSendMessage} />
     </div>
