@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Wallet, providers } from "ethers";
 import { useAccount } from "wagmi";
 import { Client } from "@xmtp/xmtp-js";
@@ -8,7 +8,7 @@ import { randomColorHex, shortenAddress, timeAgo } from "@/util/message";
 import Image from "next/image";
 import Chat from "@/components/xmtp/Chat";
 import { CiSearch } from "react-icons/ci";
-import { BsThreeDots } from "react-icons/bs";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 const API_KEY = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_KEY;
 
@@ -24,6 +24,9 @@ const MessagePage = () => {
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [peerAddress, setPeerAddress] = useState(null);
   const [hasFetchedConversations, setHasFetchedConversations] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { open, close } = useWeb3Modal();
 
   console.log("messages", messages);
   console.log("messageList", messageList);
@@ -31,177 +34,175 @@ const MessagePage = () => {
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined" && address) {
-      try {
-        async function getSigner() {
+      const getSigner = async () => {
+        try {
           const provider = new providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner(address);
           setSigner(signer);
-          console.log("signer", signer);
-          // Update the isConnected data property based on whether we have a signer
           setIsConnected(true);
+        } catch (error) {
+          console.error("Error getting signer:", error);
         }
-        getSigner();
-      } catch (error) {}
+      };
+      getSigner();
     } else {
       setIsConnected(false);
       setSigner(null);
     }
   }, [address]);
 
+  console.log("signer", signer);
+
   useEffect(() => {
-    async function fetchConversations() {
+    const fetchConversations = async () => {
       if (signer) {
-        // Create the XMTP client
-        const xmtp = await Client.create(signer, {
-          env: "production",
-        });
-        const encryptedMessageList = localStorage.getItem("messageList");
-        console.log("encryptedMessageList", encryptedMessageList);
-        if (encryptedMessageList) {
-          const bytes = CryptoJs.AES.decrypt(encryptedMessageList, API_KEY);
+        try {
+          console.log("hit");
+          setLoading(true);
+          const xmtp = await Client.create(signer, { env: "production" });
+          console.log("xmtp", xmtp);
 
-          console.log("bytes", bytes);
+          const encryptedMessageList = localStorage.getItem("messageList");
 
-          try {
+          if (encryptedMessageList) {
+            const bytes = CryptoJs.AES.decrypt(encryptedMessageList, API_KEY);
             const decryptedMessageList = JSON.parse(
               bytes.toString(CryptoJs.enc.Utf8)
             );
 
             setMessageList(decryptedMessageList);
             setPeerAddress(decryptedMessageList[0].peerAddress);
-            newConversation(xmtp, decryptedMessageList[0].peerAddress);
+            await newConversation(xmtp, decryptedMessageList[0].peerAddress);
             setIsOnNetwork(true);
             clientRef.current = xmtp;
             return;
-          } catch (error) {
-            // Handle any errors that occur during decryption or parsing
-            console.error(
-              "Error decrypting or parsing the message list:",
-              error
-            );
           }
-        }
 
-        const newMessageList = [];
+          const newMessageList = [];
+          for (const conversation of await xmtp.conversations.list()) {
+            const messagesInConversation = await conversation.messages(
+              new Date(new Date().setDate(new Date().getDate() - 1)),
+              new Date()
+            );
 
-        for (const conversation of await xmtp.conversations.list()) {
-          const messagesInConversation = await conversation.messages(
-            new Date(new Date().setDate(new Date().getDate() - 1)),
-            new Date()
-          );
+            const lastMessage =
+              messagesInConversation[messagesInConversation.length - 1];
+            const conversationData = {
+              peerAddress: conversation.peerAddress,
+              peerColor: randomColorHex(),
+              lastMessage: lastMessage.content,
+              lastMessageTime: lastMessage.sent.getTime(),
+            };
 
-          const lastMessage =
-            messagesInConversation[messagesInConversation.length - 1];
-          const peerAddress = conversation.peerAddress;
-          const peerColor = randomColorHex();
-          const conversationData = {
-            peerAddress,
-            peerColor,
-            lastMessage: lastMessage.content,
-            lastMessageTime: lastMessage.sent.getTime(),
-          };
+            newMessageList.push(conversationData);
+          }
 
-          newMessageList.push(conversationData);
-        }
+          if (newMessageList.length > 0) {
+            const reverseList = newMessageList.reverse();
+            setMessageList(reverseList);
+            const firstPeerAddress = reverseList[0].peerAddress;
+            setPeerAddress(firstPeerAddress);
+            await newConversation(xmtp, firstPeerAddress);
+            setIsOnNetwork(true);
+            clientRef.current = xmtp;
 
-        if (newMessageList.length > 0) {
-          const reverseList = newMessageList.reverse();
-          setMessageList(reverseList);
-          const firstPeerAddress = reverseList[0].peerAddress;
-          setPeerAddress(firstPeerAddress);
-          newConversation(xmtp, firstPeerAddress);
-          setIsOnNetwork(true);
-          clientRef.current = xmtp;
+            const encryptedMessage = CryptoJs.AES.encrypt(
+              JSON.stringify(reverseList),
+              API_KEY
+            ).toString();
+            localStorage.setItem("messageList", encryptedMessage);
+          }
 
-          const encryptedMessage = CryptoJs.AES.encrypt(
-            JSON.stringify(reverseList),
-            API_KEY
-          ).toString();
-          localStorage.setItem("messageList", encryptedMessage);
           setHasFetchedConversations(true);
+        } catch (error) {
+          console.error("Error fetching conversations:", error);
+        } finally {
+          setLoading(false);
         }
       }
-    }
+    };
+
     if (!hasFetchedConversations && messageList.length === 0) {
-      console.log("fetching conversations");
       fetchConversations();
     }
   }, [signer, messageList, hasFetchedConversations]);
 
-  // Function to load the existing messages in a conversation
-  const newConversation = async function (xmtp_client, addressTo) {
-    const conversation = await xmtp_client.conversations.newConversation(
-      addressTo
-    );
-    convRef.current = conversation;
-    const messages = await conversation.messages();
-    setMessages(messages);
+  const newConversation = async (xmtp_client, addressTo) => {
+    try {
+      const conversation = await xmtp_client.conversations.newConversation(
+        addressTo
+      );
+      convRef.current = conversation;
+      const messages = await conversation.messages();
+      setMessages(messages);
+    } catch (error) {
+      console.error("Error starting new conversation:", error);
+    }
   };
 
-  // Function to initialize the XMTP client
-  const initXmtp = async function () {
-    // Create the XMTP client
-    const xmtp = await Client.create(signer, {
-      env: "production",
-    });
-    console.log("xmtp", xmtp);
+  const initXmtp = async () => {
+    try {
+      const xmtp = await Client.create(signer, { env: "production" });
 
-    // check if the peer address is on the network
-    const canMessage = await xmtp.canMessage(peerAddress);
-    if (canMessage) {
-      // create or load conversation with peer
-      newConversation(xmtp, peerAddress);
-      // Set the XMTP client in state for later use
-      setIsOnNetwork(!!xmtp.address);
-      //Set the client in the ref
-      clientRef.current = xmtp;
-    } else {
-      console.log("Peer is not on the network");
-      // notify();
+      const canMessage = await xmtp.canMessage(peerAddress);
+      if (canMessage) {
+        await newConversation(xmtp, peerAddress);
+        setIsOnNetwork(true);
+        clientRef.current = xmtp;
+      } else {
+        console.log("Peer is not on the network");
+      }
+    } catch (error) {
+      console.error("Error initializing XMTP:", error);
     }
   };
 
   useEffect(() => {
     if (isOnNetwork && convRef.current) {
-      // Function to stream new messages in the conversation
       const streamMessages = async () => {
-        const newStream = await convRef.current.streamMessages();
-        console.log("new messages", messages);
-        if (messages?.length > 0) {
+        try {
+          const newStream = await convRef.current.streamMessages();
           for await (const msg of newStream) {
-            const exists = messages.find((m) => m.id === msg.id);
-            if (!exists) {
-              setMessages((prevMessages) => {
-                const msgsnew = [...prevMessages, msg];
-                return msgsnew;
-              });
+            if (!messages.find((m) => m.id === msg.id)) {
+              setMessages((prevMessages) => [...prevMessages, msg]);
             }
           }
+        } catch (error) {
+          console.error("Error streaming messages:", error);
         }
       };
       streamMessages();
     }
   }, [messages, isOnNetwork]);
 
+  const handleWalletOpen = () => {
+    open();
+  };
+
   return (
-    <div>
-      {/* {address && address} */}
+    <main className="main-container h-[calc(100vh-120px)]">
+      {!address && (
+        <button onClick={handleWalletOpen}>Setup your wallet</button>
+      )}
+      {/* <p>address: {address}</p> */}
       {isConnected && (
-        <div className="w-full md:h-full overflow-auto flex flex-col md:flex-row">
-          {!isOnNetwork && messageList && (
-            <div className="flex flex-col justify-center items-center h-screen relative bg-gray-800">
-              <div className="w-full absolute top-0 border-gray-400 bg-zinc-900">
-                {/* <ConnectButton
+        <div className="flex gap-7 items-start h-full">
+          <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
+            {loading && <p>Loading conversations...</p>}
+            {!isOnNetwork && messageList && (
+              <div className="flex flex-col justify-center items-center h-screen relative bg-gray-300">
+                <div className="w-full absolute top-0 border-gray-400">
+                  {/* <ConnectButton
                   showBalance={false}
                   accountStatus={{
                     smallScreen: "avatar",
                     largeScreen: "full",
                   }}
                 /> */}
-                {signer?.address}
-              </div>
-              <div className="flex flex-col justify-center items-center">
-                {/* <Image
+                  {signer?.address}
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  {/* <Image
                   src={
                     "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fchat_5962463&psig=AOvVaw0uvBEs6P9QU-AROEygseI3&ust=1723460133678000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIi03dbj7IcDFQAAAAAdAAAAABAE"
                   }
@@ -209,62 +210,63 @@ const MessagePage = () => {
                   width={150}
                   height={150}
                 /> */}
-                <p className="my-4 text-center max-w-xs">
-                  Start a conversation to get going with DMs that you own and
-                  control
-                </p>
-              </div>
-            </div>
-          )}
-
-          {isOnNetwork && messageList && (
-            <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
-              <p className="heading-4">All Inbox</p>
-              <div className="relative">
-                <CiSearch
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder={`Search Here....`}
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                />
-              </div>
-              {messageList.map((chat) => (
-                <div
-                  key={chat.id}
-                  className="bg-black text-white flex items-center justify-between p-2 rounded-lg"
-                >
-                  <div className="flex items-center gap-2 justify-between">
-                    <Image
-                      alt="user image"
-                      src={"/images/travis.png"}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <p className="font-sembold">
-                        {shortenAddress(chat.peerAddress)}
-                      </p>
-                      <p className="text-sm text-gray-500 font-medium">
-                        {chat.lastMessage}
-                      </p>
-                    </div>
-                  </div>
-                  {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
-                  {/* <BsThreeDots color="black" size={17} /> */}
-                  <p className="text-sm text-gray-500 font-medium">
-                    {timeAgo(chat.lastMessageTime)}
+                  <p className="my-4 text-center max-w-xs">
+                    Start a conversation to get going with DMs that you own and
+                    control
                   </p>
-                  {/* </div> */}
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            )}
 
-          <div className="flex w-full flex-col h-screen overflow-hidden">
+            {isOnNetwork && messageList && (
+              <>
+                <p className="heading-4">All Inbox</p>
+                <div className="relative">
+                  <CiSearch
+                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                    size={18}
+                  />
+                  <input
+                    type="text"
+                    placeholder={`Search Here....`}
+                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                  />
+                </div>
+                {messageList.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className="bg-black text-white flex items-center justify-between p-2 rounded-lg"
+                  >
+                    <div className="flex items-center gap-2 justify-between">
+                      <Image
+                        alt="user image"
+                        src={"/images/travis.png"}
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                      />
+                      <div>
+                        <p className="font-sembold">
+                          {shortenAddress(chat.peerAddress)}
+                        </p>
+                        <p className="text-sm text-gray-500 font-medium">
+                          {chat.lastMessage}
+                        </p>
+                      </div>
+                    </div>
+                    {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
+                    {/* <BsThreeDots color="black" size={17} /> */}
+                    <p className="text-sm text-gray-500 font-medium">
+                      {timeAgo(chat.lastMessageTime)}
+                    </p>
+                    {/* </div> */}
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+
+          <div className="w-[62%] flex flex-col gap-4 bg-white rounded-xl h-full overflow-y-auto">
             {!isOnNetwork && (
               <div>
                 <h1 className="text-4xl font-bold mb-4">
@@ -335,7 +337,7 @@ const MessagePage = () => {
               </div>
             )}
             {isOnNetwork && messages && (
-              <div className="flex overflow-y-auto flex-1 flex-col-reverse w-full">
+              <div className="flex w-full flex-col-reverse relative overflow-x-hidden">
                 <Chat
                   client={clientRef.current}
                   conversation={convRef.current}
@@ -370,7 +372,7 @@ const MessagePage = () => {
           </svg>
         </div>
       </button> */}
-    </div>
+    </main>
   );
 };
 

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import MessageInput from "./MessageInput";
 
 interface ChatProps {
@@ -26,6 +27,16 @@ const Chat: React.FC<ChatProps> = ({
     }[];
   }
 
+  // Reference to the last message
+  const lastMessageRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    // Scroll into view when the messageHistory updates (new message sent/received)
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messageHistory]);
+
   const MessageList = ({ messages }: MessageListProps) => {
     // Filter messages by unique id
     messages = messages.filter(
@@ -36,12 +47,13 @@ const Chat: React.FC<ChatProps> = ({
         {messages.map((message, index) => (
           <li
             key={message.id}
-            className="messageItem"
+            className="messageItem text-base text-gray-600 font-medium"
             title="Click to log this message to the console"
+            ref={index === messages.length - 1 ? lastMessageRef : null}
           >
             {message.senderAddress === client.address ? (
               <div className="flex flex-col items-end mb-5">
-                <div className=" bg-green-600 px-3 py-2 rounded-l-lg rounded-tr-lg max-w-[200px]">
+                <div className="bg-[#d5d5f0] px-3 py-2 rounded-l-lg rounded-tr-lg max-w-[200px]">
                   {message.content}
                 </div>
                 <div className=" text-xs mt-1">
@@ -54,7 +66,7 @@ const Chat: React.FC<ChatProps> = ({
               </div>
             ) : (
               <div className="flex flex-col mb-5">
-                <div className=" bg-gray-500 px-3 py-2 rounded-r-lg rounded-t-lg max-w-[200px]">
+                <div className=" bg-gray-200 px-3 py-2 rounded-r-lg rounded-t-lg max-w-[200px]">
                   {message.content}
                 </div>
                 <div className="text-xs mt-1">
@@ -73,11 +85,9 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   return (
-    <div>
-      <div>
-        <MessageList messages={messageHistory} />
-        <MessageInput onSendMessage={onSendMessage} />
-      </div>
+    <div className="pt-4 w-full overflow-x-hidden">
+      <MessageList messages={messageHistory} />
+      <MessageInput onSendMessage={onSendMessage} />
     </div>
   );
 };
