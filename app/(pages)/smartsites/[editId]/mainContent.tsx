@@ -26,9 +26,17 @@ import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalComponents";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+import { useRouter } from "next/navigation";
 
 const EditSmartSite = ({ data, token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
+
+  const { formData: smartSiteEditFormData, setFormData }: any =
+    useSmartsiteFormStore();
+
+  console.log("selected image", selectedImage);
+  console.log("formData from edit page", smartSiteEditFormData);
+
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
 
@@ -65,11 +73,21 @@ const EditSmartSite = ({ data, token, session }: any) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const router = useRouter();
+
   const handleBannerModal = () => {
     setIsUserProfileModalOpen(false);
     setIsBannerModalOpen(true);
     onOpen();
   };
+
+  console.log("gallery image", galleryImage);
+
+  useEffect(() => {
+    if (!selectedImage && !galleryImage) {
+      setFormData("profileImg", data.data.profilePic);
+    }
+  }, [data.data.profilePic, galleryImage, selectedImage, setFormData]);
 
   useEffect(() => {
     if (data.data.primary) {
@@ -123,6 +141,8 @@ const EditSmartSite = ({ data, token, session }: any) => {
       reader.readAsDataURL(file);
     }
   };
+
+  console.log("background image", backgroundImage);
 
   const handleSmartSiteUpdateInfo = async (e: any) => {
     setIsFormSubmitLoading(true);
@@ -179,7 +199,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
       }
     }
 
-    const selectedTheme = backgroundImage.background ? true : false;
+    // const selectedTheme = backgroundImage.background ? true : false;
 
     const smartSiteInfo = {
       _id: data.data._id,
@@ -188,10 +208,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
       brandImg: brandImage, //need to setup
       username: data.data.username || "",
       profilePic: uploadedImageUrl || selectedImage || data.data.profilePic,
-      backgroundImg:
-        backgroundImage.background ||
-        backgroundImage.banner ||
-        data.data.backgroundImg,
+      backgroundImg: smartSiteEditFormData.backgroundImg,
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
         contractAddress: formData.get("contractAddress") || "",
@@ -199,7 +216,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
         eventLink: formData.get("eventLink") || "",
         network: formData.get("network") || "",
       },
-      theme: selectedTheme,
+      theme: smartSiteEditFormData.theme,
       ens: data.data.ens || "",
       primary: isPrimaryMicrosite,
       web3enabled: data.data.web3enabled,
@@ -212,6 +229,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
       // console.log("response", response);
 
       if (response.state === "success") {
+        router.push("/smartsites");
         toast.success("Smartsite updated successfully");
       }
     } catch (error: any) {
@@ -222,7 +240,6 @@ const EditSmartSite = ({ data, token, session }: any) => {
     // console.log("form submitted successfully", response);
   };
 
-  const { formData, setFormData }: any = useSmartsiteFormStore();
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(name, value);
@@ -230,7 +247,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
 
   // console.log("formdata", formData);
 
-  const [toggleIcon, setToggleIcon] = useState<any>([]);
+  // const [toggleIcon, setToggleIcon] = useState<any>([]);
   // const [triggerUpdateSmallIcon, setTriggerUpdateSmallIcon] = useState<any>("");
   // const [open, setOpen] = useState(false);
 
@@ -291,35 +308,35 @@ const EditSmartSite = ({ data, token, session }: any) => {
                           }
                           width={160}
                           height={160}
-                          className="rounded-full"
+                          className="rounded-full shadow-medium p-1"
                         />
                       ) : (
-                        <Image
-                          alt="user image"
-                          src={galleryImage as any}
-                          width={160}
-                          height={160}
-                          className="rounded-full w-44 h-44"
-                        />
+                        <div className="relative overflow-hidden rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium">
+                          <Image
+                            alt="user image"
+                            src={galleryImage as any}
+                            fill
+                          />
+                        </div>
                       )}
                     </>
                   ) : (
                     <>
                       {isUrl(data.data.profilePic) ? (
-                        <Image
-                          alt="user image"
-                          src={data.data.profilePic}
-                          width={160}
-                          height={160}
-                          className="rounded-full"
-                        />
+                        <div className="relative overflow-hidden rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium">
+                          <Image
+                            alt="user image"
+                            src={data.data.profilePic as any}
+                            fill
+                          />
+                        </div>
                       ) : (
                         <Image
                           alt="user image"
                           src={`/images/user_avator/${data.data.profilePic}.png`}
                           width={160}
                           height={160}
-                          className="rounded-full"
+                          className="rounded-full shadow-medium p-1"
                         />
                       )}
                     </>
@@ -428,7 +445,10 @@ const EditSmartSite = ({ data, token, session }: any) => {
                   value={data.data.ens}
                   className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-xl focus:outline-none pl-10 py-6 text-gray-700 bg-white"
                 />
-                <button className="absolute right-6 top-1/2 -translate-y-1/2 font-medium text-gray-500 border px-4 py-1 rounded-xl border-gray-300">
+                <button
+                  type="button"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 font-medium text-gray-500 border px-4 py-1 rounded-xl border-gray-300"
+                >
                   Connect
                 </button>
               </div>

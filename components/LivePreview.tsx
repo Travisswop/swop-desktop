@@ -24,6 +24,9 @@ const LivePreview = ({ data }: { data?: any }) => {
 
   // console.log("data form live", data);
   const { formData, setFormData }: any = useSmartsiteFormStore();
+
+  console.log("form data from live preview", formData);
+
   const { setOn }: any = useSmallIconToggleStore();
 
   const handleTriggerUpdate = (data: {
@@ -43,6 +46,7 @@ const LivePreview = ({ data }: { data?: any }) => {
     if (data) {
       setFormData("theme", data.theme);
       setFormData("backgroundImg", data.backgroundImg);
+      setFormData("profileImg", data.profilePic);
     }
   }, [data, setFormData]);
 
@@ -57,36 +61,18 @@ const LivePreview = ({ data }: { data?: any }) => {
       className="w-[38%] overflow-y-auto shadow-md bg-white bg-cover"
     >
       {/* <p className="text-sm text-gray-500 mb-2">Preview</p> */}
-      <div className={``}>
+      <div className={`h-full relative`}>
         <div className="relative">
           {!formData.theme && (
-            <>
-              {formData.backgroundImg ? (
-                <>
-                  <div className="bg-white p-2 rounded-xl shadow-md">
-                    <Image
-                      alt="banner image"
-                      src={`/images/smartsite-banner/${formData.backgroundImg}.png`}
-                      width={800}
-                      height={400}
-                      className="rounded-xl w-full h-auto"
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="bg-white p-2 rounded-xl shadow-md">
-                    <Image
-                      alt="banner image"
-                      src={`/images/smartsite-banner/${data.backgroundImg}.png`}
-                      width={800}
-                      height={400}
-                      className="rounded-xl w-full h-auto"
-                    />
-                  </div>
-                </>
-              )}
-            </>
+            <div className="bg-white p-2 rounded-xl shadow-md">
+              <Image
+                alt="banner image"
+                src={`/images/smartsite-banner/${formData.backgroundImg}.png`}
+                width={800}
+                height={400}
+                className="rounded-xl w-full h-auto"
+              />
+            </div>
           )}
 
           <div
@@ -96,58 +82,20 @@ const LivePreview = ({ data }: { data?: any }) => {
                 : "flex justify-center pt-24"
             } `}
           >
-            {formData.galleryImg ? (
+            {formData.profileImg && (
               <>
-                <Image
-                  alt="user image"
-                  src={formData.galleryImg}
-                  width={140}
-                  height={140}
-                  className="rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium"
-                />
-              </>
-            ) : (
-              <>
-                {formData.profileImg ? (
-                  <>
-                    {isUrl(formData.profileImg) ? (
-                      <Image
-                        alt="user image"
-                        src={formData.galleryImg}
-                        width={140}
-                        height={140}
-                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium"
-                      />
-                    ) : (
-                      <Image
-                        alt="user image"
-                        src={`/images/user_avator/${formData.profileImg}.png`}
-                        width={140}
-                        height={140}
-                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
-                      />
-                    )}
-                  </>
+                {isUrl(formData.profileImg) ? (
+                  <div className="relative overflow-hidden rounded-full w-28 xl:w-36 2xl:w-44 h-28 xl:h-36 2xl:h-44 p-1 bg-white shadow-medium">
+                    <Image alt="user image" src={formData.profileImg} fill />
+                  </div>
                 ) : (
-                  <>
-                    {isUrl(data.profilePic) ? (
-                      <Image
-                        alt="user image"
-                        src={data.profilePic}
-                        width={140}
-                        height={140}
-                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-md"
-                      />
-                    ) : (
-                      <Image
-                        alt="user image"
-                        src={`/images/user_avator/${data.profilePic}.png`}
-                        width={140}
-                        height={140}
-                        className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
-                      />
-                    )}
-                  </>
+                  <Image
+                    alt="user image"
+                    src={`/images/user_avator/${formData.profileImg}.png`}
+                    width={140}
+                    height={140}
+                    className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
+                  />
                 )}
               </>
             )}
@@ -574,10 +522,10 @@ const LivePreview = ({ data }: { data?: any }) => {
             />
           </div>
           {/* embed link display here end */}
-          <div className="flex items-center justify-center gap-2 pb-6 pt-2">
-            <Image alt="swop logo" src={swop} />
-            <BiSolidEdit />
-          </div>
+        </div>
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2 pb-6 pt-2">
+          <Image alt="swop logo" src={swop} />
+          <BiSolidEdit />
         </div>
       </div>
     </section>

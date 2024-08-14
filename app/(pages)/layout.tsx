@@ -10,6 +10,7 @@ import { cookieToInitialState } from "wagmi";
 import { config } from "@/config";
 import Web3ModalProvider from "@/context";
 // import { XMTPProvider } from "@/context/xmtpContext";
+import AppWalletProvider from "@/components/AppWalletProvider";
 
 const popins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,12 +33,14 @@ export default async function PageLayout({
           <ToastContainer position="top-center" />
           <Web3ModalProvider initialState={initialState}>
             <SideBarToggleProvider>
-              <LayoutComponent>
-                <div className="flex flex-col min-h-screen">
-                  <TopBar />
-                  {children}
-                </div>
-              </LayoutComponent>
+              <AppWalletProvider>
+                <LayoutComponent>
+                  <div className="flex flex-col min-h-screen">
+                    <TopBar />
+                    {children}
+                  </div>
+                </LayoutComponent>
+              </AppWalletProvider>
             </SideBarToggleProvider>
           </Web3ModalProvider>
         </main>

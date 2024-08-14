@@ -21,6 +21,8 @@ import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
+import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
+// import dynamic from "next/dynamic";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check if user exists
@@ -126,6 +128,7 @@ export default async function HomePage() {
                       {data?.data?.bio}
                     </p>
                     <TriggerWalletConnectButton />
+                    <TriggerSolanaWalletConnect />
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>
@@ -214,7 +217,7 @@ export default async function HomePage() {
                   </div>
                 </div>
               </div>
-              <w3m-button />
+              {/* <w3m-button /> */}
             </div>
           </div>
           <SetupMainAccount />

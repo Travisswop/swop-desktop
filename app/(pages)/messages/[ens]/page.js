@@ -28,6 +28,7 @@ const MessagePage = () => {
   const [loading, setLoading] = useState(false);
   const [changeConversationLoading, setChangeConversationLoading] =
     useState(false);
+  const [walletType, setWalletType] = useState("metamask");
 
   const { open, close } = useWeb3Modal();
 
@@ -36,23 +37,34 @@ const MessagePage = () => {
   console.log("peerAddress", peerAddress);
 
   useEffect(() => {
-    if (typeof window.ethereum !== "undefined" && address) {
-      const getSigner = async () => {
-        try {
-          const provider = new providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner(address);
-          setSigner(signer);
-          setIsConnected(true);
-        } catch (error) {
-          console.error("Error getting signer:", error);
+    const getSigner = async () => {
+      try {
+        let provider;
+        if (walletType === "metamask" && window.ethereum?.isMetaMask) {
+          provider = new providers.Web3Provider(window.ethereum);
+        } else if (
+          walletType === "phantom" &&
+          window.phantom?.ethereum?.isPhantom
+        ) {
+          provider = new providers.Web3Provider(window.phantom.ethereum);
+        } else {
+          throw new Error("Wallet provider not found.");
         }
-      };
+
+        const signer = provider.getSigner();
+        setSigner(signer);
+        setIsConnected(true);
+      } catch (error) {
+        console.error("Error getting signer:", error);
+        setSigner(null);
+        setIsConnected(false);
+      }
+    };
+
+    if (typeof window !== "undefined" && address) {
       getSigner();
-    } else {
-      setIsConnected(false);
-      setSigner(null);
     }
-  }, [address]);
+  }, [address, walletType]);
 
   console.log("signer", signer);
 
@@ -203,6 +215,11 @@ const MessagePage = () => {
     setChangeConversationLoading(false);
   };
 
+  const handleWalletSelect = (type) => {
+    setWalletType(type);
+    setSigner(null); // Reset signer to trigger useEffect
+  };
+
   return (
     <main className="main-container h-[calc(100vh-120px)]">
       {!address && (
@@ -211,6 +228,15 @@ const MessagePage = () => {
       {/* <p>address: {address}</p> */}
       {isConnected && (
         <div className="flex gap-7 items-start h-full">
+          <div>
+            <p>Select Wallet:</p>
+            <button onClick={() => handleWalletSelect("metamask")}>
+              MetaMask
+            </button>
+            <button onClick={() => handleWalletSelect("phantom")}>
+              Phantom
+            </button>
+          </div>
           <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
             {loading && <p>Loading conversations...</p>}
             {/* {changeConversationLoading && <p>conversation loading....</p>} */}
@@ -261,21 +287,35 @@ const MessagePage = () => {
                   <div
                     key={chat.id}
                     onClick={() => handleWalletClick(chat)}
-                    className="bg-black text-white flex items-center justify-between p-2 rounded-lg cursor-pointer"
+                    className={`${
+                      peerAddress === chat.peerAddress
+                        ? "bg-black text-white"
+                        : "text-black"
+                    }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
                   >
                     <div className="flex items-center gap-2 justify-between">
-                      <Image
+                      {/* <Image
                         alt="user image"
                         src={"/images/travis.png"}
                         width={40}
                         height={40}
                         className="rounded-full"
-                      />
+                      /> */}
+                      <div
+                        className={`w-10 h-10 rounded-full`}
+                        style={{ backgroundColor: chat.peerColor }}
+                      ></div>
                       <div>
                         <p className="font-sembold">
                           {shortenAddress(chat.peerAddress)}
                         </p>
-                        <p className="text-sm text-gray-500 font-medium">
+                        <p
+                          className={`text-sm ${
+                            peerAddress === chat.peerAddress
+                              ? "text-white"
+                              : "text-gray-500"
+                          } font-medium`}
+                        >
                           {chat.lastMessage}
                         </p>
                       </div>
