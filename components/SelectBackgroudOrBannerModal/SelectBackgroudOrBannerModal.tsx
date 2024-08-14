@@ -10,7 +10,7 @@ export default function SelectBackgroudOrBannerModal({
   bannerImgArr,
   backgroundImgArr,
   // setIsModalOpen,
-  setBackgroundImage,
+  // setBackgroundImage,
   setIsBannerModalOpen,
 }: any) {
   const [isBannerImg, setIsBannerImg] = useState(true);
@@ -19,10 +19,10 @@ export default function SelectBackgroudOrBannerModal({
 
   const selectBanner = (image: any) => {
     isOpen = false;
-    setBackgroundImage({
-      background: "",
-      banner: image,
-    });
+    // setBackgroundImage({
+    //   background: "",
+    //   banner: image,
+    // });
     setIsBannerModalOpen(false);
     setFormData("backgroundImg", image);
     setFormData("theme", false);
@@ -31,10 +31,10 @@ export default function SelectBackgroudOrBannerModal({
 
   const selectBackground = (image: any) => {
     isOpen = false;
-    setBackgroundImage({
-      background: image,
-      banner: "",
-    });
+    // setBackgroundImage({
+    //   background: image,
+    //   banner: "",
+    // });
     setIsBannerModalOpen(false);
     setFormData("backgroundImg", image);
     setFormData("theme", true);

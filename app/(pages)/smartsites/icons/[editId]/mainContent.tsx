@@ -1,4 +1,5 @@
 "use client";
+import AnimateButton from "@/components/Button/AnimateButton";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import AddIcon from "@/components/EditMicrosite/AddIcon";
@@ -61,6 +62,8 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
 
   // console.log("open", open);
 
+  // console.log("data", data);
+
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-6 items-start h-[90vh]">
@@ -80,20 +83,40 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             toggleIcon={toggleIcon}
           />
           <div className="flex items-center justify-center gap-2">
-            <EditMicrositeBtn>
+            {/* <EditMicrositeBtn>
               <LiaFileMedicalSolid size={20} />
               Customize QR
-            </EditMicrositeBtn>
-            <EditMicrositeBtn>
+            </EditMicrositeBtn> */}
+            <Link href={`/smartsites/qr-code/${data.data._id}`}>
+              <AnimateButton
+                type="button"
+                width="w-48"
+                className="!rounded-full bg-white"
+              >
+                <LiaFileMedicalSolid size={20} />
+                Customize QR
+              </AnimateButton>
+            </Link>
+            {/* <EditMicrositeBtn>
               <LiaFileMedicalSolid size={20} />
               Edit Background
-            </EditMicrositeBtn>
-            <Link href={`/smartsites/travis-herron`}>
+            </EditMicrositeBtn> */}
+            <Link href={`/smartsites/${data.data._id}`}>
+              <AnimateButton
+                type="button"
+                // width="w-44"
+                className="!rounded-full bg-white"
+              >
+                <LiaFileMedicalSolid size={20} />
+                Microsite Settings
+              </AnimateButton>
+            </Link>
+            {/* <Link href={`/smartsites/travis-herron`}>
               <EditMicrositeBtn>
                 <LiaFileMedicalSolid size={20} />
                 Microsite Settings
               </EditMicrositeBtn>
-            </Link>
+            </Link> */}
           </div>
           <DynamicPrimaryBtn className="w-full !rounded-full mt-2">
             <LiaFileMedicalSolid size={20} /> Publish

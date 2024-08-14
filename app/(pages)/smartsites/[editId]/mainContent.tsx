@@ -27,6 +27,7 @@ import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalCompone
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { useRouter } from "next/navigation";
+import AnimateButton from "@/components/Button/AnimateButton";
 
 const EditSmartSite = ({ data, token, session }: any) => {
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
@@ -51,10 +52,10 @@ const EditSmartSite = ({ data, token, session }: any) => {
   const [brandImage, setBrandImage] = useState(""); //need to set brand image
 
   // const [profileImage, setProfileImage] = useState("");
-  const [backgroundImage, setBackgroundImage] = useState({
-    background: "",
-    banner: "",
-  });
+  // const [backgroundImage, setBackgroundImage] = useState({
+  //   background: "",
+  //   banner: "",
+  // });
   // console.log("backgroundImage", backgroundImage);
 
   // const [isBackgrundImageSelected, setIsBackgrundImageSelected] =
@@ -424,13 +425,14 @@ const EditSmartSite = ({ data, token, session }: any) => {
                   aria-label="Lead Captures"
                 />
               </div>
-              <EditMicrositeBtn
+              <AnimateButton
+                type="button"
                 onClick={handleBannerModal}
-                className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
+                width="w-64"
+                className="!rounded-lg "
               >
-                <LiaFileMedicalSolid size={20} color="#001534" /> Edit
-                Background/Banner
-              </EditMicrositeBtn>
+                <LiaFileMedicalSolid size={20} /> Edit Background/Banner
+              </AnimateButton>
             </div>
             <div>
               <p className="text-gray-700 font-semibold">
@@ -583,7 +585,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
           onOpenChange={onOpenChange}
           bannerImgArr={smatsiteBannerImageList}
           backgroundImgArr={smatsiteBackgroundImageList}
-          setBackgroundImage={setBackgroundImage}
+          // setBackgroundImage={setBackgroundImage}
           setIsBannerModalOpen={setIsBannerModalOpen}
         />
       )}
