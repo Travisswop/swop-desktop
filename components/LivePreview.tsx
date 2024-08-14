@@ -25,7 +25,7 @@ const LivePreview = ({ data }: { data?: any }) => {
   // console.log("data form live", data);
   const { formData, setFormData }: any = useSmartsiteFormStore();
 
-  console.log("form data from live preview", formData);
+  // console.log("form data from live preview", formData);
 
   const { setOn }: any = useSmallIconToggleStore();
 
