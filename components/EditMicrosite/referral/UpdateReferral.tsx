@@ -54,6 +54,7 @@ const UpdateReferral = ({ iconDataObj, isOn, setOff }: any) => {
           sesstionState.accessToken
         );
         if ((data.state = "success")) {
+          setOff();
           toast.success("referral created successfully");
         } else {
           toast.error("something went wrong");
@@ -94,8 +95,8 @@ const UpdateReferral = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("referral deleted successfully");
         setOff();
+        toast.success("referral deleted successfully");
       } else {
         toast.error("something went wrong");
       }

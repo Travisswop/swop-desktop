@@ -122,6 +122,7 @@ const UpdateAudio = ({ iconDataObj, isOn, setOff }: any) => {
         // console.log("data", data);
 
         if ((data.state = "success")) {
+          setOff();
           toast.success("audio updated successfully");
         } else {
           toast.error("something went wrong");
@@ -160,6 +161,7 @@ const UpdateAudio = ({ iconDataObj, isOn, setOff }: any) => {
       );
 
       if (data && data?.state === "success") {
+        setOff();
         toast.success("music deleted successfully");
         setOff();
       } else {

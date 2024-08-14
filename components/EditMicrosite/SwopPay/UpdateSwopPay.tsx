@@ -134,6 +134,7 @@ const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
         // console.log("data", data);
 
         if ((data.state = "success")) {
+          setOff();
           toast.success("product created successfully");
         } else {
           toast.error("something went wrong");
@@ -176,8 +177,8 @@ const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("product deleted successfully");
         setOff();
+        toast.success("product deleted successfully");
       } else {
         toast.error("something went wrong");
       }

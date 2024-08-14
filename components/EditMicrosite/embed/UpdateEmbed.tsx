@@ -65,8 +65,8 @@ const UpdateEmbed = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("embed updated successfully");
         setOff();
+        toast.success("embed updated successfully");
       } else {
         toast.error("something went wrong");
       }
@@ -106,8 +106,8 @@ const UpdateEmbed = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("embed deleted successfully");
         setOff();
+        toast.success("embed deleted successfully");
       } else {
         toast.error("something went wrong");
       }

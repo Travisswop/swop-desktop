@@ -66,6 +66,7 @@ const UpdateENS = ({ iconDataObj, isOn, setOff }: any) => {
 
         const data = await updateMessage(submitInfo, sesstionState.accessToken);
         if ((data.state = "success")) {
+          setOff();
           toast.success("Successfully updated");
         } else {
           toast.error("something went wrong");
@@ -92,8 +93,8 @@ const UpdateENS = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("deleted successfully");
         setOff();
+        toast.success("deleted successfully");
       } else {
         toast.error("something went wrong");
       }

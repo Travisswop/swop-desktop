@@ -59,6 +59,7 @@ const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
           sesstionState.accessToken
         );
         if (data.state === "success") {
+          setOff();
           toast.success("Contact card updated successfully");
         } else {
           toast.error("Something went wrong");
@@ -97,7 +98,7 @@ const UpdateContactCard = ({ iconDataObj, isOn, setOff }: any) => {
       );
 
       if (data && data?.state === "success") {
-        toast.success("App icon deleted successfully");
+        toast.success("Contact card deleted successfully");
         setOff();
       } else {
         toast.error("Something went wrong");

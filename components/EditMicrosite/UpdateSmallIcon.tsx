@@ -6,13 +6,13 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Spinner,
+  // Spinner,
   Switch,
 } from "@nextui-org/react";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { IoLinkOutline } from "react-icons/io5";
 import { LiaFileMedicalSolid } from "react-icons/lia";
-import EditMicrositeBtn from "../Button/EditMicrositeBtn";
+// import EditMicrositeBtn from "../Button/EditMicrositeBtn";
 import { icon, newIcons } from "@/util/data/smartsiteIconData";
 import { isEmptyObject } from "@/util/checkIsEmptyObject";
 import {
@@ -23,7 +23,7 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
+// import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import AnimateButton from "../Button/AnimateButton";
 
 const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
@@ -65,7 +65,7 @@ const UpdateSmallIcon = ({ iconDataObj, isOn, setOff }: any) => {
 
   useEffect(() => {
     setSelectedIconType(iconDataObj.data.group);
-  }, []);
+  }, [iconDataObj.data.group]);
 
   useEffect(() => {
     if (isHit) {

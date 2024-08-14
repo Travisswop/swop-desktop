@@ -182,6 +182,7 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data", data);
 
       if ((data.state = "success")) {
+        setOff();
         toast.success("info bar updated successfully");
       } else {
         toast.error("something went wrong");
@@ -223,8 +224,8 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
-        toast.success("info bar deleted successfully");
         setOff();
+        toast.success("info bar deleted successfully");
       } else {
         toast.error("something went wrong");
       }

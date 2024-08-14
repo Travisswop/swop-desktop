@@ -93,6 +93,7 @@ const UpdateVideo = ({ iconDataObj, isOn, setOff }: any) => {
         // console.log("data", data);
 
         if ((data.state = "success")) {
+          setOff();
           toast.success("video updated successfully");
         } else {
           toast.error("something went wrong");
@@ -133,6 +134,7 @@ const UpdateVideo = ({ iconDataObj, isOn, setOff }: any) => {
       // console.log("data,", data);
 
       if (data && data?.state === "success") {
+        setOff();
         toast.success("video deleted successfully");
         setOff();
       } else {

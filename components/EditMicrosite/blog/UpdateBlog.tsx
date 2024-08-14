@@ -111,6 +111,7 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
         console.log("data for update blog", data);
 
         if ((data.state = "success")) {
+          setOff();
           toast.success("blog updated successfully");
         } else {
           toast.error("something went wrong");
@@ -133,8 +134,8 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
       const data: any = await deleteBlog(submitData, sesstionState.accessToken);
 
       if (data && data?.state === "success") {
-        toast.success("blog deleted successfully");
         setOff();
+        toast.success("blog deleted successfully");
       } else {
         toast.error("Something went wrong");
       }
