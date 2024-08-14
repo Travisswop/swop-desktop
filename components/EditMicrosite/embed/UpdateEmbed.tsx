@@ -19,7 +19,7 @@ import AnimateButton from "@/components/Button/AnimateButton";
 import { deleteEmbedLink, updateEmbedLink } from "@/actions/embedLink";
 
 const UpdateEmbed = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   const [selectedIcon, setSelectedIcon] = useState({
     category: "X",

@@ -14,7 +14,7 @@ import AudioPlayer from "react-h5-audio-player";
 import { sendCloudinaryAudio } from "@/util/sendCloudineryAudio";
 
 const UpdateAudio = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); // get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});

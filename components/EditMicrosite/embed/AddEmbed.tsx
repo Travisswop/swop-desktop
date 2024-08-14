@@ -22,7 +22,7 @@ const AddEmbed = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   // console.log("state", state);
 
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   const [selectedIcon, setSelectedIcon] = useState({
     category: "X",

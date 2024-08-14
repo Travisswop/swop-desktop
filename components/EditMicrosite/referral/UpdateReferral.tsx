@@ -13,7 +13,7 @@ const UpdateReferral = ({ iconDataObj, isOn, setOff }: any) => {
   const [error, setError] = useState<any>({});
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
 
-  const sesstionState: any = useLoggedInUserStore((state) => state);
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   //   console.log("error", error);
 

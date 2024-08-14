@@ -26,7 +26,7 @@ import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
 // import AnimateButton from "../Button/AnimateButton";
 
 const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
   const [selectedIcon, setSelectedIcon] = useState({

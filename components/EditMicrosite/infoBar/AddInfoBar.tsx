@@ -22,7 +22,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddInfoBar = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
   const [selectedIcon, setSelectedIcon] = useState({
     name: "X",

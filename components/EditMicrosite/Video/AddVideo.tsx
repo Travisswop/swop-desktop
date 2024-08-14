@@ -14,7 +14,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddVideo = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state);
-  const sesstionState: any = useLoggedInUserStore((state) => state);
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});
   const [videoFile, setVideoFile] = useState<any>(null);

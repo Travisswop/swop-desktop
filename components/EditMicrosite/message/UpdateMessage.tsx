@@ -16,7 +16,7 @@ const UpdateENS = ({ iconDataObj, isOn, setOff }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>({});
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
-  const sesstionState: any = useLoggedInUserStore((state) => state);
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   // Function to close the modal
   const closeModal = () => {

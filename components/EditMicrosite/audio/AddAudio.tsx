@@ -17,7 +17,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddAudio = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state);
-  const sesstionState: any = useLoggedInUserStore((state) => state);
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});
   const [audioFile, setAudioFile] = useState<any>(null);

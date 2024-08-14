@@ -25,7 +25,7 @@ import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { deleteSwopPay, updateSwopPay } from "@/actions/swopPay";
 
 const UpdateSwopPay = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); //to get token of current loged in user
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);

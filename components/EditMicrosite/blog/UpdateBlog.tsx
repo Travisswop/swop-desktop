@@ -19,7 +19,7 @@ import { icon } from "@/util/data/smartsiteIconData";
 import { deleteBlog, updateBlog } from "@/actions/blog";
 
 const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); // get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});

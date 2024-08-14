@@ -9,7 +9,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddMessage = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>({});

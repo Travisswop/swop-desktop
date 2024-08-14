@@ -26,7 +26,7 @@ import { deleteEmbedLink } from "@/actions/embedLink";
 
 const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [selectedIconType, setSelectedIconType] = useState("");
   const [selectedIcon, setSelectedIcon] = useState({
     name: "X",

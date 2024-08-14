@@ -274,6 +274,8 @@ const EditSmartSite = ({ data, token, session }: any) => {
       setSmartSiteData(data);
     }
     if (session) {
+      console.log("session", session);
+
       setLoggedInUserInfo(session);
     }
     // if (iconData) {

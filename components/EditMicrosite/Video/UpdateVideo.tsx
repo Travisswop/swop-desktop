@@ -23,7 +23,7 @@ import placeholder from "@/public/images/video_player_placeholder.gif";
 import CustomFileInput from "@/components/CustomFileInput";
 
 const UpdateVideo = ({ iconDataObj, isOn, setOff }: any) => {
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);

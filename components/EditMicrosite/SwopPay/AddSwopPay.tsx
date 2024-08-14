@@ -26,7 +26,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddSwopPay = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state);
-  const sesstionState: any = useLoggedInUserStore((state) => state);
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputError, setInputError] = useState<any>({});
   const [imageFile, setImageFile] = useState<any>(null);

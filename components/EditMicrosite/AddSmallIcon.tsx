@@ -24,7 +24,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddSmallIcon = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
-  const sesstionState: any = useLoggedInUserStore((state) => state); //get small icon store value
+  const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
   const [selectedIcon, setSelectedIcon] = useState({
     name: "X",
@@ -97,12 +97,16 @@ const AddSmallIcon = ({ handleRemoveIcon }: any) => {
       iconPath: "",
       group: selectedIconData.category,
     };
-    // console.log("smallIconInfo", smallIconInfo);
+    console.log("smallIconInfo", smallIconInfo);
+    console.log("token", sesstionState.accessToken);
     try {
       const data = await handleSmallIcon(
         smallIconInfo,
         sesstionState.accessToken
       );
+
+      console.log("create small icon", data);
+
       if ((data.state = "success")) {
         toast.success("small icon created successfully");
       } else {
@@ -185,7 +189,7 @@ const AddSmallIcon = ({ handleRemoveIcon }: any) => {
           </Dropdown>
         </div>
 
-        <button onClick={() => handleRemoveIcon("Small Icon")}>
+        <button type="button" onClick={() => handleRemoveIcon("Small Icon")}>
           <FaTimes size={20} />
         </button>
       </div>
