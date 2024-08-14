@@ -196,11 +196,11 @@ const CreateSmartSite = ({ token, session }: any) => {
       //   web3enabled: data.data.web3enabled,
     };
 
-    console.log("smartsite info", smartSiteInfo);
+    // console.log("smartsite info", smartSiteInfo);
 
     try {
       const response = await handleCreateSmartSite(smartSiteInfo, token);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response.state === "success") {
         toast.success("Smartsite created successfully");

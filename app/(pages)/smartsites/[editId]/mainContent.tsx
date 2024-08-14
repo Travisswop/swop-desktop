@@ -34,8 +34,8 @@ const EditSmartSite = ({ data, token, session }: any) => {
   const { formData: smartSiteEditFormData, setFormData }: any =
     useSmartsiteFormStore();
 
-  console.log("selected image", selectedImage);
-  console.log("formData from edit page", smartSiteEditFormData);
+  // console.log("selected image", selectedImage);
+  // console.log("formData from edit page", smartSiteEditFormData);
 
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
@@ -81,7 +81,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
     onOpen();
   };
 
-  console.log("gallery image", galleryImage);
+  // console.log("gallery image", galleryImage);
 
   useEffect(() => {
     if (!selectedImage && !galleryImage) {
@@ -142,7 +142,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
     }
   };
 
-  console.log("background image", backgroundImage);
+  // console.log("background image", backgroundImage);
 
   const handleSmartSiteUpdateInfo = async (e: any) => {
     setIsFormSubmitLoading(true);
@@ -274,7 +274,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
       setSmartSiteData(data);
     }
     if (session) {
-      console.log("session", session);
+      // console.log("session", session);
 
       setLoggedInUserInfo(session);
     }

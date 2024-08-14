@@ -140,7 +140,7 @@ const CreateQRCode = ({ session }: any) => {
 
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);
-        console.log("imageUrl", imageUrl);
+        // console.log("imageUrl", imageUrl);
 
         qrData.image = imageUrl;
       }

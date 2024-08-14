@@ -19,7 +19,7 @@ const UpdateQrCodePage = async ({ params }: { params: { id: string } }) => {
   if (!data || data.state !== "success") {
     return <ForceSignOut />;
   }
-  console.log("data for qr deatials", data);
+  // console.log("data for qr deatials", data);
 
   return (
     <div>

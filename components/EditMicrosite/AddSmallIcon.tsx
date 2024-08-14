@@ -97,15 +97,15 @@ const AddSmallIcon = ({ handleRemoveIcon }: any) => {
       iconPath: "",
       group: selectedIconData.category,
     };
-    console.log("smallIconInfo", smallIconInfo);
-    console.log("token", sesstionState.accessToken);
+    // console.log("smallIconInfo", smallIconInfo);
+    // console.log("token", sesstionState.accessToken);
     try {
       const data = await handleSmallIcon(
         smallIconInfo,
         sesstionState.accessToken
       );
 
-      console.log("create small icon", data);
+      // console.log("create small icon", data);
 
       if ((data.state = "success")) {
         toast.success("small icon created successfully");

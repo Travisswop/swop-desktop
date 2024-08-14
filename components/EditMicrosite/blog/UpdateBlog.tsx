@@ -108,7 +108,7 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
 
       try {
         const data = await updateBlog(info, sesstionState.accessToken);
-        console.log("data for update blog", data);
+        // console.log("data for update blog", data);
 
         if ((data.state = "success")) {
           setOff();

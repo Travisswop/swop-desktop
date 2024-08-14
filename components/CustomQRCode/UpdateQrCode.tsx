@@ -180,7 +180,7 @@ const UpdateQRCode = ({ session, data }: any) => {
         data._id
       );
 
-      console.log("updated data ", info);
+      // console.log("updated data ", info);
 
       if (info && info.status === "success") {
         toast.success("Qr code updated");

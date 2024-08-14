@@ -27,7 +27,7 @@ const ButtonList = ({ microsite, token }: any) => {
       try {
         setDeleteLoading(true);
         const data = await handleDeleteSmartSite(microsite._id, token);
-        console.log("data from delete", data);
+        // console.log("data from delete", data);
 
         if (data) {
           setDeleteLoading(false);

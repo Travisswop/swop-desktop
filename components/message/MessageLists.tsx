@@ -73,7 +73,7 @@ const MessagesLists: React.FC<MessagesListsProps> = ({ session }) => {
     setEns(event.target.value);
   };
 
-  console.log("ens data", ensData);
+  // console.log("ens data", ensData);
 
   return (
     <div className="main-container">

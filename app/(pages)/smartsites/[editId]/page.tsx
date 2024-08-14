@@ -19,7 +19,7 @@ const SmartsiteUpdatePage = async ({
     return <ForceSignOut />;
   }
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <EditSmartSite token={session.accessToken} session={session} data={data} />
