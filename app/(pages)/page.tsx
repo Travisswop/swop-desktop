@@ -127,8 +127,8 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
-                    <TriggerWalletConnectButton />
-                    <TriggerSolanaWalletConnect />
+                    {/* <TriggerWalletConnectButton />
+                    <TriggerSolanaWalletConnect /> */}
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>

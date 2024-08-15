@@ -6,11 +6,13 @@ import AddIcon from "@/components/EditMicrosite/AddIcon";
 import IconMaker from "@/components/EditMicrosite/IconMaker";
 import UpdateModalComponents from "@/components/EditMicrosite/UpdateModalComponents";
 import LivePreview from "@/components/LivePreview";
+import SmartSiteUrlShareModal from "@/components/ShareModal/SmartsiteShareModal";
+import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
-import { Switch } from "@nextui-org/react";
+import { Switch, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsSend } from "react-icons/bs";
@@ -18,6 +20,10 @@ import { LiaFileMedicalSolid } from "react-icons/lia";
 
 const MicrositeEditMainContentPage = ({ session, data }: any) => {
   const [toggleIcon, setToggleIcon] = useState<any>([]);
+  const [smartsiteProfileUrl, setSmartSiteProfileUrl] = useState<any>(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { formData, setFormData }: any = useSmartsiteFormStore();
 
   // console.log("toogle icon", toggleIcon);
 
@@ -60,9 +66,30 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
     // }
   }, [data, session, setLoggedInUserInfo, setSmartSiteData]);
 
+  useEffect(() => {
+    setFormData("backgroundImg", data.data.backgroundImg);
+    setFormData("bio", data.data.bio);
+    setFormData("galleryImg", "");
+    setFormData("name", data.data.name);
+    setFormData("theme", data.data.theme);
+    setFormData("profileImg", data.data.profilePic);
+  }, [
+    data.data.backgroundImg,
+    data.data.bio,
+    data.data.name,
+    data.data.profilePic,
+    data.data.theme,
+    setFormData,
+  ]);
+
   // console.log("open", open);
 
-  // console.log("data", data);
+  console.log("data", data);
+
+  const handleOpenShareModal = (smartsiteUrl: any) => {
+    onOpen();
+    setSmartSiteProfileUrl(smartsiteUrl);
+  };
 
   return (
     <main className="main-container overflow-hidden">
@@ -73,7 +100,9 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
         >
           <div className="flex items-center justify-between">
             <h5 className="heading-3">Microsite Builder</h5>
-            <EditMicrositeBtn>
+            <EditMicrositeBtn
+              onClick={() => handleOpenShareModal(data.data.profileUrl)}
+            >
               <BsSend /> Share
             </EditMicrositeBtn>
           </div>
@@ -97,6 +126,17 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
                 Customize QR
               </AnimateButton>
             </Link>
+
+            <Link href={`/smartsites/${data.data._id}`}>
+              <AnimateButton
+                type="button"
+                width="w-48"
+                className="!rounded-full bg-white"
+              >
+                <LiaFileMedicalSolid size={20} />
+                Edit Background
+              </AnimateButton>
+            </Link>
             {/* <EditMicrositeBtn>
               <LiaFileMedicalSolid size={20} />
               Edit Background
@@ -118,9 +158,11 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
               </EditMicrositeBtn>
             </Link> */}
           </div>
-          <DynamicPrimaryBtn className="w-full !rounded-full mt-2">
-            <LiaFileMedicalSolid size={20} /> Publish
-          </DynamicPrimaryBtn>
+          <a href={data.data.profileUrl} target="_blank">
+            <DynamicPrimaryBtn className="w-full !rounded-full mt-2">
+              <LiaFileMedicalSolid size={20} /> Publish
+            </DynamicPrimaryBtn>
+          </a>
           <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
             <p>Lead Capture</p>
             <Switch
@@ -152,6 +194,13 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
         <LivePreview data={data.data} />
         {/* </div> */}
       </div>
+      {smartsiteProfileUrl && (
+        <SmartSiteUrlShareModal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          smartSiteProfileUrl={smartsiteProfileUrl}
+        />
+      )}
     </main>
   );
 };

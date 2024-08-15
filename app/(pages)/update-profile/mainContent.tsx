@@ -19,6 +19,7 @@ import { format, parse } from "date-fns";
 import { toast } from "react-toastify";
 import isUrl from "@/util/isUrl";
 import { updateUserProfile } from "@/actions/updateUserProfile";
+import { useRouter } from "next/navigation";
 
 // export const maxDuration = 60;
 
@@ -39,6 +40,8 @@ const UpdateProfile = ({ data, token }: any) => {
 
   // console.log("phone", phone);
   // console.log("selectedCountryCode", selectedCountryCode);
+
+  const router = useRouter();
 
   const images = [
     "1",
@@ -83,17 +86,19 @@ const UpdateProfile = ({ data, token }: any) => {
     "40",
   ];
 
-  if (galleryImage) {
-    //get cloudinery uploaded image
-    sendCloudinaryImage(galleryImage)
-      .then((url) => {
-        setSelectedImage(null);
-        setUploadedImageUrl(url);
-      })
-      .catch((err) => {
-        console.error("Error uploading image:", err);
-      });
-  }
+  useEffect(() => {
+    if (galleryImage) {
+      // Upload the image to Cloudinary
+      sendCloudinaryImage(galleryImage)
+        .then((url) => {
+          setUploadedImageUrl(url);
+          setSelectedImage(null);
+        })
+        .catch((err) => {
+          console.error("Error uploading image:", err);
+        });
+    }
+  }, [galleryImage]);
 
   const handleSubmit = async (e: any) => {
     setSubmitLoading(true);
@@ -113,11 +118,14 @@ const UpdateProfile = ({ data, token }: any) => {
       apt: "N/A",
     };
 
+    // console.log("user info", userInfo);
+
     try {
       const data = await updateUserProfile(userInfo, token);
       // console.log("data", data);
 
       if (data.state === "success") {
+        router.push("/");
         toast.success("profile updated");
       }
     } catch (error) {
@@ -135,9 +143,10 @@ const UpdateProfile = ({ data, token }: any) => {
     setGalleryImage(null);
   };
 
-  // console.log("galleryImage", galleryImage);
+  console.log("galleryImage", galleryImage);
+  console.log("upload Image url", uploadedImageUrl);
 
-  // console.log("selectedImage", selectedImage);
+  console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();
@@ -147,10 +156,10 @@ const UpdateProfile = ({ data, token }: any) => {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedImage(null);
       setIsModalOpen(false);
       const reader = new FileReader();
       reader.onloadend = () => {
+        setSelectedImage(null);
         setGalleryImage(reader.result as any);
       };
       reader.readAsDataURL(file);
@@ -171,9 +180,9 @@ const UpdateProfile = ({ data, token }: any) => {
 
   useEffect(() => {
     if (data.data.mobileNo) {
-      setPhone(`${data.data.countryCode} ${data.data.mobileNo}`);
+      setPhone(data.data.mobileNo);
     }
-  }, [data.data.countryCode, data.data.mobileNo]);
+  }, [data.data.mobileNo]);
 
   useEffect(() => {
     if (data.data.address) {
@@ -210,17 +219,20 @@ const UpdateProfile = ({ data, token }: any) => {
                 ecosystem
               </p>
               <div className="w-52 h-52 overflow-hidden rounded-full border-2 border-[#8A2BE2] border-opacity-20 relative">
-                <div className="bg-white ">
-                  {galleryImage ? (
+                <div className="bg-white">
+                  {galleryImage && (
                     <Image
                       src={galleryImage}
-                      width={400}
-                      height={400}
+                      // width={400}
+                      // height={400}
+                      fill
                       alt="image"
                       quality={100}
-                      className="rounded-full bg-white w-52 h-52"
+                      className="rounded-full bg-white"
                     />
-                  ) : selectedImage ? (
+                  )}
+
+                  {selectedImage && (
                     <Image
                       src={`/images/user_avator/${selectedImage}.png`}
                       width={260}
@@ -229,19 +241,19 @@ const UpdateProfile = ({ data, token }: any) => {
                       quality={100}
                       className="rounded-full w-full h-full bg-white"
                     />
-                  ) : (
-                    // <p>hola</p>
+                  )}
+
+                  {!galleryImage && !selectedImage && (
                     <Image
                       src={
                         isUrl(data.data.profilePic)
                           ? data.data.profilePic
                           : `/images/user_avator/${data.data.profilePic}.png`
                       }
-                      width={260}
-                      height={260}
+                      fill
                       alt="avator"
                       quality={100}
-                      className="rounded-full w-full h-full bg-white"
+                      className="rounded-full bg-white"
                     />
                   )}
                 </div>
@@ -400,7 +412,7 @@ const UpdateProfile = ({ data, token }: any) => {
                     {submitLoading ? (
                       <Spinner size="sm" color="white" />
                     ) : (
-                      <div className="py-0.5">Save</div>
+                      <div className="py-0.5">Update Profile</div>
                     )}
                   </button>
                 </div>

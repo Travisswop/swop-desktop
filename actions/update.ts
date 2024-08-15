@@ -19,8 +19,6 @@ export async function handleCreateSmartSite(smartSiteInfo: any, token: string) {
     );
     revalidatePath(`/smartsites`);
     const data = await response.json();
-    // console.log("data from action", data);
-
     return data;
   } catch (error) {
     console.error("Error from action:", error);

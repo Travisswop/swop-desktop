@@ -26,12 +26,20 @@ import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { MdAssignmentAdd } from "react-icons/md";
 import SmartsiteLivePreview from "@/components/CreateSmartsiteLivePreview";
+import { useRouter } from "next/navigation";
 
 const CreateSmartSite = ({ token, session }: any) => {
+  const { formData, setFormData }: any = useSmartsiteFormStore();
+
+  const setLoggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.setUser
+  ); //get setter for setting session info from zustand store
+
+  console.log("formData from create smartsite", formData);
+
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
-
   const [isGatedAccessOpen, setIsGatedAccessOpen] = useState(false);
   const [gatedAccessError, setGatedAccessError] = useState({
     contractAddress: "",
@@ -65,13 +73,23 @@ const CreateSmartSite = ({ token, session }: any) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const router = useRouter();
+
   const handleBannerModal = () => {
     setIsUserProfileModalOpen(false);
     setIsBannerModalOpen(true);
     onOpen();
   };
 
-  const { formData, setFormData }: any = useSmartsiteFormStore();
+  useEffect(() => {
+    setFormData("backgroundImg", "1");
+    setFormData("bio", "");
+    setFormData("galleryImg", "");
+    setFormData("profileImg", "1");
+    setFormData("name", "");
+    setFormData("theme", false);
+  }, [setFormData]);
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(name, value);
@@ -102,7 +120,7 @@ const CreateSmartSite = ({ token, session }: any) => {
           console.error("Error uploading image:", err);
         });
     }
-  }, [galleryImage]);
+  }, [galleryImage, setFormData]);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -121,7 +139,7 @@ const CreateSmartSite = ({ token, session }: any) => {
   const handleSmartSiteUpdateInfo = async (e: any) => {
     setIsFormSubmitLoading(true);
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const newFormData = new FormData(e.currentTarget);
     // console.log("formData", formData);
 
     setGatedAccessError({
@@ -173,36 +191,36 @@ const CreateSmartSite = ({ token, session }: any) => {
       }
     }
 
-    const selectedTheme = backgroundImage.background ? true : false;
+    // const selectedTheme = backgroundImage.background ? true : false;
 
     const smartSiteInfo = {
       parentId: session._id,
-      name: formData.get("name") || "",
-      bio: formData.get("bio") || "",
+      name: newFormData.get("name") || "",
+      bio: newFormData.get("bio") || "",
       brandImg: brandImage, //need to setup
-      profilePic: uploadedImageUrl || selectedImage || "1",
-      backgroundImg:
-        backgroundImage.background || backgroundImage.banner || "8",
+      profilePic: formData.profileImg || "1",
+      backgroundImg: formData.backgroundImg,
       gatedAccess: isGatedAccessOpen,
       gatedInfo: {
-        contractAddress: formData.get("contractAddress") || "",
-        tokenId: formData.get("tokenId") || "",
-        eventLink: formData.get("eventLink") || "",
-        network: formData.get("network") || "",
+        contractAddress: newFormData.get("contractAddress") || "",
+        tokenId: newFormData.get("tokenId") || "",
+        eventLink: newFormData.get("eventLink") || "",
+        network: newFormData.get("network") || "",
       },
-      theme: selectedTheme,
+      theme: formData.theme,
       //   ens: data.data.ens || "",
       primary: isPrimaryMicrosite,
       //   web3enabled: data.data.web3enabled,
     };
 
-    // console.log("smartsite info", smartSiteInfo);
+    console.log("smartsite info", smartSiteInfo);
 
     try {
       const response = await handleCreateSmartSite(smartSiteInfo, token);
-      // console.log("response", response);
+      console.log("response", response);
 
       if (response.state === "success") {
+        router.push("/smartsites");
         toast.success("Smartsite created successfully");
       }
     } catch (error: any) {
@@ -212,10 +230,6 @@ const CreateSmartSite = ({ token, session }: any) => {
     }
     // console.log("form submitted successfully", response);
   };
-
-  const setLoggedInUserInfo = useLoggedInUserStore(
-    (state: any) => state.setUser
-  ); //get setter for setting session info from zustand store
 
   // const { isOn, setOff }: any = useSmallIconToggleStore();
 

@@ -190,9 +190,11 @@ const Microsite = ({ microsites }: any) => {
                   </div>
                 </div>
                 <div className="flex justify-center mt-10">
-                  <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
-                    <LiaFileMedicalSolid size={22} /> Create Smart Site
-                  </button>
+                  <Link href={`/smartsites/create-smartsite`}>
+                    <button className="bg-black text-white py-2.5 rounded-lg flex items-center gap-2 justify-center px-6 font-medium">
+                      <LiaFileMedicalSolid size={22} /> Create Smart Site
+                    </button>
+                  </Link>
                 </div>
                 <p className="text-sm text-gray-500 text-center mt-3">
                   Deploy a website with decentralized content hosting
