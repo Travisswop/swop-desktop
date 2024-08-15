@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
+import { Modal, ModalContent, ModalBody, Spinner } from "@nextui-org/react";
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -23,16 +23,22 @@ export default function QRCodeShareModal({
   console.log("qr code url", qrCodeUrl);
 
   const [imageUrl, setImageUrl] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(false);
+  const [error, setError] = useState<any>(null);
 
   console.log("imageurl", imageUrl);
 
   useEffect(() => {
+    setLoading(true);
     sendCloudinaryImage(qrCodeUrl)
       .then((imageUrl) => {
         setImageUrl(imageUrl);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error uploading image:", error);
+        setLoading(false);
+        setError("Something went wrong! Please try again later.");
       });
   }, [qrCodeUrl]);
 
@@ -57,27 +63,37 @@ export default function QRCodeShareModal({
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 justify-center">
-                    <FacebookShareButton url={imageUrl}>
-                      <FacebookIcon size={38} round />
-                    </FacebookShareButton>
+                  {error ? (
+                    <p className="text-sm font-medium text-red-600">{error}</p>
+                  ) : (
+                    <>
+                      {loading ? (
+                        <Spinner size="sm" color="secondary" />
+                      ) : (
+                        <div className="flex items-center gap-4 justify-center">
+                          <FacebookShareButton url={imageUrl}>
+                            <FacebookIcon size={38} round />
+                          </FacebookShareButton>
 
-                    <WhatsappShareButton url={imageUrl}>
-                      <WhatsappIcon size={38} round />
-                    </WhatsappShareButton>
+                          <WhatsappShareButton url={imageUrl}>
+                            <WhatsappIcon size={38} round />
+                          </WhatsappShareButton>
 
-                    <LinkedinShareButton url={imageUrl}>
-                      <LinkedinIcon size={38} round />
-                    </LinkedinShareButton>
+                          <LinkedinShareButton url={imageUrl}>
+                            <LinkedinIcon size={38} round />
+                          </LinkedinShareButton>
 
-                    <TwitterShareButton url={imageUrl}>
-                      <XIcon size={38} round />
-                    </TwitterShareButton>
+                          <TwitterShareButton url={imageUrl}>
+                            <XIcon size={38} round />
+                          </TwitterShareButton>
 
-                    <TelegramShareButton url={imageUrl}>
-                      <TelegramIcon size={38} round />
-                    </TelegramShareButton>
-                  </div>
+                          <TelegramShareButton url={imageUrl}>
+                            <TelegramIcon size={38} round />
+                          </TelegramShareButton>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </ModalBody>
               </div>
             </ModalContent>
