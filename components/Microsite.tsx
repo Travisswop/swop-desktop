@@ -31,7 +31,7 @@ const Microsite = ({ microsites }: any) => {
   const [qrCode, setQrCode] = useState<any>(null);
   const [smartSiteProfileUrl, setSmartSiteProfileUrl] = useState<any>(null);
 
-  console.log("microsites", microsites);
+  // console.log("microsites", microsites);
 
   const handleOpenShareModal = (qrCodeUrl: any) => {
     onOpen();

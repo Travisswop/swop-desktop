@@ -13,7 +13,7 @@ const WebsiteAnalytics: React.FC<WebsiteAnalyticsProps> = ({
   title,
   value,
   days,
-  percentage,
+  // percentage,
 }) => {
   return (
     <div className="border border-gray-300 rounded-lg">
@@ -26,7 +26,7 @@ const WebsiteAnalytics: React.FC<WebsiteAnalyticsProps> = ({
           <h3 className="text-xl font-bold text-gray-600 mb-1">{value}</h3>
           <p className="font-medium text-gray-500">{days} days</p>
         </div>
-        <div
+        {/* <div
           className={`${
             percentage > 0
               ? "bg-[#7AE38B33] text-[#00E725]"
@@ -38,7 +38,7 @@ const WebsiteAnalytics: React.FC<WebsiteAnalyticsProps> = ({
           ) : (
             <span>{percentage}%</span>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

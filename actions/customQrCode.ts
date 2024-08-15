@@ -37,6 +37,7 @@ export async function postUserCustomQrCode(payload: any, token: string) {
       }
     );
     revalidatePath(`/qr-code`);
+    revalidatePath(`/`);
     const data = await response.json();
     return data;
   } catch (error) {

@@ -7,9 +7,6 @@ import WebsiteAnalytics from "@/components/Home/WebsiteAnalytics";
 import RecentLeads from "@/components/Home/RecentLeads";
 import MainButton from "@/components/MainButton";
 import { MdOutlineQrCode } from "react-icons/md";
-import qrcode from "@/public/images/websites/qrcode.png";
-import edit from "@/public/images/websites/icon/edit.svg";
-import send from "@/public/images/websites/icon/send.svg";
 import wallet from "@/public/images/websites/icon/wallet.svg";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import SetupMainAccount from "@/components/SetupMainAccount";
@@ -20,8 +17,9 @@ import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
-import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
-import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
+import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
+// import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
+// import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
 
 export default async function HomePage() {
@@ -178,46 +176,7 @@ export default async function HomePage() {
               <div className="bg-white rounded-lg overflow-hidden">
                 <Microsite microsites={data?.data?.microsites} />
               </div>
-              <div className="bg-white rounded-lg mt-4 p-6">
-                <h5 className="text-xl text-gray-700 font-bold">QR</h5>
-                <div>
-                  <div className="flex gap-6 items-center justify-between">
-                    <form className="w-full">
-                      <input
-                        type="text"
-                        placeholder="URL"
-                        className="w-full bg-gray-200 py-1.5 rounded-2xl px-4 focus:outline-none"
-                      />
-                      <div className="flex justify-center w-full mt-4">
-                        <MainButton
-                          title={"Generate QR"}
-                          icon={<MdOutlineQrCode />}
-                        />
-                      </div>
-                    </form>
-                    <div>
-                      <Image
-                        alt="qr code"
-                        src={qrcode}
-                        width={130}
-                        className="border-2 p-2 border-gray-500 rounded-2xl"
-                      />
-                      <div className="flex items-center gap-2 justify-center mt-2">
-                        <button className="bg-black p-2 rounded-lg">
-                          <Image alt="edit" src={edit} width={18} />
-                        </button>
-                        <button className="bg-black p-2 rounded-lg">
-                          <Image alt="send" src={send} width={18} />
-                        </button>
-                        <button className="bg-black p-2 rounded-lg">
-                          <Image alt="wallet" src={wallet} width={18} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <w3m-button /> */}
+              <CreateQRCodeFromHome session={session} />
             </div>
           </div>
           <SetupMainAccount />

@@ -77,8 +77,8 @@ const QrCodePage = async () => {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="flex items-center text-gray-500 w-[100%] mb-1">
-              Details
+            <th className="flex items-center text-gray-500 w-[20%] mb-1">
+              Image
             </th>
             {/* <th className="flex items-center gap-4 w-[100%] mb-3">
               <Checkbox className="bg-white py-2 px-4 rounded-full" size="sm">
@@ -94,10 +94,12 @@ const QrCodePage = async () => {
                 />
               </div>
             </th> */}
-            <th className="text-gray-500 w-[15%] text-start pb-1">Scans</th>
-            <th className="text-gray-500 w-[15%] text-start pb-1">Type</th>
-            <th className="text-gray-500 w-[15%] text-start pb-1">Created</th>
-            <th className="text-gray-500 w-[15%] text-start pb-1">Action</th>
+            <th className="text-gray-500 w-[20%] text-start pb-1">Title</th>
+            <th className="text-gray-500 w-[20%] text-start pb-1">Url</th>
+            <th className="text-gray-500 w-[20%] text-start pb-1">
+              Created At
+            </th>
+            <th className="text-gray-500 w-[20%] text-start pb-1">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -105,32 +107,40 @@ const QrCodePage = async () => {
             <>
               {data.data.map((item: any) => (
                 <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
-                  <td className="flex items-center gap-2 w-[100%] py-3 pl-4">
+                  <td className="flex items-center gap-2 w-[50%] py-3 pl-4">
                     {/* <Checkbox size="sm"></Checkbox> */}
-                    <div className="flex items-center gap-4">
-                      <Image
-                        alt="qrcode"
-                        src={item.qrCodeUrl}
-                        width={100}
-                        height={100}
-                        className="rounded"
-                      />
+                    <Image
+                      alt="qrcode"
+                      src={item.qrCodeUrl}
+                      width={300}
+                      height={300}
+                      className="rounded w-28 h-28"
+                    />
+                    {/* <div className="flex items-center gap-4">
                       <div>
                         <p className="font-medium mb-1 text-gray-700">
                           {item.name}
                         </p>
                         <p className="text-xs text-gray-500">{item.data}</p>
                       </div>
-                    </div>
+                    </div> */}
                   </td>
-                  <td className="w-[15%]">#1,224</td>
-                  <td className="w-[15%] text-gray-700 font-semibold">
-                    Dynamic
+                  <td className="w-[20%] text-gray-600 font-semibold pr-2">
+                    {item.name}
                   </td>
-                  <td className="w-[15%] text-gray-400 font-semibold">
+                  <td className="w-[20%] text-gray-600 font-semibold pr-2">
+                    <a
+                      href={item.data}
+                      target="_blank"
+                      className="hover:underline underline-offset-4"
+                    >
+                      {item.data}
+                    </a>
+                  </td>
+                  <td className="w-[20%] text-gray-600 font-semibold">
                     {getFormattedDate(item.createdAt)}
                   </td>
-                  <td className="w-[15%]">
+                  <td className="w-[20%]">
                     <div className="flex items-center gap-1">
                       <Link className="" href={`/qr-code/${item._id}`}>
                         <div className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center">

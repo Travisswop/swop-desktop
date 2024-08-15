@@ -31,6 +31,8 @@ import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import CustomFileInput from "../CustomFileInput";
 import { toast } from "react-toastify";
 import { postCustomQrCode } from "@/actions/customQrCode";
+import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const EditQRCode = ({ profileUrl, id, token }: any) => {
   const [color, setColor] = useState("#B396FF");
@@ -41,8 +43,9 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
-
   const [qrPattern, setQrPattern] = useState("QrCode1");
+
+  const router = useRouter();
 
   const defaultColorArray = [
     {
@@ -159,7 +162,10 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
       // Send the updated JSON data in a POST request
       const data: any = await postCustomQrCode(payload, token);
 
+      // console.log("data for test", data);
+
       if (data && data.state === "success") {
+        router.back();
         toast.success("Qr code updated");
         setIsLoading(false);
       }

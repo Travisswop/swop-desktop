@@ -9,7 +9,7 @@ async function getHomePageData(token: string) {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        next: { revalidate: 300 },
+        next: { revalidate: 5 },
       }
     );
 
