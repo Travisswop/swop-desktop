@@ -138,7 +138,7 @@ const CreateQRCodeFromHome = ({ session }: any) => {
             ) : (
               <div className="w-36 h-36 rounded border flex items-center justify-center text-center px-1">
                 <p className="text-xs font-medium text-gray-400">
-                  create qr code to preview
+                  create a qr code to preview
                 </p>
               </div>
             )}

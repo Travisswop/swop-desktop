@@ -18,6 +18,7 @@ import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
+import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
@@ -139,7 +140,7 @@ export default async function HomePage() {
                   </AnimateButton>
                 </Link>
               </div>
-              <Chart />
+              <HomepageCashFlowChart />
             </div>
 
             {/* connections */}
