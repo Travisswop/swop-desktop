@@ -102,7 +102,7 @@ export default async function HomePage() {
         <main className="main-container">
           <div className="flex gap-6 h-full items-stretch">
             <div className="w-3/5 h-full">
-              <div className="bg-white py-5 px-6 flex items-center justify-between">
+              <div className="bg-white py-5 px-6 flex items-center justify-between rounded-lg">
                 <div className="flex items-center gap-3">
                   {data && data?.data?.profilePic ? (
                     <Image
@@ -148,8 +148,8 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-8">
-            <div className="p-6 bg-white">
-              <h3 className="text-xl text-gray-700 font-bold mb-4">
+            <div className="p-6 bg-white rounded-lg">
+              <h3 className="text-lg text-gray-700 font-semibold mb-4">
                 Website Analytics
               </h3>
               <div className="grid grid-cols-2 gap-6">
@@ -163,7 +163,7 @@ export default async function HomePage() {
                   />
                 ))}
               </div>
-              <h3 className="text-xl text-gray-700 font-bold mt-6 mb-4">
+              <h3 className="text-lg text-gray-700 font-semibold mt-6 mb-4">
                 Recent Leads
               </h3>
               <div>

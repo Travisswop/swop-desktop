@@ -73,7 +73,7 @@ const Microsite = ({ microsites }: any) => {
             <SwiperSlide>
               <div className="py-8 px-8 bg-white">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl text-gray-700 font-bold">
+                  <h3 className="text-lg text-gray-700 font-semibold">
                     Smart Sites
                   </h3>
                   <Link href={`/smartsites/icons/${microsite._id}`}>

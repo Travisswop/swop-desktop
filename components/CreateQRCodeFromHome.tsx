@@ -77,7 +77,9 @@ const CreateQRCodeFromHome = ({ session }: any) => {
   return (
     <>
       <div className="bg-white rounded-lg mt-4 p-6">
-        <h5 className="text-xl text-gray-700 font-bold mb-1">Create QR Code</h5>
+        <h5 className="text-lg text-gray-700 font-semibold mb-1">
+          Create QR Code
+        </h5>
         <div>
           <div className="flex gap-6 items-end justify-between">
             <form onSubmit={handleCreateQrCode} className="w-full">

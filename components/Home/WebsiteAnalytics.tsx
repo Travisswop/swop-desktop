@@ -18,7 +18,7 @@ const WebsiteAnalytics: React.FC<WebsiteAnalyticsProps> = ({
   return (
     <div className="border border-gray-300 rounded-lg">
       <div className="border-b border-gray-300 flex items-center justify-between py-4">
-        <p className="text-lg font-bold ml-4 text-gray-700">{title}</p>
+        <p className="text-base font-medium ml-4 text-gray-700">{title}</p>
         <Image alt="square icon" src={square} className="mr-4" />
       </div>
       <div className="mx-4 my-4 flex items-center justify-between">

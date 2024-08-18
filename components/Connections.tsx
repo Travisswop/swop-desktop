@@ -36,8 +36,8 @@ const Connections = ({ data }: any) => {
   }, [searchQuery, data]);
 
   return (
-    <div className="h-full py-5 px-6 bg-white">
-      <p className="text-xl text-gray-700 font-bold mb-4">Connections</p>
+    <div className="h-full py-5 px-6 bg-white rounded-lg">
+      <p className="text-lg text-gray-700 font-semibold mb-4">Connections</p>
       <div className="relative w-full mb-4">
         <CiSearch
           className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
