@@ -143,10 +143,10 @@ const UpdateProfile = ({ data, token }: any) => {
     setGalleryImage(null);
   };
 
-  console.log("galleryImage", galleryImage);
-  console.log("upload Image url", uploadedImageUrl);
+  // console.log("galleryImage", galleryImage);
+  // console.log("upload Image url", uploadedImageUrl);
 
-  console.log("selectedImage", selectedImage);
+  // console.log("selectedImage", selectedImage);
 
   const handleModal = () => {
     onOpen();

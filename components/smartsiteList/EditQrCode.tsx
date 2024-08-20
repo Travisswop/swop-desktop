@@ -1,21 +1,12 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
-import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
+// import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
 import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
-import {
-  Radio,
-  RadioGroup,
-  Spinner,
-  Switch,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Spinner, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { FiSend } from "react-icons/fi";
-import { IoIosLock } from "react-icons/io";
-import { IoLinkSharp } from "react-icons/io5";
-import { MdOutlineFileUpload } from "react-icons/md";
+// import { FiSend } from "react-icons/fi";
 import {
   QrCode1,
   QrCode2,
@@ -32,7 +23,6 @@ import CustomFileInput from "../CustomFileInput";
 import { toast } from "react-toastify";
 import { postCustomQrCode } from "@/actions/customQrCode";
 import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 const EditQRCode = ({ profileUrl, id, token }: any) => {
   const [color, setColor] = useState("#B396FF");
@@ -183,12 +173,12 @@ const EditQRCode = ({ profileUrl, id, token }: any) => {
         <div className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-gray-700">Customize QR</p>
-            <div onClick={handleModal}>
+            {/* <div onClick={handleModal}>
               <EditMicrositeBtn>
                 <FiSend />
                 Share
               </EditMicrositeBtn>
-            </div>
+            </div> */}
           </div>
           <form
             onSubmit={handleFormSubmit}

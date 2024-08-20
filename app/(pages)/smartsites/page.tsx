@@ -5,15 +5,11 @@ import React from "react";
 import { AiOutlineSelect } from "react-icons/ai";
 import { BsSend } from "react-icons/bs";
 import { IoDuplicateOutline } from "react-icons/io5";
-import { TbEdit, TbTransfer } from "react-icons/tb";
-import travisImg from "@/public/images/websites/travis-image.png";
-import { BiWallet } from "react-icons/bi";
-import { MdQrCodeScanner } from "react-icons/md";
+import { TbTransfer } from "react-icons/tb";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import Link from "next/link";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import isUrl from "@/util/isUrl";
-import AnimateButton from "@/components/Button/AnimateButton";
 import ButtonList from "@/components/smartsiteList/ButtonList";
 
 const WebsitesPage = async () => {

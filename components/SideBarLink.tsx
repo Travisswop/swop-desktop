@@ -25,7 +25,7 @@ const SideBarLink = ({ data, toggle }: ILinkProps) => {
       <motion.li
         className={`flex items-center gap-2 ${isActive() && "bg-[#8A2BE21A]"} ${
           !toggle ? "px-4" : "px-2 w-max"
-        } hover:bg-[#8A2BE21A] py-2 rounded-lg`}
+        } hover:bg-[#8A2BE21A] py-2.5 rounded-lg`}
       >
         {data.icon} {/* {!toggle && ( */}
         <motion.span

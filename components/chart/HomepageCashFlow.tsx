@@ -12,13 +12,13 @@ import {
 } from "recharts";
 
 const data = [
-  { date: "2022-09-19", value: 31 },
-  { date: "2022-09-20", value: 40 },
-  { date: "2022-09-21", value: 28 },
-  { date: "2022-09-22", value: 51 },
-  { date: "2022-09-23", value: 42 },
-  { date: "2022-09-24", value: 109 },
-  { date: "2022-09-25", value: 100 },
+  { date: "2024-09-19", value: 31 },
+  { date: "2024-09-20", value: 40 },
+  { date: "2024-09-21", value: 28 },
+  { date: "2024-09-22", value: 51 },
+  { date: "2024-09-23", value: 42 },
+  { date: "2024-09-24", value: 109 },
+  { date: "2024-09-25", value: 100 },
 ];
 
 const RechartAreaChart = () => {

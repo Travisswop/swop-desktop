@@ -2,6 +2,7 @@
 import { deleteQrCode } from "@/actions/customQrCode";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import DeleteQRCode from "@/components/DeleteQRCode";
+import ShareCustomQRCode from "@/components/ShareModal/ShareCustomQRCode";
 import { getFormattedDate } from "@/util/getFormattedDate";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 // import { Checkbox, Switch } from "@nextui-org/react";
@@ -148,6 +149,7 @@ const QrCodePage = async () => {
                         </div>
                       </Link>
                       <DeleteQRCode id={item._id} token={session.accessToken} />
+                      <ShareCustomQRCode url={item.qrCodeUrl} />
                     </div>
                   </td>
                 </tr>

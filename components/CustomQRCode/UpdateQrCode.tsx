@@ -203,12 +203,12 @@ const UpdateQRCode = ({ session, data }: any) => {
         <div className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-gray-700">Customize QR</p>
-            <div onClick={handleModal}>
+            {/* <div onClick={handleModal}>
               <EditMicrositeBtn>
                 <FiSend />
                 Share
               </EditMicrositeBtn>
-            </div>
+            </div> */}
           </div>
           <form
             onSubmit={handleFormSubmit}
