@@ -1,56 +1,49 @@
 // components/LineChart.tsx
 "use client";
 import React from "react";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
   Legend,
-} from "chart.js";
+  ResponsiveContainer,
+} from "recharts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const data = [
+  { day: "Sat", views: 0 },
+  { day: "Sun", views: 120 },
+  { day: "Mon", views: 60 },
+  { day: "Tues", views: 90 },
+  { day: "Wed", views: 220 },
+  { day: "Thu", views: 200 },
+  { day: "Fri", views: 235 },
+];
 
 const ViewsPerDayChart = () => {
-  const data = {
-    labels: ["Sat", "Sun", "Mon", "Tues", "Wed", "Thu", "Fri"],
-    datasets: [
-      {
-        label: "Views",
-        data: [0, 120, 60, 90, 220, 200, 235],
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Overall Views in a Week",
-      },
-    },
-  };
-
-  return <Line data={data} options={options} />;
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="day" />
+        <YAxis />
+        <Tooltip />
+        <Legend verticalAlign="top" />
+        <Line
+          type="monotone"
+          dataKey="views"
+          stroke="rgb(75, 192, 192)"
+          strokeWidth={2}
+          activeDot={{ r: 8 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
 };
 
 export default ViewsPerDayChart;

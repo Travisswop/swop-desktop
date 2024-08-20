@@ -1,56 +1,60 @@
-// components/LineChart.tsx
 "use client";
+
 import React from "react";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend,
-} from "chart.js";
+  ResponsiveContainer,
+} from "recharts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const data = [
+  { date: "2022-09-19", value: 31 },
+  { date: "2022-09-20", value: 40 },
+  { date: "2022-09-21", value: 28 },
+  { date: "2022-09-22", value: 51 },
+  { date: "2022-09-23", value: 42 },
+  { date: "2022-09-24", value: 109 },
+  { date: "2022-09-25", value: 100 },
+];
 
-const HomepageCashFlowChart = () => {
-  const data = {
-    labels: ["Sat", "Sun", "Mon", "Tues", "Wed", "Thu", "Fri"],
-    datasets: [
-      {
-        label: "Views",
-        data: [0, 120, 60, 90, 220, 200, 235],
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Overall Views in a Week",
-      },
-    },
-  };
-
-  return <Line data={data} options={options} color="#91E91F" />;
+const RechartAreaChart = () => {
+  return (
+    <div className="bg-white p-3 rounded-lg mt-4">
+      <div className="translate-x-4 mb-2">
+        <p className="text-lg font-semibold">Cashflow</p>
+        <p className="font-bold">$20,200</p>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart
+          data={data}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#00E72533" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#00E72533" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <XAxis dataKey="date" />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Area
+            type="monotone"
+            dataKey="value"
+            stroke="#00e72758"
+            strokeWidth={4}
+            fillOpacity={1}
+            fill="url(#colorValue)"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  );
 };
 
-export default HomepageCashFlowChart;
+export default RechartAreaChart;
