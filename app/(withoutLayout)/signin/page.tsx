@@ -29,24 +29,6 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  // Generate random x position for astronaut to float within the screen width
-  const getRandomXPosition = () => {
-    const screenWidth = window.innerWidth;
-    const maxX = screenWidth - 200; // Adjust based on the image width
-    return {
-      x: Math.floor(Math.random() * maxX),
-    };
-  };
-
-  // Generate random y position for astronaut to float within the screen height
-  const getRandomYPosition = () => {
-    const screenHeight = window.innerHeight;
-    const maxY = screenHeight - 200; // Adjust based on the image height
-    return {
-      y: Math.floor(Math.random() * maxY),
-    };
-  };
-
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -54,6 +36,47 @@ const LoginPage = () => {
   // Using random x and y position astronaut float around background
   useEffect(() => {
     if (!mounted) return;
+    // Variables to store the previous x and y positions
+    let previousX = 0;
+    let previousY = 0;
+
+    // Generate random x position with a difference of 50-100 pixels
+    const getRandomXPosition = () => {
+      const screenWidth = window.innerWidth;
+      const maxX = screenWidth - 300; // Adjust based on the image width
+
+      let newX = Math.floor(Math.random() * maxX);
+
+      // Ensure the newX is at least 50-100 pixels away from the previousX
+      while (
+        Math.abs(newX - previousX) < 300 ||
+        Math.abs(newX - previousX) > 500
+      ) {
+        newX = Math.floor(Math.random() * maxX);
+      }
+
+      previousX = newX; // Update the previousX for the next calculation
+      return { x: newX };
+    };
+
+    // Generate random y position with a difference of 50-100 pixels
+    const getRandomYPosition = () => {
+      const screenHeight = window.innerHeight;
+      const maxY = screenHeight - 300; // Adjust based on the image height
+
+      let newY = Math.floor(Math.random() * maxY);
+
+      // Ensure the newY is at least 50-100 pixels away from the previousY
+      while (
+        Math.abs(newY - previousY) < 300 ||
+        Math.abs(newY - previousY) > 500
+      ) {
+        newY = Math.floor(Math.random() * maxY);
+      }
+
+      previousY = newY; // Update the previousY for the next calculation
+      return { y: newY };
+    };
 
     const sequence = async () => {
       for (let i = 0; i < 5; i++) {
@@ -109,13 +132,9 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="overflow-hidden relative py-10 2xl:py-16">
-      <MotionSection animate={controls}>
-        <Image
-          alt="login_astronot"
-          src={login_astronot}
-          className="absolute z-50 w-max"
-        />
+    <main className="overflow-y-auto overflow-x-hidden relative py-10 2xl:py-16 h-screen">
+      <MotionSection className="absolute" animate={controls}>
+        <Image alt="login_astronot" src={login_astronot} />
       </MotionSection>
 
       <div className="">
