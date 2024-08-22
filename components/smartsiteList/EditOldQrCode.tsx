@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 import { postCustomQrCode } from "@/actions/customQrCode";
 import { useRouter } from "next/navigation";
 
-const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
+const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
   const [color, setColor] = useState("#B396FF");
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
@@ -36,16 +36,6 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
   const [qrPattern, setQrPattern] = useState("style1");
 
   const router = useRouter();
-
-  useEffect(() => {
-    setQrPattern(qrCodeData.qrCodeSvgName);
-    setBgColor(qrCodeData.backgroundColor);
-    setColor(qrCodeData.qrDotColor);
-  }, [
-    qrCodeData.backgroundColor,
-    qrCodeData.qrCodeSvgName,
-    qrCodeData.qrDotColor,
-  ]);
 
   const defaultColorArray = [
     {
@@ -145,7 +135,7 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
 
       qrData.backgroundOptions = { color: bgColor };
       qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
-      qrData.data = qrCodeData.data;
+      qrData.data = profileUrl;
       // corner dot color
       qrData.cornersDotOptions = {
         ...qrData.cornersDotOptions,
@@ -160,9 +150,10 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
 
       const payload = {
         micrositeId: micrositeId,
-        qrStyleData: qrData,
+        currentUrl: profileUrl,
         qrCodeSvgName: qrPattern,
-        currentUrl: qrCodeData.data,
+        qrDotColor: color,
+        qrStyleData: qrData,
       };
 
       console.log("payload", payload);
@@ -483,7 +474,9 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
                   />
                 ) : (
                   <Image
-                    src={qrCodeData.overLayImage}
+                    src={
+                      "https://res.cloudinary.com/bayshore/image/upload/v1706786605/qr-logo_mwasoz.png"
+                    }
                     quality={100}
                     alt="logo"
                     width={200}
@@ -522,4 +515,4 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
   );
 };
 
-export default EditQRCode;
+export default EditOldQRCode;

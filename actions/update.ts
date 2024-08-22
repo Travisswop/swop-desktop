@@ -18,6 +18,7 @@ export async function handleCreateSmartSite(smartSiteInfo: any, token: string) {
       }
     );
     revalidatePath(`/smartsites`);
+    revalidatePath(`/`);
     const data = await response.json();
     return data;
   } catch (error) {
