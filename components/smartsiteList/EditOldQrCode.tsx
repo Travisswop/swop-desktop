@@ -1,12 +1,9 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
-// import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
-import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
-import { Spinner, useDisclosure } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-// import { FiSend } from "react-icons/fi";
 import {
   QrCode1,
   QrCode2,
@@ -29,7 +26,6 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
@@ -72,13 +68,6 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
     },
   ];
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const handleModal = () => {
-    onOpen();
-    setIsModalOpen(true);
-  };
-
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
@@ -101,7 +90,7 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
     e.preventDefault();
     setIsLoading(true);
 
-    console.log("hit 1");
+    // console.log("hit 1");
 
     let qrData;
     switch (qrPattern) {
@@ -125,7 +114,7 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
     // qrData.dotsOptions.color = color;
     // qrData.backgroundOptions.color = bgColor || "#ffffff00";
 
-    console.log("hit 2");
+    // console.log("hit 2");
 
     try {
       if (imageFile) {
@@ -156,16 +145,16 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
         qrStyleData: qrData,
       };
 
-      console.log("payload", payload);
+      // console.log("payload", payload);
 
-      console.log("hit 3");
+      // console.log("hit 3");
 
       // Send the updated JSON data in a POST request
       const data: any = await postCustomQrCode(payload, token);
 
-      console.log("hit 4");
+      // console.log("hit 4");
 
-      console.log("data for posrt", data);
+      // console.log("data for posrt", data);
 
       if (data && data.state === "success") {
         router.back();
@@ -502,15 +491,6 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
           </DynamicPrimaryBtn> */}
         </div>
       </div>
-      <QRCodeShareModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        // bannerImgArr={bannerImgArr}
-        // backgroundImgArr={backgroundImgArr}
-        // onSelectImage={handleSelectImage}
-        setIsModalOpen={setIsModalOpen}
-        // handleFileChange={handleFileChange}
-      />
     </main>
   );
 };

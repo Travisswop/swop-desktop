@@ -23,7 +23,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
   //   return <ForceSignOut />;
   // }
 
-  console.log("data", data);
+  console.log("data gg", data);
 
   if (data && data.state === "failed") {
     const response = await fetch(
@@ -37,7 +37,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
       }
     );
     const data = await response.json();
-    console.log("failed", data.data._id);
+    console.log("failed", data.data);
 
     return (
       <div>
@@ -58,7 +58,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
         {data && data.data && (
           <EditQRCode
             qrCodeData={data.data}
-            micrositeId={data.data.microsite}
+            // micrositeId={data.data.microsite}
             token={session.accessToken}
           />
         )}

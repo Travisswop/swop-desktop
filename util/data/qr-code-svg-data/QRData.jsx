@@ -8,6 +8,7 @@ const QrCode1 = (props) => (
     fill="red"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
+    values="testingggg"
     x="0px"
     y="0px"
   >
@@ -952,6 +953,7 @@ const QrCode2 = (props) => (
     height={484}
     viewBox="0 0 484 484"
     fill={props.color}
+    values="testingggg"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -1437,6 +1439,7 @@ const QrCode3 = (props) => (
     height={486}
     viewBox="0 0 485 486"
     fill={props.color}
+    values="testingggg"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -1780,6 +1783,7 @@ const QrCode4 = (props) => (
     width={501}
     height={501}
     viewBox="0 0 501 501"
+    values="testingggg"
     fill={props.color}
     xmlns="http://www.w3.org/2000/svg"
     {...props}

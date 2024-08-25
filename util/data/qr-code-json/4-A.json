@@ -1,9 +1,13 @@
 {
   "width": 320,
   "height": 320,
-  "data": "https://www.swopme.app/",
+  "data": "https://www.swopme.app/njmilon",
   "margin": 20,
-  "qrOptions": { "typeNumber": "0", "mode": "Byte", "errorCorrectionLevel": "Q" },
+  "qrOptions": {
+    "typeNumber": "0",
+    "mode": "Byte",
+    "errorCorrectionLevel": "Q"
+  },
   "imageOptions": { "hideBackgroundDots": true, "imageSize": 0.5, "margin": 6 },
   "dotsOptions": { "type": "extra-rounded", "color": "#f99d36" },
   "backgroundOptions": { "color": "#ffffff00" },

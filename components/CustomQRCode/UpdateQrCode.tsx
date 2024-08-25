@@ -1,12 +1,9 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
-import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
-import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
-import { Spinner, useDisclosure } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { FiSend } from "react-icons/fi";
 import {
   QrCode1,
   QrCode2,
@@ -21,11 +18,7 @@ import { FaSave } from "react-icons/fa";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import CustomFileInput from "../CustomFileInput";
 import { toast } from "react-toastify";
-import {
-  postCustomQrCode,
-  postUserCustomQrCode,
-  updateUserCustomQrCode,
-} from "@/actions/customQrCode";
+import { updateUserCustomQrCode } from "@/actions/customQrCode";
 import { IoMdLink } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
@@ -34,7 +27,6 @@ const UpdateQRCode = ({ session, data }: any) => {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
@@ -89,13 +81,40 @@ const UpdateQRCode = ({ session, data }: any) => {
       hexCode: "#027AFF",
     },
   ];
-
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const handleModal = () => {
-    onOpen();
-    setIsModalOpen(true);
-  };
+  const defaultBackgroundColorArray = [
+    {
+      _id: "1234",
+      hexCode: "#000000",
+    },
+    {
+      _id: "11234",
+      hexCode: "#ffa7d9",
+    },
+    {
+      _id: "12534",
+      hexCode: "#dec4ff",
+    },
+    {
+      _id: "12314",
+      hexCode: "#ffcba8",
+    },
+    {
+      _id: "15234",
+      hexCode: "#cbcbcb",
+    },
+    {
+      _id: "12334",
+      hexCode: "#d1b9b9",
+    },
+    {
+      _id: "12324",
+      hexCode: "#feb9b9",
+    },
+    {
+      _id: "12344",
+      hexCode: "#b1d5ff",
+    },
+  ];
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -349,7 +368,7 @@ const UpdateQRCode = ({ session, data }: any) => {
             <div>
               <p className="heading-4 mb-2">Default Background Colors: </p>
               <div className="flex items-center gap-3">
-                {defaultColorArray.map((data) => (
+                {defaultBackgroundColorArray.map((data) => (
                   <button
                     type="button"
                     key={data._id}
@@ -509,15 +528,6 @@ const UpdateQRCode = ({ session, data }: any) => {
           </DynamicPrimaryBtn> */}
         </div>
       </div>
-      <QRCodeShareModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        // bannerImgArr={bannerImgArr}
-        // backgroundImgArr={backgroundImgArr}
-        // onSelectImage={handleSelectImage}
-        setIsModalOpen={setIsModalOpen}
-        // handleFileChange={handleFileChange}
-      />
     </main>
   );
 };

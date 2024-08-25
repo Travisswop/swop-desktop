@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 import { postCustomQrCode } from "@/actions/customQrCode";
 import { useRouter } from "next/navigation";
 
-const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
+const EditQRCode = ({ qrCodeData, token }: any) => {
   const [color, setColor] = useState("#B396FF");
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
@@ -34,6 +34,7 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
   const [qrPattern, setQrPattern] = useState("style1");
+  const [imageUrl, setImageUrl] = useState("");
 
   const router = useRouter();
 
@@ -41,8 +42,10 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
     setQrPattern(qrCodeData.qrCodeSvgName);
     setBgColor(qrCodeData.backgroundColor);
     setColor(qrCodeData.qrDotColor);
+    setImageUrl(qrCodeData.overLayImage);
   }, [
     qrCodeData.backgroundColor,
+    qrCodeData.overLayImage,
     qrCodeData.qrCodeSvgName,
     qrCodeData.qrDotColor,
   ]);
@@ -82,6 +85,41 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
     },
   ];
 
+  const defaultBackgroundColorArray = [
+    {
+      _id: "1234",
+      hexCode: "#000000",
+    },
+    {
+      _id: "11234",
+      hexCode: "#ffa7d9",
+    },
+    {
+      _id: "12534",
+      hexCode: "#dec4ff",
+    },
+    {
+      _id: "12314",
+      hexCode: "#ffcba8",
+    },
+    {
+      _id: "15234",
+      hexCode: "#cbcbcb",
+    },
+    {
+      _id: "12334",
+      hexCode: "#d1b9b9",
+    },
+    {
+      _id: "12324",
+      hexCode: "#feb9b9",
+    },
+    {
+      _id: "12344",
+      hexCode: "#b1d5ff",
+    },
+  ];
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleModal = () => {
@@ -111,41 +149,41 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
     e.preventDefault();
     setIsLoading(true);
 
-    console.log("hit 1");
+    // console.log("hit 1");
 
     let qrData;
     switch (qrPattern) {
       case "style1":
-        qrData = { ...qrJson1 };
+        qrData = { ...qrJson1, data: qrCodeData.qrCodeUrl };
         break;
       case "style2":
-        qrData = { ...qrJson2 };
+        qrData = { ...qrJson2, data: qrCodeData.qrCodeUrl };
         break;
       case "style3":
-        qrData = { ...qrJson3 };
+        qrData = { ...qrJson3, data: qrCodeData.qrCodeUrl };
         break;
       case "style4":
-        qrData = { ...qrJson4 };
+        qrData = { ...qrJson4, data: qrCodeData.qrCodeUrl };
         break;
       default:
-        qrData = { ...qrJson1 };
+        qrData = { ...qrJson1, data: qrCodeData.qrCodeUrl };
     }
 
     // Update the JSON data with current state values
     // qrData.dotsOptions.color = color;
     // qrData.backgroundOptions.color = bgColor || "#ffffff00";
 
-    console.log("hit 2");
+    // console.log("hit 2");
 
     try {
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);
         qrData.image = imageUrl;
       }
-
+      qrData.image = imageUrl;
       qrData.backgroundOptions = { color: bgColor };
       qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
-      qrData.data = qrCodeData.data;
+      qrData.data = qrCodeData.qrCodeUrl;
       // corner dot color
       qrData.cornersDotOptions = {
         ...qrData.cornersDotOptions,
@@ -159,22 +197,22 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
       // console.log("qrData", qrData);
 
       const payload = {
-        micrositeId: micrositeId,
+        micrositeId: qrCodeData.microsite,
         qrStyleData: qrData,
         qrCodeSvgName: qrPattern,
-        currentUrl: qrCodeData.data,
+        currentUrl: qrCodeData.qrCodeUrl,
       };
 
-      console.log("payload", payload);
+      console.log("payload ff", payload);
 
-      console.log("hit 3");
+      // console.log("hit 3");
 
       // Send the updated JSON data in a POST request
       const data: any = await postCustomQrCode(payload, token);
 
-      console.log("hit 4");
+      // console.log("hit 4");
 
-      console.log("data for posrt", data);
+      console.log("data for update qr code", data);
 
       if (data && data.state === "success") {
         router.back();
@@ -341,7 +379,7 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
             <div>
               <p className="heading-4 mb-2">Default Background Colors: </p>
               <div className="flex items-center gap-3">
-                {defaultColorArray.map((data) => (
+                {defaultBackgroundColorArray.map((data) => (
                   <button
                     type="button"
                     key={data._id}
@@ -459,16 +497,36 @@ const EditQRCode = ({ qrCodeData, token, micrositeId }: any) => {
               className={`relative p-2 rounded-lg`}
             >
               {qrPattern === "style1" && (
-                <QrCode1 width={200} height={200} color={color} />
+                <QrCode1
+                  width={200}
+                  height={200}
+                  color={color}
+                  value={"hola testing"}
+                />
               )}
               {qrPattern === "style2" && (
-                <QrCode2 width={200} height={200} color={color} />
+                <QrCode2
+                  width={200}
+                  height={200}
+                  color={color}
+                  value={"hola testing"}
+                />
               )}
               {qrPattern === "style3" && (
-                <QrCode3 width={200} height={200} color={color} />
+                <QrCode3
+                  width={200}
+                  height={200}
+                  color={color}
+                  value={"hola testing"}
+                />
               )}
               {qrPattern === "style4" && (
-                <QrCode4 width={200} height={200} color={color} />
+                <QrCode4
+                  width={200}
+                  height={200}
+                  color={color}
+                  value={"hola testing"}
+                />
               )}
 
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
