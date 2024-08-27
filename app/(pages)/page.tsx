@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   const data = await getHomePageData(session.accessToken as string);
 
-  // console.log("home page data fetching", data);
+  console.log("home page data fetching", data);
 
   if (!data || data.state === "fail" || data.state === "error") {
     return <ForceSignOut />;
@@ -128,7 +128,10 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
-                    <TriggerWalletConnectButton />
+                    <TriggerWalletConnectButton
+                      ens={data.data.microsites[0].ens}
+                      ethAddress={data.data.microsites[0].ethAddress}
+                    />
                     <TriggerSolanaWalletConnect />
                   </div>
                 </div>
