@@ -31,7 +31,7 @@ const TriggerWalletConnectButton = ({ ens, ethAddress }: any) => {
 
   useEffect(() => {
     if (isHit) {
-      window.location.reload();
+      // window.location.reload();
       toast.error("wallet not matched", {
         toastId: "customId",
       });
