@@ -19,6 +19,8 @@ import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
+import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
+import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
@@ -126,8 +128,8 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
-                    {/* <TriggerWalletConnectButton />
-                    <TriggerSolanaWalletConnect /> */}
+                    <TriggerWalletConnectButton />
+                    <TriggerSolanaWalletConnect />
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>

@@ -213,7 +213,7 @@ const CreateSmartSite = ({ token, session }: any) => {
       //   web3enabled: data.data.web3enabled,
     };
 
-    console.log("smartsite info", smartSiteInfo);
+    // console.log("smartsite info", smartSiteInfo);
 
     try {
       const response = await handleCreateSmartSite(smartSiteInfo, token);
