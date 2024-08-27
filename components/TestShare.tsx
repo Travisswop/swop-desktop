@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 
-const TestShare = (qrCodeUrl) => {
-  const base64ToFile = async (base64String, fileName) => {
+const TestShare = (qrCodeUrl: any) => {
+  const base64ToFile = async (base64String: any, fileName: any) => {
     const response = await fetch(base64String);
     const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
