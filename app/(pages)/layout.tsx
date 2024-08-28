@@ -2,7 +2,7 @@ import "../../app/globals.css";
 import LayoutComponent from "@/components/LayoutComponent";
 import { SideBarToggleProvider } from "../../contexts/sideBarToggleContext";
 import TopBar from "@/components/TopBar";
-import { ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Poppins } from "next/font/google";
 import { headers } from "next/headers";
@@ -30,7 +30,18 @@ export default async function PageLayout({
     <html lang="en" className={popins.className}>
       <body>
         <main className="">
-          <ToastContainer position="top-center" />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Web3ModalProvider initialState={initialState}>
             <SideBarToggleProvider>
               <AppWalletProvider>

@@ -21,6 +21,7 @@ import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
 import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
+import SetupWalletModal from "@/components/modal/SetupWallet";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
@@ -128,11 +129,15 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
-                    <TriggerWalletConnectButton
+                    {/* <TriggerWalletConnectButton
                       ens={data.data.microsites[0].ens}
                       ethAddress={data.data.microsites[0].ethAddress}
+                    /> */}
+                    {/* <TriggerSolanaWalletConnect /> */}
+                    <SetupWalletModal
+                      ens={data.data.microsites[0].ens}
+                      ethmAddress={data.data.microsites[0].ethAddress}
                     />
-                    <TriggerSolanaWalletConnect />
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>
