@@ -10,10 +10,11 @@ import { debounce } from "lodash";
 // import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { GoCheckCircleFill } from "react-icons/go";
 import { BsXCircleFill } from "react-icons/bs";
+import { createWalletAction } from "@/actions/createWallet";
 
 export const maxDuration = 60;
 
-const ClaimEnsUserName = () => {
+const ClaimEnsUserName = ({ token }: any) => {
   //state
   const [micrositeId, setMicrositeId] = useState<string | null>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,10 +46,15 @@ const ClaimEnsUserName = () => {
       return;
     }
     setIsLoading(true);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/createWallet/${username}`
-    );
-    const data = await response.json();
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/createWallet/${username}`
+    // );
+    // const data = await response.json();
+    //update microsite with _id (micrositeId), ens, primary
+
+    const data = await createWalletAction(username, micrositeId, token);
+    console.log("wallet data", data);
+
     if (data.state === "success") {
       toast.success("ENS name created successfully");
       router.push("/");

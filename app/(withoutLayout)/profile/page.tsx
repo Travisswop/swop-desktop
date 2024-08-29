@@ -179,7 +179,7 @@ const ParentProfilePage = () => {
 
     try {
       const response = await handleSignUp(userInfo);
-      // console.log("response", response);
+      console.log("response", response);
 
       if (response.state === "success") {
         localStorage.setItem(
@@ -202,10 +202,11 @@ const ParentProfilePage = () => {
           toast.warn("Automatic Sign In failed! Please Sign In.");
         }
       }
+      setSubmitLoading(false);
+      toast.success(response.message);
     } catch (error) {
       toast.error("something went wrong! Please try again");
       console.error("error from hola", error);
-
       setSubmitLoading(false);
     }
     // console.log("form submitted successfully", userInfo);

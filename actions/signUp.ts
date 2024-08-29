@@ -25,5 +25,6 @@ export async function handleSignUp(userInfo: any) {
     return data;
   } catch (error) {
     console.error("Error from action:", error);
+    return error;
   }
 }
