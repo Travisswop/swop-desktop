@@ -19,7 +19,7 @@ const SetupWalletModal = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +37,7 @@ const SetupWalletModal = ({
     }
   };
 
+  // * copy wallet address
   const handleSaveEthAddress = () => {
     navigator.clipboard
       .writeText(ethmAddress)
@@ -53,24 +54,39 @@ const SetupWalletModal = ({
   };
 
   useEffect(() => {
-    console.log("loader", isConnected, isLoading);
-
-    if (isConnected && !isLoading && address === ethmAddress) {
+    setOpen(false);
+    if (
+      address &&
+      address === ethmAddress &&
+      !localStorage.getItem("connected wallet")
+    ) {
       setOpen(false);
+      localStorage.setItem("connected wallet", address);
       toast.success("Wallet Connected", {
         toastId: "customId",
         transition: Flip,
       });
     }
-  }, [address, ethmAddress, isConnected, isLoading]);
+  }, [address, ethmAddress]);
+  // useEffect(() => {
+  //   // console.log("loader", isConnected, isLoading);
+  //   if (isConnected && !isLoading && address === ethmAddress) {
+  //     console.log("hit connected");
 
+  //     setOpen(false);
+  //     toast.success("Wallet Connected", {
+  //       toastId: "customId",
+  //       transition: Flip,
+  //     });
+  //   }
+  // }, [address, ethmAddress, isConnected, isLoading]);
+
+  // * is user has address and it's not matched then force disconnect it
   useEffect(() => {
-    // Check if the address is available and does not match the expected address
-    // console.log("ddd", address);
-
     if (address && address !== ethmAddress) {
+      localStorage.removeItem("connected wallet");
       setIsLoading(true);
-      toast.error("Wallet Disconnected!", {
+      toast.error("Wallet Not Matched!", {
         toastId: "customId33",
         transition: Flip,
       });
@@ -84,6 +100,7 @@ const SetupWalletModal = ({
   //   console.log("isConnected", isConnected);
 
   const handleWalletDisconnect = () => {
+    localStorage.removeItem("connected wallet");
     disconnect();
     toast.error("Wallet Disconnected!", {
       toastId: "customId2",
@@ -103,7 +120,7 @@ const SetupWalletModal = ({
                 {ens}
               </p>
               <button onClick={handleWalletDisconnect}>
-                <FaTimes color="red" />
+                <FaTimes color="red" size={14} />
               </button>
             </div>
           ) : (
@@ -135,13 +152,16 @@ const SetupWalletModal = ({
                 alt="bridal_top"
                 // width={120}
                 // height={60}
-                className="mx-auto mb-6 w-40 h-auto"
+                className="mx-auto mb-6 w-36 h-auto"
               />
               <div className="px-10">
                 <div className="flex flex-col gap-4">
-                  <p className="font-medium text-gray-700">ENS : {ens}</p>
+                  <p className="font-medium text-gray-700">
+                    ENS: <span className="font-semibold">{ens}</span>
+                  </p>
                   <p className="font-medium text-gray-700 flex items-center gap-2">
-                    Etherium Address : {ethmAddress}{" "}
+                    Etherium Address:{" "}
+                    <span className="font-semibold">{ethmAddress}</span>
                     <button onClick={handleSaveEthAddress}>
                       {isCopied ? (
                         <MdDone
@@ -157,12 +177,7 @@ const SetupWalletModal = ({
                   <p className="text-sm text-center font-medium text-gray-400">
                     Please connect your wallet with this etherium address
                   </p>
-                  <TriggerWalletConnectButton
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    ens={ens}
-                    ethAddress={ethmAddress}
-                  />
+                  <TriggerWalletConnectButton isLoading={isLoading} />
                 </div>
               </div>
             </div>

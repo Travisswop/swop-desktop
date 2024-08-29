@@ -1,37 +1,37 @@
 "use client";
-import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
+// import React from "react";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useWalletInfo } from "@web3modal/wagmi/react";
-import { useAccount, useDisconnect } from "wagmi";
+// import { useWalletInfo } from "@web3modal/wagmi/react";
+// import { useAccount, useDisconnect } from "wagmi";
 
-import { Flip, toast } from "react-toastify";
+// import { Flip, toast } from "react-toastify";
 
 const TriggerWalletConnectButton = ({
-  ethAddress,
+  // ethAddress,
   isLoading,
-  setIsLoading,
-}: any) => {
-  const { open, close } = useWeb3Modal();
-  const { walletInfo } = useWalletInfo();
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+}: // setIsLoading,
+any) => {
+  const { open } = useWeb3Modal();
+  // const { walletInfo } = useWalletInfo();
+  // const { address, isConnecting, isDisconnected, isConnected } = useAccount();
+  // const { disconnect } = useDisconnect();
 
-  useEffect(() => {
-    // Check if the address is available and does not match the expected address
-    console.log("ddd", address);
+  // useEffect(() => {
+  //   // Check if the address is available and does not match the expected address
+  //   console.log("ddd", address);
 
-    if (address && address !== ethAddress) {
-      setIsLoading(true);
-      toast.error("Wallet Not Matched!", {
-        toastId: "customId",
-        transition: Flip,
-      });
-      setTimeout(() => {
-        disconnect();
-        setIsLoading(false);
-      }, 1000);
-    }
-  }, [address, ethAddress, disconnect, setIsLoading]);
+  //   if (address && address !== ethAddress) {
+  //     setIsLoading(true);
+  //     toast.error("Wallet Not Matched!", {
+  //       toastId: "customId",
+  //       transition: Flip,
+  //     });
+  //     setTimeout(() => {
+  //       disconnect();
+  //       setIsLoading(false);
+  //     }, 1000);
+  //   }
+  // }, [address, ethAddress, disconnect, setIsLoading]);
 
   return (
     <div>
