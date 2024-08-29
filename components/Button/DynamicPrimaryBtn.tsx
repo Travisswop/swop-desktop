@@ -6,6 +6,7 @@ interface btnProps {
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
+  onClick?: any;
 }
 
 // we need to use importat in case any passed className won't work
@@ -14,6 +15,7 @@ const DynamicPrimaryBtn = ({
   children,
   className,
   disabled = false,
+  onClick = null,
 }: btnProps) => {
   // Define the default classes
 
@@ -26,6 +28,7 @@ const DynamicPrimaryBtn = ({
       whileTap={{ scale: 0.85 }}
       disabled={disabled}
       className={mergedClasses}
+      onClick={onClick}
     >
       {children}
     </MotionButton>
