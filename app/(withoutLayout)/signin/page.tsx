@@ -115,7 +115,7 @@ const LoginPage = () => {
         setError("Incorrect email or password");
         setLoading(false);
       } else {
-        router.push("/");
+        router.push("/select-smartsite");
       }
     } catch (err) {
       setLoading(false);
@@ -126,7 +126,7 @@ const LoginPage = () => {
         });
         setFormErrors(fieldErrors);
       } else {
-        setError("Authentication Failed !");
+        setError("Authentication Failed! Please Check Your Credentials!");
       }
     }
   }

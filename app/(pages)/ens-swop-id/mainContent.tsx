@@ -61,7 +61,7 @@ const ClaimEnsUserName = ({ token }: any) => {
     }
   };
 
-  console.log("wallet state data", mnemonic);
+  // console.log("wallet state data", mnemonic);
 
   const checkUsernameAvailability = useCallback(
     debounce(async (username) => {

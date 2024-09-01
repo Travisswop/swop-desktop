@@ -10,7 +10,7 @@ export async function doSignOut() {
 }
 
 export async function doSignInWithGoogle() {
-  await signIn("google", { redirectTo: `/` });
+  await signIn("google", { redirectTo: `/select-smartsite` });
   // await signIn("google", { redirectTo: `${process.env.WEB_LIVE_BASE_URL}` });
 }
 
@@ -21,7 +21,7 @@ export async function signInWithCredentials(formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false,
-      redirectTo: "/",
+      redirectTo: "/select-smartsite",
     });
     // console.log({
     //   email: formData.get("email"),
