@@ -13,7 +13,7 @@ const SelectSmartsiteCart = ({ microsite, lengthOfMicrosites }: any) => {
     router.push("/");
   };
 
-  console.log("lengthOfMicrosites", lengthOfMicrosites);
+  // console.log("lengthOfMicrosites", lengthOfMicrosites);
 
   // useEffect(() => {
   //   if (lengthOfMicrosites < 2) {

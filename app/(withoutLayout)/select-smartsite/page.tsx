@@ -1,6 +1,5 @@
+import SelectSmartsiteCart from "@/components/SelectSmartsiteCart";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
-import SelectSmartsiteCart from "./_components/SelectSmartsiteCart";
-
 const selectSmartsitePage = async () => {
   const userDetails: any = await isUserAuthenticate();
   const response = await fetch(
