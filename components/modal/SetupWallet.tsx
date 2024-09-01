@@ -9,6 +9,7 @@ import { BiCopy } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { useAccount, useDisconnect } from "wagmi";
 import { Flip, toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 
 const SetupWalletModal = ({
   ens,
@@ -21,8 +22,10 @@ const SetupWalletModal = ({
   const [isCopied, setIsCopied] = useState(false);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-
   const [isLoading, setIsLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get("signup");
 
   // Function to close the modal
   const closeModal = () => {
@@ -83,7 +86,7 @@ const SetupWalletModal = ({
 
   // * is user has address and it's not matched then force disconnect it
   useEffect(() => {
-    if (address && address !== ethmAddress) {
+    if (address && address !== ethmAddress && !search) {
       localStorage.removeItem("connected wallet");
       setIsLoading(true);
       toast.error("Wallet Not Matched!", {
@@ -95,7 +98,7 @@ const SetupWalletModal = ({
         setIsLoading(false);
       }, 1000);
     }
-  }, [address, ethmAddress, disconnect, setIsLoading]);
+  }, [address, ethmAddress, disconnect, setIsLoading, search]);
 
   //   console.log("isConnected", isConnected);
 

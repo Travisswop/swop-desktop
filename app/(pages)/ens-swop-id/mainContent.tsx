@@ -1,21 +1,16 @@
 "use client";
-// import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import { toast } from "react-toastify";
 import { Checkbox, Spinner, Tooltip } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { debounce } from "lodash";
-// import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { GoCheckCircleFill } from "react-icons/go";
+import { GoCheckCircleFill, GoDot, GoDotFill } from "react-icons/go";
 import { BsXCircleFill } from "react-icons/bs";
 import { createWalletAction } from "@/actions/createWallet";
 import { PiWarningFill } from "react-icons/pi";
-import { RiShieldKeyholeFill, RiShieldKeyholeLine } from "react-icons/ri";
-import AnimateButton from "@/components/Button/AnimateButton";
-
-export const maxDuration = 60;
+import { RiShieldKeyholeFill } from "react-icons/ri";
+import Link from "next/link";
 
 type FlowType = "handleEns" | "recoveryPhraseWarning" | "revealSecretPhrase";
 
@@ -30,13 +25,14 @@ const ClaimEnsUserName = ({ token }: any) => {
   const [isUsernameNotAvailable, setIsUsernameNotAvailable] = useState<
     boolean | null
   >(null);
-  const [flow, setFlow] = useState<FlowType>("recoveryPhraseWarning");
+  const [flow, setFlow] = useState<FlowType>("handleEns");
   const [isRecoverySelected, setIsRecoverySelected] = useState(false);
+  const [isFinalRecoverySelected, setIsFinalRecoverySelected] = useState(false);
+  const [mnemonic, setMnemonic] = useState<string>("");
+  const [isCopied, setIsCopied] = useState(false);
 
   //   console.log("username", username);
   // console.log("isUsernameAvailable", isUsernameNotAvailable);
-
-  const router = useRouter();
 
   useEffect(() => {
     //need this to get data from localstorage
@@ -54,7 +50,8 @@ const ClaimEnsUserName = ({ token }: any) => {
     }
     setIsLoading(true);
     const data = await createWalletAction(username, micrositeId, token);
-    console.log("wallet data", data);
+    // console.log("wallet data", data);
+    setMnemonic(data.mnemonic);
     if (data.state === "success") {
       toast.success("ENS created");
       // router.push("/");
@@ -63,6 +60,8 @@ const ClaimEnsUserName = ({ token }: any) => {
       toast.error("something went wrong");
     }
   };
+
+  console.log("wallet state data", mnemonic);
 
   const checkUsernameAvailability = useCallback(
     debounce(async (username) => {
@@ -107,8 +106,30 @@ const ClaimEnsUserName = ({ token }: any) => {
     }
   }, [username.length, isSelected, isUsernameNotAvailable]);
 
+  // useEffect(() => { // * split secret phrase
+  //   if (mnemonic) {
+
+  //   }
+  // }, []);
+
   const handleUsernameChange = (event: any) => {
     setUsername(event.target.value);
+  };
+
+  // * copy wallet address
+  const handleSavePhrase = () => {
+    navigator.clipboard
+      .writeText(mnemonic)
+      .then(() => {
+        setIsCopied(true);
+        // Reset isCopied to false after 2 seconds
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
   };
 
   return (
@@ -236,13 +257,21 @@ const ClaimEnsUserName = ({ token }: any) => {
           <Checkbox
             isSelected={isRecoverySelected}
             onValueChange={setIsRecoverySelected}
-            className="px-6 text-sm"
+            className="px-6 flex items-center gap-2"
+            size="md"
           >
-            I understand that I am responsible for saving my secret recovery
-            phrase, and that it is the only way to recover my wallet.
+            <p className="text-sm font-medium text-gray-600">
+              I understand that I am responsible for saving my secret recovery
+              phrase, and that it is the only way to recover my wallet.
+            </p>
           </Checkbox>
           {isRecoverySelected ? (
-            <DynamicPrimaryBtn className="w-52">Next</DynamicPrimaryBtn>
+            <DynamicPrimaryBtn
+              onClick={() => setFlow("revealSecretPhrase")}
+              className="w-52"
+            >
+              Next
+            </DynamicPrimaryBtn>
           ) : (
             <button className="w-52 bg-gray-400 rounded-lg text-white py-2 font-medium cursor-not-allowed">
               Next
@@ -250,7 +279,63 @@ const ClaimEnsUserName = ({ token }: any) => {
           )}
         </div>
       )}
-      {flow === "revealSecretPhrase" && <div></div>}
+      {flow === "revealSecretPhrase" && (
+        <div className="flex flex-col gap-3">
+          <h1 className="font-bold text-2xl text-center">
+            Secret Recovery Phrase
+          </h1>
+          <p className="text-gray-600 text-center">
+            Save this 12 phrase words in a safe place.
+          </p>
+          <div
+            onClick={handleSavePhrase}
+            className="bg-black rounded-xl px-8 mt-3 cursor-pointer"
+          >
+            <div className="grid grid-cols-3 gap-5 border-b border-gray-600 py-6">
+              {mnemonic.split(" ").map((word, index) => (
+                <div key={index} className="flex items-center">
+                  <p className="w-6 text-gray-300 font-light text-sm">
+                    {index + 1}{" "}
+                  </p>
+                  <p className="font-medium text-white text-sm">{word}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-gray-300 text-xs font-medium text-center py-2">
+              {isCopied ? "Copied!" : "Click anywhere on this card to copy"}
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 items-center mt-2">
+            <Checkbox
+              isSelected={isFinalRecoverySelected}
+              onValueChange={setIsFinalRecoverySelected}
+              className="px-6 flex items-center gap-1"
+              size="sm"
+            >
+              <p className="text-sm font-medium text-gray-600">
+                I saved my secret recovery phrase.
+              </p>
+            </Checkbox>
+            {isFinalRecoverySelected ? (
+              <Link href={"/"}>
+                <DynamicPrimaryBtn className="w-52">Next</DynamicPrimaryBtn>
+              </Link>
+            ) : (
+              <button className="w-52 bg-gray-400 rounded-lg text-white py-2 font-medium cursor-not-allowed">
+                Next
+              </button>
+            )}
+          </div>
+          <div className="flex items-center justify-center gap-1 w-full">
+            <button onClick={() => setFlow("recoveryPhraseWarning")}>
+              <GoDot size={23} />
+            </button>
+            <button onClick={() => setFlow("revealSecretPhrase")}>
+              <GoDotFill size={23} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

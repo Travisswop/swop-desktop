@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 export async function createWalletAction(
   ens: string,
   micrositeId: any,
@@ -25,6 +27,7 @@ export async function createWalletAction(
       });
       // const datas = await response.json();
     }
+    revalidatePath("/");
     return data;
   } catch (error) {
     console.error("Error from action:", error);
