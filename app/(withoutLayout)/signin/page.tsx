@@ -29,9 +29,9 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Using random x and y position astronaut float around background
   useEffect(() => {
@@ -120,6 +120,7 @@ const LoginPage = () => {
         setError("Incorrect email or password");
         setLoading(false);
       } else {
+        setMounted(false);
         router.push("/select-smartsite");
       }
     } catch (err) {
