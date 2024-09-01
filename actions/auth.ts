@@ -4,6 +4,7 @@ import { signIn, signOut } from "@/auth";
 // import { delay } from "@/util/WaitAMoment";
 // import { cookies } from "next/headers";
 // import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function doSignOut() {
   await signOut({ redirectTo: `/signin` });
@@ -21,12 +22,8 @@ export async function signInWithCredentials(formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false,
-      redirectTo: "/select-smartsite",
     });
-    // console.log({
-    //   email: formData.get("email"),
-    //   password: formData.get("password"),
-    // });
+    revalidatePath("/select-smartsite");
     return response;
   } catch (err) {
     throw err;

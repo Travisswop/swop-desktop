@@ -29,16 +29,18 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   // Using random x and y position astronaut float around background
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || !controls) return; // Ensure the component is mounted and controls are defined
+
     // Variables to store the previous x and y positions
     let previousX = 0;
     let previousY = 0;
+    let isCancelled = false; // Track if the animation should be cancelled
 
     // Generate random x position with a difference of 50-100 pixels
     const getRandomXPosition = () => {
@@ -80,24 +82,27 @@ const LoginPage = () => {
 
     const sequence = async () => {
       for (let i = 0; i < 5; i++) {
+        if (isCancelled) return; // Stop the animation if cancelled
         const { x } = getRandomXPosition();
         const { y } = getRandomYPosition();
-        if (controls) {
-          await controls.start({
-            x,
-            y,
-            rotate: [10, -10, 10],
-            transition: { duration: 4, ease: "easeInOut" },
-          });
-        }
+        await controls.start({
+          x,
+          y,
+          rotate: [10, -10, 10],
+          transition: { duration: 4, ease: "easeInOut" },
+        });
       }
       sequence(); // Call the sequence function again to create a loop
     };
 
-    if (controls) {
-      sequence();
-    }
-  }, [mounted, controls]);
+    sequence(); // Start the sequence when mounted and controls are ready
+
+    // Cleanup the animation on unmount or when route changes
+    return () => {
+      isCancelled = true; // Set the flag to cancel ongoing animations
+      controls.stop(); // Stop any ongoing animations
+    };
+  }, [mounted, controls]); // Depend on mounted and controls
 
   async function handleSubmit(event: any) {
     event.preventDefault();

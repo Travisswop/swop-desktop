@@ -26,6 +26,10 @@ const SelectSmartsiteCart = ({ microsite, lengthOfMicrosites }: any) => {
   //   }
   // }, [lengthOfMicrosites, microsite._id, router]);
 
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, []);
+
   return (
     <div>
       {/* {loading && (
