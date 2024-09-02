@@ -350,6 +350,13 @@ const CreateSmartSite = ({ token, session }: any) => {
                 </div>
               </div>
             </div>
+            <EditMicrositeBtn
+              onClick={handleBannerModal}
+              className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
+            >
+              <LiaFileMedicalSolid size={20} color="#001534" /> Edit
+              Background/Banner
+            </EditMicrositeBtn>
             <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
                 <p className="text-base">Make Primary Microsite</p>
@@ -363,15 +370,20 @@ const CreateSmartSite = ({ token, session }: any) => {
                   aria-label="Lead Captures"
                 />
               </div>
-              <EditMicrositeBtn
-                onClick={handleBannerModal}
-                className="rounded-lg text-base !bg-transparent border-gray-300 py-2 w-max"
-              >
-                <LiaFileMedicalSolid size={20} color="#001534" /> Edit
-                Background/Banner
-              </EditMicrositeBtn>
             </div>
-            <div>
+
+            <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
+              <p className="text-base">Gated Access</p>
+              <Switch
+                color="default"
+                size="sm"
+                isSelected={isGatedAccessOpen}
+                onValueChange={setIsGatedAccessOpen}
+                aria-label="Lead Captures"
+              />
+            </div>
+
+            {/* <div>
               <p className="text-gray-700 font-semibold">
                 Select Message Address
               </p>
@@ -390,17 +402,8 @@ const CreateSmartSite = ({ token, session }: any) => {
                   Connect
                 </button>
               </div>
-            </div>
-            <div className="flex items-center gap-8 border border-gray-300 rounded-xl pl-4 pr-3 py-2 text-lg font-medium text-gray-600 w-max">
-              <p className="text-base">Gated Access</p>
-              <Switch
-                color="default"
-                size="sm"
-                isSelected={isGatedAccessOpen}
-                onValueChange={setIsGatedAccessOpen}
-                aria-label="Lead Captures"
-              />
-            </div>
+            </div> */}
+
             {isGatedAccessOpen && (
               <div className="bg-white p-5 flex flex-col gap-2">
                 <div className="relative flex-1 mt-1">

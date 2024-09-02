@@ -2,16 +2,16 @@ import React from "react";
 import swopLogo from "../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
-import { IoLogOutOutline } from "react-icons/io5";
+// import { IoLogOutOutline } from "react-icons/io5";
 import { RiBarChartLine, RiMessage3Line, RiRobot2Line } from "react-icons/ri";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
-import { TbMessageChatbot } from "react-icons/tb";
+// import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
 import SideBarLink from "./SideBarLink";
 import SideBarToggle from "./SideBarToggle";
-import SideBarUpgradePlan from "./SideBarUpgradePlan";
-import { doSignOut } from "@/actions/auth";
+// import SideBarUpgradePlan from "./SideBarUpgradePlan";
+// import { doSignOut } from "@/actions/auth";
 import LogOutComponent from "./LogOut";
 
 const SideBar = ({ toggle, onToggle }: any) => {
@@ -71,18 +71,18 @@ const SideBar = ({ toggle, onToggle }: any) => {
       title: "Orders",
       href: "/orders",
     },
-    {
-      id: 108,
-      icon: <RiRobot2Line size={18} />,
-      title: "Automations",
-      href: "/automations",
-    },
-    {
-      id: 109,
-      icon: <TbMessageChatbot size={20} />,
-      title: "Support Center",
-      href: "/support-center",
-    },
+    // {
+    //   id: 108,
+    //   icon: <RiRobot2Line size={18} />,
+    //   title: "Automations",
+    //   href: "/automations",
+    // },
+    // {
+    //   id: 109,
+    //   icon: <TbMessageChatbot size={20} />,
+    //   title: "Support Center",
+    //   href: "/support-center",
+    // },
   ];
 
   return (
@@ -103,7 +103,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <SideBarToggle toggle={toggle} onToggle={onToggle} />
       </div>
       <div>
-        <ul className={`flex flex-col gap-y-4`}>
+        <ul className={`flex flex-col gap-y-5`}>
           {sidebarArray.map((data) => (
             <SideBarLink key={data.id} data={data} toggle={toggle} />
           ))}
@@ -113,7 +113,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        <SideBarUpgradePlan toggle={toggle} />
+        {/* <SideBarUpgradePlan toggle={toggle} /> */}
 
         {/* logout  */}
         {/* <button
