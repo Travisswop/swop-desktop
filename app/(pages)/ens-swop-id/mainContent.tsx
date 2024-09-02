@@ -11,6 +11,7 @@ import { createWalletAction } from "@/actions/createWallet";
 import { PiWarningFill } from "react-icons/pi";
 import { RiShieldKeyholeFill } from "react-icons/ri";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 type FlowType = "handleEns" | "recoveryPhraseWarning" | "revealSecretPhrase";
 
@@ -33,23 +34,30 @@ const ClaimEnsUserName = ({ token }: any) => {
 
   //   console.log("username", username);
   // console.log("isUsernameAvailable", isUsernameNotAvailable);
-  console.log("micrositeIdss", micrositeId);
+  // console.log("micrositeIdss", micrositeId);
+
+  const searchParams = useSearchParams();
+  const searchParamSmartsiteId = searchParams.get("id");
+
+  // console.log("search apram id", searchParamSmartsiteId);
 
   useEffect(() => {
     //need this to get data from localstorage
     if (typeof window !== "undefined") {
       const selectedMicrositeId = localStorage.getItem("selected smartsite");
-      console.log("selectedMicrositeId", selectedMicrositeId);
+      // console.log("selectedMicrositeId", selectedMicrositeId);
 
       const primaryMicrositeId = localStorage.getItem("primaryMicrosite");
 
-      if (selectedMicrositeId) {
+      if (searchParamSmartsiteId) {
+        setMicrositeId(searchParamSmartsiteId);
+      } else if (selectedMicrositeId) {
         setMicrositeId(selectedMicrositeId);
       } else {
         setMicrositeId(primaryMicrositeId);
       }
     }
-  }, []);
+  }, [searchParamSmartsiteId]);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();

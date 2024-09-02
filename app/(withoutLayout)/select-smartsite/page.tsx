@@ -16,9 +16,9 @@ const selectSmartsitePage = async () => {
   // console.log("smartsites", data.data.microsites.length);
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-[#F3F4F6]">
-      <div className="bg-white p-8 w-5/6 lg:w-2/3 rounded-xl flex flex-col items-center">
-        <div className="flex flex-col gap-2">
+    <div className="w-full min-h-screen flex items-center justify-center bg-[#F3F4F6] overflow-y-auto">
+      <div className="bg-white p-8 w-5/6 lg:w-2/3 rounded-xl flex flex-col items-center h-full">
+        <div className="flex flex-col gap-2 mb-10">
           <h1 className="font-bold text-2xl text-center">
             Select Your Smartsite
           </h1>
@@ -29,9 +29,9 @@ const selectSmartsitePage = async () => {
         </div>
         <div
           className={`${
-            data.data.microsites.length > 1
+            data.data.microsites.length > 2
               ? "grid grid-cols-3 2xl:grid-cols-4"
-              : "flex flex-wrap"
+              : "grid grid-cols-2 justify-center"
           } gap-5`}
         >
           {data &&

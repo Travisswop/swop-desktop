@@ -120,8 +120,8 @@ const LoginPage = () => {
         setError("Incorrect email or password");
         setLoading(false);
       } else {
-        setMounted(false);
         router.push("/select-smartsite");
+        setMounted(false);
       }
     } catch (err) {
       setLoading(false);

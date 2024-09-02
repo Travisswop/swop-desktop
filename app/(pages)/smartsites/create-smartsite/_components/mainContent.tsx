@@ -220,7 +220,10 @@ const CreateSmartSite = ({ token, session }: any) => {
       console.log("response", response);
 
       if (response.state === "success") {
-        router.push("/smartsites");
+        console.log("responseeee", response);
+        const micrositeId =
+          response?.data?.microsites[response?.data?.microsites.length - 1]._id;
+        router.push(`/ens-swop-id?id=${micrositeId}`);
         toast.success("Smartsite created successfully");
       }
     } catch (error: any) {

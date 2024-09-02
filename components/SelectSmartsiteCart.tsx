@@ -39,7 +39,7 @@ const SelectSmartsiteCart = ({ microsite, lengthOfMicrosites }: any) => {
       )} */}
 
       <div
-        className="bg-white p-4 rounded-xl shadow-medium hover:scale-105 transition-all ease-in-out cursor-pointer flex flex-col gap-3 items-center min-w-60 mt-10"
+        className="bg-white p-4 rounded-xl shadow-medium hover:scale-105 transition-all ease-in-out cursor-pointer flex flex-col gap-3 items-center min-w-60 h-full"
         onClick={() => setSelectedSmartsite(microsite._id)}
       >
         <div>
@@ -62,13 +62,12 @@ const SelectSmartsiteCart = ({ microsite, lengthOfMicrosites }: any) => {
             </h3>
             <p className="font-medium text-gray-500">{microsite.bio}</p>
             <p className="font-medium text-gray-500 text-sm mt-2">
-              ENS Name:{" "}
-              {microsite?.ensData?.name ? microsite?.ensData?.name : "N/A"}
+              ENS Name: {microsite?.ens ? microsite?.ens : "N/A"}
             </p>
             <p className="font-medium text-gray-500 text-sm">
               Wallet Address:{" "}
-              {microsite?.ensData?.owner
-                ? `${microsite?.ensData?.owner?.slice(0, 20)}...`
+              {microsite?.ethAddress
+                ? `${microsite?.ethAddress.slice(0, 20)}...`
                 : "N/A"}
             </p>
           </div>
