@@ -19,14 +19,14 @@ const TopBarButtons = () => {
         </DynamicPrimaryBtn>
       </Link>
 
-      <div className="">
+      {/* <div className="">
         <OutlinePrimaryButton
           preIcon={<RiRobot2Line size={18} />}
           handleOnClick={handleOnClick}
         >
           AI Assistant
         </OutlinePrimaryButton>
-      </div>
+      </div> */}
     </>
   );
 };

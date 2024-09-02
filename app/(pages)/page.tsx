@@ -134,10 +134,7 @@ export default async function HomePage() {
                       ethAddress={data.data.microsites[0].ethAddress}
                     /> */}
                     {/* <TriggerSolanaWalletConnect /> */}
-                    <SetupWalletModal
-                      ens={data.data.microsites[0].ens}
-                      ethmAddress={data.data.microsites[0].ethAddress}
-                    />
+                    <SetupWalletModal microsites={data.data.microsites} />
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>

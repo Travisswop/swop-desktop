@@ -33,13 +33,21 @@ const ClaimEnsUserName = ({ token }: any) => {
 
   //   console.log("username", username);
   // console.log("isUsernameAvailable", isUsernameNotAvailable);
+  console.log("micrositeIdss", micrositeId);
 
   useEffect(() => {
     //need this to get data from localstorage
     if (typeof window !== "undefined") {
+      const selectedMicrositeId = localStorage.getItem("selected smartsite");
+      console.log("selectedMicrositeId", selectedMicrositeId);
+
       const primaryMicrositeId = localStorage.getItem("primaryMicrosite");
-      // console.log("primaryMicrositeId", primaryMicrositeId);
-      setMicrositeId(primaryMicrositeId);
+
+      if (selectedMicrositeId) {
+        setMicrositeId(selectedMicrositeId);
+      } else {
+        setMicrositeId(primaryMicrositeId);
+      }
     }
   }, []);
 

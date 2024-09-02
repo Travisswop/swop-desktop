@@ -13,7 +13,7 @@ export async function createWalletAction(
     );
     const data = await response.json();
 
-    const totalEns = `${ens}.swop.id`;
+    const ensId = `${ens}.swop.id`;
 
     //update microsite with _id (micrositeId), ens, primary
     if (data) {
@@ -23,7 +23,7 @@ export async function createWalletAction(
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ _id: micrositeId, ens: totalEns }),
+        body: JSON.stringify({ _id: micrositeId, ens: ensId }),
       });
       // const datas = await response.json();
     }

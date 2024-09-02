@@ -10,19 +10,18 @@ import { MdDone } from "react-icons/md";
 import { useAccount, useDisconnect } from "wagmi";
 import { Flip, toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import DynamicPrimaryBtn from "../Button/DynamicPrimaryBtn";
 
-const SetupWalletModal = ({
-  ens,
-  ethmAddress,
-}: {
-  ens: string;
-  ethmAddress: string;
-}) => {
+const SetupWalletModal = ({ microsites }: any) => {
   const [open, setOpen] = useState(false);
+  const [micrositeData, setMicrositeData] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const [isLoading, setIsLoading] = useState(false);
+
+  // console.log("microsite data", microsites);
 
   const searchParams = useSearchParams();
   const search = searchParams.get("signup");
@@ -40,10 +39,28 @@ const SetupWalletModal = ({
     }
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const activeMicrositeId = localStorage.getItem("selected smartsite");
+
+      console.log("active id", activeMicrositeId);
+
+      const foundMicrosite = microsites.find(
+        (microsite: any) => microsite._id === activeMicrositeId
+      );
+
+      // console.log("foundMicrosite", foundMicrosite);
+
+      setMicrositeData(foundMicrosite);
+    }
+  }, [microsites]);
+
+  console.log("micrositeData", micrositeData);
+
   // * copy wallet address
   const handleSaveEthAddress = () => {
     navigator.clipboard
-      .writeText(ethmAddress)
+      .writeText(micrositeData.ethAddress)
       .then(() => {
         setIsCopied(true);
         // Reset isCopied to false after 2 seconds
@@ -60,7 +77,8 @@ const SetupWalletModal = ({
     setOpen(false);
     if (
       address &&
-      address === ethmAddress &&
+      micrositeData?.ethAddress &&
+      address === micrositeData.ethAddress &&
       !localStorage.getItem("connected wallet")
     ) {
       setOpen(false);
@@ -70,7 +88,7 @@ const SetupWalletModal = ({
         transition: Flip,
       });
     }
-  }, [address, ethmAddress]);
+  }, [address, micrositeData?.ethAddress]);
   // useEffect(() => {
   //   // console.log("loader", isConnected, isLoading);
   //   if (isConnected && !isLoading && address === ethmAddress) {
@@ -86,7 +104,7 @@ const SetupWalletModal = ({
 
   // * is user has address and it's not matched then force disconnect it
   useEffect(() => {
-    if (address && address !== ethmAddress && !search) {
+    if (address && address !== micrositeData?.ethAddress && !search) {
       localStorage.removeItem("connected wallet");
       setIsLoading(true);
       toast.error("Wallet Not Matched!", {
@@ -98,7 +116,7 @@ const SetupWalletModal = ({
         setIsLoading(false);
       }, 1000);
     }
-  }, [address, ethmAddress, disconnect, setIsLoading, search]);
+  }, [address, disconnect, setIsLoading, search, micrositeData?.ethAddress]);
 
   //   console.log("isConnected", isConnected);
 
@@ -120,7 +138,7 @@ const SetupWalletModal = ({
           {isConnected ? (
             <div className="flex items-center gap-1">
               <p className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg">
-                {ens}
+                {micrositeData?.ens ? micrositeData?.ens : "N/A"}
               </p>
               <button onClick={handleWalletDisconnect}>
                 <FaTimes color="red" size={14} />
@@ -157,32 +175,49 @@ const SetupWalletModal = ({
                 // height={60}
                 className="mx-auto mb-6 w-36 h-auto"
               />
-              <div className="px-10">
-                <div className="flex flex-col gap-4">
-                  <p className="font-medium text-gray-700">
-                    ENS: <span className="font-semibold">{ens}</span>
-                  </p>
-                  <p className="font-medium text-gray-700 flex items-center gap-2">
-                    Etherium Address:{" "}
-                    <span className="font-semibold">{ethmAddress}</span>
-                    <button onClick={handleSaveEthAddress}>
-                      {isCopied ? (
-                        <MdDone
-                          size={24}
-                          color={"green"}
-                          className="bg-gray-200 p-1 rounded"
-                        />
-                      ) : (
-                        <BiCopy size={22} />
-                      )}
-                    </button>
-                  </p>
-                  <p className="text-sm text-center font-medium text-gray-400">
-                    Please connect your wallet with this etherium address
-                  </p>
-                  <TriggerWalletConnectButton isLoading={isLoading} />
+              {micrositeData.ens ? (
+                <div className="px-10">
+                  <div className="flex flex-col gap-4">
+                    <p className="font-medium text-gray-700">
+                      ENS:{" "}
+                      <span className="font-semibold">{micrositeData.ens}</span>
+                    </p>
+                    <p className="font-medium text-gray-700 flex items-center gap-2">
+                      Etherium Address:{" "}
+                      <span className="font-semibold">
+                        {micrositeData.ethAddress}
+                      </span>
+                      <button onClick={handleSaveEthAddress}>
+                        {isCopied ? (
+                          <MdDone
+                            size={24}
+                            color={"green"}
+                            className="bg-gray-200 p-1 rounded"
+                          />
+                        ) : (
+                          <BiCopy size={22} />
+                        )}
+                      </button>
+                    </p>
+                    <p className="text-sm text-center font-medium text-gray-400">
+                      Please connect your wallet with this etherium address
+                    </p>
+                    <TriggerWalletConnectButton isLoading={isLoading} />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="px-10 w-full flex flex-col gap-5 items-center">
+                  <p className="text-gray-600 font-medium">
+                    ENS is not associated with this smartsite! Please create a{" "}
+                    <br /> new ENS to continue.
+                  </p>
+                  <Link href={"/ens-swop-id"}>
+                    <DynamicPrimaryBtn className="w-60">
+                      Create ENS
+                    </DynamicPrimaryBtn>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
