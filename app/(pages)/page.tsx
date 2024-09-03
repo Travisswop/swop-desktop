@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { BiSolidEdit } from "react-icons/bi";
 import Connections from "@/components/Connections";
-import Chart from "@/components/Chart";
+// import Chart from "@/components/Chart";
 import Microsite from "@/components/Microsite";
 import WebsiteAnalytics from "@/components/Home/WebsiteAnalytics";
 import RecentLeads from "@/components/Home/RecentLeads";
-import MainButton from "@/components/MainButton";
-import { MdOutlineQrCode } from "react-icons/md";
-import wallet from "@/public/images/websites/icon/wallet.svg";
+// import MainButton from "@/components/MainButton";
+// import { MdOutlineQrCode } from "react-icons/md";
+// import wallet from "@/public/images/websites/icon/wallet.svg";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import SetupMainAccount from "@/components/SetupMainAccount";
 import getHomePageData from "@/util/fetchingData/homePageDataFetching";
@@ -19,8 +19,8 @@ import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
-import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
-import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
+// import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
+// import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 import SetupWalletModal from "@/components/modal/SetupWallet";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
@@ -31,7 +31,7 @@ export default async function HomePage() {
 
   const data = await getHomePageData(session.accessToken as string);
 
-  console.log("home page data fetching", data);
+  // console.log("home page data fetching", data);
 
   if (!data || data.state === "fail" || data.state === "error") {
     return <ForceSignOut />;

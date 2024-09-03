@@ -11,6 +11,7 @@ import { postUserCustomQrCode } from "@/actions/customQrCode";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import ShareQrCodeModal from "./modal/ShareQrCodeModal";
+import { QrCode1 } from "@/util/data/qr-code-svg-data/QRData";
 
 const CreateQRCodeFromHome = ({ session }: any) => {
   const [data, setData] = useState<any>(null);
@@ -114,8 +115,8 @@ const CreateQRCodeFromHome = ({ session }: any) => {
                 <Image
                   alt="qr code"
                   src={data?.data?.qrCodeUrl ? data.data.qrCodeUrl : qrcode}
-                  width={130}
-                  height={130}
+                  width={150}
+                  height={150}
                   className="border-2 border-gray-500 rounded-2xl"
                 />
                 <div className="flex items-center gap-2 justify-center mt-2">
@@ -136,10 +137,22 @@ const CreateQRCodeFromHome = ({ session }: any) => {
                 </div>
               </div>
             ) : (
-              <div className="w-36 h-36 rounded border flex items-center justify-center text-center px-1">
-                <p className="text-xs font-medium text-gray-400">
-                  create a qr code to preview
-                </p>
+              // <div className="w-36 h-36 rounded border flex items-center justify-center text-center px-1">
+              //   <p className="text-xs font-medium text-gray-400">
+              //     create a qr code to preview
+              //   </p>
+              // </div>
+              <div className="relative border rounded-xl p-2">
+                <QrCode1 color={"black"} width={130} height={130} />
+                <Image
+                  alt="swop-logo"
+                  src={
+                    "https://res.cloudinary.com/bayshore/image/upload/v1706786605/qr-logo_mwasoz.png"
+                  }
+                  width={60}
+                  height={60}
+                  className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-7 h-7"
+                />
               </div>
             )}
           </div>

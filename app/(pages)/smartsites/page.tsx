@@ -1,16 +1,18 @@
-import SecondaryButton from "@/components/SecondaryButton";
-import { Checkbox } from "@nextui-org/react";
+// import SecondaryButton from "@/components/SecondaryButton";
+// import { Checkbox, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
-import { AiOutlineSelect } from "react-icons/ai";
-import { BsSend } from "react-icons/bs";
-import { IoDuplicateOutline } from "react-icons/io5";
-import { TbTransfer } from "react-icons/tb";
+// import { AiOutlineSelect } from "react-icons/ai";
+// import { BsSend, BsSendFill } from "react-icons/bs";
+// import { IoDuplicateOutline } from "react-icons/io5";
+// import { TbTransfer } from "react-icons/tb";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import Link from "next/link";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import isUrl from "@/util/isUrl";
 import ButtonList from "@/components/smartsiteList/ButtonList";
+// import SmartSiteUrlShareModal from "@/components/ShareModal/SmartsiteShareModal";
+import SmartsiteSocialShare from "@/components/SmartsiteSocialShare";
 
 const WebsitesPage = async () => {
   const userDetails: any = await isUserAuthenticate(); // check is user exist
@@ -32,7 +34,7 @@ const WebsitesPage = async () => {
 
   return (
     <div className="main-container">
-      <div className="flex items-center justify-between mb-3">
+      {/* <div className="flex items-center justify-between mb-3">
         <SecondaryButton>
           <AiOutlineSelect />
           Select
@@ -47,7 +49,7 @@ const WebsitesPage = async () => {
             Transfer
           </SecondaryButton>
         </div>
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {data &&
           data.data.microsites.map((microsite: any) => (
@@ -55,9 +57,8 @@ const WebsitesPage = async () => {
               key={microsite._id}
               className="bg-white p-4 rounded-xl shadow-small"
             >
-              <div className="flex justify-between items-start mb-3">
-                <Checkbox />
-                <div>
+              <div className="flex justify-between items-start mb-3 relative">
+                <div className="flex-1 flex justify-center">
                   <Image
                     alt="user image"
                     src={
@@ -70,10 +71,9 @@ const WebsitesPage = async () => {
                     className="rounded-full w-28 h-28"
                   />
                 </div>
-                <div className="border-[1.8px] border-gray-600 rounded-md p-2 w-max">
-                  <BsSend size={18} />
-                </div>
+                <SmartsiteSocialShare profileUrl={microsite.profileUrl} />
               </div>
+
               <div className="flex flex-col items-center gap-4">
                 <div className="text-center">
                   <h3 className="text-lg font-bold text-gray-700">
@@ -89,17 +89,17 @@ const WebsitesPage = async () => {
             </div>
           ))}
 
-        <div className="bg-white px-4 py-[4rem] rounded-xl shadow-small flex flex-col gap-6 items-center">
-          <Link
-            href={"/smartsites/create-smartsite"}
-            className="p-5 bg-gray-200 w-max rounded-full"
-          >
+        <Link
+          href={"/smartsites/create-smartsite"}
+          className="bg-white px-4 py-[4rem] rounded-xl shadow-small flex flex-col gap-6 items-center"
+        >
+          <div className="p-5 bg-gray-200 w-max rounded-full">
             <LiaFileMedicalSolid size={20} />
-          </Link>
+          </div>
           <p className="text-lg font-bold text-gray-700">
             Create New Microsite
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

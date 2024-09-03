@@ -11,6 +11,8 @@ const Connections = ({ data }: any) => {
   const [filteredConnections, setFilteredConnections] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log("datadd", data);
+
   useEffect(() => {
     const handleSearch = () => {
       setLoading(true);
@@ -60,39 +62,46 @@ const Connections = ({ data }: any) => {
         <div className="flex flex-col gap-3 h-full">
           {filteredConnections.length > 0 ? (
             filteredConnections.map((connection: any, index: number) => (
-              <div
+              <a
                 key={index}
-                className="bg-white py-4 px-3 flex items-center justify-between shadow-small rounded-xl hover:shadow-medium"
+                href={
+                  connection?.account?.profileUrl
+                    ? connection?.account?.profileUrl
+                    : "#"
+                }
+                target="_blank"
               >
-                <div className="flex items-center gap-3">
-                  {isUrl(connection.account.profilePic) ? (
-                    <Image
-                      src={connection?.account?.profilePic}
-                      alt="user image"
-                      width={100}
-                      height={100}
-                      className="border w-14 h-14 rounded-full"
-                    />
-                  ) : (
-                    <Image
-                      src={`/images/user_avator/${connection?.account?.profilePic}.png`}
-                      alt="user image"
-                      width={100}
-                      height={100}
-                      className="border w-14 h-14 rounded-full"
-                    />
-                  )}
-                  <div className="flex flex-col gap-0.5">
-                    <h3 className="font-bold">{connection?.account?.name}</h3>
-                    <p className="text-sm text-gray-500 font-medium">
-                      {connection?.account?.bio}
-                    </p>
+                <div className="bg-white py-4 px-3 flex items-center justify-between shadow-small rounded-xl hover:shadow-medium">
+                  <div className="flex items-center gap-3">
+                    {isUrl(connection.account.profilePic) ? (
+                      <Image
+                        src={connection?.account?.profilePic}
+                        alt="user image"
+                        width={100}
+                        height={100}
+                        className="border w-14 h-14 rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        src={`/images/user_avator/${connection?.account?.profilePic}.png`}
+                        alt="user image"
+                        width={100}
+                        height={100}
+                        className="border w-14 h-14 rounded-full"
+                      />
+                    )}
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="font-bold">{connection?.account?.name}</h3>
+                      <p className="text-sm text-gray-500 font-medium">
+                        {connection?.account?.bio}
+                      </p>
+                    </div>
                   </div>
+                  <p className="text-sm text-gray-500 font-medium">
+                    {connection?.address}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-500 font-medium">
-                  {connection?.address}
-                </p>
-              </div>
+              </a>
             ))
           ) : (
             <div className="flex justify-center items-center">
