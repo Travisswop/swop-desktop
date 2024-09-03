@@ -43,7 +43,7 @@ const SetupWalletModal = ({ microsites }: any) => {
     if (typeof window !== "undefined") {
       const activeMicrositeId = localStorage.getItem("selected smartsite");
 
-      console.log("active id", activeMicrositeId);
+      // console.log("active id", activeMicrositeId);
 
       const foundMicrosite = microsites.find(
         (microsite: any) => microsite._id === activeMicrositeId
@@ -175,7 +175,7 @@ const SetupWalletModal = ({ microsites }: any) => {
                 // height={60}
                 className="mx-auto mb-6 w-36 h-auto"
               />
-              {micrositeData.ens ? (
+              {micrositeData && micrositeData?.ens ? (
                 <div className="px-10">
                   <div className="flex flex-col gap-4">
                     <p className="font-medium text-gray-700">

@@ -1,10 +1,10 @@
 import React from "react";
 import SmartsideOpeningInfo from "./mainContent";
-import { auth } from "@/auth";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 const SmartsideOpeningInfoPage = async () => {
-  const session: any = await auth();
-  // console.log("session form open", session);
+  const session: any = await isUserAuthenticate();
+  console.log("session form open", session);
 
   return (
     <main>

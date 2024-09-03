@@ -187,7 +187,7 @@ export default async function HomePage() {
               <CreateQRCodeFromHome session={session} />
             </div>
           </div>
-          <SetupMainAccount />
+          <SetupMainAccount data={data} />
         </main>
       ) : (
         <HomePageLoading />

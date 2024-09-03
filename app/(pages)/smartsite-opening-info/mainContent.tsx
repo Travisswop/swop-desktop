@@ -20,8 +20,9 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import { toast } from "react-toastify";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-export const maxDuration = 60;
+// export const maxDuration = 60;
 
 const SmartsideOpeningInfo = ({
   userSessionName,
@@ -35,10 +36,15 @@ const SmartsideOpeningInfo = ({
   //state
   const [micrositeId, setMicrositeId] = useState<string | null>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [initialSignedUpUserData, setInitialSignedUpUserData] =
+    useState<any>(null);
+  const [value, setValue] = useState<any>(initialSignedUpUserData?.location);
 
   const router = useRouter();
 
-  // console.log("micrositeId", micrositeId);
+  console.log("initialSignedUpUserData", initialSignedUpUserData);
+
+  console.log("value", value);
 
   // console.log(userSessionName, userSessionEmail, token);
 
@@ -46,8 +52,18 @@ const SmartsideOpeningInfo = ({
     //need this to get data from localstorage
     if (typeof window !== "undefined") {
       const primaryMicrositeId = localStorage.getItem("primaryMicrosite");
-      // console.log("primaryMicrositeId", primaryMicrositeId);
       setMicrositeId(primaryMicrositeId);
+      const storedObject = JSON.parse(
+        localStorage.getItem("inititalUserData") as any
+      );
+      if (storedObject) {
+        storedObject.mobileNo = storedObject.mobileNo.split(" ")[1];
+        setInitialSignedUpUserData(storedObject);
+        setValue({
+          label: storedObject.location,
+          value: { description: storedObject.location },
+        });
+      }
     }
   }, []);
 
@@ -158,7 +174,7 @@ const SmartsideOpeningInfo = ({
         group: "Command/Action",
       });
     }
-    const location = formData.get("location");
+    const location = value?.value?.description;
     if (location) {
       infoBar.push({
         micrositeId: micrositeId,
@@ -277,6 +293,7 @@ const SmartsideOpeningInfo = ({
                   type="text"
                   name="phoneNumber"
                   placeholder="Contact Number"
+                  defaultValue={initialSignedUpUserData?.mobileNo}
                   className="w-full py-1.5 bg-gray-100 px-4 focus:outline-none"
                 />
               </div>
@@ -299,6 +316,7 @@ const SmartsideOpeningInfo = ({
                   type="text"
                   name="whatsapp"
                   placeholder="Whatsapp Number"
+                  defaultValue={initialSignedUpUserData?.mobileNo}
                   className="w-full py-1.5 bg-gray-100 px-4 focus:outline-none"
                 />
               </div>
@@ -354,12 +372,36 @@ const SmartsideOpeningInfo = ({
                 <div className="py-3 px-4 border-r border-gray-300">
                   <Image alt="location icon" src={location} className="w-7" />
                 </div>
-                <input
+                {/* <input
                   type="text"
                   name="location"
                   placeholder="Enter Location"
+                  defaultValue={initialSignedUpUserData?.location}
                   className="w-full py-1.5 bg-gray-100 px-4 focus:outline-none"
-                />
+                /> */}
+                <div className="flex-1">
+                  <GooglePlacesAutocomplete
+                    apiKey="AIzaSyDaERPmsWGDCk2MrKXsqkMfPkSu614Simk"
+                    selectProps={{
+                      value,
+                      onChange: setValue,
+                      placeholder: "Enter address",
+                      styles: {
+                        control: (provided) => ({
+                          ...provided,
+                          border: "none", // Remove border
+                          boxShadow: "none", // Remove box shadow
+                          backgroundColor: "transparent",
+                        }),
+                        input: (provided) => ({
+                          ...provided,
+                          border: "none", // Remove input border
+                          backgroundColor: "transparent",
+                        }),
+                      },
+                    }}
+                  />
+                </div>
               </div>
             </div>
             <DynamicPrimaryBtn className="w-max !px-10 mx-auto mt-8">

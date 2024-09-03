@@ -309,12 +309,13 @@ const LivePreview = ({ data }: { data?: any }) => {
               {/* ENS display here start */}
               {data.info.ensDomain.length > 0 && (
                 <div className="flex flex-col gap-y-3 px-4">
-                  {data.info.ensDomain.map((data: any) => (
+                  {/* {data.info.ensDomain.map((data: any) => (
                     <button
                       key={data._id}
                       onClick={() =>
                         handleTriggerUpdate({
                           data,
+                          data.info.ensDomain[data.info.ensDomain.length -1],
                           categoryForTrigger: "ens",
                         })
                       }
@@ -336,7 +337,39 @@ const LivePreview = ({ data }: { data?: any }) => {
                         </p>
                       </div>
                     </button>
-                  ))}
+                  ))} */}
+                  <button
+                    // key={data._id}
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        // data,
+                        data: data.info.ensDomain[
+                          data.info.ensDomain.length - 1
+                        ],
+                        categoryForTrigger: "ens",
+                      })
+                    }
+                    className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
+                  >
+                    <Image
+                      src={ethereum}
+                      style={tintStyle}
+                      alt="icon"
+                      width={40}
+                      height={40}
+                    />
+                    <div className="flex flex-col items-start gap-0.5 text-start">
+                      <p className="font-semibold text-gray-700">
+                        {
+                          data.info.ensDomain[data.info.ensDomain.length - 1]
+                            .domain
+                        }
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        Pay me using my Swop.ID
+                      </p>
+                    </div>
+                  </button>
                 </div>
               )}
               {/* ENS display here end */}
@@ -363,7 +396,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                       />
                       <div className="flex flex-col items-start gap-0.5 text-start">
                         <p className="font-semibold text-gray-700">
-                          {data.buttonName}
+                          {data.buttonName ? data.buttonName : data.iconName}
                         </p>
                         <p className="text-xs text-gray-400">
                           {data.description}

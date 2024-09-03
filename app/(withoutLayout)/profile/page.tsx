@@ -179,11 +179,15 @@ const ParentProfilePage = () => {
 
     try {
       const response = await handleSignUp(userInfo);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response.state === "success") {
         localStorage.setItem(
           "primaryMicrosite",
+          response.data.microsites[0]._id
+        );
+        localStorage.setItem(
+          "selected smartsite",
           response.data.microsites[0]._id
         );
         const data = await signIn("credentials", {
