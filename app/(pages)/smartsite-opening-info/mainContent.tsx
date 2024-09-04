@@ -14,7 +14,7 @@ import website_link from "@/public/images/social-icon/website_link.svg";
 import whatsapp from "@/public/images/social-icon/whatsapp.svg";
 // import youtube from "@/public/images/social-icon/youtube.svg";
 import contact from "@/public/images/social-icon/contact.svg";
-import twitter from "@/public/images/social-icon/twitter.svg";
+import twitter from "@/public/images/social-icon/x.svg";
 import SmartSiteInfoModal from "@/components/modal/SmartSiteInfoModal";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import { toast } from "react-toastify";
@@ -42,9 +42,9 @@ const SmartsideOpeningInfo = ({
 
   const router = useRouter();
 
-  console.log("initialSignedUpUserData", initialSignedUpUserData);
+  // console.log("initialSignedUpUserData", initialSignedUpUserData);
 
-  console.log("value", value);
+  // console.log("value", value);
 
   // console.log(userSessionName, userSessionEmail, token);
 
@@ -105,10 +105,10 @@ const SmartsideOpeningInfo = ({
     if (twitter) {
       socialSmall.push({
         micrositeId: micrositeId,
-        name: "Twitter",
+        name: "X",
         value: twitter,
-        url: "https://twitter.com/",
-        iconName: "Twitter",
+        url: "https://x.com/username",
+        iconName: "X",
         iconPath: "",
         group: "Social Media",
       });
@@ -327,7 +327,7 @@ const SmartsideOpeningInfo = ({
                 <input
                   type="text"
                   name="twitter"
-                  placeholder="https://www.twitter.com/username"
+                  placeholder="https://www.x.com/username"
                   className="w-full py-1.5 bg-gray-100 px-4 focus:outline-none"
                 />
               </div>

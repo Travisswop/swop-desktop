@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import swop from "@/public/images/live-preview/swop.svg";
 import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
@@ -14,9 +14,12 @@ import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
 import AudioPlayer from "react-h5-audio-player";
 import EmbedPlayer from "./livePreviewSmartsitesIcons/renderEmbedPlayer";
-import businessCard from "@/public/images/IconShop/outline-icons/dark/business-card-outline@3x.png";
+// import businessCard from "@/public/images/IconShop/outline-icons/dark/business-card-outline@3x.png";
 import referral from "@/public/images/websites/referral.jpeg";
-import ethereum from "@/public/images/websites/ethereum-outline@3x.png";
+import ethereum from "@/public/images/social-icon/ethereum.png";
+import card from "@/public/images/social-icon/card.png";
+import message from "@/public/images/social-icon/message.png";
+import location from "@/public/images/social-icon/location.png";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
@@ -238,6 +241,38 @@ const LivePreview = ({ data }: { data?: any }) => {
             {/* app icon display here end */}
             {/* card here  */}
             <div className="flex flex-col gap-y-3">
+              {/* message me display here start */}
+              {data.info.ensDomain.length > 0 && (
+                <div className="flex flex-col gap-y-3 px-4">
+                  <button
+                    // key={data._id}
+                    onClick={() =>
+                      handleTriggerUpdate({
+                        // data,
+                        data: data.info.ensDomain[
+                          data.info.ensDomain.length - 1
+                        ],
+                        categoryForTrigger: "ens",
+                      })
+                    }
+                    className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
+                  >
+                    <Image
+                      src={message}
+                      // style={tintStyle}
+                      alt="icon"
+                      quality={100}
+                      className="w-9 h-9"
+                    />
+                    <div className="flex flex-col items-start gap-0.5 text-start">
+                      <p className="font-semibold text-gray-700">Message Me</p>
+                      <p className="text-xs text-gray-400">
+                        Message me using the Swop wallet
+                      </p>
+                    </div>
+                  </button>
+                </div>
+              )}
               {/* referral display here start */}
               {data.info.referral.length > 0 && (
                 <div className="flex flex-col gap-y-3 px-4">
@@ -255,8 +290,8 @@ const LivePreview = ({ data }: { data?: any }) => {
                       <Image
                         src={referral}
                         alt="icon"
-                        width={40}
-                        height={40}
+                        quality={100}
+                        className="w-9 h-9"
                         // style={tintStyle}
                       />
                       <div className="flex flex-col items-start gap-0.5 text-start">
@@ -288,10 +323,10 @@ const LivePreview = ({ data }: { data?: any }) => {
                       className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                     >
                       <Image
-                        src={businessCard}
+                        src={card}
                         alt="icon"
-                        width={40}
-                        height={40}
+                        quality={100}
+                        className="w-9 h-9"
                         style={tintStyle}
                       />
                       <div className="flex flex-col items-start gap-0.5 text-start">
@@ -355,8 +390,8 @@ const LivePreview = ({ data }: { data?: any }) => {
                       src={ethereum}
                       style={tintStyle}
                       alt="icon"
-                      width={40}
-                      height={40}
+                      quality={100}
+                      className="w-9 h-9"
                     />
                     <div className="flex flex-col items-start gap-0.5 text-start">
                       <p className="font-semibold text-gray-700">
@@ -389,10 +424,11 @@ const LivePreview = ({ data }: { data?: any }) => {
                       className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                     >
                       <Image
-                        src={getAppIconImage(data.iconName, data.group) as any}
+                        src={location}
+                        // src={getAppIconImage(data.iconName, data.group) as any}
                         alt="icon"
-                        width={40}
-                        height={40}
+                        quality={100}
+                        className="w-9 h-9"
                       />
                       <div className="flex flex-col items-start gap-0.5 text-start">
                         <p className="font-semibold text-gray-700">

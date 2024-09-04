@@ -25,7 +25,15 @@ export async function createWalletAction(
         },
         body: JSON.stringify({ _id: micrositeId, ens: ensId }),
       });
-      // const datas = await response.json();
+
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/ens`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ micrositeId: micrositeId, domain: ensId }),
+      });
     }
     revalidatePath("/");
     return data;

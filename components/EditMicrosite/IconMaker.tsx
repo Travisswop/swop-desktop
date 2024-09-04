@@ -140,11 +140,11 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
       src: photosVideos,
       title: "Video",
     },
-    {
-      _id: 1254,
-      src: redeemLink,
-      title: "Redeem Link",
-    },
+    // {
+    //   _id: 1254,
+    //   src: redeemLink,
+    //   title: "Redeem Link",
+    // },
     {
       _id: 1237,
       src: swopPay,
