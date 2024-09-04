@@ -27,13 +27,7 @@ const selectSmartsitePage = async () => {
             Site is Generated.
           </p>
         </div>
-        <div
-          className={`${
-            data.data.microsites.length > 2
-              ? "grid grid-cols-3 2xl:grid-cols-4"
-              : "grid grid-cols-2 justify-center"
-          } gap-5`}
-        >
+        <div className={`flex justify-center flex-wrap gap-5`}>
           {data &&
             data.data.microsites.map((microsite: any) => (
               <SelectSmartsiteCart
