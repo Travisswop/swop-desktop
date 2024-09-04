@@ -302,7 +302,7 @@ const UpdateBlog = ({ iconDataObj, isOn, setOff }: any) => {
                     </span>
                   </p>
                   <ReactQuill
-                    key={value}
+                    // key={value}
                     placeholder="Enter Description"
                     theme="snow"
                     value={value}
