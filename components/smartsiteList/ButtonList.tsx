@@ -27,7 +27,6 @@ const ButtonList = ({ microsite, token }: any) => {
       try {
         setDeleteLoading(true);
         const data = await handleDeleteSmartSite(microsite._id, token);
-        // console.log("data from delete", data);
 
         if (data) {
           setDeleteLoading(false);
@@ -37,6 +36,21 @@ const ButtonList = ({ microsite, token }: any) => {
             icon: "success",
           });
           router.refresh();
+        }
+        // Check if the deleted microsite is the one stored in localStorage
+        // const selectedSmartsite = localStorage.getItem("selected-smartsite");
+        // Ensure localStorage is accessed only on the client side
+        if (typeof window !== "undefined") {
+          // console.log("hit");
+
+          const selectedSmartsite = localStorage.getItem("selected smartsite");
+          // console.log("selected smartsite", selectedSmartsite);
+
+          if (selectedSmartsite === microsite._id) {
+            // console.log("true hit");
+            localStorage.removeItem("selected smartsite");
+            router.push("/select-smartsite");
+          }
         }
         setDeleteLoading(false);
       } catch (error) {

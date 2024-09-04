@@ -13,6 +13,15 @@ const SetupMainAccount = ({ data }: any) => {
   // console.log("data", data);
 
   useEffect(() => {
+    if (typeof window !== undefined) {
+      const selectedSmartsiteId = localStorage.getItem("selected smartsite");
+      if (!selectedSmartsiteId) {
+        router.push("/select-smartsite");
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (search === "success" || localStorage.getItem("modalShown")) {
       const myObject = {
         mobileNo: data?.data?.mobileNo,

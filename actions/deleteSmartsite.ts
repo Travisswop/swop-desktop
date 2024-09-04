@@ -14,6 +14,7 @@ export async function handleDeleteSmartSite(id: any, token: string) {
         body: JSON.stringify({ _id: id }),
       }
     );
+    revalidatePath(`/`);
     revalidatePath(`/smartsites`);
     const data = await response.json();
     return data;
