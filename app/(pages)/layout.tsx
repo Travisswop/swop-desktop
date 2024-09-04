@@ -11,6 +11,7 @@ import { config } from "@/config";
 import Web3ModalProvider from "@/context";
 // import { XMTPProvider } from "@/context/xmtpContext";
 import AppWalletProvider from "@/components/AppWalletProvider";
+import CheckIsSelectMicrositeAvailable from "@/components/CheckIsSelectMicrositeAvailable";
 
 const popins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -46,10 +47,12 @@ export default async function PageLayout({
             <SideBarToggleProvider>
               <AppWalletProvider>
                 <LayoutComponent>
-                  <div className="flex flex-col min-h-screen">
-                    <TopBar />
-                    {children}
-                  </div>
+                  <CheckIsSelectMicrositeAvailable>
+                    <div className="flex flex-col min-h-screen">
+                      <TopBar />
+                      {children}
+                    </div>
+                  </CheckIsSelectMicrositeAvailable>
                 </LayoutComponent>
               </AppWalletProvider>
             </SideBarToggleProvider>
