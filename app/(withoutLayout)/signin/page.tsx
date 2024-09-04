@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import swopLogo from "../../../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
-import walletIcon from "../../../public/wallet_login_icon.svg";
+// import walletIcon from "../../../public/wallet_login_icon.svg";
 import googleIcon from "../../../public/images/login-form/google-icon.svg";
 import appleIcon from "../../../public/images/login-form/apple-icon.svg";
 import login_astronot from "../../../public/images/login_astronot.svg";
@@ -120,7 +120,7 @@ const LoginPage = () => {
         setError("Incorrect email or password");
         setLoading(false);
       } else {
-        router.push("/select-smartsite");
+        router.push("/");
         setMounted(false);
       }
     } catch (err) {
@@ -196,7 +196,7 @@ const LoginPage = () => {
                     <p>Or</p>
                     <hr className="w-full h-[1.5px] bg-gray-300" />
                   </div>
-                  <button className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
+                  {/* <button className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="14"
@@ -262,7 +262,7 @@ const LoginPage = () => {
                     </svg>
                     <Image src={walletIcon} alt="wallet icon" />
                     Connect a Wallet
-                  </button>
+                  </button> */}
                   <a
                     href={"/signup"}
                     className="flex items-center gap-2 justify-center w-full border border-gray-300 py-2 rounded-xl bg-transparent"

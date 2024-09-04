@@ -1,12 +1,12 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
-import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
-import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
-import { Spinner, useDisclosure } from "@nextui-org/react";
+// import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
+// import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
+import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { FiSend } from "react-icons/fi";
+// import { FiSend } from "react-icons/fi";
 import {
   QrCode1,
   QrCode2,
@@ -30,7 +30,7 @@ const CreateQRCode = ({ session }: any) => {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
@@ -74,12 +74,12 @@ const CreateQRCode = ({ session }: any) => {
     },
   ];
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const handleModal = () => {
-    onOpen();
-    setIsModalOpen(true);
-  };
+  // const handleModal = () => {
+  //   onOpen();
+  //   setIsModalOpen(true);
+  // };
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -189,12 +189,12 @@ const CreateQRCode = ({ session }: any) => {
         <div className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-gray-700">Customize QR</p>
-            <div onClick={handleModal}>
+            {/* <div onClick={handleModal}>
               <EditMicrositeBtn>
                 <FiSend />
                 Share
               </EditMicrositeBtn>
-            </div>
+            </div> */}
           </div>
           <form
             onSubmit={handleFormSubmit}
@@ -379,6 +379,15 @@ const CreateQRCode = ({ session }: any) => {
               </div>
             </div>
             <div className="">
+              <div>
+                <label
+                  htmlFor="url"
+                  className="font-semibold text-gray-700 text-sm"
+                >
+                  I want my QR code to scan to:{" "}
+                </label>
+                <div></div>
+              </div>
               <label
                 htmlFor="url"
                 className="font-semibold text-gray-700 text-sm"
@@ -493,7 +502,7 @@ const CreateQRCode = ({ session }: any) => {
           </DynamicPrimaryBtn> */}
         </div>
       </div>
-      <QRCodeShareModal
+      {/* <QRCodeShareModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         // bannerImgArr={bannerImgArr}
@@ -501,7 +510,7 @@ const CreateQRCode = ({ session }: any) => {
         // onSelectImage={handleSelectImage}
         setIsModalOpen={setIsModalOpen}
         // handleFileChange={handleFileChange}
-      />
+      /> */}
     </main>
   );
 };

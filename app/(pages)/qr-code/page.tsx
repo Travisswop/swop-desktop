@@ -43,12 +43,6 @@ const QrCodePage = async () => {
     <div className="main-container">
       <div className="flex items-center justify-between mb-4">
         <p className="text-gray-700 font-semibold text-lg ">QR Codes</p>
-        <Link href={"/qr-code/create"}>
-          <DynamicPrimaryBtn className="!px-10 mx-auto">
-            <IoQrCodeSharp />
-            Create
-          </DynamicPrimaryBtn>
-        </Link>
         {/* <div className="flex gap-3 items-center justify-between">
           <div className="relative flex-1">
             <CiSearch
@@ -79,8 +73,8 @@ const QrCodePage = async () => {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="flex items-center text-gray-500 w-[20%] mb-1">
-              Image
+            <th className="flex items-center text-gray-500 w-[20%] mb-1 ml-4">
+              Info
             </th>
             {/* <th className="flex items-center gap-4 w-[100%] mb-3">
               <Checkbox className="bg-white py-2 px-4 rounded-full" size="sm">
@@ -96,8 +90,8 @@ const QrCodePage = async () => {
                 />
               </div>
             </th> */}
-            <th className="text-gray-500 w-[20%] text-start pb-1">Title</th>
-            <th className="text-gray-500 w-[20%] text-start pb-1">Url</th>
+            <th className="text-gray-500 w-[20%] text-start pb-1">Type</th>
+            {/* <th className="text-gray-500 w-[20%] text-start pb-1">Url</th> */}
             <th className="text-gray-500 w-[20%] text-start pb-1">
               Created At
             </th>
@@ -109,28 +103,28 @@ const QrCodePage = async () => {
             <>
               {data.data.map((item: any) => (
                 <tr key={item._id} className="w-[100%] bg-white mb-6 border-b">
-                  <td className="flex items-center gap-2 w-[50%] py-3 pl-4">
+                  <td className="flex items-center gap-3 w-[50%] py-3 pl-4">
                     {/* <Checkbox size="sm"></Checkbox> */}
                     <Image
                       alt="qrcode"
                       src={item.qrCodeUrl}
                       width={300}
                       height={300}
-                      className="rounded w-28 h-28"
+                      className="rounded-lg w-16 h-16 border-2 border-gray-400"
                     />
-                    {/* <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4">
                       <div>
                         <p className="font-medium mb-1 text-gray-700">
                           {item.name}
                         </p>
                         <p className="text-xs text-gray-500">{item.data}</p>
                       </div>
-                    </div> */}
+                    </div>
                   </td>
                   <td className="w-[20%] text-gray-600 font-semibold pr-2">
-                    {item.name}
+                    Static
                   </td>
-                  <td className="w-[20%] text-gray-600 font-semibold pr-2">
+                  {/* <td className="w-[20%] text-gray-600 font-semibold pr-2">
                     <a
                       href={item.data}
                       target="_blank"
@@ -138,7 +132,7 @@ const QrCodePage = async () => {
                     >
                       {item.data}
                     </a>
-                  </td>
+                  </td> */}
                   <td className="w-[20%] text-gray-600 font-semibold">
                     {getFormattedDate(item.createdAt)}
                   </td>
@@ -146,7 +140,7 @@ const QrCodePage = async () => {
                     <div className="flex items-center gap-1">
                       <Link className="" href={`/qr-code/${item._id}`}>
                         <div className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center">
-                          <TbEdit color="blue" size={18} />
+                          <TbEdit size={18} />
                         </div>
                       </Link>
                       <DeleteQRCode id={item._id} token={session.accessToken} />
@@ -165,6 +159,12 @@ const QrCodePage = async () => {
           <p className="font-medium">No QR Code Available!</p>
         )}
       </div>
+      <Link href={"/qr-code/create"}>
+        <DynamicPrimaryBtn className="!px-10 mx-auto gap-2">
+          <IoQrCodeSharp />
+          Create QR Code
+        </DynamicPrimaryBtn>
+      </Link>
     </div>
   );
 };

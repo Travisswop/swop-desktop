@@ -47,12 +47,12 @@ export default async function PageLayout({
             <SideBarToggleProvider>
               <AppWalletProvider>
                 <LayoutComponent>
-                  <CheckIsSelectMicrositeAvailable>
-                    <div className="flex flex-col min-h-screen">
-                      <TopBar />
-                      {children}
-                    </div>
-                  </CheckIsSelectMicrositeAvailable>
+                  {/* <CheckIsSelectMicrositeAvailable> */}
+                  <div className="flex flex-col min-h-screen">
+                    <TopBar />
+                    {children}
+                  </div>
+                  {/* </CheckIsSelectMicrositeAvailable> */}
                 </LayoutComponent>
               </AppWalletProvider>
             </SideBarToggleProvider>

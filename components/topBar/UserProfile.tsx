@@ -12,7 +12,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { doSignOut } from "@/actions/auth";
-import { IoLogOutOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import Link from "next/link";
 
 const UserProfile = ({ session }: any) => {
@@ -79,7 +79,10 @@ const UserProfile = ({ session }: any) => {
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions" className="p-2 rounded">
           <DropdownItem key="changeSmartsite" className="bg-gray-200 mb-2">
-            <Link href={"/select-smartsite"}>Change Smartsite</Link>
+            {/* <Link href={"/select-smartsite"}>Change Smartsite</Link> */}
+            <Link href={"/error"} className="flex items-center gap-1">
+              <IoSettingsOutline /> Settings
+            </Link>
           </DropdownItem>
           {/* <DropdownItem key="copy">Copy link</DropdownItem>
           <DropdownItem key="edit">Edit file</DropdownItem> */}

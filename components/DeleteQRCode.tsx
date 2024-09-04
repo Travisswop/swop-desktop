@@ -53,11 +53,7 @@ const DeleteQRCode = ({ id, token }: { id: string; token: string }) => {
       type="button"
       className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center"
     >
-      {loading ? (
-        <Spinner size="sm" />
-      ) : (
-        <MdDeleteForever color="red" size={18} />
-      )}
+      {loading ? <Spinner size="sm" /> : <MdDeleteForever size={18} />}
     </button>
   );
 };
