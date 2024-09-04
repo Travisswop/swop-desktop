@@ -3,7 +3,7 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 // import axios from "axios";
 
-export const maxDuration = 60;
+// export const maxDuration = 60;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -44,6 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 email: data.data.email,
                 image: data.data.profilePic,
                 accessToken: token,
+                isPremiumUser: data.data.isPremiumUser,
               };
               user = sessionData;
               // console.log("user data from auth.js", user);
@@ -102,6 +103,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               ...token,
               _id: data.data._id,
               accessToken: data.token,
+              isPremiumUser: data.data.isPremiumUser,
             };
             token = dataWithToken;
           }

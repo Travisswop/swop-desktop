@@ -634,7 +634,7 @@ const LivePreview = ({ data }: { data?: any }) => {
 
         <div className="flex items-center justify-center gap-2 h-16">
           <Image alt="swop logo" src={swop} />
-          <BiSolidEdit />
+          {/* <BiSolidEdit /> */}
         </div>
       </div>
     </section>

@@ -100,6 +100,8 @@ export default async function HomePage() {
     },
   ];
 
+  console.log("session", session);
+
   return (
     <>
       {data ? (
