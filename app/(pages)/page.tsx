@@ -55,18 +55,22 @@ export default async function HomePage() {
     const dataSet = data.data.microsites.find(
       (microsite: any) => microsite.primary
     );
-    // console.log("data set", dataSet);
+    console.log("data set", dataSet);
 
-    if (dataSet.ensData) {
-      return dataSet.ensData;
+    if (dataSet) {
+      if (dataSet.ensData) {
+        return dataSet.ensData;
+      } else if (dataSet.ens) {
+        const walletData = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
+        );
+        const data = await walletData.json();
+        console.log("funct", data);
+
+        return data;
+      }
     } else {
-      const walletData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
-      );
-      const data = await walletData.json();
-      console.log("funct", data);
-
-      return data;
+      return null;
     }
   };
 
@@ -103,28 +107,35 @@ export default async function HomePage() {
       _id: 12344,
       title: "Leads",
       value: leads(),
-      days: "Life Time",
+      days: "30",
       percentage: 24,
     },
     {
-      _id: 123,
-      title: "Taps",
-      value: getLast30DaysTap(),
-      days: 30,
+      _id: 12344,
+      title: "Message",
+      value: 0,
+      days: "30",
       percentage: 24,
     },
+    // {
+    //   _id: 123,
+    //   title: "Taps",
+    //   value: getLast30DaysTap(),
+    //   days: 30,
+    //   percentage: 24,
+    // },
     {
       _id: 133,
       title: "Taps",
       value: data ? data?.data?.tap?.length : 0,
-      days: "Life Time",
+      days: "30",
       percentage: 24,
     },
     {
       _id: 1673,
       title: "Connections",
       value: data ? data?.data?.totalConnection : 0,
-      days: "Life Time",
+      days: "30",
       percentage: -24,
     },
   ];

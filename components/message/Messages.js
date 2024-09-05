@@ -40,7 +40,7 @@ const Persons = [
     date: "June 18, 2024",
   },
 ];
-const Messages = ({ userDetails }: any) => {
+const Messages = ({ userDetails }) => {
   // check is user exist
   // const [address, setAddress] = useState(null);
   const { address, isConnecting, isDisconnected } = useAccount();

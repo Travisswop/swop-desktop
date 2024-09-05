@@ -22,6 +22,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "app.apiswop.co",
       },
+      {
+        protocol: "http",
+        hostname: "app.apiswop.co",
+      },
     ],
   },
 };

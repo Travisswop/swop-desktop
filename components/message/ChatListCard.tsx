@@ -31,7 +31,7 @@ const Persons = [
   },
 ];
 
-const ChatListCard = ({ isConnect }) => {
+const ChatListCard = ({ isConnect }: any) => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const { open, close } = useWeb3Modal();
   const handleConnect = () => {
