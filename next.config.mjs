@@ -20,7 +20,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://app.apiswop.co",
+        hostname: "app.apiswop.co",
       },
     ],
   },
