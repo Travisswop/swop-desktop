@@ -17,6 +17,7 @@ const config: Config = {
       },
       colors: {
         white: "#FFFFFF",
+        black: "#000000"
       },
       keyframes: {
         "bg-slide": {
