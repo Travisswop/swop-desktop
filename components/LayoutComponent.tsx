@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "./SideBar";
 import { Providers } from "@/app/providers";
 import { MotionSection, easeInOutProp } from "@/util/Motion";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const LayoutComponent = ({ children }: any) => {
   const { toggle, setToggle } = useSideBarToggleStore();
@@ -11,8 +12,6 @@ const LayoutComponent = ({ children }: any) => {
   const handleToggle = () => {
     setToggle();
   };
-
-  // console.log("count from zustand", count);
 
   return (
     <div className={`flex h-screen`}>
