@@ -12,6 +12,8 @@ import Web3ModalProvider from "@/context";
 // import { XMTPProvider } from "@/context/xmtpContext";
 import AppWalletProvider from "@/components/AppWalletProvider";
 import CheckIsSelectMicrositeAvailable from "@/components/CheckIsSelectMicrositeAvailable";
+import { auth } from "@/auth";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 const popins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

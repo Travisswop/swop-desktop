@@ -9,9 +9,13 @@ import { Accordion, AccordionItem, Avatar } from "@nextui-org/react";
 import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
 import { LuBarChartHorizontalBig } from "react-icons/lu";
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
 const MintDetails = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(new Set(["1"]));
+  const { address, isConnected } = useAccount();
+
+  console.log("address", address, isConnected);
   return (
     <div className="main-container">
       <div className="bg-white py-20 flex justify-center">

@@ -18,10 +18,12 @@ import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
-import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
+// import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
-import SetupWalletModal from "@/components/modal/SetupWallet";
+// import SetupWalletModal from "@/components/modal/SetupWallet";
+import Cashflow from "@/components/cashflow/Cashflow";
+// import { useEffect } from "react";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
@@ -47,6 +49,27 @@ export default async function HomePage() {
 
     return imageSrc;
   };
+
+  const getEnsData = async () => {
+    const dataSet = data.data.microsites.find(
+      (microsite: any) => microsite.primary
+    );
+    // console.log("data set", dataSet);
+
+    if (dataSet.ensData) {
+      return dataSet.ensData;
+    } else {
+      const walletData = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
+      );
+      const data = await walletData.json();
+      console.log("funct", data);
+
+      return data;
+    }
+  };
+
+  // const walletData = getEnsData();
 
   const getLast30DaysTap = () => {
     if (data && data.state === "success") {
@@ -136,7 +159,7 @@ export default async function HomePage() {
                       ethAddress={data.data.microsites[0].ethAddress}
                     /> */}
                     {/* <TriggerSolanaWalletConnect /> */}
-                    <SetupWalletModal microsites={data.data.microsites} />
+                    {/* <SetupWalletModal microsites={data.data.microsites} /> */}
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>
@@ -149,7 +172,12 @@ export default async function HomePage() {
                   </AnimateButton>
                 </Link>
               </div>
-              <HomepageCashFlowChart />
+              {/* <HomepageCashFlowChart /> */}
+              <Cashflow
+                data={await getEnsData()}
+                token={session.accessToken}
+                microsites={data.data.microsites}
+              />
             </div>
 
             {/* connections */}
