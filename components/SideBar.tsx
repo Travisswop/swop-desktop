@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import swopLogo from "../public/images/logo/swop-logo.svg";
 import Image from "next/image";
@@ -13,8 +14,19 @@ import SideBarToggle from "./SideBarToggle";
 // import SideBarUpgradePlan from "./SideBarUpgradePlan";
 // import { doSignOut } from "@/actions/auth";
 import LogOutComponent from "./LogOut";
+import SideBarUpgradePlan from "./SideBarUpgradePlan";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const SideBar = ({ toggle, onToggle }: any) => {
+  // const session: any = await isUserAuthenticate();
+
+  const loggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.state.user
+  );
+
+  // console.log("loggedInUserInfo", loggedInUserInfo);
+
   const sidebarArray = [
     {
       id: 101,
@@ -113,7 +125,9 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        {/* <SideBarUpgradePlan toggle={toggle} /> */}
+        {loggedInUserInfo && !loggedInUserInfo.isPremiumUser && (
+          <SideBarUpgradePlan toggle={toggle} />
+        )}
 
         {/* logout  */}
         {/* <button

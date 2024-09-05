@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import Link from "next/link";
 
 const SideBarUpgradePlan = ({ toggle }: { toggle: boolean }) => {
   const [isShow, setIsShow] = useState(true);
@@ -36,9 +37,9 @@ const SideBarUpgradePlan = ({ toggle }: { toggle: boolean }) => {
             >
               Dismiss
             </button>
-            <button className="font-semibold text-[#8A2BE2]">
+            <Link href={"/subscribe"} className="font-semibold text-[#8A2BE2]">
               Upgrade Plan
-            </button>
+            </Link>
           </div>
         </motion.div>
       )}
