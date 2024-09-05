@@ -1,19 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import swopLogo from "../../../public/images/logo/swop-logo.svg";
-import Image from "next/image";
 import LoginPasswordInput from "@/components/LoginPasswordInput";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import swopLogo from "../../../public/images/logo/swop-logo.svg";
 // import walletIcon from "../../../public/wallet_login_icon.svg";
-import googleIcon from "../../../public/images/login-form/google-icon.svg";
-import appleIcon from "../../../public/images/login-form/apple-icon.svg";
-import login_astronot from "../../../public/images/login_astronot.svg";
-import { MotionSection } from "@/util/Motion";
-import { useAnimation } from "framer-motion";
 import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
 import SignInButton from "@/components/Button/SignInButton";
-import { useRouter } from "next/navigation";
+import { MotionSection } from "@/util/Motion";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
+import { useAnimation } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
+import appleIcon from "../../../public/images/login-form/apple-icon.svg";
+import googleIcon from "../../../public/images/login-form/google-icon.svg";
+import login_astronot from "../../../public/images/login_astronot.svg";
 
 // Type definitions for form errors
 interface FormErrors {
@@ -124,6 +124,7 @@ const LoginPage = () => {
         setMounted(false);
       }
     } catch (err) {
+      console.error("err", err);
       setLoading(false);
       if (err instanceof z.ZodError) {
         const fieldErrors: FormErrors = {};

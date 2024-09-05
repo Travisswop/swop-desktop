@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 // import axios from "axios";
 
 // export const maxDuration = 60;
-
+console.log("api url", process.env.NEXT_PUBLIC_API_URL);
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({

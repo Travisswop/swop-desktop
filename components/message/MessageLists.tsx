@@ -1,14 +1,9 @@
 "use client";
-import { isENSAvailable } from "@/actions/message";
-import isUrl from "@/util/isUrl";
-import { Spinner } from "@nextui-org/react";
-import { debounce } from "lodash";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
-import { BsXCircleFill } from "react-icons/bs";
-import { GoCheckCircleFill } from "react-icons/go";
-import { IoSearch } from "react-icons/io5";
+import { Client } from "@xmtp/xmtp-js";
+import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import ChatListCard from "./ChatListCard";
 
 interface Session {
   accessToken: string;
@@ -19,171 +14,115 @@ interface MessagesListsProps {
 }
 
 const MessagesLists: React.FC<MessagesListsProps> = ({ session }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isEnsSearchLoading, setIsEnsSearchLoading] = useState<boolean>(false);
-  const [ens, setEns] = useState<string>("");
-  const [ensData, setEnsData] = useState<any>(null);
-  const [isEnsNotAvailable, setIsEnsNotAvailable] = useState<boolean | null>(
-    null
-  );
+  const { address, isConnecting, isDisconnected } = useAccount();
+  const [signer, setSigner] = useState<ethers.Signer | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [conversations, setConversations] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const checkEnsDataAvailability = useCallback(
-    debounce(async (ens: string) => {
-      if (ens.length > 2) {
+  useEffect(() => {
+    const fetchConversations = async () => {
+      if (!signer) {
+        console.log("Signer is not available");
+        return;
+      }
+
+      try {
+        console.log("Creating XMTP client...");
+        const xmtp = await Client.create(signer, { env: "production" });
+        console.log("XMTP client created successfully", xmtp);
+
+        console.log("Fetching conversations...");
+        const conversationList = await xmtp.conversations.list();
+        console.log("Conversations fetched successfully", conversationList);
+
+        setConversations(conversationList);
+        setError(null);
+      } catch (error) {
+        console.error("Error in fetchConversations:", error);
+        setError(`Failed to fetch conversations: ${error.message}`);
+
+        // Additional logging for debugging
+        if (error instanceof Error) {
+          console.error("Error stack:", error.stack);
+        }
+
+        // Check if the error is related to the plugin
+        if (error.message.includes("Plugin Closed")) {
+          console.log("Plugin state:", await checkPluginState());
+        }
+      }
+    };
+
+    const checkPluginState = async () => {
+      // This is a placeholder function. You'll need to implement
+      // the actual check based on your wallet plugin's API
+      try {
+        // Example: Check if the wallet is unlocked
+        const isUnlocked = await window.ethereum._metamask.isUnlocked();
+        return { isUnlocked };
+      } catch (error) {
+        return { error: `Failed to check plugin state: ${error.message}` };
+      }
+    };
+
+    if (address && isConnected && signer) {
+      fetchConversations();
+    }
+  }, [signer, isConnected, address]);
+
+  useEffect(() => {
+    const getSigner = async () => {
+      if (typeof window.ethereum !== "undefined" && address) {
         try {
-          setIsEnsSearchLoading(true);
-          setIsEnsNotAvailable(false);
-          setEnsData(null);
+          console.log("Getting Web3 provider...");
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-          const response = await isENSAvailable(ens, session.accessToken);
+          console.log("Getting signer for address:", address);
+          const newSigner = provider.getSigner(`${address}`);
+          console.log("Signer obtained:", newSigner);
 
-          if (response?.name) {
-            setEnsData(response);
-            setIsEnsNotAvailable(true);
-          } else {
-            setIsEnsNotAvailable(false);
-          }
+          setSigner(newSigner);
+          setIsConnected(true);
+          setError(null);
         } catch (error) {
-          console.error("Error checking username availability:", error);
-        } finally {
-          setIsEnsSearchLoading(false);
+          console.error("Signer error:", error);
+          setIsConnected(false);
+          setSigner(null);
+          setError(`Failed to get signer: ${error.message}`);
         }
       } else {
-        setEnsData(null);
-        setIsEnsNotAvailable(null);
+        console.log("Ethereum provider not found or address not available");
+        setIsConnected(false);
+        setSigner(null);
+        setError("Ethereum provider not found or address not available");
       }
-    }, 500),
-    [session.accessToken]
-  );
+    };
 
-  useEffect(() => {
-    if (ens.length < 3) {
-      setEnsData(null);
-      setIsEnsSearchLoading(false);
-    }
-  }, [ens.length, ensData]);
+    getSigner();
+  }, [address]);
 
-  useEffect(() => {
-    if (ens.length > 2) {
-      checkEnsDataAvailability(ens);
-    }
-  }, [checkEnsDataAvailability, ens]);
-
-  const handleEnsnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEns(event.target.value);
-  };
-
-  // console.log("ens data", ensData);
+  console.log("Signer:", signer);
+  console.log("Is connected:", isConnected);
+  console.log("Address:", address);
 
   return (
     <div className="main-container">
       <div className="flex items-start justify-between">
         <p className="text-gray-700 font-semibold text-lg mb-10">Messages</p>
-        <div className="relative mb-4 w-1/2 xl:w-1/3">
-          <div className="absolute left-3 top-1/2 -translate-y-1/2">
-            <IoSearch size="18" color="gray" />
-          </div>
-          <input
-            type="text"
-            name="ens"
-            value={ens}
-            onChange={handleEnsnameChange}
-            placeholder="Register your free ENS Swop.ID"
-            className="w-full py-2 bg-gray-100 pl-9 pr-4 focus:outline-none rounded-lg border border-gray-300 focus:border-gray-400 font-medium text-gray-700"
-          />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2">
-            {isEnsSearchLoading ? (
-              <Spinner size="sm" color="secondary" />
-            ) : isEnsNotAvailable === null || ens.length === 0 ? (
-              ""
-            ) : ens.length > 0 && ens.length < 3 ? (
-              <BsXCircleFill color="red" size={20} />
-            ) : isEnsNotAvailable && ens.length > 2 ? (
-              <GoCheckCircleFill color="green" size={20} />
-            ) : (
-              <BsXCircleFill color="red" size={19} />
-            )}
-          </div>
-        </div>
       </div>
-      <table className="w-full">
-        <thead className="mb-4">
-          <tr>
-            <th className="text-gray-500 w-[15%] text-start -translate-y-2">
-              Details
-            </th>
-            <th className="text-gray-500 w-[15%] text-start -translate-y-2">
-              Joined In
-            </th>
-            <th className="text-gray-500 w-[15%] text-start -translate-y-2">
-              Chat
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="w-full bg-white mb-6 border-b">
-            <td className="flex items-center gap-4 w-[100%] py-2 pl-4">
-              <Image
-                alt="default user image"
-                src={
-                  "https://res.cloudinary.com/bayshore/image/upload/v1681031967/default_avatar_pxnxzs.png"
-                }
-                width={50}
-                height={50}
-              />
-              <div>
-                <p>Welcome to SWOP</p>
-                <p className="text-xs text-gray-500">
-                  I am the SWOP chat welcomer
-                </p>
-              </div>
-            </td>
-            <td className="w-[15%] text-gray-400 font-semibold">
-              June 23, 2023
-            </td>
-            <td className="w-[15%]">
-              <Link className="w-full h-full" href={`/messages/123`}>
-                <div className="bg-gray-200 px-4 py-2 w-max rounded-lg text-sm font-semibold">
-                  view
-                </div>
-              </Link>
-            </td>
-          </tr>
-          {ensData && ensData?.name && (
-            <tr className="w-full bg-white mb-6 border-b">
-              <td className="flex items-center gap-4 w-[100%] py-2 pl-4">
-                <Image
-                  alt="user image"
-                  src={
-                    isUrl(ensData.domainOwner.avatar)
-                      ? ensData.domainOwner.avatar
-                      : `/images/user_avator/${ensData.domainOwner.avatar}.png`
-                  }
-                  width={50}
-                  height={50}
-                />
-                <div>
-                  <p>{ensData.name}</p>
-                  <p className="text-xs text-gray-500">Founder at swop</p>
-                </div>
-              </td>
-              <td className="w-[15%] text-gray-400 font-semibold">
-                {ensData.createdAt}
-              </td>
-              <td className="w-[15%]">
-                <Link
-                  className="w-full h-full"
-                  href={`/messages/${ensData.name}`}
-                >
-                  <div className="bg-gray-200 px-4 py-2 w-max rounded-lg text-sm font-semibold">
-                    view
-                  </div>
-                </Link>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <ChatListCard isConnect={isConnected} />
+      {error && <p className="text-red-500">{error}</p>}
+      {conversations.length > 0 && (
+        <div>
+          <h2>Conversations:</h2>
+          <ul>
+            {conversations.map((conv, index) => (
+              <li key={index}>{conv.topic}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

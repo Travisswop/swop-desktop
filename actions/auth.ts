@@ -52,3 +52,27 @@ export async function checkIsUserExist(email: string) {
     console.error("Error:", error);
   }
 }
+
+export async function getPeerData(peerAddresses, token) {
+  console.log("🚀 ~ getPeerData ~ peerAddresses", peerAddresses);
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/microsite/getPeerData`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ peerAddresses }),
+      }
+    );
+
+    const data = await response.json();
+    console.log("🚀 ~ getPeerData ~ data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    return error;
+  }
+}
