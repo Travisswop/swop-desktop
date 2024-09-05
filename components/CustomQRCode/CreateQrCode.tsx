@@ -516,6 +516,7 @@ const CreateQRCode = ({ session }: any) => {
               </label>
               <div className='flex-1'>
                 <input
+                  required
                   type='text'
                   placeholder={`Enter qr code title`}
                   id='title'

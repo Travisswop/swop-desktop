@@ -549,6 +549,7 @@ const UpdateQRCode = ({ session, data }: any) => {
               </label>
               <div className='flex-1'>
                 <input
+                  required
                   type='text'
                   placeholder={`Enter qr code title`}
                   id='title'
