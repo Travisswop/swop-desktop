@@ -21,10 +21,6 @@ import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 const SideBar = ({ toggle, onToggle }: any) => {
   // const session: any = await isUserAuthenticate();
 
-  const loggedInUserInfo = useLoggedInUserStore(
-    (state: any) => state.state.user
-  );
-
   // console.log("loggedInUserInfo", loggedInUserInfo);
 
   const sidebarArray = [
@@ -125,9 +121,8 @@ const SideBar = ({ toggle, onToggle }: any) => {
         <hr className={`${!toggle ? "my-10" : "my-6"}`} />
 
         {/* upgrade plan  */}
-        {loggedInUserInfo && !loggedInUserInfo.isPremiumUser && (
-          <SideBarUpgradePlan toggle={toggle} />
-        )}
+        {/* {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && ( */}
+        <SideBarUpgradePlan toggle={toggle} />
 
         {/* logout  */}
         {/* <button

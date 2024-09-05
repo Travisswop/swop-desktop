@@ -23,6 +23,7 @@ import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import SetupWalletModal from "@/components/modal/SetupWallet";
 import Cashflow from "@/components/cashflow/Cashflow";
+import ShowEnsName from "@/components/ShowEnsName";
 // import { useEffect } from "react";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
@@ -92,7 +93,19 @@ export default async function HomePage() {
     }
   };
 
+  const leads = () => {
+    const count = data?.data?.subscriber?.length ?? 0;
+    return count;
+  };
+
   const websiteAnalyticsArr = [
+    {
+      _id: 12344,
+      title: "Leads",
+      value: leads(),
+      days: "Life Time",
+      percentage: 24,
+    },
     {
       _id: 123,
       title: "Taps",
@@ -105,13 +118,6 @@ export default async function HomePage() {
       title: "Taps",
       value: data ? data?.data?.tap?.length : 0,
       days: "Life Time",
-      percentage: 24,
-    },
-    {
-      _id: 124,
-      title: "Connections",
-      value: data ? data?.data?.totalConnection : 0,
-      days: 20,
       percentage: 24,
     },
     {
@@ -154,6 +160,7 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
+                    <ShowEnsName data={data.data} />
                     {/* <TriggerWalletConnectButton
                       ens={data.data.microsites[0].ens}
                       ethAddress={data.data.microsites[0].ethAddress}

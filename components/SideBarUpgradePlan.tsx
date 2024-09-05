@@ -3,12 +3,16 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const SideBarUpgradePlan = ({ toggle }: { toggle: boolean }) => {
   const [isShow, setIsShow] = useState(true);
+  const loggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.state.user
+  );
   return (
     <>
-      {isShow && (
+      {isShow && !loggedInUserInfo?.isPremiumUser && (
         <motion.div
           initial={{
             opacity: toggle ? 0 : 1,
