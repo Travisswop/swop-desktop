@@ -143,7 +143,7 @@ const SetupPrimarySmartsiteWalletModal = ({ microsites }: any) => {
 
       {open && (
         <div
-          className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
+          className="fixed z-50 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
           onClick={handleBackdropClick}
         >
           <div className="h-max w-max bg-white relative rounded-xl">

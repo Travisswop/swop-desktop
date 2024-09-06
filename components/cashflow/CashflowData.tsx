@@ -20,7 +20,7 @@ const CashflowData = ({ microsites, flowData }: any) => {
       >
         <SetupPrimarySmartsiteWalletModal microsites={microsites} />
       </div>
-      <div className=" flex flex-col gap-2 relative z-10">
+      <div className="flex flex-col gap-2 relative z-10">
         {flowData.result.map((item: any, index: number) => (
           <div
             key={index}
@@ -83,7 +83,7 @@ const CashflowData = ({ microsites, flowData }: any) => {
               )}
               {item.network === "solana" && (
                 <Image
-                  src={"/images/cashflow/Solana@2x.png"}
+                  src={"/images/cashflow/SOL.webp"}
                   alt="eth logo"
                   width={40}
                   height={40}

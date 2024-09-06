@@ -4,9 +4,11 @@ import { GoDotFill } from "react-icons/go";
 import { useAccount } from "wagmi";
 
 const ShowEnsName = ({ data }: any) => {
-  console.log("enssfsf", data);
+  // console.log("enssfsf", data);
   const [micrositeData, setMicrositeData] = useState<any>(null);
   const { address, isConnected } = useAccount();
+
+  console.log("microsite dataaaa", micrositeData);
 
   useEffect(() => {
     const datas = data.microsites.find((microsite: any) => microsite.primary);
@@ -19,7 +21,7 @@ const ShowEnsName = ({ data }: any) => {
         {micrositeData?.ens ? micrositeData?.ens : "n/a"}
       </p>
       <div className="absolute -top-1 -right-1.5">
-        {address && isConnected ? (
+        {address && isConnected && micrositeData?.ens ? (
           <GoDotFill color="green" />
         ) : (
           <GoDotFill color="red" />

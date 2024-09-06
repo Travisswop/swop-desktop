@@ -90,7 +90,7 @@ const SignUpPage = () => {
   }
 
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-y-auto">
       <div className="pt-14 pb-20 lg:py-28 h-screen">
         <section className="flex justify-center relative -z-10">
           <Image

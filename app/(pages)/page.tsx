@@ -55,7 +55,7 @@ export default async function HomePage() {
     const dataSet = data.data.microsites.find(
       (microsite: any) => microsite.primary
     );
-    console.log("data set", dataSet);
+    // console.log("data set", dataSet);
 
     if (dataSet) {
       if (dataSet.ensData) {
@@ -68,9 +68,11 @@ export default async function HomePage() {
         console.log("funct", data);
 
         return data;
+      } else {
+        return dataSet._id;
       }
     } else {
-      return null;
+      return "No Primary microsite found!";
     }
   };
 
@@ -140,7 +142,7 @@ export default async function HomePage() {
     },
   ];
 
-  console.log("session", session);
+  // console.log("session", session);
 
   return (
     <>

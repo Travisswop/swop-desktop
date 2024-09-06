@@ -8,7 +8,7 @@ import { doSignInWithGoogle, signInWithCredentials } from "@/actions/auth";
 import SignInButton from "@/components/Button/SignInButton";
 import { MotionSection } from "@/util/Motion";
 import { signInSchema } from "@/util/zodSchema/signInZodSchema";
-import { useAnimation } from "framer-motion";
+// import { useAnimation } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import appleIcon from "../../../public/images/login-form/apple-icon.svg";
@@ -23,86 +23,86 @@ interface FormErrors {
 
 const LoginPage = () => {
   const router = useRouter();
-  const controls = useAnimation();
-  const [mounted, setMounted] = useState(false);
+  // const controls = useAnimation();
+  // const [mounted, setMounted] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   // Using random x and y position astronaut float around background
-  useEffect(() => {
-    if (!mounted || !controls) return; // Ensure the component is mounted and controls are defined
+  // useEffect(() => {
+  //   if (!mounted || !controls) return; // Ensure the component is mounted and controls are defined
 
-    // Variables to store the previous x and y positions
-    let previousX = 0;
-    let previousY = 0;
-    let isCancelled = false; // Track if the animation should be cancelled
+  //   // Variables to store the previous x and y positions
+  //   let previousX = 0;
+  //   let previousY = 0;
+  //   let isCancelled = false; // Track if the animation should be cancelled
 
-    // Generate random x position with a difference of 50-100 pixels
-    const getRandomXPosition = () => {
-      const screenWidth = window.innerWidth;
-      const maxX = screenWidth - 300; // Adjust based on the image width
+  //   // Generate random x position with a difference of 50-100 pixels
+  //   const getRandomXPosition = () => {
+  //     const screenWidth = window.innerWidth;
+  //     const maxX = screenWidth - 300; // Adjust based on the image width
 
-      let newX = Math.floor(Math.random() * maxX);
+  //     let newX = Math.floor(Math.random() * maxX);
 
-      // Ensure the newX is at least 50-100 pixels away from the previousX
-      while (
-        Math.abs(newX - previousX) < 300 ||
-        Math.abs(newX - previousX) > 500
-      ) {
-        newX = Math.floor(Math.random() * maxX);
-      }
+  //     // Ensure the newX is at least 50-100 pixels away from the previousX
+  //     while (
+  //       Math.abs(newX - previousX) < 300 ||
+  //       Math.abs(newX - previousX) > 500
+  //     ) {
+  //       newX = Math.floor(Math.random() * maxX);
+  //     }
 
-      previousX = newX; // Update the previousX for the next calculation
-      return { x: newX };
-    };
+  //     previousX = newX; // Update the previousX for the next calculation
+  //     return { x: newX };
+  //   };
 
-    // Generate random y position with a difference of 50-100 pixels
-    const getRandomYPosition = () => {
-      const screenHeight = window.innerHeight;
-      const maxY = screenHeight - 300; // Adjust based on the image height
+  //   // Generate random y position with a difference of 50-100 pixels
+  //   const getRandomYPosition = () => {
+  //     const screenHeight = window.innerHeight;
+  //     const maxY = screenHeight - 300; // Adjust based on the image height
 
-      let newY = Math.floor(Math.random() * maxY);
+  //     let newY = Math.floor(Math.random() * maxY);
 
-      // Ensure the newY is at least 50-100 pixels away from the previousY
-      while (
-        Math.abs(newY - previousY) < 300 ||
-        Math.abs(newY - previousY) > 500
-      ) {
-        newY = Math.floor(Math.random() * maxY);
-      }
+  //     // Ensure the newY is at least 50-100 pixels away from the previousY
+  //     while (
+  //       Math.abs(newY - previousY) < 300 ||
+  //       Math.abs(newY - previousY) > 500
+  //     ) {
+  //       newY = Math.floor(Math.random() * maxY);
+  //     }
 
-      previousY = newY; // Update the previousY for the next calculation
-      return { y: newY };
-    };
+  //     previousY = newY; // Update the previousY for the next calculation
+  //     return { y: newY };
+  //   };
 
-    const sequence = async () => {
-      for (let i = 0; i < 5; i++) {
-        if (isCancelled) return; // Stop the animation if cancelled
-        const { x } = getRandomXPosition();
-        const { y } = getRandomYPosition();
-        await controls.start({
-          x,
-          y,
-          rotate: [10, -10, 10],
-          transition: { duration: 4, ease: "easeInOut" },
-        });
-      }
-      sequence(); // Call the sequence function again to create a loop
-    };
+  //   const sequence = async () => {
+  //     for (let i = 0; i < 5; i++) {
+  //       if (isCancelled) return; // Stop the animation if cancelled
+  //       const { x } = getRandomXPosition();
+  //       const { y } = getRandomYPosition();
+  //       await controls.start({
+  //         x,
+  //         y,
+  //         rotate: [10, -10, 10],
+  //         transition: { duration: 4, ease: "easeInOut" },
+  //       });
+  //     }
+  //     sequence(); // Call the sequence function again to create a loop
+  //   };
 
-    sequence(); // Start the sequence when mounted and controls are ready
+  //   sequence(); // Start the sequence when mounted and controls are ready
 
-    // Cleanup the animation on unmount or when route changes
-    return () => {
-      isCancelled = true; // Set the flag to cancel ongoing animations
-      controls.stop(); // Stop any ongoing animations
-    };
-  }, [mounted, controls]); // Depend on mounted and controls
+  //   // Cleanup the animation on unmount or when route changes
+  //   return () => {
+  //     isCancelled = true; // Set the flag to cancel ongoing animations
+  //     controls.stop(); // Stop any ongoing animations
+  //   };
+  // }, [mounted, controls]); // Depend on mounted and controls
 
   async function handleSubmit(event: any) {
     event.preventDefault();
@@ -121,7 +121,7 @@ const LoginPage = () => {
         setLoading(false);
       } else {
         router.push("/");
-        setMounted(false);
+        // setMounted(false);
       }
     } catch (err) {
       console.error("err", err);
@@ -140,9 +140,9 @@ const LoginPage = () => {
 
   return (
     <main className="overflow-y-auto overflow-x-hidden relative py-10 2xl:py-16 h-screen">
-      <MotionSection className="absolute" animate={controls}>
-        <Image alt="login_astronot" src={login_astronot} />
-      </MotionSection>
+      {/* <MotionSection className="absolute" animate={controls}> */}
+      {/* <Image alt="login_astronot" src={login_astronot} /> */}
+      {/* </MotionSection> */}
 
       <div className="">
         <section className="flex justify-center relative -z-10">
