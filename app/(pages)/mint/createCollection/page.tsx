@@ -20,34 +20,31 @@ const CreateCollectionPage = () => {
       [name]: value,
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     try {
-      // Retrieve user data from localStorage
       const storedData = JSON.parse(localStorage.getItem("user-storage") || "{}");
       const accessToken = storedData?.state?.state?.user?.accessToken;
-  
+
       if (!accessToken) {
         alert("Access token not found. Please log in again.");
         return;
       }
-  
-      // Set up the request headers with the accessToken
+
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-  
-      // Make the API request with the token included
+
       const response = await axios.post(
         "http://localhost:4000/api/v1/desktop/nft/collections",
         formData,
-        config // Pass the config with headers
+        config
       );
-  
+
       if (response.data.state === "success") {
         alert("Collection created successfully!");
       }
@@ -56,13 +53,13 @@ const CreateCollectionPage = () => {
       alert("Failed to create collection");
     }
   };
-  
+
   return (
     <div className="main-container">
       <div className="bg-white">
         <div className="w-1/2 mx-auto flex flex-col gap-4 py-5">
           <h2 className="text-2xl font-bold">Create New Collection</h2>
-          
+
           <div>
             <label htmlFor="name" className="mb-1 block font-medium">
               Name:
@@ -108,6 +105,17 @@ const CreateCollectionPage = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
               required
             />
+            {/* Conditional rendering of the image preview */}
+            {formData.imageUrl && (
+              <div className="mt-4">
+                <img
+                  src={formData.imageUrl}
+                  alt="Preview"
+                  className="w-64 h-64 object-cover border border-gray-300 rounded-lg"
+                  onError={(e) => (e.currentTarget.style.display = 'none')} // Hide if invalid image
+                />
+              </div>
+            )}
           </div>
 
           <div>
