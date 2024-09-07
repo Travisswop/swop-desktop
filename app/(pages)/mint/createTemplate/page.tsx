@@ -51,7 +51,7 @@ const CreateTemplatePage = () => {
       };
   
       const response = await axios.post(
-        "http://localhost:4000/api/v1/desktop/nft/template",
+        `${process.env.LOCAL_BASE_URL}/api/v1/desktop/nft/template`,
         finalData, // Send the finalData with converted numbers
         config
       );
