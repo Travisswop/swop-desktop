@@ -40,7 +40,7 @@ const MintDetails = ({ templateDetails }: { templateDetails: any }) => {
               <DynamicPrimaryBtn className="!rounded-lg">
                 Connect Wallet
               </DynamicPrimaryBtn>
-              <Link href={`https://swop-checkout.vercel.app/getClient/${collection.id}/${template.templateId}`}>
+              <Link href={`https://swop-checkout.vercel.app/GetClient/${collection.id}/${template.templateId}`}>
                 <EditMicrositeBtn className="!rounded-lg !text-gray-600 !border-gray-400 flex justify-center">
                   Click To Claim
                 </EditMicrositeBtn>
