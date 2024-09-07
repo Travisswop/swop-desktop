@@ -5,7 +5,6 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
 import HomePageLoading from "@/components/loading/HomePageLoading";
-// import ForceSignOut from "@/components/ForceSignOut"; // Temporarily disabled
 
 const MintDashboard = async () => {
   const session: any = await isUserAuthenticate(); // check if user exists
@@ -35,12 +34,14 @@ const MintDashboard = async () => {
                   img={template.metadata.image}
                   title={template.metadata.name}
                   text={`Limit: ${template.supply.limit}, Minted: ${template.supply.minted}`}
+                  collectionId={group.collection.id} // Pass collectionId
+                  templateId={template.templateId} // Pass templateId
                 />
               ))}
             </div>
             <Link href={""} className="flex justify-center my-6">
               <button className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg">
-                Add To Collection
+                Add NFTs To This Collection
               </button>
             </Link>
           </div>
