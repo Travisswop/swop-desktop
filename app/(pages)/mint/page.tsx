@@ -1,7 +1,7 @@
 import React from "react";
 import MintCart from "@/components/MintCart";
 import Link from "next/link";
-import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
 import HomePageLoading from "@/components/loading/HomePageLoading";
@@ -47,7 +47,7 @@ const MintDashboard = async () => {
           </div>
         ))}
         <div className="flex justify-center">
-          <DynamicPrimaryBtn className="!py-2">Create Collection</DynamicPrimaryBtn>
+          <PushToMintCollectionButton className="!py-2">Create Collection</PushToMintCollectionButton>
         </div>
       </div>
     </main>
