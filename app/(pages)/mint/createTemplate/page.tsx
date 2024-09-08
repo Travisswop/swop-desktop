@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
+import Image from "next/image";
 
 const CreateTemplatePage = () => {
   const [formData, setFormData] = useState({
@@ -15,47 +16,54 @@ const CreateTemplatePage = () => {
     expiry: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-  
+
     // Convert `supplyLimit` and `price` to numbers, if they are the target fields
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === "supplyLimit" || name === "price" ? Number(value) : value, // Convert to number for those fields
+      [name]:
+        name === "supplyLimit" || name === "price" ? Number(value) : value, // Convert to number for those fields
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
-      const storedData = JSON.parse(localStorage.getItem("user-storage") || "{}");
+      const storedData = JSON.parse(
+        localStorage.getItem("user-storage") || "{}"
+      );
       const accessToken = storedData?.state?.state?.user?.accessToken;
-  
+
       if (!accessToken) {
         alert("Access token not found. Please log in again.");
         return;
       }
-  
+
       // Explicitly convert supplyLimit and price to numbers before submitting
       const finalData = {
         ...formData,
         supplyLimit: Number(formData.supplyLimit), // Ensure it's a number
         price: Number(formData.price), // Ensure it's a number
       };
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-  
+
       const response = await axios.post(
         `${process.env.LOCAL_BASE_URL}/api/v1/desktop/nft/template`,
         finalData, // Send the finalData with converted numbers
         config
       );
-  
+
       if (response.data.state === "success") {
         alert("NFT Template created successfully!");
       }
@@ -64,7 +72,7 @@ const CreateTemplatePage = () => {
       alert("Failed to create template");
     }
   };
-  
+
   return (
     <div className="main-container">
       <div className="bg-white">
@@ -135,11 +143,11 @@ const CreateTemplatePage = () => {
             {/* Conditional rendering of the image preview */}
             {formData.image && (
               <div className="mt-4">
-                <img
+                <Image
                   src={formData.image}
                   alt="Preview"
                   className="w-64 h-64 object-cover border border-gray-300 rounded-lg"
-                  onError={(e) => (e.currentTarget.style.display = 'none')} // Hide if invalid image
+                  onError={(e) => (e.currentTarget.style.display = "none")} // Hide if invalid image
                 />
               </div>
             )}
@@ -209,9 +217,9 @@ const CreateTemplatePage = () => {
             />
           </div>
 
-          <DynamicPrimaryBtn onClick={handleSubmit} className="w-max">
+          <PushToMintCollectionButton onClick={handleSubmit} className="w-max">
             Create Template
-          </DynamicPrimaryBtn>
+          </PushToMintCollectionButton>
         </div>
       </div>
     </div>

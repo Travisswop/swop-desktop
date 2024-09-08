@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
+import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
+import Image from "next/image";
 
 const CreateCollectionPage = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,11 @@ const CreateCollectionPage = () => {
     currency: "sol", // Default to Solana
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -23,9 +28,11 @@ const CreateCollectionPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
-      const storedData = JSON.parse(localStorage.getItem("user-storage") || "{}");
+      const storedData = JSON.parse(
+        localStorage.getItem("user-storage") || "{}"
+      );
       const accessToken = storedData?.state?.state?.user?.accessToken;
 
       if (!accessToken) {
@@ -108,11 +115,11 @@ const CreateCollectionPage = () => {
             {/* Conditional rendering of the image preview */}
             {formData.imageUrl && (
               <div className="mt-4">
-                <img
+                <Image
                   src={formData.imageUrl}
                   alt="Preview"
                   className="w-64 h-64 object-cover border border-gray-300 rounded-lg"
-                  onError={(e) => (e.currentTarget.style.display = 'none')} // Hide if invalid image
+                  onError={(e) => (e.currentTarget.style.display = "none")} // Hide if invalid image
                 />
               </div>
             )}
@@ -135,7 +142,10 @@ const CreateCollectionPage = () => {
           </div>
 
           <div>
-            <label htmlFor="recipientAddress" className="mb-1 block font-medium">
+            <label
+              htmlFor="recipientAddress"
+              className="mb-1 block font-medium"
+            >
               Recipient Address:
             </label>
             <input
@@ -167,9 +177,9 @@ const CreateCollectionPage = () => {
             </select>
           </div>
 
-          <DynamicPrimaryBtn onClick={handleSubmit} className="w-max">
+          <PushToMintCollectionButton onClick={handleSubmit} className="w-max">
             Create Collection
-          </DynamicPrimaryBtn>
+          </PushToMintCollectionButton>
         </div>
       </div>
     </div>
