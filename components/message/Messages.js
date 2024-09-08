@@ -12,6 +12,9 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useAccount } from "wagmi";
+import SetupPrimarySmartsiteWalletModal from "../modal/SetupPrimarySmartsiteWallet";
+import { debounce } from "lodash";
+import { BsThreeDots } from "react-icons/bs";
 const API_KEY = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_KEY;
 const Persons = [
   {
@@ -57,12 +60,18 @@ const Messages = ({ userDetails }) => {
   const [changeConversationLoading, setChangeConversationLoading] =
     useState(false);
   const [walletType, setWalletType] = useState("metamask");
+  const [messageType, setMessageType] = useState("allInbox");
+  const [ensname, setEnsname] = useState("");
+  const [ensSearchData, setEnsSearchData] = useState("");
+  const [isEnsSearchLoading, setIsEnsSearchLoading] = useState(false);
+
+  // console.log("ensSearchData", ensSearchData);
 
   const { open, close } = useWeb3Modal();
 
-  console.log("messages", messages);
-  console.log("messageList", messageList);
-  console.log("peerAddress", peerAddress);
+  // console.log("messages", messages);
+  // console.log("messageList", messageList);
+  // console.log("peerAddress", peerAddress);
 
   useEffect(() => {
     const getSigner = async () => {
@@ -84,18 +93,18 @@ const Messages = ({ userDetails }) => {
     }
   }, [address, walletType]);
 
-  console.log("signer", signer);
+  // console.log("signer", signer);
 
   const fetchData = useCallback(async () => {
     try {
       const peerAddresses = messageList.map((message) => message.peerAddress);
-      console.log("peerAddresses", peerAddresses);
+      // console.log("peerAddresses", peerAddresses);
 
       const response = await getPeerData(
         peerAddresses,
         userDetails.accessToken
       );
-      console.log("🚀 ~ fetchData ~ data:", response.data);
+      // console.log("🚀 ~ fetchData ~ data:", response.data);
 
       const filterMessageList = messageList.map((message) => {
         const peerData = response.data.find(
@@ -123,16 +132,16 @@ const Messages = ({ userDetails }) => {
     }
   }, [messageList, fetchData]);
 
-  console.log("user access token", userDetails.accessToken);
+  // console.log("user access token", userDetails.accessToken);
 
   useEffect(() => {
     const fetchConversations = async () => {
       if (signer) {
         try {
-          console.log("hit");
+          // console.log("hit");
           setLoading(true);
           const xmtp = await Client.create(signer, { env: "production" });
-          console.log("xmtp", xmtp);
+          // console.log("xmtp", xmtp);
 
           const encryptedMessageList = localStorage.getItem("messageList");
 
@@ -222,7 +231,7 @@ const Messages = ({ userDetails }) => {
         setIsOnNetwork(true);
         clientRef.current = xmtp;
       } else {
-        console.log("Peer is not on the network");
+        // console.log("Peer is not on the network");
       }
     } catch (error) {
       console.error("Error initializing XMTP:", error);
@@ -272,10 +281,37 @@ const Messages = ({ userDetails }) => {
     setChangeConversationLoading(false);
   };
 
-  const handleWalletSelect = (type) => {
-    setWalletType(type);
-    setSigner(null); // Reset signer to trigger useEffect
-  };
+  const checkUsernameAvailability = useCallback(
+    debounce(async (ensname) => {
+      if (ensname.length > 2) {
+        try {
+          setIsEnsSearchLoading(true);
+          //   setUsername("");
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${ensname}`
+          );
+          const data = await response.json();
+          // console.log("datasdfsdf", data);
+
+          if (data) {
+            setEnsSearchData(data);
+          } else {
+            setEnsSearchData(null);
+          }
+        } catch (error) {
+          console.error("Error checking username availability:", error);
+        } finally {
+          setIsEnsSearchLoading(false);
+          // setEnsname(null);
+        }
+      }
+    }, 800), // Adjust the debounce delay as needed
+    []
+  );
+
+  useEffect(() => {
+    checkUsernameAvailability(ensname);
+  }, [checkUsernameAvailability, ensname]);
 
   return (
     <main className="main-container h-[calc(100vh-120px)]">
@@ -354,6 +390,15 @@ const Messages = ({ userDetails }) => {
           </div>
         </div>
       )}
+      <div
+        className={`${
+          isConnected
+            ? "hidden"
+            : "w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
+        }`}
+      >
+        {/* <SetupPrimarySmartsiteWalletModal microsites={microsites} /> */}
+      </div>
       {/* <p>address: {address}</p> */}
       {isConnected && (
         <div className="flex gap-7 items-start h-full">
@@ -435,61 +480,142 @@ const Messages = ({ userDetails }) => {
           <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
             {messageList && (
               <>
-                <p className="heading-4">All Inbox</p>
-                <div className="relative">
-                  <CiSearch
-                    className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    placeholder={`Search Here....`}
-                    className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
-                  />
-                </div>
-                {messageList.map((chat) => (
-                  <div
-                    key={chat.id}
-                    onClick={() => handleWalletClick(chat)}
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setMessageType("allInbox")}
                     className={`${
-                      peerAddress === chat.peerAddress
-                        ? "bg-black text-white"
-                        : "text-black"
-                    }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
+                      messageType === "allInbox"
+                        ? "font-bold text-gray-800"
+                        : "font-medium text-gray-600"
+                    } `}
                   >
-                    <div className="flex items-center gap-2 justify-between">
-                      {/* <Image
-                        alt="user image"
-                        src={"/images/travis.png"}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      /> */}
-                      <div
-                        className={`w-10 h-10 rounded-full`}
-                        style={{ backgroundColor: chat.peerColor }}
-                      ></div>
-                      <div>
-                        <p className="font-sembold">{chat.name}</p>
-                        <p
-                          className={`text-sm ${
-                            peerAddress === chat.peerAddress
-                              ? "text-white"
-                              : "text-gray-500"
-                          } font-medium`}
-                        >
-                          {chat.bio}
-                        </p>
-                      </div>
-                    </div>
-                    {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
-                    {/* <BsThreeDots color="black" size={17} /> */}
-                    <p className="text-sm text-gray-500 font-medium">
-                      {timeAgo(chat.lastMessageTime)}
-                    </p>
-                    {/* </div> */}
+                    All Inbox
+                  </button>
+                  <button
+                    onClick={() => setMessageType("requests")}
+                    className={`${
+                      messageType === "requests"
+                        ? "font-bold text-gray-800"
+                        : "font-medium text-gray-600"
+                    } `}
+                  >
+                    Requests
+                  </button>
+                </div>
+                {messageType === "allInbox" && (
+                  <div className="relative">
+                    <CiSearch
+                      className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      value={ensname}
+                      onChange={(e) => setEnsname(e.target.value)}
+                      placeholder={`Search Here....`}
+                      className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none pl-10 py-2 text-gray-700 bg-gray-100"
+                    />
                   </div>
-                ))}
+                )}
+                {isEnsSearchLoading ? (
+                  <Spinner size="sm" color="primary" />
+                ) : (
+                  <>
+                    {ensSearchData &&
+                    ensSearchData?.message === "Name not found" &&
+                    ensname?.length > 0 ? (
+                      <div className="flex justify-center text-sm font-medium text-gray-600">
+                        <p>ENS not valid!</p>
+                      </div>
+                    ) : (
+                      <>
+                        {ensSearchData && ensname?.length > 0 ? (
+                          <div
+                            // onClick={() => handleWalletClick(chat)}
+                            className={`${
+                              true ? "bg-black text-white" : "text-black"
+                            }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
+                          >
+                            <div className="flex items-center gap-2 justify-between">
+                              {/* <Image
+                  alt="user image"
+                  src={"/images/travis.png"}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                /> */}
+                              <div
+                                className={`w-10 h-10 rounded-full`}
+                                style={{ backgroundColor: "green" }}
+                              ></div>
+                              <div>
+                                <p className="font-sembold">{}</p>
+                                <p
+                                  className={`text-sm ${
+                                    true ? "text-white" : "text-gray-500"
+                                  } font-medium`}
+                                >
+                                  {ensSearchData?.name}
+                                </p>
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-500 font-medium">
+                              {/* {timeAgo(chat.lastMessageTime)}
+                               */}
+                              10 min ago
+                            </p>
+                          </div>
+                        ) : (
+                          <>
+                            {messageList.map((chat) => (
+                              <div
+                                key={chat.id}
+                                onClick={() => handleWalletClick(chat)}
+                                className={`${
+                                  peerAddress === chat.peerAddress
+                                    ? "bg-black text-white"
+                                    : "text-black"
+                                }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
+                              >
+                                <div className="flex items-center gap-2 justify-between">
+                                  {/* <Image
+                          alt="user image"
+                          src={"/images/travis.png"}
+                          width={40}
+                          height={40}
+                          className="rounded-full"
+                        /> */}
+                                  <div
+                                    className={`w-10 h-10 rounded-full`}
+                                    style={{ backgroundColor: chat.peerColor }}
+                                  ></div>
+                                  <div>
+                                    <p className="font-sembold">{chat.name}</p>
+                                    <p
+                                      className={`text-sm ${
+                                        peerAddress === chat.peerAddress
+                                          ? "text-white"
+                                          : "text-gray-500"
+                                      } font-medium`}
+                                    >
+                                      {chat.bio}
+                                    </p>
+                                  </div>
+                                </div>
+                                {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
+                                {/* <BsThreeDots color="black" size={17} /> */}
+                                <p className="text-sm text-gray-500 font-medium">
+                                  {timeAgo(chat.lastMessageTime)}
+                                </p>
+                                {/* </div> */}
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
               </>
             )}
           </div>

@@ -2,18 +2,14 @@ import "../../app/globals.css";
 import LayoutComponent from "@/components/LayoutComponent";
 import { SideBarToggleProvider } from "../../contexts/sideBarToggleContext";
 import TopBar from "@/components/TopBar";
-import { Flip, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Poppins } from "next/font/google";
 import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
 import { config } from "@/config";
 import Web3ModalProvider from "@/context";
-// import { XMTPProvider } from "@/context/xmtpContext";
 import AppWalletProvider from "@/components/AppWalletProvider";
-import CheckIsSelectMicrositeAvailable from "@/components/CheckIsSelectMicrositeAvailable";
-import { auth } from "@/auth";
-import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 const popins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -49,12 +45,12 @@ export default async function PageLayout({
             <SideBarToggleProvider>
               <AppWalletProvider>
                 <LayoutComponent>
-                  {/* <CheckIsSelectMicrositeAvailable> */}
+                  {/* <XMTPProvider> */}
                   <div className="flex flex-col min-h-screen">
                     <TopBar />
                     {children}
                   </div>
-                  {/* </CheckIsSelectMicrositeAvailable> */}
+                  {/* </XMTPProvider> */}
                 </LayoutComponent>
               </AppWalletProvider>
             </SideBarToggleProvider>
