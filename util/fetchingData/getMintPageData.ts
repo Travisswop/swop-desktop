@@ -20,7 +20,7 @@ export interface GroupedTemplates {
   }[];
 }
 
-export async function getMintPageData(token: string): Promise<{ data: GroupedTemplates[] } | null> {
+export async function getMintPageData(token: string): Promise<{ data: GroupedTemplates[] } | { noCollections: boolean } | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_BASE_URL}/api/v1/desktop/nft/getAllTemplatesAndCollections`, {
       method: "GET",
@@ -29,6 +29,10 @@ export async function getMintPageData(token: string): Promise<{ data: GroupedTem
         authorization: `Bearer ${token}`,
       },
     });
+
+    if (res.status === 404) {
+      return { noCollections: true }; // Handle 404 case specifically
+    }
 
     if (!res.ok) {
       console.error("API error:", res.statusText); // Log the error
