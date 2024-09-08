@@ -146,6 +146,8 @@ const CreateTemplatePage = () => {
                 <Image
                   src={formData.image}
                   alt="Preview"
+                  width={300}
+                  height={300}
                   className="w-64 h-64 object-cover border border-gray-300 rounded-lg"
                   onError={(e) => (e.currentTarget.style.display = "none")} // Hide if invalid image
                 />

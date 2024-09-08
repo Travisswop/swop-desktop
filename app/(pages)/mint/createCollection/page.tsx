@@ -47,7 +47,7 @@ const CreateCollectionPage = () => {
       };
 
       const response = await axios.post(
-        `${process.env.LOCAL_BASE_URL}/api/v1/desktop/nft/collections`,
+        `http://localhost:4000/api/v1/desktop/nft/collections`,
         formData,
         config
       );
@@ -117,6 +117,8 @@ const CreateCollectionPage = () => {
               <div className="mt-4">
                 <Image
                   src={formData.imageUrl}
+                  width={300}
+                  height={300}
                   alt="Preview"
                   className="w-64 h-64 object-cover border border-gray-300 rounded-lg"
                   onError={(e) => (e.currentTarget.style.display = "none")} // Hide if invalid image
