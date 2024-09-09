@@ -36,8 +36,6 @@
 
 // export default nextConfig;
 
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config) => {
@@ -47,16 +45,36 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",  // Allow any protocol
-        hostname: "*",  // Allow any hostname
+        protocol: "https", // Allow any protocol
+        hostname: "*", // Allow any hostname
       },
       {
-        protocol: "http",  // Allow any protocol
-        hostname: "*",  // Allow any hostname
+        protocol: "http", // Allow any protocol
+        hostname: "*", // Allow any hostname
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*", // Set your origin
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
+          },
+        ],
+      },
+    ];
   },
 };
 
 export default nextConfig;
-

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import MessageInput from "./MessageInput";
+import Image from "next/image";
 
 interface ChatProps {
   client: any;
@@ -13,9 +14,9 @@ const Chat: React.FC<ChatProps> = ({
   conversation,
 }) => {
   // Function to handle sending a text message
-  const onSendMessage = async (value: string) => {
-    return conversation.send(value);
-  };
+  // const onSendMessage = async (value: string) => {
+  //   return conversation.send(value);
+  // };
 
   // MessageList component to render the list of messages
   interface MessageListProps {
@@ -42,9 +43,11 @@ const Chat: React.FC<ChatProps> = ({
     messages = messages.filter(
       (v: any, i: any, a: any) => a.findIndex((t: any) => t.id === v.id) === i
     );
+    console.log("messages", messages);
+
     return (
-      <div className="px-4 md:px-8 h-full">
-        <ul className="pb-20">
+      <div className="px-4 md:px-8 h-full overflow-y-auto">
+        <ul className="pb-5">
           {messages.map((message, index) => (
             <li
               key={message.id}
@@ -87,9 +90,13 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   return (
-    <div className="pt-4 w-full overflow-x-hidden h-full">
-      <MessageList messages={messageHistory} />
-      <MessageInput onSendMessage={onSendMessage} />
+    <div className="pt-4 w-full overflow-x-hidden overflow-y-visible">
+      <div>
+        <MessageList messages={messageHistory} />
+      </div>
+      {/* <div className="sticky bottom-4">
+        <MessageInput onSendMessage={onSendMessage} />
+      </div> */}
     </div>
   );
 };
