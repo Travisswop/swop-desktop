@@ -7,7 +7,7 @@ import { useAccount } from "wagmi";
 const CashflowData = ({ microsites, flowData }: any) => {
   const { address, isConnected } = useAccount();
 
-  console.log("address", address);
+  // console.log("address", address);
 
   return (
     <div className={`h-96 ${isConnected && "overflow-y-auto"} relative mt-4 `}>

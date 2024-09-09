@@ -1,11 +1,11 @@
-import Messages from "@/components/message/Messages";
+import MessageList from "@/components/message/MessageList";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 const MessagePage = async () => {
   const userDetails: any = await isUserAuthenticate();
 
   return (
     <div>
-      <Messages userDetails={userDetails} />
+      <MessageList userDetails={userDetails} />
     </div>
   );
 };
