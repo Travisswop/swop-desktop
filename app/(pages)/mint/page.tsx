@@ -5,19 +5,38 @@ import PushToMintCollectionButton from "@/components/Button/PushToMintCollection
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
 import HomePageLoading from "@/components/loading/HomePageLoading";
+import ForceSignOut from "@/components/ForceSignOut";
 
 const MintDashboard = async () => {
   const session: any = await isUserAuthenticate(); // check if user exists
 
   console.log("Session:", session); // Check if session is valid
+
+  // Force sign out if user is unauthenticated
+  if (!session) {
+    return <ForceSignOut />;
+  }
+
   const data = await getMintPageData(session.accessToken);
 
   console.log("Fetched data:", data); // Check the fetched data
 
-  // Add fallback in case data is null
-  if (!data || !data.data || data.data.length === 0) {
+  // Handle loading state or fallback
+  if (!data) {
     console.error("Data is null or empty");
     return <HomePageLoading />;
+  }
+
+  // Check for no collections case (404)
+  if ('noCollections' in data && data.noCollections) {
+    return (
+      <main className="main-container">
+        <div className="bg-white p-4 text-center">
+          <h4>No collections found for the user.</h4>
+          <PushToMintCollectionButton className="!py-2 my-4">Create Collection</PushToMintCollectionButton>
+        </div>
+      </main>
+    );
   }
 
   return (
