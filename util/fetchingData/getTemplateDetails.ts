@@ -1,5 +1,5 @@
 export async function getTemplateDetails(collectionId: string, templateId: string, token: string) {
-    const apiUrl = `${process.env.NEXT_PUBLIC_LOCAL_BASE_URL}/api/v1/desktop/nft/getTemplateDetails?collectionId=${collectionId}&templateId=${templateId}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/getTemplateDetails?collectionId=${collectionId}&templateId=${templateId}`;
 
     try {
         const response = await fetch(apiUrl, {
