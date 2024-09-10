@@ -47,7 +47,7 @@ const CreateCollectionPage = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:4000/api/v1/desktop/nft/collections`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/collections`,
         formData,
         config
       );
