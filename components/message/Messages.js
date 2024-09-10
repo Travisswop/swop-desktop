@@ -1,48 +1,48 @@
-"use client";
-import { getPeerData } from "@/actions/auth";
-import Chat from "@/components/xmtp/Chat";
-import { randomColorHex, timeAgo } from "@/util/message";
-import { Spinner } from "@nextui-org/react";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { Client } from "@xmtp/xmtp-js";
-import CryptoJs from "crypto-js";
-import { providers } from "ethers";
-import Image from "next/image";
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { useAccount } from "wagmi";
-import SetupPrimarySmartsiteWalletModal from "../modal/SetupPrimarySmartsiteWallet";
-import { debounce } from "lodash";
-import { BsThreeDots } from "react-icons/bs";
-import { IoWalletOutline } from "react-icons/io5";
-import MessageInput from "../xmtp/MessageInput";
+'use client';
+import { getPeerData } from '@/actions/auth';
+import Chat from '@/components/xmtp/Chat';
+import { randomColorHex, timeAgo } from '@/util/message';
+import { Spinner } from '@nextui-org/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { Client } from '@xmtp/xmtp-js';
+import CryptoJs from 'crypto-js';
+import { providers } from 'ethers';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { CiSearch } from 'react-icons/ci';
+import { useAccount } from 'wagmi';
+import SetupPrimarySmartsiteWalletModal from '../modal/SetupPrimarySmartsiteWallet';
+import { debounce } from 'lodash';
+import { BsThreeDots } from 'react-icons/bs';
+import { IoWalletOutline } from 'react-icons/io5';
+import MessageInput from '../xmtp/MessageInput';
 const API_KEY = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_KEY;
 const Persons = [
   {
-    name: "Neil Sims",
-    bio: "Hi this is Neil",
-    date: "June 23, 2023",
+    name: 'Neil Sims',
+    bio: 'Hi this is Neil',
+    date: 'June 23, 2023',
   },
   {
-    name: "Bonnie Green",
-    bio: "Hi this is Bonnie",
-    date: "June 18, 2024",
+    name: 'Bonnie Green',
+    bio: 'Hi this is Bonnie',
+    date: 'June 18, 2024',
   },
   {
-    name: "Michael Gough",
-    bio: "Hi this is Michael",
-    date: "June 18, 2024",
+    name: 'Michael Gough',
+    bio: 'Hi this is Michael',
+    date: 'June 18, 2024',
   },
   {
-    name: "Lana Byrd",
-    bio: "Hi this is Lana",
-    date: "June 18, 2024",
+    name: 'Lana Byrd',
+    bio: 'Hi this is Lana',
+    date: 'June 18, 2024',
   },
   {
-    name: "Thomes Lean",
-    bio: "Hi this is Thomes",
-    date: "June 18, 2024",
+    name: 'Thomes Lean',
+    bio: 'Hi this is Thomes',
+    date: 'June 18, 2024',
   },
 ];
 const Messages = ({ userDetails }) => {
@@ -57,14 +57,15 @@ const Messages = ({ userDetails }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [peerAddress, setPeerAddress] = useState(null);
-  const [hasFetchedConversations, setHasFetchedConversations] = useState(false);
+  const [hasFetchedConversations, setHasFetchedConversations] =
+    useState(false);
   const [loading, setLoading] = useState(false);
   const [changeConversationLoading, setChangeConversationLoading] =
     useState(false);
-  const [walletType, setWalletType] = useState("metamask");
-  const [messageType, setMessageType] = useState("allInbox");
-  const [ensname, setEnsname] = useState("");
-  const [ensSearchData, setEnsSearchData] = useState("");
+  const [walletType, setWalletType] = useState('metamask');
+  const [messageType, setMessageType] = useState('allInbox');
+  const [ensname, setEnsname] = useState('');
+  const [ensSearchData, setEnsSearchData] = useState('');
   const [isEnsSearchLoading, setIsEnsSearchLoading] = useState(false);
 
   // console.log("ensSearchData", ensSearchData);
@@ -84,13 +85,13 @@ const Messages = ({ userDetails }) => {
         setSigner(signer);
         setIsConnected(true);
       } catch (error) {
-        console.error("Error getting signer:", error);
+        console.error('Error getting signer:', error);
         setSigner(null);
         setIsConnected(false);
       }
     };
 
-    if (typeof window !== "undefined" && address) {
+    if (typeof window !== 'undefined' && address) {
       getSigner();
     }
   }, [address, walletType]);
@@ -99,7 +100,9 @@ const Messages = ({ userDetails }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const peerAddresses = messageList.map((message) => message.peerAddress);
+      const peerAddresses = messageList.map(
+        (message) => message.peerAddress
+      );
       // console.log("peerAddresses", peerAddresses);
 
       const response = await getPeerData(
@@ -124,7 +127,10 @@ const Messages = ({ userDetails }) => {
       setMessageList(filterMessageList.filter(Boolean));
       // Do something with the data here
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error(
+        'There was a problem with the fetch operation:',
+        error
+      );
     }
   }, [messageList, userDetails.accessToken]);
 
@@ -142,20 +148,29 @@ const Messages = ({ userDetails }) => {
         try {
           // console.log("hit");
           setLoading(true);
-          const xmtp = await Client.create(signer, { env: "production" });
+          const xmtp = await Client.create(signer, {
+            env: 'production',
+          });
           // console.log("xmtp", xmtp);
 
-          const encryptedMessageList = localStorage.getItem("messageList");
+          const encryptedMessageList =
+            localStorage.getItem('messageList');
 
           if (encryptedMessageList) {
-            const bytes = CryptoJs.AES.decrypt(encryptedMessageList, API_KEY);
+            const bytes = CryptoJs.AES.decrypt(
+              encryptedMessageList,
+              API_KEY
+            );
             const decryptedMessageList = JSON.parse(
               bytes.toString(CryptoJs.enc.Utf8)
             );
 
             setMessageList(decryptedMessageList);
             setPeerAddress(decryptedMessageList[0].peerAddress);
-            await newConversation(xmtp, decryptedMessageList[0].peerAddress);
+            await newConversation(
+              xmtp,
+              decryptedMessageList[0].peerAddress
+            );
             setIsOnNetwork(true);
             clientRef.current = xmtp;
             return;
@@ -163,13 +178,18 @@ const Messages = ({ userDetails }) => {
 
           const newMessageList = [];
           for (const conversation of await xmtp.conversations.list()) {
-            const messagesInConversation = await conversation.messages(
-              new Date(new Date().setDate(new Date().getDate() - 1)),
-              new Date()
-            );
+            const messagesInConversation =
+              await conversation.messages(
+                new Date(
+                  new Date().setDate(new Date().getDate() - 1)
+                ),
+                new Date()
+              );
 
             const lastMessage =
-              messagesInConversation[messagesInConversation.length - 1];
+              messagesInConversation[
+                messagesInConversation.length - 1
+              ];
             const conversationData = {
               peerAddress: conversation.peerAddress,
               peerColor: randomColorHex(),
@@ -193,12 +213,12 @@ const Messages = ({ userDetails }) => {
               JSON.stringify(reverseList),
               API_KEY
             ).toString();
-            localStorage.setItem("messageList", encryptedMessage);
+            localStorage.setItem('messageList', encryptedMessage);
           }
 
           setHasFetchedConversations(true);
         } catch (error) {
-          console.error("Error fetching conversations:", error);
+          console.error('Error fetching conversations:', error);
         } finally {
           setLoading(false);
         }
@@ -212,20 +232,19 @@ const Messages = ({ userDetails }) => {
 
   const newConversation = async (xmtp_client, addressTo) => {
     try {
-      const conversation = await xmtp_client.conversations.newConversation(
-        addressTo
-      );
+      const conversation =
+        await xmtp_client.conversations.newConversation(addressTo);
       convRef.current = conversation;
       const messages = await conversation.messages();
       setMessages(messages);
     } catch (error) {
-      console.error("Error starting new conversation:", error);
+      console.error('Error starting new conversation:', error);
     }
   };
 
   const initXmtp = async () => {
     try {
-      const xmtp = await Client.create(signer, { env: "production" });
+      const xmtp = await Client.create(signer, { env: 'production' });
 
       const canMessage = await xmtp.canMessage(peerAddress);
       if (canMessage) {
@@ -236,7 +255,7 @@ const Messages = ({ userDetails }) => {
         // console.log("Peer is not on the network");
       }
     } catch (error) {
-      console.error("Error initializing XMTP:", error);
+      console.error('Error initializing XMTP:', error);
     }
   };
 
@@ -251,7 +270,7 @@ const Messages = ({ userDetails }) => {
             }
           }
         } catch (error) {
-          console.error("Error streaming messages:", error);
+          console.error('Error streaming messages:', error);
         }
       };
       streamMessages();
@@ -265,12 +284,14 @@ const Messages = ({ userDetails }) => {
   const loadConversation = async (addressTo) => {
     try {
       const conversation =
-        await clientRef.current.conversations.newConversation(addressTo);
+        await clientRef.current.conversations.newConversation(
+          addressTo
+        );
       convRef.current = conversation;
       const messages = await conversation.messages();
       setMessages(messages);
     } catch (error) {
-      console.error("Error loading conversation:", error);
+      console.error('Error loading conversation:', error);
     }
   };
 
@@ -301,7 +322,10 @@ const Messages = ({ userDetails }) => {
             setEnsSearchData(null);
           }
         } catch (error) {
-          console.error("Error checking username availability:", error);
+          console.error(
+            'Error checking username availability:',
+            error
+          );
         } finally {
           setIsEnsSearchLoading(false);
           // setEnsname(null);
@@ -354,7 +378,10 @@ const Messages = ({ userDetails }) => {
                   </div>
                   <div className="flex-none w-14 "></div>
                   <div className="flex-none w-24 ">
-                    <Link className="w-full h-full" href={`/messages/123`}>
+                    <Link
+                      className="w-full h-full"
+                      href={`/messages/123`}
+                    >
                       <div className="bg-gray-200 px-4 py-2 w-max rounded-lg text-sm font-semibold">
                         view
                       </div>
@@ -367,7 +394,7 @@ const Messages = ({ userDetails }) => {
           <div
             className="absolute inset-0 opacity-95 bg-white"
             style={{
-              filter: "blur(15px)",
+              filter: 'blur(15px)',
             }}
           />
           <div className="absolute inset-0">
@@ -399,8 +426,8 @@ const Messages = ({ userDetails }) => {
       <div
         className={`${
           isConnected
-            ? "hidden"
-            : "w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
+            ? 'hidden'
+            : 'w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center'
         }`}
       >
         {/* <SetupPrimarySmartsiteWalletModal microsites={microsites} /> */}
@@ -409,7 +436,7 @@ const Messages = ({ userDetails }) => {
       {isConnected && (
         <div className="flex gap-7 items-start h-full">
           <div
-            style={{ height: "calc(100vh - 200px)" }}
+            style={{ height: 'calc(100vh - 200px)' }}
             className="w-[62%] bg-white rounded-xl relative"
           >
             {changeConversationLoading && (
@@ -466,7 +493,7 @@ const Messages = ({ userDetails }) => {
                 <div
                   className="absolute inset-0 opacity-95 bg-white"
                   style={{
-                    filter: "blur(15px)",
+                    filter: 'blur(15px)',
                   }}
                 />
                 <div className="absolute inset-0">
@@ -482,7 +509,7 @@ const Messages = ({ userDetails }) => {
                   <div className="flex items-center flex-1 gap-3">
                     <Image
                       alt="user image"
-                      src={"/images/user-image/travis.png"}
+                      src={'/images/user-image/travis.png'}
                       width={60}
                       height={60}
                       className="w-14 h-14"
@@ -503,7 +530,7 @@ const Messages = ({ userDetails }) => {
                     <button>
                       <Image
                         alt="user info"
-                        src={"/images/user-info.svg"}
+                        src={'/images/user-info.svg'}
                         width={100}
                         height={100}
                         className="w-5 h-5"
@@ -529,27 +556,27 @@ const Messages = ({ userDetails }) => {
               <>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => setMessageType("allInbox")}
+                    onClick={() => setMessageType('allInbox')}
                     className={`${
-                      messageType === "allInbox"
-                        ? "font-bold text-gray-800"
-                        : "font-medium text-gray-600"
+                      messageType === 'allInbox'
+                        ? 'font-bold text-gray-800'
+                        : 'font-medium text-gray-600'
                     } `}
                   >
                     All Inbox
                   </button>
                   <button
-                    onClick={() => setMessageType("requests")}
+                    onClick={() => setMessageType('requests')}
                     className={`${
-                      messageType === "requests"
-                        ? "font-bold text-gray-800"
-                        : "font-medium text-gray-600"
+                      messageType === 'requests'
+                        ? 'font-bold text-gray-800'
+                        : 'font-medium text-gray-600'
                     } `}
                   >
                     Requests
                   </button>
                 </div>
-                {messageType === "allInbox" && (
+                {messageType === 'allInbox' && (
                   <div className="relative">
                     <CiSearch
                       className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
@@ -569,7 +596,7 @@ const Messages = ({ userDetails }) => {
                 ) : (
                   <>
                     {ensSearchData &&
-                    ensSearchData?.message === "Name not found" &&
+                    ensSearchData?.message === 'Name not found' &&
                     ensname?.length > 0 ? (
                       <div className="flex justify-center text-sm font-medium text-gray-600">
                         <p>ENS not valid!</p>
@@ -580,7 +607,9 @@ const Messages = ({ userDetails }) => {
                           <div
                             // onClick={() => handleWalletClick(chat)}
                             className={`${
-                              true ? "bg-black text-white" : "text-black"
+                              true
+                                ? 'bg-black text-white'
+                                : 'text-black'
                             }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
                           >
                             <div className="flex items-center gap-2 justify-between">
@@ -593,13 +622,15 @@ const Messages = ({ userDetails }) => {
                 /> */}
                               <div
                                 className={`w-10 h-10 rounded-full`}
-                                style={{ backgroundColor: "green" }}
+                                style={{ backgroundColor: 'green' }}
                               ></div>
                               <div>
                                 <p className="font-sembold">{}</p>
                                 <p
                                   className={`text-sm ${
-                                    true ? "text-white" : "text-gray-500"
+                                    true
+                                      ? 'text-white'
+                                      : 'text-gray-500'
                                   } font-medium`}
                                 >
                                   {ensSearchData?.name}
@@ -617,11 +648,13 @@ const Messages = ({ userDetails }) => {
                             {messageList.map((chat) => (
                               <div
                                 key={chat.id}
-                                onClick={() => handleWalletClick(chat)}
+                                onClick={() =>
+                                  handleWalletClick(chat)
+                                }
                                 className={`${
                                   peerAddress === chat.peerAddress
-                                    ? "bg-black text-white"
-                                    : "text-black"
+                                    ? 'bg-black text-white'
+                                    : 'text-black'
                                 }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
                               >
                                 <div className="flex items-center gap-2 justify-between">
@@ -634,15 +667,20 @@ const Messages = ({ userDetails }) => {
                         /> */}
                                   <div
                                     className={`w-10 h-10 rounded-full`}
-                                    style={{ backgroundColor: chat.peerColor }}
+                                    style={{
+                                      backgroundColor: chat.peerColor,
+                                    }}
                                   ></div>
                                   <div>
-                                    <p className="font-sembold">{chat.name}</p>
+                                    <p className="font-sembold">
+                                      {chat.name}
+                                    </p>
                                     <p
                                       className={`text-sm ${
-                                        peerAddress === chat.peerAddress
-                                          ? "text-white"
-                                          : "text-gray-500"
+                                        peerAddress ===
+                                        chat.peerAddress
+                                          ? 'text-white'
+                                          : 'text-gray-500'
                                       } font-medium`}
                                     >
                                       {chat.bio}
