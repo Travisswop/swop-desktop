@@ -45,7 +45,7 @@ export default async function HomePage() {
     return <ForceSignOut />;
   }
 
-  // console.log("home data", data);
+  // console.log('home data', data);
   // console.log("parent", data.data.microsites);
 
   const getImgSrc = () => {
@@ -70,7 +70,7 @@ export default async function HomePage() {
           `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`,
         );
         const data = await walletData.json();
-        console.log('funct', data);
+        // console.log('funct', data);
 
         return data;
       } else {
@@ -153,7 +153,7 @@ export default async function HomePage() {
     <>
       {data ? (
         <main className='main-container '>
-          <div className='flex items-stretch justify-between gap-6'>
+          <div className='flex justify-between gap-6'>
             <div className='w-3/5 gap-6'>
               <div className=' bg-white py-5 px-6 flex items-center rounded-lg justify-center'>
                 <Dashboard />
@@ -162,8 +162,9 @@ export default async function HomePage() {
                 <NewsFeed />
               </div>
             </div>
-            <div className='w-2/5 bg-white py-5 px-6 flex items-center rounded-lg justify-center'>
+            <div className='w-2/5 bg-white px-6 py-6 flex items-start rounded-lg justify-center'>
               <Wallet
+                profileData={data}
                 data={await getEnsData()}
                 token={session.accessToken}
                 microsites={data.data.microsites}
@@ -172,6 +173,48 @@ export default async function HomePage() {
           </div>
 
           {/* Create ENS and Connections */}
+
+          {/* <div className='flex gap-6 h-full items-stretch'>
+            <div className='w-3/5 h-full'>
+              <div className='bg-white py-5 px-6 flex items-center justify-between rounded-lg'>
+                <div className='flex items-center gap-3'>
+                  {data && data?.data?.profilePic ? (
+                    <Image
+                      src={getImgSrc()}
+                      alt='user image'
+                      width={100}
+                      height={100}
+                      className='w-[3.6rem] h-[3.6rem] rounded-full border'
+                    />
+                  ) : (
+                    <div className='border rounded-full p-2'>
+                      <FaUserTie size={40} />
+                    </div>
+                  )}
+
+                  <div className='flex flex-col gap-1'>
+                    <h3 className='font-bold text-gray-800'>
+                      {data?.data?.name}
+                    </h3>
+                    <p className='text-sm text-gray-500 font-medium'>
+                      {data?.data?.bio}
+                    </p>
+                    <ShowEnsName data={data.data} />
+                  </div>
+                </div>
+                <Link href={`/update-profile/${data.data._id}`}>
+                  <AnimateButton
+                    width='w-32'
+                    className='flex gap-1 text-gray-700'
+                  >
+                    <BiSolidEdit size={18} />
+                    Edit
+                  </AnimateButton>
+                </Link>
+              </div>
+            </div>
+          </div> */}
+
           {/* <div className='flex gap-6 h-full items-stretch'>
             <div className='w-3/5 h-full'>
               <div className='bg-white py-5 px-6 flex items-center justify-between rounded-lg'>

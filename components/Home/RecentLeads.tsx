@@ -25,8 +25,6 @@ import Link from 'next/link';
 import AnimateButton from '../Button/AnimateButton';
 
 const RecentLeads = ({ subscribers }: any) => {
-  // console.log("subscribers", subscribers);
-
   const downloadCSV = () => {
     // Define the fields you want in the CSV
     const fields = ['name', 'jobTitle', 'email', 'mobileNo'];

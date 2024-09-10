@@ -22,3 +22,6 @@ async function getHomePageData(token: string) {
 }
 
 export default getHomePageData;
+
+
+

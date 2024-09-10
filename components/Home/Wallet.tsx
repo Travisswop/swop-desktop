@@ -2,39 +2,66 @@ import Image from 'next/image';
 import React from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { TbEdit } from 'react-icons/tb';
+import isUrl from '@/util/isUrl';
+import { FaUserTie } from 'react-icons/fa';
 import { BsQrCodeScan } from 'react-icons/bs';
 import { TbLocationFilled } from 'react-icons/tb';
 import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { FiShoppingBag } from 'react-icons/fi';
 import WalletTab from './WalletTab';
 import Cashflow from '../cashflow/Cashflow';
+import CashflowData from '../cashflow/CashflowData';
+import ShowEnsName from '../ShowEnsName';
 
-const Wallet = ({ data, microsites, token }: any) => {
+const Wallet = ({ profileData, data, microsites, token }: any) => {
+  const getImgSrc = () => {
+    const imageSrc = isUrl(profileData && profileData?.data?.profilePic)
+      ? profileData?.data?.profilePic
+      : `/images/user_avator/${profileData?.data?.profilePic}.png`;
+
+    return imageSrc;
+  };
+
   return (
     <div className='w-full'>
-      <div className='flex justify-end'>
+      <div className='flex justify-end items-start'>
         <FiSettings className='size-5 text-[#424651] cursor-pointer hover:text-black' />
       </div>
+
       <div className='flex justify-center'>
         <div className='relative inline-block mx-0'>
-          <Image
+          {/* <Image
             src={'/images/travis.png'}
             alt={'Travis'}
             width={500}
             height={500}
             className='mx-auto size-28'
-          />
+          /> */}
+          {profileData && profileData?.data?.profilePic ? (
+            <Image
+              src={getImgSrc()}
+              alt='user image'
+              width={100}
+              height={100}
+              className='mx-auto size-28 rounded-full border'
+            />
+          ) : (
+            <div className='border rounded-full p-2'>
+              <FaUserTie className='mx-auto size-28' />
+            </div>
+          )}
           <div className='absolute bottom-0 right-0'>
             <TbEdit className='size-8 text-[#424651] bg-white rounded-full p-1.5 cursor-pointer hover:bg-slate-50 hover:text-black border' />
           </div>
         </div>
       </div>
-
       <div className='text-[#424651] text-center mt-6'>
-        <h2 className='text-[22px] font-bold'>Travis Herron</h2>
-        <h3 className='text-[20px]'>Travis.Swop.ID</h3>
+        <h2 className='text-[22px] font-bold'>{profileData?.data?.name}</h2>
+        {/* <h3 className='text-[20px]'>
+         
+        </h3> */}
+        <ShowEnsName data={profileData?.data} />
       </div>
-
       <div className='text-black text-center mt-10 flex gap-6 justify-center items-start'>
         <div>
           <h2 className='text-[22px] font-bold'>200</h2>
@@ -51,7 +78,6 @@ const Wallet = ({ data, microsites, token }: any) => {
           <h3 className='text-[20px]'>Followers</h3>
         </div>
       </div>
-
       <div
         className='flex items-center justify-between mt-6 gap-3
       '
@@ -98,7 +124,6 @@ const Wallet = ({ data, microsites, token }: any) => {
           />
         </div>
       </div>
-
       <div className='mt-8 flex items-center justify-center gap-3'>
         {/* <WalletTab /> */}
         <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
@@ -194,7 +219,6 @@ const Wallet = ({ data, microsites, token }: any) => {
           />
         </div>
       </div>
-
       <div>
         <Cashflow data={data} token={token} microsites={microsites} />
       </div>
