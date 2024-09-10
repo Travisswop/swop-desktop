@@ -106,7 +106,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
   ];
 
   return (
-    <div className={`sticky top-0 ${toggle && 'pl-1.5'}`}>
+    <div className={`sticky top-0  ${toggle && 'pl-1.5'}`}>
       <div
         className={`h-[6.8rem] ${
           !toggle ? 'pl-4 justify-between gap-4' : 'px-2'
@@ -120,7 +120,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         {/* <button onClick={onClickToggle} className="">
           <FaBars className="text-gray-600" size={18} />
         </button> */}
-        <SideBarToggle toggle={toggle} onToggle={onToggle} />
+        {/* <SideBarToggle toggle={toggle} onToggle={onToggle} /> */}
       </div>
       <div>
         <ul className={`flex flex-col gap-y-4`}>

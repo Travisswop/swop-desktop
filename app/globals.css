@@ -85,28 +85,28 @@
 
 /* websites style start */
 .mySwiper > .swiper-button-prev {
-  left: 26px !important;
+  left: 20px !important;
 }
 .mySwiper > .swiper-button-next {
-  right: 26px !important;
+  right: 20px !important;
 }
 .mySwiper > .swiper-button-prev,
 .mySwiper > .swiper-button-next {
   /* background: #000; */
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   color: #000000;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
 }
 .mySwiper > .swiper-button-prev:after {
   content: "prev";
-  font-size: 13px !important;
+  font-size: 11px !important;
   font-weight: 1000;
 }
 .mySwiper > .swiper-button-next:after {
   content: "next";
-  font-size: 13px !important;
+  font-size: 11px !important;
   font-weight: 1000;
 }
 /* websites style end */

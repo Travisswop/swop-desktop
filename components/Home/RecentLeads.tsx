@@ -10,6 +10,12 @@ import { LuPhoneCall } from 'react-icons/lu';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+// import 'swiper/css/pagination';
+
+// import required modules
+import { Pagination } from 'swiper/modules';
+
 // import "swiper/css/effect-creative";
 import { TbLocation } from 'react-icons/tb';
 
@@ -17,7 +23,6 @@ import 'swiper/css/grid';
 import { Navigation, Grid } from 'swiper/modules';
 import Link from 'next/link';
 import AnimateButton from '../Button/AnimateButton';
-
 
 const RecentLeads = ({ subscribers }: any) => {
   // console.log("subscribers", subscribers);
@@ -51,6 +56,7 @@ const RecentLeads = ({ subscribers }: any) => {
           fill: 'row',
         }}
         navigation={true}
+        // pagination={true}
         // grabCursor={true}
         // effect={"creative"}
         // loop={true}
@@ -76,14 +82,14 @@ const RecentLeads = ({ subscribers }: any) => {
                   </h3>
                 </div>
                 <div className='mx-4 my-4 flex items-center justify-between'>
-                  <div className='flex flex-col gap-2'>
-                    <h5 className='text-lg font-bold text-gray-600'>
+                  <div className='flex flex-col'>
+                    <h5 className='text-lg font-bold text-gray-700'>
                       {subscriber.name}
                     </h5>
-                    <p className='text-base font-medium text-gray-500'>
-                      {subscriber.bio}
+                    <p className='text-base font-normal text-gray-600'>
+                      {subscriber.jobTitle}
                     </p>
-                    <p className='text-base font-medium text-gray-500 flex items-center gap-1'>
+                    <p className='text-base font-medium text-gray-500 flex items-center gap-1 mt-3'>
                       <HiOutlinePhone size={18} />
                       {subscriber.mobileNo}
                     </p>

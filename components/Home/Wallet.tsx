@@ -7,8 +7,9 @@ import { TbLocationFilled } from 'react-icons/tb';
 import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { FiShoppingBag } from 'react-icons/fi';
 import WalletTab from './WalletTab';
+import Cashflow from '../cashflow/Cashflow';
 
-const Wallet = () => {
+const Wallet = ({ data, microsites, token }: any) => {
   return (
     <div className='w-full'>
       <div className='flex justify-end'>
@@ -194,7 +195,9 @@ const Wallet = () => {
         </div>
       </div>
 
-      <div></div>
+      <div>
+        <Cashflow data={data} token={token} microsites={microsites} />
+      </div>
     </div>
   );
 };
