@@ -53,8 +53,8 @@ export async function checkIsUserExist(email: string) {
   }
 }
 
-export async function getPeerData(peerAddresses, token) {
-  console.log("🚀 ~ getPeerData ~ peerAddresses", peerAddresses);
+export async function getPeerData(peerAddresses: any, token: any) {
+  // console.log("🚀 ~ getPeerData ~ peerAddresses", peerAddresses);
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/microsite/getPeerData`,

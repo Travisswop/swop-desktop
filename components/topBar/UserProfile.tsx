@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import travis from "../../public/travis-image.svg";
 import isUrl from "@/util/isUrl";
 import {
@@ -14,9 +14,12 @@ import {
 import { doSignOut } from "@/actions/auth";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import Link from "next/link";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const UserProfile = ({ session }: any) => {
   const formRef = useRef<HTMLFormElement>(null);
+
+  const setSesstionState = useLoggedInUserStore((state) => state.setUser);
 
   // const session = await auth();
 
@@ -33,6 +36,10 @@ const UserProfile = ({ session }: any) => {
       formRef.current.submit();
     }
   };
+
+  useEffect(() => {
+    setSesstionState(session);
+  }, [session, setSesstionState]);
 
   return (
     <div>

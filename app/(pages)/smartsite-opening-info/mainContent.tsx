@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import { postPrimaryMicrosite } from "@/actions/addParentMicrosite";
 
 // export const maxDuration = 60;
 
@@ -77,6 +78,9 @@ const SmartsideOpeningInfo = ({
     setIsLoading(true);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+
+    // console.log("hit");
+
     const email = formData.get("email");
     if (email) {
       socialSmall.push({
@@ -212,31 +216,13 @@ const SmartsideOpeningInfo = ({
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/addParentMicrositeSocial`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(dataForPost),
-        }
-      );
+      const response = await postPrimaryMicrosite(dataForPost, token);
 
-      const data = await response.json();
+      console.log("dataaaa", response);
 
-      // console.log("dataaaa", data);
-
-      if (response.ok) {
-        if (data.state === "success") {
-          toast.success("smartsite info updated");
-          router.push("/ens-swop-id/?signup=success");
-        }
-      } else {
-        toast.error("something went wrong!");
-        setIsLoading(false);
+      if (response.state === "success") {
+        toast.success("smartsite info updated");
+        router.push("/ens-swop-id/?signup=success");
       }
     } catch (error) {
       console.error("error from smartsite info page", error);
@@ -404,9 +390,14 @@ const SmartsideOpeningInfo = ({
                 </div>
               </div>
             </div>
-            <DynamicPrimaryBtn className="w-max !px-10 mx-auto mt-8">
-              Save {isLoading && <Spinner size="sm" color="white" />}
-            </DynamicPrimaryBtn>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="mt-8 bg-black text-white rounded py-2 w-32"
+              >
+                Save {isLoading && <Spinner size="sm" color="white" />}
+              </button>
+            </div>
           </form>
         </div>
       </div>

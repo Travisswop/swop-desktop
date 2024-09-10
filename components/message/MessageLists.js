@@ -5,20 +5,20 @@ import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import ChatListCard from "./ChatListCard";
 
-interface Session {
-  accessToken: string;
-}
+// interface Session {
+//   accessToken: string;
+// }
 
-interface MessagesListsProps {
-  session: Session;
-}
+// interface MessagesListsProps {
+//   session: Session;
+// }
 
-const MessagesLists: React.FC<MessagesListsProps> = ({ session }) => {
+const MessagesLists = ({ session }) => {
   const { address, isConnecting, isDisconnected } = useAccount();
-  const [signer, setSigner] = useState<ethers.Signer | null>(null);
+  const [signer, setSigner] = (useState < ethers.Signer) | (null > null);
   const [isConnected, setIsConnected] = useState(false);
-  const [conversations, setConversations] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [conversations, setConversations] = useState([]);
+  const [error, setError] = (useState < string) | (null > null);
 
   useEffect(() => {
     const fetchConversations = async () => {

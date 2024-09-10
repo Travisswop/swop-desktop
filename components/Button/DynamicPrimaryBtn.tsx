@@ -9,7 +9,7 @@ interface btnProps {
   onClick?: any;
 }
 
-// we need to use importat in case any passed className won't work
+// we need to use important in case any passed className won't work
 
 const DynamicPrimaryBtn = ({
   children,
@@ -18,8 +18,8 @@ const DynamicPrimaryBtn = ({
   onClick = null,
 }: btnProps) => {
   // Define the default classes
-
   const defaultClasses = `relative overflow-hidden flex justify-center items-center gap-1 px-5 py-2 rounded-xl text-white bg-black font-medium hover:text-white hover:bg-gradient-to-r hover:from-black hover:to-white hover:bg-[length:200%_100%] hover:animate-bg-slide`;
+
   // Merge the default classes with the passed className
   const mergedClasses = `${defaultClasses} ${className && className}`;
 

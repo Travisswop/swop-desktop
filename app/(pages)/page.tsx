@@ -18,10 +18,13 @@ import { FaUserTie } from "react-icons/fa";
 import AnimateButton from "@/components/Button/AnimateButton";
 import ForceSignOut from "@/components/ForceSignOut";
 import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
-import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
+// import HomepageCashFlowChart from "@/components/chart/HomepageCashFlow";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
-import SetupWalletModal from "@/components/modal/SetupWallet";
+// import SetupWalletModal from "@/components/modal/SetupWallet";
+import Cashflow from "@/components/cashflow/Cashflow";
+import ShowEnsName from "@/components/ShowEnsName";
+// import { useEffect } from "react";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import dynamic from "next/dynamic";
@@ -48,6 +51,33 @@ export default async function HomePage() {
     return imageSrc;
   };
 
+  const getEnsData = async () => {
+    const dataSet = data.data.microsites.find(
+      (microsite: any) => microsite.primary
+    );
+    // console.log("data set", dataSet);
+
+    if (dataSet) {
+      if (dataSet.ensData) {
+        return dataSet.ensData;
+      } else if (dataSet.ens) {
+        const walletData = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
+        );
+        const data = await walletData.json();
+        console.log("funct", data);
+
+        return data;
+      } else {
+        return dataSet._id;
+      }
+    } else {
+      return "No Primary microsite found!";
+    }
+  };
+
+  // const walletData = getEnsData();
+
   const getLast30DaysTap = () => {
     if (data && data.state === "success") {
       const currentTimestamp = Date.now();
@@ -69,38 +99,50 @@ export default async function HomePage() {
     }
   };
 
+  const leads = () => {
+    const count = data?.data?.subscriber?.length ?? 0;
+    return count;
+  };
+
   const websiteAnalyticsArr = [
     {
-      _id: 123,
-      title: "Taps",
-      value: getLast30DaysTap(),
-      days: 30,
+      _id: 12344,
+      title: "Leads",
+      value: leads(),
+      days: "30",
       percentage: 24,
     },
+    {
+      _id: 12344,
+      title: "Message",
+      value: 0,
+      days: "30",
+      percentage: 24,
+    },
+    // {
+    //   _id: 123,
+    //   title: "Taps",
+    //   value: getLast30DaysTap(),
+    //   days: 30,
+    //   percentage: 24,
+    // },
     {
       _id: 133,
       title: "Taps",
       value: data ? data?.data?.tap?.length : 0,
-      days: "Life Time",
-      percentage: 24,
-    },
-    {
-      _id: 124,
-      title: "Connections",
-      value: data ? data?.data?.totalConnection : 0,
-      days: 20,
+      days: "30",
       percentage: 24,
     },
     {
       _id: 1673,
       title: "Connections",
       value: data ? data?.data?.totalConnection : 0,
-      days: "Life Time",
+      days: "30",
       percentage: -24,
     },
   ];
 
-  console.log("session", session);
+  // console.log("session", session);
 
   return (
     <>
@@ -131,12 +173,13 @@ export default async function HomePage() {
                     <p className="text-sm text-gray-500 font-medium">
                       {data?.data?.bio}
                     </p>
+                    <ShowEnsName data={data.data} />
                     {/* <TriggerWalletConnectButton
                       ens={data.data.microsites[0].ens}
                       ethAddress={data.data.microsites[0].ethAddress}
                     /> */}
                     {/* <TriggerSolanaWalletConnect /> */}
-                    <SetupWalletModal microsites={data.data.microsites} />
+                    {/* <SetupWalletModal microsites={data.data.microsites} /> */}
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>
@@ -149,7 +192,12 @@ export default async function HomePage() {
                   </AnimateButton>
                 </Link>
               </div>
-              <HomepageCashFlowChart />
+              {/* <HomepageCashFlowChart /> */}
+              <Cashflow
+                data={await getEnsData()}
+                token={session.accessToken}
+                microsites={data.data.microsites}
+              />
             </div>
 
             {/* connections */}

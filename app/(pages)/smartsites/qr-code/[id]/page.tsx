@@ -26,6 +26,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
   console.log("data gg", data);
 
   if (data && data.state === "failed") {
+    // has server action also called fetchMicrositeInfo
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/microsite/withoutPopulate/${params.id}`,
       {

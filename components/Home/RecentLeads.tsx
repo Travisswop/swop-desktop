@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 
 import "swiper/css/grid";
 import { Navigation, Grid } from "swiper/modules";
+import Link from "next/link";
 
 const RecentLeads = ({ subscribers }: any) => {
   // console.log("subscribers", subscribers);
@@ -66,9 +67,23 @@ const RecentLeads = ({ subscribers }: any) => {
                       <CgMail size={20} /> {subscriber.email}
                     </p>
                   </div>
-                  <button className="flex items-center gap-2 px-6 py-2 border border-gray-400 rounded-xl font-semibold hover:bg-gray-700 hover:text-white text-gray-600">
+                  {/* <button className="flex items-center gap-2 px-6 py-2 border border-gray-400 rounded-xl font-semibold hover:bg-gray-700 hover:text-white text-gray-600">
                     <LuPhoneCall /> Contact Lead
-                  </button>
+                  </button> */}
+                  <div className="flex items-center gap-x-1">
+                    <Link
+                      href={`tel:${subscriber.mobileNo}`}
+                      className="bg-black rounded-lg flex items-center justify-center w-10 h-10"
+                    >
+                      <HiOutlinePhone size={18} className=" text-white" />
+                    </Link>
+                    <Link
+                      href={`mailto:${subscriber.email}`}
+                      className="bg-black rounded-lg w-10 h-10 flex items-center justify-center"
+                    >
+                      <CgMail size={20} className="text-white" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

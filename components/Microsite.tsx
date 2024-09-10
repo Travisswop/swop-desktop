@@ -48,6 +48,17 @@ const Microsite = ({ microsites }: any) => {
     }
   }, [microsites]);
 
+  console.log("microstiessfs", microsites);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const primaryMicrosite = microsites.find(
+        (microsite: any) => microsite.primary
+      );
+      localStorage.setItem("userPrimaryMicrosite", primaryMicrosite._id);
+    }
+  }, [microsites]);
+
   // console.log("active mircc", activeMicrosite);
 
   const handleOpenShareModal = (qrCodeUrl: any) => {
