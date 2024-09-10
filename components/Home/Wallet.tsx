@@ -12,8 +12,11 @@ import WalletTab from './WalletTab';
 import Cashflow from '../cashflow/Cashflow';
 import CashflowData from '../cashflow/CashflowData';
 import ShowEnsName from '../ShowEnsName';
+import Link from 'next/link';
+import { getCashFlow } from '@/actions/cashflow';
+import { log } from 'console';
 
-const Wallet = ({ profileData, data, microsites, token }: any) => {
+const Wallet = async ({ profileData, data, microsites, token }: any) => {
   const getImgSrc = () => {
     const imageSrc = isUrl(profileData && profileData?.data?.profilePic)
       ? profileData?.data?.profilePic
@@ -22,11 +25,34 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
     return imageSrc;
   };
 
+  let walletBalance;
+  let totalBalance = 0;
+
+  if (data?.owner && data?.addresses['501']) {
+    const walletObj = {
+      ethAddress: data.owner,
+      solanaAddress: data.addresses['501'],
+      btcAddress: 'ererwewfsdsdweew',
+    };
+
+    const flowData = await getCashFlow(walletObj, token);
+
+    walletBalance = flowData;
+
+    if (walletBalance?.result) {
+      totalBalance = walletBalance.result
+        .map((item: { balance: any }) => parseFloat(item.balance))
+        .reduce((acc: number, balance: number) => acc + balance, 0);
+    }
+
+    totalBalance = parseFloat(totalBalance.toFixed(2));
+  }
+
   return (
     <div className='w-full'>
-      <div className='flex justify-end items-start'>
+      {/* <div className='flex justify-end items-start'>
         <FiSettings className='size-5 text-[#424651] cursor-pointer hover:text-black' />
-      </div>
+      </div> */}
 
       <div className='flex justify-center'>
         <div className='relative inline-block mx-0'>
@@ -51,7 +77,9 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
             </div>
           )}
           <div className='absolute bottom-0 right-0'>
-            <TbEdit className='size-8 text-[#424651] bg-white rounded-full p-1.5 cursor-pointer hover:bg-slate-50 hover:text-black border' />
+            <Link href={`/update-profile/${profileData?.data?._id}`}>
+              <TbEdit className='size-8 text-[#424651] bg-white rounded-full p-1.5 cursor-pointer hover:bg-slate-50 hover:text-black border' />
+            </Link>
           </div>
         </div>
       </div>
@@ -88,7 +116,7 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
         className='flex items-center justify-between mt-6 gap-3
       '
       >
-        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
           <Image
             src={'/images/homepage/wallet/qr.png'}
             alt={'Icon'}
@@ -97,7 +125,7 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
             className='mx-auto size-9'
           />
         </div>
-        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
           <Image
             src={'/images/homepage/wallet/send.png'}
             alt={'Icon'}
@@ -108,10 +136,10 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
         </div>
         <div className='w-[40%] bg-black p-3 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
           <p className='text-white text-center font-semibold text-2xl'>
-            $127,791.18
+            ${totalBalance}
           </p>
         </div>
-        <div className='w-[15%] bg-black p-2 rounded-xl  flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+        <div className='w-[15%] bg-black p-2 rounded-xl  flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
           <Image
             src={'/images/homepage/wallet/in-app-swop.png'}
             alt={'Icon'}
@@ -120,7 +148,7 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
             className='mx-auto size-9'
           />
         </div>
-        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
           <Image
             src={'/images/homepage/wallet/copy.png'}
             alt={'Icon'}
