@@ -32,13 +32,13 @@ const NewsFeed = () => {
               </h2>
             </div>
             <div>
-              <BsThreeDots className='size-8 text-[#8D8D8D] hover:text-black cursor-pointer' />
+              <BsThreeDots className='size-8 text-[#8D8D8D] hover:text-black ' />
             </div>
           </div>
           <div className='w-full flex items-center justify-start gap-x-6 ml-16'>
             <div className='bg-white shadow-md rounded-xl p-4'>
               <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               </div>
               <Image
                 src={'/images/homepage/coupon.png'}
@@ -51,7 +51,7 @@ const NewsFeed = () => {
             </div>
             <div className='bg-white shadow-md rounded-xl p-4'>
               <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               </div>
               <Image
                 src={'/images/homepage/coupon.png'}
@@ -64,7 +64,7 @@ const NewsFeed = () => {
             </div>
             <div className='bg-white shadow-md rounded-xl p-4'>
               <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               </div>
               <Image
                 src={'/images/homepage/coupon.png'}
@@ -78,19 +78,19 @@ const NewsFeed = () => {
           </div>
           <div className='flex items-center justify-start gap-x-12 mt-16 ml-16'>
             <div className='flex items-center gap-x-1'>
-              <PiArrowFatUp className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+              <PiArrowFatUp className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               <p>123</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <LuRepeat className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+              <LuRepeat className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               <p>98</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <FiHeart className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+              <FiHeart className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               <p>7</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <HiOutlineUpload className='text-2xl text-[#424651] hover:text-black cursor-pointer' />
+              <HiOutlineUpload className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
               <p>7</p>
             </div>
           </div>

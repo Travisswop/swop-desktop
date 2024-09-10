@@ -3,6 +3,8 @@ import CashflowData from './CashflowData';
 import Link from 'next/link';
 import DynamicPrimaryBtn from '../Button/DynamicPrimaryBtn';
 import { isValidObjectId } from '@/util/checkMongoId';
+import { getNftData } from '@/actions/nftData';
+import { getTransionList } from '@/actions/transionList';
 
 const Cashflow = async ({ data, microsites, token }: any) => {
   // console.log("datass", data);
@@ -33,6 +35,10 @@ const Cashflow = async ({ data, microsites, token }: any) => {
     };
 
     const flowData = await getCashFlow(walletObj, token);
+
+    // const nftData = await getNftData(token, data.owner, data.addresses['501']);
+
+    // const transionList = await getTransionList(walletObj, token);
 
     return <CashflowData microsites={microsites} flowData={flowData} />;
   }

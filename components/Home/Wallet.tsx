@@ -10,7 +10,7 @@ import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { FiShoppingBag } from 'react-icons/fi';
 import WalletTab from './WalletTab';
 import Cashflow from '../cashflow/Cashflow';
-import CashflowData from '../cashflow/CashflowData';
+
 import ShowEnsName from '../ShowEnsName';
 import Link from 'next/link';
 import { getCashFlow } from '@/actions/cashflow';
@@ -38,7 +38,6 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
     const flowData = await getCashFlow(walletObj, token);
 
     walletBalance = flowData;
-
 
     if (walletBalance?.result) {
       totalBalance = walletBalance.result

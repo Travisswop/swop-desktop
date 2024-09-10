@@ -22,7 +22,7 @@ import CreateQRCodeFromHome from '@/components/CreateQRCodeFromHome';
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
 // import TriggerSolanaWalletConnect from "@/components/TriggerSolanaWalletConnect";
 // import SetupWalletModal from "@/components/modal/SetupWallet";
-import Cashflow from '@/components/cashflow/Cashflow';
+
 import ShowEnsName from '@/components/ShowEnsName';
 import Dashboard from '@/components/Home/Dashboard';
 import Wallet from '@/components/Home/Wallet';
@@ -45,7 +45,7 @@ export default async function HomePage() {
     return <ForceSignOut />;
   }
 
-  console.log('home data', data);
+  // console.log('home data', data);
   // console.log("parent", data.data.microsites);
 
   const getImgSrc = () => {
@@ -303,7 +303,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <SetupMainAccount data={data} />
+          {/* <SetupMainAccount data={data} /> */}
         </main>
       ) : (
         <HomePageLoading />
