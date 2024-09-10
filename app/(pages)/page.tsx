@@ -152,8 +152,8 @@ export default async function HomePage() {
   return (
     <>
       {data ? (
-        <main className='main-container'>
-          <div className='flex items-start justify-between gap-6'>
+        <main className='main-container '>
+          <div className='flex items-stretch justify-between gap-6'>
             <div className='w-3/5 gap-6'>
               <div className=' bg-white py-5 px-6 flex items-center rounded-lg justify-center'>
                 <Dashboard />
@@ -163,12 +163,16 @@ export default async function HomePage() {
               </div>
             </div>
             <div className='w-2/5 bg-white py-5 px-6 flex items-center rounded-lg justify-center'>
-              <Wallet />
+              <Wallet
+                data={await getEnsData()}
+                token={session.accessToken}
+                microsites={data.data.microsites}
+              />
             </div>
           </div>
 
           {/* Create ENS and Connections */}
-          <div className='flex gap-6 h-full items-stretch'>
+          {/* <div className='flex gap-6 h-full items-stretch'>
             <div className='w-3/5 h-full'>
               <div className='bg-white py-5 px-6 flex items-center justify-between rounded-lg'>
                 <div className='flex items-center gap-3'>
@@ -194,12 +198,6 @@ export default async function HomePage() {
                       {data?.data?.bio}
                     </p>
                     <ShowEnsName data={data.data} />
-                    {/* <TriggerWalletConnectButton
-                      ens={data.data.microsites[0].ens}
-                      ethAddress={data.data.microsites[0].ethAddress}
-                    /> */}
-                    {/* <TriggerSolanaWalletConnect /> */}
-                    {/* <SetupWalletModal microsites={data.data.microsites} /> */}
                   </div>
                 </div>
                 <Link href={`/update-profile/${data.data._id}`}>
@@ -212,7 +210,7 @@ export default async function HomePage() {
                   </AnimateButton>
                 </Link>
               </div>
-              {/* <HomepageCashFlowChart /> */}
+
               <Cashflow
                 data={await getEnsData()}
                 token={session.accessToken}
@@ -220,13 +218,13 @@ export default async function HomePage() {
               />
             </div>
 
-            {/* connections */}
+    
             <div className='w-2/5 min-h-full'>
               <Connections data={data} />
             </div>
-          </div>
+          </div> */}
 
-          <div className='mt-4 grid grid-cols-2 gap-8'>
+          <div className='mt-6 grid grid-cols-2 gap-x-6 items-stretch'>
             {/* Smartsite */}
             <div>
               <div className='bg-white rounded-lg overflow-hidden'>
