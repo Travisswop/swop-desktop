@@ -22,7 +22,7 @@ export interface GroupedTemplates {
 
 export async function getMintPageData(token: string): Promise<{ data: GroupedTemplates[] } | { noCollections: boolean } | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_BASE_URL}/api/v1/desktop/nft/getAllTemplatesAndCollections`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/getAllTemplatesAndCollections`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
