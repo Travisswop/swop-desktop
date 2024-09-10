@@ -33,7 +33,7 @@ const items: DashboardItem[] = [
     title: "Orders",
     icon: "/images/homepage/dashboard-icon/orders.png",
     bgColor: "bg-[#FF989878]",
-    link: "#",
+    link: "/orders",
   },
 ];
 
