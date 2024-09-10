@@ -392,7 +392,7 @@ const MessageList = ({ userDetails }: any) => {
               className="px-4 py-1.5 text-sm font-medium text-gray-500 bg-gray-300 hover:bg-gray-500 hover:text-gray-200 rounded-lg"
               onClick={connectWallet}
             >
-              $ Connect Your Wallet
+              $ Connect XMTP
             </button>
           </div>
 
