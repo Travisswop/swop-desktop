@@ -60,17 +60,23 @@ const Wallet = ({ profileData, data, microsites, token }: any) => {
         {/* <h3 className='text-[20px]'>
          
         </h3> */}
-        <ShowEnsName data={profileData?.data} />
+
+        <div className='flex justify-center'>
+          <ShowEnsName data={profileData?.data} />
+        </div>
       </div>
       <div className='text-black text-center mt-10 flex gap-6 justify-center items-start'>
         <div>
-          <h2 className='text-[22px] font-bold'>200</h2>
+          <h2 className='text-[22px] font-bold'>
+            {' '}
+            {profileData?.data?.connections?.following?.length}
+          </h2>
           <h3 className='text-[20px]'>Following</h3>
         </div>
         <div className='h-[60px] min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-black to-transparent'></div>
         <div>
           <h2 className='text-[22px] font-bold flex items-center'>
-            100{' '}
+            {profileData?.data?.connections?.followers?.length}
             <span className='text-xs bg-[#7ae38b3c] p-1 text-[#00E725] rounded-full ml-1'>
               +24%
             </span>

@@ -11,7 +11,7 @@ const Connections = ({ data }: any) => {
   const [filteredConnections, setFilteredConnections] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log("datadd", data);
+  // console.log("datadd", data);
 
   useEffect(() => {
     const handleSearch = () => {

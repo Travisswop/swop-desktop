@@ -1,27 +1,23 @@
-'use client';
-import { fetchMicrositeInfo } from '@/actions/fetchMicrositeInfo';
-import { Client } from '@xmtp/xmtp-js';
-import { ethers } from 'ethers';
-import { Avatar, Checkbox, Spinner } from '@nextui-org/react';
-import Link from 'next/link';
-import { getPeerData } from '@/actions/auth';
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import SetupWallet from '../HandleWallet';
-import Image from 'next/image';
-import { useAccount } from 'wagmi';
-import { IoWalletOutline } from 'react-icons/io5';
-import Chat from './Chat';
-import { CiSearch } from 'react-icons/ci';
-import { randomColorHex, timeAgo } from '@/util/message';
-import { debounce, set } from 'lodash';
-import axios, { AxiosError } from 'axios';
+"use client";
+// import { fetchMicrositeInfo } from "@/actions/fetchMicrositeInfo";
+import { Client } from "@xmtp/xmtp-js";
+import { ethers } from "ethers";
+import { Avatar, Checkbox, Spinner } from "@nextui-org/react";
+import Link from "next/link";
+import { getPeerData } from "@/actions/auth";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+// import SetupWallet from "../HandleWallet";
+import Image from "next/image";
+// import { useAccount } from "wagmi";
+import { IoWalletOutline } from "react-icons/io5";
+// import Chat from './Chat';
+import { CiSearch } from "react-icons/ci";
+import { randomColorHex, timeAgo } from "@/util/message";
+import { debounce, set } from "lodash";
+import axios, { AxiosError } from "axios";
+import Chat from "./chat";
 const MessageList = ({ userDetails }: any) => {
-  const [ensname, setEnsname] = useState('');
+  const [ensname, setEnsname] = useState("");
   const [result, setResult] = useState<object | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,11 +27,9 @@ const MessageList = ({ userDetails }: any) => {
   const [conversation, setConversation] = useState<any>(null);
   const [peerData, setPeerData] = useState<any[]>([]);
   const [messageHistory, setMessageHistory] = useState<any[]>([]);
-  const [peerAddressList, setPeerAddressList] = useState<string[]>(
-    []
-  );
+  const [peerAddressList, setPeerAddressList] = useState<string[]>([]);
   const [peerAddress, setPeerAddress] = useState(null);
-  const [messageType, setMessageType] = useState('allInbox');
+  const [messageType, setMessageType] = useState("allInbox");
   const [changeConversationLoading, setChangeConversationLoading] =
     useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -84,13 +78,11 @@ const MessageList = ({ userDetails }: any) => {
   // Effect to cancel any pending requests on unmount
   useEffect(() => {
     return () => {
-      cancelTokenSource.cancel('Component unmounted');
+      cancelTokenSource.cancel("Component unmounted");
     };
   }, [cancelTokenSource]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
     const value = e.target.value;
     setEnsname(value);
@@ -99,7 +91,7 @@ const MessageList = ({ userDetails }: any) => {
       setResult(null);
       return;
     }
-    if (value.length > 2 && value.endsWith('.swop.id')) {
+    if (value.length > 2 && value.endsWith(".swop.id")) {
       debouncedFetchEnsData(value);
     }
   };
@@ -108,13 +100,13 @@ const MessageList = ({ userDetails }: any) => {
     if (wallet) {
       try {
         const xmtp = await Client.create(wallet, {
-          env: 'production',
+          env: "production",
         });
 
         const conversations = await xmtp.conversations.list();
         setXmtpClient(xmtp);
       } catch (error) {
-        console.error('Failed to initialize XMTP client:', error);
+        console.error("Failed to initialize XMTP client:", error);
       }
     }
   }, [wallet]);
@@ -128,7 +120,7 @@ const MessageList = ({ userDetails }: any) => {
         });
         setPeerAddressList(peerList);
       } catch (error) {
-        console.error('Failed to fetch messages:', error);
+        console.error("Failed to fetch messages:", error);
       }
     }
   }, [xmtpClient]);
@@ -136,10 +128,9 @@ const MessageList = ({ userDetails }: any) => {
   const startConversation = async (recipientAddress: string) => {
     if (recipientAddress && xmtpClient) {
       try {
-        const conversation =
-          await xmtpClient.conversations.newConversation(
-            recipientAddress
-          );
+        const conversation = await xmtpClient.conversations.newConversation(
+          recipientAddress
+        );
         setConversation(conversation);
         const messages = await conversation.messages();
         setMessageHistory(messages);
@@ -155,7 +146,7 @@ const MessageList = ({ userDetails }: any) => {
           setMicrositeData(result);
         }
       } catch (error) {
-        console.error('Failed to start conversation:', error);
+        console.error("Failed to start conversation:", error);
       }
     }
   };
@@ -171,10 +162,7 @@ const MessageList = ({ userDetails }: any) => {
       }
       // Do something with the data here
     } catch (error) {
-      console.error(
-        'There was a problem with the fetch operation:',
-        error
-      );
+      console.error("There was a problem with the fetch operation:", error);
     }
   }, [peerAddressList, userDetails]);
 
@@ -200,10 +188,7 @@ const MessageList = ({ userDetails }: any) => {
     const streamMessages = async () => {
       if (conversation) {
         for await (const message of await conversation.streamMessages()) {
-          setMessageHistory((prevMessages) => [
-            ...prevMessages,
-            message,
-          ]);
+          setMessageHistory((prevMessages) => [...prevMessages, message]);
         }
       }
     };
@@ -211,10 +196,10 @@ const MessageList = ({ userDetails }: any) => {
   }, [conversation]);
 
   const connectWallet = async () => {
-    if (typeof (window as any).ethereum !== 'undefined') {
+    if (typeof (window as any).ethereum !== "undefined") {
       try {
         ((await window) as any).ethereum.request({
-          method: 'eth_requestAccounts',
+          method: "eth_requestAccounts",
         });
         const provider = new ethers.providers.Web3Provider(
           (window as any).ethereum
@@ -224,10 +209,10 @@ const MessageList = ({ userDetails }: any) => {
         setIsConnected(true);
       } catch (error) {
         setIsConnected(false);
-        console.error('Failed to connect wallet:', error);
+        console.error("Failed to connect wallet:", error);
       }
     } else {
-      console.error('Metamask is not installed');
+      console.error("Metamask is not installed");
     }
   };
 
@@ -237,7 +222,7 @@ const MessageList = ({ userDetails }: any) => {
     setChangeConversationLoading(false);
   };
 
-  console.log('result', result);
+  console.log("result", result);
 
   return (
     <div className="mt-5 mx-5">
@@ -269,7 +254,7 @@ const MessageList = ({ userDetails }: any) => {
                   <div className="flex items-center gap-1 w-[60%]">
                     <Checkbox size="sm" />
                     <div className="flex items-center gap-3">
-                      <Avatar src={'/images/user-image/travis.png'} />
+                      <Avatar src={"/images/user-image/travis.png"} />
                       <div>
                         <p className="font-semibold">{person.name}</p>
                         <p className="text-gray-500 text-xs font-medium">
@@ -283,9 +268,7 @@ const MessageList = ({ userDetails }: any) => {
                   </p>
                   <div className="w-[20%]">
                     <button
-                      onClick={() =>
-                        startConversation(person.ethAddress)
-                      }
+                      onClick={() => startConversation(person.ethAddress)}
                       className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
                     >
                       View
@@ -303,7 +286,7 @@ const MessageList = ({ userDetails }: any) => {
             <div className="flex items-center gap-1 w-[60%]">
               <Checkbox size="sm" />
               <div className="flex items-center gap-3">
-                <Avatar src={'/images/user-image/travis.png'} />
+                <Avatar src={"/images/user-image/travis.png"} />
                 <div>
                   <p className="font-semibold">Travis Herron</p>
                   <p className="text-gray-500 text-xs font-medium">
@@ -312,12 +295,10 @@ const MessageList = ({ userDetails }: any) => {
                 </div>
               </div>
             </div>
-            <p className="w-[20%] text-gray-500 font-medium">
-              June 23, 2024
-            </p>
+            <p className="w-[20%] text-gray-500 font-medium">June 23, 2024</p>
             <div className="w-[20%]">
               <Link
-                href={'/messages/travis.swop.id'}
+                href={"/messages/travis.swop.id"}
                 className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
               >
                 View
@@ -331,18 +312,14 @@ const MessageList = ({ userDetails }: any) => {
                 <Avatar src="/images/user-image/salman.png" />
                 <div>
                   <p className="font-semibold">Salman H Saikote</p>
-                  <p className="text-gray-500 text-xs font-medium">
-                    CTO
-                  </p>
+                  <p className="text-gray-500 text-xs font-medium">CTO</p>
                 </div>
               </div>
             </div>
-            <p className="w-[20%] text-gray-500 font-medium">
-              June 23, 2024
-            </p>
+            <p className="w-[20%] text-gray-500 font-medium">June 23, 2024</p>
             <div className="w-[20%]">
               <Link
-                href={'/messages/travis.swop.id'}
+                href={"/messages/travis.swop.id"}
                 className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
               >
                 View
@@ -356,18 +333,14 @@ const MessageList = ({ userDetails }: any) => {
                 <Avatar src="/images/user-image/neel.png" />
                 <div>
                   <p className="font-semibold">Arjo Neel</p>
-                  <p className="text-gray-500 text-xs font-medium">
-                    COO
-                  </p>
+                  <p className="text-gray-500 text-xs font-medium">COO</p>
                 </div>
               </div>
             </div>
-            <p className="w-[20%] text-gray-500 font-medium">
-              June 23, 2024
-            </p>
+            <p className="w-[20%] text-gray-500 font-medium">June 23, 2024</p>
             <div className="w-[20%]">
               <Link
-                href={'/messages/travis.swop.id'}
+                href={"/messages/travis.swop.id"}
                 className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
               >
                 View
@@ -378,14 +351,14 @@ const MessageList = ({ userDetails }: any) => {
       )}
       {!wallet && (
         <div
-          style={{ height: 'calc(100vh - 108px)' }}
-          className={`${isConnected && 'overflow-y-auto'} relative`}
+          style={{ height: "calc(100vh - 108px)" }}
+          className={`${isConnected && "overflow-y-auto"} relative`}
         >
           <div
             className={`${
               isConnected
-                ? 'hidden'
-                : 'w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center'
+                ? "hidden"
+                : "w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
             }`}
           >
             <button
@@ -417,7 +390,7 @@ const MessageList = ({ userDetails }: any) => {
                 <div className="flex items-center gap-1 w-[60%]">
                   <Checkbox size="sm" />
                   <div className="flex items-center gap-3">
-                    <Avatar src={'/images/user-image/travis.png'} />
+                    <Avatar src={"/images/user-image/travis.png"} />
                     <div>
                       <p className="font-semibold">Travis Herron</p>
                       <p className="text-gray-500 text-xs font-medium">
@@ -431,7 +404,7 @@ const MessageList = ({ userDetails }: any) => {
                 </p>
                 <div className="w-[20%]">
                   <Link
-                    href={'/messages/travis.swop.id'}
+                    href={"/messages/travis.swop.id"}
                     className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
                   >
                     View
@@ -444,12 +417,8 @@ const MessageList = ({ userDetails }: any) => {
                   <div className="flex items-center gap-3">
                     <Avatar src="/images/user-image/salman.png" />
                     <div>
-                      <p className="font-semibold">
-                        Salman H Saikote
-                      </p>
-                      <p className="text-gray-500 text-xs font-medium">
-                        CTO
-                      </p>
+                      <p className="font-semibold">Salman H Saikote</p>
+                      <p className="text-gray-500 text-xs font-medium">CTO</p>
                     </div>
                   </div>
                 </div>
@@ -458,7 +427,7 @@ const MessageList = ({ userDetails }: any) => {
                 </p>
                 <div className="w-[20%]">
                   <Link
-                    href={'/messages/travis.swop.id'}
+                    href={"/messages/travis.swop.id"}
                     className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
                   >
                     View
@@ -472,9 +441,7 @@ const MessageList = ({ userDetails }: any) => {
                     <Avatar src="/images/user-image/neel.png" />
                     <div>
                       <p className="font-semibold">Arjo Neel</p>
-                      <p className="text-gray-500 text-xs font-medium">
-                        COO
-                      </p>
+                      <p className="text-gray-500 text-xs font-medium">COO</p>
                     </div>
                   </div>
                 </div>
@@ -483,7 +450,7 @@ const MessageList = ({ userDetails }: any) => {
                 </p>
                 <div className="w-[20%]">
                   <Link
-                    href={'/messages/travis.swop.id'}
+                    href={"/messages/travis.swop.id"}
                     className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md font-medium text-sm"
                   >
                     View
@@ -497,7 +464,7 @@ const MessageList = ({ userDetails }: any) => {
       {isConnected && conversation && (
         <div className="flex gap-7 items-start h-full">
           <div
-            style={{ height: 'calc(100vh - 130px)' }}
+            style={{ height: "calc(100vh - 130px)" }}
             className="w-[62%] bg-white rounded-xl relative"
           >
             {changeConversationLoading && (
@@ -511,15 +478,13 @@ const MessageList = ({ userDetails }: any) => {
                   <div className="flex items-center flex-1 gap-3">
                     <Image
                       alt="user image"
-                      src={'/images/user-image/travis.png'}
+                      src={"/images/user-image/travis.png"}
                       width={60}
                       height={60}
                       className="w-14 h-14"
                     />
                     <div>
-                      <h1 className="font-bold">
-                        {micrositeData.name}
-                      </h1>
+                      <h1 className="font-bold">{micrositeData.name}</h1>
                       <p className="text-gray-500 text-xs font-medium">
                         {micrositeData.ens}
                       </p>
@@ -534,7 +499,7 @@ const MessageList = ({ userDetails }: any) => {
                     <button>
                       <Image
                         alt="user info"
-                        src={'/images/user-info.svg'}
+                        src={"/images/user-info.svg"}
                         width={100}
                         height={100}
                         className="w-5 h-5"
@@ -558,11 +523,11 @@ const MessageList = ({ userDetails }: any) => {
             <>
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setMessageType('allInbox')}
+                  onClick={() => setMessageType("allInbox")}
                   className={`${
-                    messageType === 'allInbox'
-                      ? 'font-bold text-gray-800'
-                      : 'font-medium text-gray-600'
+                    messageType === "allInbox"
+                      ? "font-bold text-gray-800"
+                      : "font-medium text-gray-600"
                   } `}
                 >
                   All Inbox
@@ -591,8 +556,8 @@ const MessageList = ({ userDetails }: any) => {
                     onClick={() => handleWalletClick(chat)}
                     className={`${
                       chat.ethAddress === micrositeData.ethAddress
-                        ? 'bg-black text-white'
-                        : 'text-black'
+                        ? "bg-black text-white"
+                        : "text-black"
                     }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
                   >
                     <div className="flex items-center gap-2 justify-between">
@@ -614,8 +579,8 @@ const MessageList = ({ userDetails }: any) => {
                         <p
                           className={`text-sm ${
                             peerAddress === chat.ethAddress
-                              ? 'text-white'
-                              : 'text-gray-500'
+                              ? "text-white"
+                              : "text-gray-500"
                           } font-medium`}
                         >
                           {chat.bio}
@@ -648,9 +613,7 @@ const MessageList = ({ userDetails }: any) => {
                       }}
                     ></div>
                     <div>
-                      <p className="font-sembold">
-                        {(result as any).name}
-                      </p>
+                      <p className="font-sembold">{(result as any).name}</p>
                       <p
                         className="text-sm                        text-gray-500
                       font-medium"
