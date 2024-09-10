@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import OrdersCollections from "@/components/Orders/OrdersCollections";
@@ -14,33 +16,48 @@ interface Order {
   deliveryStatus: string;
 }
 
-const OrderPage = async () => {
-  const session: any = await isUserAuthenticate(); // Check if the user exists
-  const token = session?.accessToken;
-
+const OrderPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [filterDate, setFilterDate] = useState("");
   const [filterName, setFilterName] = useState("");
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch token on component mount
+    const fetchToken = async () => {
+      try {
+        const session: any = await isUserAuthenticate(); // Check if the user exists
+        setToken(session?.accessToken);
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    };
+    fetchToken();
+  }, []);
 
   useEffect(() => {
     // Fetch orders from backend using the accessToken
     async function fetchOrders() {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/getOrders`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Pass the token in Authorization header
-          },
-        });
-        setOrders(response.data.orders);
+        if (token) {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/getOrders`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Pass the token in Authorization header
+              },
+            }
+          );
+          setOrders(response.data.orders);
+        }
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     }
 
-    if (token) {
-      fetchOrders();
-    }
+    fetchOrders();
   }, [token]);
+
   return (
     <main className="main-container">
       <div className="bg-white">
