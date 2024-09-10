@@ -124,7 +124,9 @@ export default function HomePage({ userDetails }) {
         peerAddressList,
         userDetails.accessToken
       );
-      setPeerData(response.data);
+      if (response.data) {
+        setPeerData(response.data);
+      }
       // Do something with the data here
     } catch (error) {
       console.error(
@@ -170,7 +172,7 @@ export default function HomePage({ userDetails }) {
 
   return (
     <div className="main-container h-[calc(100vh-120px)]">
-      {!conversation && peerData.length && (
+      {!conversation && peerData.length > 0 && (
         <div className="flow-root relative">
           <ul role="list" className="">
             {peerData.map((person, index) => (
@@ -220,6 +222,7 @@ export default function HomePage({ userDetails }) {
           </ul>
         </div>
       )}
+
       {!wallet && (
         <div className="w-full mx-auto">
           <div className="flow-root relative">
@@ -293,7 +296,7 @@ export default function HomePage({ userDetails }) {
                   >
                     <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16" />
                   </svg>
-                  Connect Wallet
+                  Connect XMTP
                 </button>
               </div>
             </div>
