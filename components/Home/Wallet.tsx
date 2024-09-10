@@ -39,6 +39,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
     walletBalance = flowData;
 
+
     if (walletBalance?.result) {
       totalBalance = walletBalance.result
         .map((item: { balance: any }) => parseFloat(item.balance))
