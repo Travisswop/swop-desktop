@@ -17,7 +17,7 @@ interface Order {
 const OrderPage = async () => {
   const session: any = await isUserAuthenticate(); // Check if the user exists
   const token = session?.accessToken;
-  
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [filterDate, setFilterDate] = useState("");
   const [filterName, setFilterName] = useState("");
@@ -26,7 +26,7 @@ const OrderPage = async () => {
     // Fetch orders from backend using the accessToken
     async function fetchOrders() {
       try {
-        const response = await axios.get("/api/v1/orders", {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/getOrders`, {
           headers: {
             Authorization: `Bearer ${token}`, // Pass the token in Authorization header
           },
