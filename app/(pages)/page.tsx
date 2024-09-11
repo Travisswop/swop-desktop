@@ -83,26 +83,26 @@ export default async function HomePage() {
 
   // const walletData = getEnsData();
 
-  const getLast30DaysTap = () => {
-    if (data && data.state === "success") {
-      const currentTimestamp = Date.now();
-      const thirtyDaysAgoTimestamp =
-        currentTimestamp - 30 * 24 * 60 * 60 * 1000;
-      const tapsInLast30Days =
-        data &&
-        data?.data?.tap.filter(
-          (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
-        );
-      const tapsInLast30DaysCount = tapsInLast30Days.length;
-      if (tapsInLast30DaysCount) {
-        return tapsInLast30DaysCount;
-      } else {
-        return 0;
-      }
-    } else {
-      return 0;
-    }
-  };
+  // const getLast30DaysTap = () => {
+  //   if (data && data.state === "success") {
+  //     const currentTimestamp = Date.now();
+  //     const thirtyDaysAgoTimestamp =
+  //       currentTimestamp - 30 * 24 * 60 * 60 * 1000;
+  //     const tapsInLast30Days =
+  //       data &&
+  //       data?.data?.tap.filter(
+  //         (tap: any) => tap.timestamp >= thirtyDaysAgoTimestamp
+  //       );
+  //     const tapsInLast30DaysCount = tapsInLast30Days.length;
+  //     if (tapsInLast30DaysCount) {
+  //       return tapsInLast30DaysCount;
+  //     } else {
+  //       return 0;
+  //     }
+  //   } else {
+  //     return 0;
+  //   }
+  // };
 
   const leads = () => {
     const count = data?.data?.subscriber?.length ?? 0;
