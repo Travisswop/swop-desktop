@@ -161,7 +161,7 @@ const CreateCollectionPage = () => {
 
           <div>
             <label htmlFor="price" className="mb-1 block font-medium">
-              Price:
+              Price in USD:
             </label>
             <input
               type="text"
@@ -180,7 +180,7 @@ const CreateCollectionPage = () => {
               htmlFor="recipientAddress"
               className="mb-1 block font-medium"
             >
-              Recipient Address:
+              Recipient&apos;s Solana Address:
             </label>
             <input
               type="text"
