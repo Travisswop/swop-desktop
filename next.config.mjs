@@ -39,37 +39,41 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config) => {
-    config.externals.push("pino-pretty", "lokijs", "encoding");
+    config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;
   },
   images: {
     remotePatterns: [
       {
-        protocol: "https", // Allow any protocol
-        hostname: "*", // Allow any hostname
+        protocol: 'https', // Allow any protocol
+        hostname: '*', // Allow any hostname
       },
       {
-        protocol: "http", // Allow any protocol
-        hostname: "*", // Allow any hostname
+        protocol: 'http', // Allow any protocol
+        hostname: '*', // Allow any hostname
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
       },
     ],
   },
   async headers() {
     return [
       {
-        source: "/api/:path*",
+        source: '/api/:path*',
         headers: [
           {
-            key: "Access-Control-Allow-Origin",
-            value: "*", // Set your origin
+            key: 'Access-Control-Allow-Origin',
+            value: '*', // Set your origin
           },
           {
-            key: "Access-Control-Allow-Methods",
-            value: "GET, POST, PUT, DELETE, OPTIONS",
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
           },
           {
-            key: "Access-Control-Allow-Headers",
-            value: "Content-Type, Authorization",
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization',
           },
         ],
       },
