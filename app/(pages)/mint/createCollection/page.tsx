@@ -180,7 +180,7 @@ const CreateCollectionPage = () => {
               htmlFor="recipientAddress"
               className="mb-1 block font-medium"
             >
-              Recipient Address:
+              Recipient's Solana Address:
             </label>
             <input
               type="text"
