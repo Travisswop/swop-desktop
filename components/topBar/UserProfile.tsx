@@ -87,7 +87,10 @@ const UserProfile = ({ session }: any) => {
         <DropdownMenu aria-label="Static Actions" className="p-2 rounded">
           <DropdownItem key="changeSmartsite" className="bg-gray-200 mb-2">
             {/* <Link href={"/select-smartsite"}>Change Smartsite</Link> */}
-            <Link href={"/error"} className="flex items-center gap-1">
+            <Link
+              href={`/update-profile/${session._id}`}
+              className="flex items-center gap-1"
+            >
               <IoSettingsOutline /> Settings
             </Link>
           </DropdownItem>

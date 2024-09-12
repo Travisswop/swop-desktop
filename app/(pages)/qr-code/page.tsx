@@ -10,6 +10,7 @@ import isUserAuthenticate from "@/util/isUserAuthenticate";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FiDownload } from "react-icons/fi";
 // import { CiSearch } from "react-icons/ci";
 import { IoQrCodeSharp } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
@@ -139,13 +140,20 @@ const QrCodePage = async () => {
                   <td className="w-[20%]">
                     <div className="flex items-center gap-1">
                       <Link className="" href={`/qr-code/${item._id}`}>
-                        <div className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                        <div className="bg-gray-200 w-9 h-9 rounded-lg hover:bg-gray-300 flex items-center justify-center">
                           <TbEdit size={18} />
                         </div>
                       </Link>
                       <DeleteQRCode id={item._id} token={session.accessToken} />
                       <ShareCustomQRCode url={item.qrCodeUrl} />
                       {/* <TestShare qrCodeUrl={item.qrCodeUrl} /> */}
+                      <a
+                        href={item.qrCodeUrl}
+                        download="qrcode.png"
+                        className="bg-gray-200 hover:bg-gray-300 w-9 h-9 flex items-center justify-center rounded-lg"
+                      >
+                        <FiDownload color="black" size={18} />
+                      </a>
                     </div>
                   </td>
                 </tr>
