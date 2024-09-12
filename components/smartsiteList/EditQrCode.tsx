@@ -180,9 +180,11 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
     try {
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);
+        console.log("image url", imageUrl);
+
         qrData.image = imageUrl;
       }
-      qrData.image = imageUrl;
+      // qrData.image = imageUrl;
       qrData.backgroundOptions = { color: bgColor };
       qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
       qrData.data = qrCodeData.qrCodeUrl;
