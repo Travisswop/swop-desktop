@@ -4,7 +4,7 @@ import Google from "next-auth/providers/google";
 // import axios from "axios";
 
 // export const maxDuration = 60;
-console.log("api url", process.env.NEXT_PUBLIC_API_URL);
+// console.log("api url", process.env.NEXT_PUBLIC_API_URL);
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -99,10 +99,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           if (response.ok) {
             const data = await response.json();
+            console.log("datasssee", data);
+
             const dataWithToken = {
               ...token,
               _id: data.data._id,
               accessToken: data.token,
+              image: data.data.profilePic,
               isPremiumUser: data.data.isPremiumUser,
             };
             token = dataWithToken;

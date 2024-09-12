@@ -21,7 +21,7 @@ const UserProfile = ({ session }: any) => {
 
   const setSesstionState = useLoggedInUserStore((state) => state.setUser);
 
-  // const session = await auth();
+  console.log("session", session);
 
   const imageSrc = isUrl(session?.picture)
     ? session?.picture
@@ -66,7 +66,7 @@ const UserProfile = ({ session }: any) => {
             variant="solid"
             className="bg-gray-200 px-3 flex items-center gap-2 rounded-full"
           >
-            {session.picture ? (
+            {/* {session.picture ? (
               <Image
                 src={imageSrc as any}
                 width={60}
@@ -76,6 +76,24 @@ const UserProfile = ({ session }: any) => {
               />
             ) : (
               <Image src={travis} width={30} alt="default image" />
+            )} */}
+
+            {isUrl(session.image) ? (
+              <Image
+                src={session.image as any}
+                width={60}
+                height={60}
+                alt={"User Profile"}
+                className="rounded-full border-2 border-white w-[30px] h-[30px]"
+              />
+            ) : (
+              <Image
+                src={`/images/user_avator/${session.image}.png`}
+                width={60}
+                height={60}
+                alt={"User Profile"}
+                className="rounded-full border-2 border-white w-[30px] h-[30px]"
+              />
             )}
 
             <p className="text-sm">
