@@ -303,13 +303,18 @@ const MessageList = ({ userDetails }: any) => {
   console.log("result", result);
 
   return (
-    <div className="">
+    <div>
       {address && isWalletAddresConnected && isMicrositeConnected ? (
         <>
           {isSignerLoading ? (
-            <div>
-              <Spinner size="sm" color="secondary" />
-              <p>Loading...</p>
+            <div
+              style={{ height: "calc(100vh - 108px)" }}
+              className="w-full flex items-center justify-center"
+            >
+              <div className="flex flex-col justify-center gap-1">
+                <Spinner size="lg" color="secondary" />
+                <p>Loading...</p>
+              </div>
             </div>
           ) : (
             <>
