@@ -1,8 +1,8 @@
 {
-  "width": 320,
-  "height": 320,
+  "width": 550,
+  "height": 550,
   "data": "https://www.swopme.app/njmilon",
-  "margin": 20,
+  "margin": 50,
   "qrOptions": {
     "typeNumber": "0",
     "mode": "Byte",
@@ -11,7 +11,7 @@
   "imageOptions": { "hideBackgroundDots": true, "imageSize": 0.5, "margin": 6 },
   "dotsOptions": { "type": "classy-rounded", "color": "#f99d36" },
   "backgroundOptions": { "color": "#ffffff00" },
-  "image": "https://res.cloudinary.com/bayshore/image/upload/v1706786605/qr-logo_mwasoz.png",
+  "image": "https://res.cloudinary.com/bayshore/image/upload/v1725968507/qr-logo_mwasoz_imt0ql.png",
   "dotsOptionsHelper": {
     "colorType": { "single": true, "gradient": false },
     "gradient": {

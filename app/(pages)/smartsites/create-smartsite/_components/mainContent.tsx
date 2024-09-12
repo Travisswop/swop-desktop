@@ -81,11 +81,11 @@ const CreateSmartSite = ({ token, session }: any) => {
     onOpen();
   };
 
-  useEffect(() => {
-    if (!session.isPremiumUser) {
-      router.push("/subscribe");
-    }
-  }, [router, session.isPremiumUser]);
+  // useEffect(() => {
+  //   if (!session.isPremiumUser) {
+  //     router.push("/subscribe");
+  //   }
+  // }, [router, session.isPremiumUser]);
 
   useEffect(() => {
     setFormData("backgroundImg", "1");

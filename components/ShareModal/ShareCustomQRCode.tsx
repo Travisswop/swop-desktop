@@ -1,7 +1,7 @@
 "use client";
 import { useDisclosure } from "@nextui-org/react";
 import React, { useState } from "react";
-import { IoIosSend } from "react-icons/io";
+// import { IoIosSend } from "react-icons/io";
 import QRCodeShareModal from "./QRCodeShareModal";
 import { BsFillSendFill } from "react-icons/bs";
 
@@ -17,9 +17,9 @@ const ShareCustomQRCode = ({ url }: any) => {
       <button
         onClick={handleQRCodeShare}
         type="button"
-        className="bg-gray-200 w-12 h-10 rounded-lg hover:bg-gray-300 flex items-center justify-center"
+        className="bg-gray-200 w-9 h-9 rounded-lg hover:bg-gray-300 flex items-center justify-center"
       >
-        <BsFillSendFill size={16} />
+        <BsFillSendFill size={15} />
       </button>
       {qrCode && (
         <QRCodeShareModal

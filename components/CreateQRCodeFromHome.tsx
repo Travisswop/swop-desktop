@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import ShareQrCodeModal from "./modal/ShareQrCodeModal";
 import { QrCode1 } from "@/util/data/qr-code-svg-data/QRData";
+import { FiDownload } from "react-icons/fi";
 
 const CreateQRCodeFromHome = ({ session }: any) => {
   const [data, setData] = useState<any>(null);
@@ -35,15 +36,15 @@ const CreateQRCodeFromHome = ({ session }: any) => {
         qrCodeSvgName: "QrCode1",
       };
 
-      qrData.dotsOptions = { ...qrData.dotsOptions, color: "#B396FF" };
+      qrData.dotsOptions = { ...qrData.dotsOptions, color: "#000000" };
 
       qrData.cornersDotOptions = {
         ...qrData.cornersDotOptions,
-        color: "#B396FF",
+        color: "#000000",
       };
       qrData.cornersSquareOptions = {
         ...qrData.cornersSquareOptions,
-        color: "#B396FF",
+        color: "#000000",
       };
 
       // Send the updated JSON data in a POST request
@@ -115,9 +116,9 @@ const CreateQRCodeFromHome = ({ session }: any) => {
                 <Image
                   alt="qr code"
                   src={data?.data?.qrCodeUrl ? data.data.qrCodeUrl : qrcode}
-                  width={150}
-                  height={150}
-                  className="border-2 border-gray-500 rounded-2xl"
+                  width={200}
+                  height={200}
+                  className="border-2 border-gray-600 rounded-2xl"
                 />
                 <div className="flex items-center gap-2 justify-center mt-2">
                   <Link
@@ -134,6 +135,13 @@ const CreateQRCodeFromHome = ({ session }: any) => {
                   >
                     <Image alt="send" src={send} width={16} />
                   </button>
+                  <a
+                    href={data.data.qrCodeUrl}
+                    download="qrcode.png"
+                    className="bg-black p-1.5 rounded-lg"
+                  >
+                    <FiDownload color="white" size={18} />
+                  </a>
                 </div>
               </div>
             ) : (
@@ -142,7 +150,7 @@ const CreateQRCodeFromHome = ({ session }: any) => {
               //     create a qr code to preview
               //   </p>
               // </div>
-              <div className="border rounded-xl p-2">
+              <div className="border-2 border-gray-500 rounded-xl p-2 pb-4">
                 <div className="relative w-[130px] h-[130px]">
                   <QrCode1 color={"black"} width={130} height={130} />
                   <Image
@@ -150,10 +158,11 @@ const CreateQRCodeFromHome = ({ session }: any) => {
                     src={
                       "https://res.cloudinary.com/bayshore/image/upload/v1725968507/qr-logo_mwasoz_imt0ql.png"
                     }
-                    width={60}
-                    height={60}
-                    className="absolute inset-0 m-auto w-7 h-7"
+                    width={90}
+                    height={90}
+                    className="absolute inset-0 m-auto w-8 h-8"
                   />
+                  <p className="text-[8px] text-center">Powered By SWOP</p>
                 </div>
 
                 {/* <div className='flex items-center gap-3 justify-center mt-4'>

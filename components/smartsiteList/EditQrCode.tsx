@@ -38,6 +38,8 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
 
   const router = useRouter();
 
+  console.log("qr code data", qrCodeData);
+
   useEffect(() => {
     setQrPattern(qrCodeData.qrCodeSvgName);
     setBgColor(qrCodeData.backgroundColor);
