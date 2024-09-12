@@ -145,11 +145,15 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
           />
         </div>
       </div>
-      <div className='mt-8 flex items-center justify-center gap-3'>
-        {/* <WalletTab /> */}
 
+      {/* WalletTab */}
+
+      <div className='mt-8 flex items-center justify-center gap-3'>
         <WalletTab />
       </div>
+
+      {/* WalletFeature */}
+
       <div>
         <WalletFeature data={data} token={token} microsites={microsites} />
       </div>

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Tab } from '@nextui-org/react';
 import Image from 'next/image';
 import {
@@ -9,6 +9,7 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import useWalletTabValue from '@/zustandStore/walletTabValue';
+import { GoDotFill } from 'react-icons/go';
 
 interface WalletTabProps {}
 
@@ -16,9 +17,9 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   const tabList = [
     { title: 'wallet', url: '/images/homepage/wallet/wallet.png' },
     { title: 'message', url: '/images/homepage/wallet/message.png' },
+    { title: 'dashborad', url: '/images/homepage/wallet/dashboard.png' },
     { title: 'nft', url: '/images/homepage/wallet/NFT.png' },
     { title: 'mining', url: '/images/homepage/wallet/Mining.png' },
-    { title: 'dashborad', url: '/images/homepage/wallet/dashboard.png' },
     {
       title: 'transaction',
       url: '/images/homepage/wallet/transaction-history.png',
@@ -33,6 +34,7 @@ const WalletTab: React.FC<WalletTabProps> = () => {
 
   const [selected, setSelected] = React.useState('');
   const [selectedView, setSelectedView] = React.useState('walletList');
+  const [dropdownSelect, setDropdownSelect] = useState('ethereum');
 
   const handleSelectionChange = (key: React.Key) => {
     const selectedKey = String(key);
@@ -124,10 +126,83 @@ const WalletTab: React.FC<WalletTabProps> = () => {
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label='User Actions' variant='flat'>
-            <DropdownItem key='settings'>My Settings</DropdownItem>
-            <DropdownItem key='team_settings'>Team Settings</DropdownItem>
-            <DropdownItem key='analytics'>Analytics</DropdownItem>
-            <DropdownItem key='system'>System</DropdownItem>
+            <DropdownItem
+              key='ethereum'
+              onClick={() => setDropdownSelect('ethereum')}
+            >
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-x-1'>
+                  <Image
+                    src={'/images/homepage/ETH.png'}
+                    alt={'Icon'}
+                    width={100}
+                    height={100}
+                    className='size-4 rounded-full'
+                  />
+                  <p>Ethereum</p>
+                </div>
+                {dropdownSelect === 'ethereum' && (
+                  <GoDotFill className='size-3 text-green-700' />
+                )}
+              </div>
+            </DropdownItem>
+            <DropdownItem
+              key='polygon'
+              onClick={() => setDropdownSelect('polygon')}
+            >
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-x-1'>
+                  <Image
+                    src={'/images/homepage/Polygon.png'}
+                    alt={'Icon'}
+                    width={100}
+                    height={100}
+                    className='size-4 rounded-full'
+                  />
+                  <p>Polygon </p>
+                </div>
+                {dropdownSelect === 'polygon' && (
+                  <GoDotFill className='size-3 text-green-700' />
+                )}
+              </div>
+            </DropdownItem>
+            <DropdownItem key='base' onClick={() => setDropdownSelect('base')}>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-x-1'>
+                  <Image
+                    src={'/images/homepage/coinbase.png'}
+                    alt={'Icon'}
+                    width={100}
+                    height={100}
+                    className='size-4 rounded-full'
+                  />
+                  <p>Base</p>
+                </div>
+                {dropdownSelect === 'base' && (
+                  <GoDotFill className='size-3 text-green-700' />
+                )}
+              </div>
+            </DropdownItem>
+            <DropdownItem
+              key='solana'
+              onClick={() => setDropdownSelect('solana')}
+            >
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-x-1'>
+                  <Image
+                    src={'/images/homepage/Solana.png'}
+                    alt={'Icon'}
+                    width={100}
+                    height={100}
+                    className='size-4 rounded-full'
+                  />
+                  <p>Solana</p>
+                </div>
+                {dropdownSelect === 'solana' && (
+                  <GoDotFill className='size-3 text-green-700' />
+                )}
+              </div>
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>

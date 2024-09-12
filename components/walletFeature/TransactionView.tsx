@@ -1,8 +1,27 @@
 'use client';
 import Image from 'next/image';
-import SparklineChart from './CashflowChart';
 
 const TransactionView = ({ transactionData, walletObj }: any) => {
+
+  const convertTimestampToDateTime = (timestamp: any) => {
+    const date = new Date(timestamp * 1000);
+
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    }).format(date);
+
+    const formattedTime = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).format(date);
+
+    return `${formattedTime} ${formattedDate}`;
+  };
+
+
   return (
     <div>
       <div className='flex flex-col gap-2 relative z-10 p-2'>
@@ -15,7 +34,13 @@ const TransactionView = ({ transactionData, walletObj }: any) => {
               <div className='flex justify-center'>
                 <div className='relative inline-block mx-0'>
                   <Image
-                    src={'/images/homepage/transaction-icon/out.png'}
+                    src={
+                      item.from === walletObj.ethAddress ||
+                      item.from === walletObj.solanaAddress ||
+                      item.from === walletObj.btcAddress
+                        ? '/images/homepage/transaction-icon/out.png'
+                        : '/images/homepage/transaction-icon/in.png'
+                    }
                     alt='user image'
                     width={100}
                     height={100}
@@ -24,8 +49,23 @@ const TransactionView = ({ transactionData, walletObj }: any) => {
 
                   <div className='absolute bottom-0 right-0'>
                     <Image
-                      src={'/images/cashflow/ETH@2x.png'}
-                      alt='user image'
+                      src={
+                        item.tokenSymbol === 'SOL'
+                          ? '/images/homepage/Solana.png'
+                          : item.tokenSymbol === 'ETH'
+                          ? '/images/homepage/ETH.png'
+                          : item.tokenSymbol === 'USDC' ||
+                            item.tokenSymbol === 'WETH'
+                          ? '/images/homepage/USDC.png'
+                          : item.tokenSymbol === 'MATIC' ||
+                            item.tokenSymbol === 'WETH' ||
+                            item.tokenSymbol === 'DAI' ||
+                            item.tokenSymbol === 'AAVE' ||
+                            item.tokenSymbol === 'POL'
+                          ? '/images/homepage/Polygon.png'
+                          : '/images/homepage/Polygon.png'
+                      }
+                      alt='coin icon'
                       width={100}
                       height={100}
                       className='size-5 rounded-full'
@@ -34,14 +74,29 @@ const TransactionView = ({ transactionData, walletObj }: any) => {
                 </div>
               </div>
               <div className=''>
-                <h3 className='font-semibold'>{item.blockNumber}</h3>
-                <p className='text-sm text-gray-500'>{item.timeStamp}</p>
+                <h3 className='font-semibold'>
+                  {`${item.hash.slice(0, 5)}....${item.hash.slice(-5)}`}
+                </h3>
+
+                <p className='text-xs text-gray-500 mt-1'>
+                  {convertTimestampToDateTime(item?.timeStamp)}
+                </p>
               </div>
             </div>
 
             <div className=''>
-              <h3 className='font-semibold'>{item.blockNumber}</h3>
-              <p className='text-sm text-gray-500'>{item.timeStamp}</p>
+              <div className='flex items-center gap-x-2'>
+                <h3 className='font-semibold'>{`${parseFloat(
+                  item.value,
+                ).toFixed(4)}`}</h3>
+                <h2 className='font-semibold'>{item?.tokenSymbol}</h2>
+              </div>
+
+              <p className='text-sm text-gray-500 text-right mt-1'>
+                {`$${parseFloat((item.tokenPrice * item.value) as any).toFixed(
+                  2,
+                )}`}
+              </p>
             </div>
           </div>
         ))}
