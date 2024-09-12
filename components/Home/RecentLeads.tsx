@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { HiOutlinePhone } from 'react-icons/hi';
 import { PiPhoneCall } from 'react-icons/pi';
 import { CgMail } from 'react-icons/cg';
-import { LuPhoneCall } from 'react-icons/lu';
+import { FiDownload } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -121,10 +121,10 @@ const RecentLeads = ({ subscribers }: any) => {
                       <CgMail size={20} className='text-white' />
                     </Link>
                     <Link
-                      href={`mailto:${subscriber.email}`}
+                      href={``}
                       className='bg-black rounded-lg w-10 h-10 flex items-center justify-center'
                     >
-                      <CgMail size={20} className='text-white' />
+                      <FiDownload size={20} className='text-white' />
                     </Link>
                   </div>
                 </div>
