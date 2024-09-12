@@ -4,7 +4,6 @@ import { Parser } from 'json2csv';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { HiOutlinePhone } from 'react-icons/hi';
-import { PiPhoneCall } from 'react-icons/pi';
 import { CgMail } from 'react-icons/cg';
 import { FiDownload } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,20 +24,50 @@ import Link from 'next/link';
 import AnimateButton from '../Button/AnimateButton';
 
 const RecentLeads = ({ subscribers }: any) => {
-  const downloadCSV = () => {
+  // const downloadCSV = (subscriberId: any) => {
+  //   // Define the fields you want in the CSV
+  //   const fields = ['name', 'jobTitle', 'email', 'mobileNo'];
+
+  //   // Use json2csv parser to convert the data
+  //   const json2csvParser = new Parser({ fields });
+  //   const csv = json2csvParser.parse(subscribers);
+
+  //   // Create a blob and download the file
+  //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  //   const url = URL.createObjectURL(blob);
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.setAttribute('download', 'data.csv');
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
+
+  const downloadCSV = (subscriberId: string | null) => {
     // Define the fields you want in the CSV
     const fields = ['name', 'jobTitle', 'email', 'mobileNo'];
 
+    // If subscriberId is provided, filter to find the specific subscriber
+    let dataToDownload;
+    if (subscriberId) {
+      dataToDownload = subscribers.filter(
+        (subscriber: any) => subscriber._id === subscriberId,
+      );
+    } else {
+      // If subscriberId is null, download all leads
+      dataToDownload = subscribers;
+    }
+
     // Use json2csv parser to convert the data
     const json2csvParser = new Parser({ fields });
-    const csv = json2csvParser.parse(subscribers);
+    const csv = json2csvParser.parse(dataToDownload);
 
     // Create a blob and download the file
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'data.csv');
+    link.setAttribute('download', 'Subscriber-Leads.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -120,12 +149,12 @@ const RecentLeads = ({ subscribers }: any) => {
                     >
                       <CgMail size={20} className='text-white' />
                     </Link>
-                    <Link
-                      href={``}
+                    <button
+                      onClick={() => downloadCSV(subscriber._id)}
                       className='bg-black rounded-lg w-10 h-10 flex items-center justify-center'
                     >
                       <FiDownload size={20} className='text-white' />
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -135,7 +164,7 @@ const RecentLeads = ({ subscribers }: any) => {
       </Swiper>
 
       <div className='flex justify-center mt-10'>
-        <button onClick={downloadCSV}>
+        <button onClick={() => downloadCSV(null)}>
           <AnimateButton
             width='w-full'
             className='text-gray-700 flex gap-1 text-lg'
