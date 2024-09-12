@@ -99,7 +99,7 @@ const RecentLeads = ({ subscribers }: any) => {
                     <LuPhoneCall /> Contact Lead
                   </button> */}
                   <div className='flex items-center gap-x-1'>
-                    <Link href={`tel:${subscriber.mobileNo}`}>
+                    {/* <Link href={`tel:${subscriber.mobileNo}`}>
                       <AnimateButton
                         width='w-full'
                         className='text-gray-700 flex gap-1 text-lg'
@@ -107,19 +107,25 @@ const RecentLeads = ({ subscribers }: any) => {
                         <PiPhoneCall className='size-6' />
                         Contact Lead
                       </AnimateButton>
-                    </Link>
-                    {/* <Link
+                    </Link> */}
+                    <Link
                       href={`tel:${subscriber.mobileNo}`}
                       className='bg-black rounded-lg flex items-center justify-center w-10 h-10'
                     >
                       <HiOutlinePhone size={18} className=' text-white' />
-                    </Link> */}
-                    {/* <Link
+                    </Link>
+                    <Link
                       href={`mailto:${subscriber.email}`}
                       className='bg-black rounded-lg w-10 h-10 flex items-center justify-center'
                     >
                       <CgMail size={20} className='text-white' />
-                    </Link> */}
+                    </Link>
+                    <Link
+                      href={`mailto:${subscriber.email}`}
+                      className='bg-black rounded-lg w-10 h-10 flex items-center justify-center'
+                    >
+                      <CgMail size={20} className='text-white' />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -127,6 +133,7 @@ const RecentLeads = ({ subscribers }: any) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <div className='flex justify-center mt-10'>
         <button onClick={downloadCSV}>
           <AnimateButton
