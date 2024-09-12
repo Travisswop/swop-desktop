@@ -1,20 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
-import { FiSettings } from 'react-icons/fi';
 import { TbEdit } from 'react-icons/tb';
 import isUrl from '@/util/isUrl';
 import { FaUserTie } from 'react-icons/fa';
-import { BsQrCodeScan } from 'react-icons/bs';
-import { TbLocationFilled } from 'react-icons/tb';
-import { CgArrowsExchangeAlt } from 'react-icons/cg';
-import { FiShoppingBag } from 'react-icons/fi';
 import WalletTab from './WalletTab';
-import Cashflow from '../cashflow/Cashflow';
-
+import WalletFeature from '../walletFeature/WalletFeature';
 import ShowEnsName from '../ShowEnsName';
 import Link from 'next/link';
 import { getCashFlow } from '@/actions/cashflow';
-import { log } from 'console';
 
 const Wallet = async ({ profileData, data, microsites, token }: any) => {
   const getImgSrc = () => {
@@ -27,8 +20,9 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
   let walletBalance;
   let totalBalance = 0;
-
+  console.log('data?.owner', data?.owner);
   if (data?.owner && data?.addresses['501']) {
+    console.log('address', data.owner);
     const walletObj = {
       ethAddress: data.owner,
       solanaAddress: data.addresses['501'],
@@ -56,13 +50,6 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
       <div className='flex justify-center'>
         <div className='relative inline-block mx-0'>
-          {/* <Image
-            src={'/images/travis.png'}
-            alt={'Travis'}
-            width={500}
-            height={500}
-            className='mx-auto size-28'
-          /> */}
           {profileData && profileData?.data?.profilePic ? (
             <Image
               src={getImgSrc()}
@@ -160,101 +147,11 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
       </div>
       <div className='mt-8 flex items-center justify-center gap-3'>
         {/* <WalletTab /> */}
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/menu-1.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-          <Image
-            src={'/images/homepage/wallet/menu-2.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/wallet.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
 
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/message.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/NFT.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/Mining.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/dashboard.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-
-        <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/transaction-history.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-        </div>
-
-        <div className='bg-[#EEEEEE] p-2 rounded-lg flex items-center'>
-          <Image
-            src={'/images/homepage/wallet/network-selection.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-8'
-          />
-          <Image
-            src={'/images/homepage/wallet/arrow.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-3'
-          />
-        </div>
+        <WalletTab />
       </div>
       <div>
-        <Cashflow data={data} token={token} microsites={microsites} />
+        <WalletFeature data={data} token={token} microsites={microsites} />
       </div>
     </div>
   );

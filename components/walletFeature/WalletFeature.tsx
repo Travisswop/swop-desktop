@@ -1,14 +1,12 @@
 import { getCashFlow } from '@/actions/cashflow';
-import CashflowData from './CashflowData';
+import WalletFeatureData from './WalletFeatureData';
 import Link from 'next/link';
 import DynamicPrimaryBtn from '../Button/DynamicPrimaryBtn';
 import { isValidObjectId } from '@/util/checkMongoId';
 import { getNftData } from '@/actions/nftData';
-import { getTransionList } from '@/actions/transionList';
+import { getTransactionData } from '@/actions/transactionData';
 
-const Cashflow = async ({ data, microsites, token }: any) => {
-  // console.log("datass", data);
-
+const WalletFeature = async ({ data, microsites, token }: any) => {
   if (data === 'No Primary microsite found!') {
     return <p>{data}</p>;
   }
@@ -36,12 +34,20 @@ const Cashflow = async ({ data, microsites, token }: any) => {
 
     const flowData = await getCashFlow(walletObj, token);
 
-    // const nftData = await getNftData(token, data.owner, data.addresses['501']);
+    const nftData = await getNftData(token, data.owner, data.addresses['501']);
 
-    // const transionList = await getTransionList(walletObj, token);
+    const transactionData = await getTransactionData(walletObj, token);
 
-    return <CashflowData microsites={microsites} flowData={flowData} />;
+    return (
+      <WalletFeatureData
+        microsites={microsites}
+        flowData={flowData}
+        nftData={nftData}
+        transactionData={transactionData}
+        walletObj={walletObj}
+      />
+    );
   }
 };
 
-export default Cashflow;
+export default WalletFeature;

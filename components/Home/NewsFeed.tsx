@@ -78,19 +78,19 @@ const NewsFeed = () => {
           </div>
           <div className='flex items-center justify-start gap-x-12 mt-16 ml-16'>
             <div className='flex items-center gap-x-1'>
-              <PiArrowFatUp className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+              <PiArrowFatUp className='text-2xl text-[#424651] hover:text-black' />
               <p>123</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <LuRepeat className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+              <LuRepeat className='text-2xl text-[#424651] hover:text-black' />
               <p>98</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <FiHeart className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+              <FiHeart className='text-2xl text-[#424651] hover:text-black' />
               <p>7</p>
             </div>
             <div className='flex items-center gap-x-1'>
-              <HiOutlineUpload className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+              <HiOutlineUpload className='text-2xl text-[#424651] hover:text-black' />
               <p>7</p>
             </div>
           </div>

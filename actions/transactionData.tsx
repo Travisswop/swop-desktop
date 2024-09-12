@@ -1,7 +1,7 @@
-export async function getTransionList(walletInfo: any, token: string) {
+export async function getTransactionData(walletInfo: any, token: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/wallet/tokenList`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v2/wallet/transactionsList`,
       {
         method: 'POST',
         headers: {
