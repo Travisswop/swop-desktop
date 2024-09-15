@@ -10,7 +10,7 @@ const CashFlowView = ({ flowData }: any) => {
     <div>
       {selectTabViewValue === 'walletList' ? (
         <div className='flex flex-col gap-2 relative z-10'>
-          {flowData.result.map((item: any, index: number) => (
+          {flowData?.result.map((item: any, index: number) => (
             <div
               key={index}
               className='px-3 py-2 rounded-lg shadow-medium flex items-center bg-white'

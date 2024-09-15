@@ -6,6 +6,8 @@ import CashFlowView from './CashFlowView';
 import TransactionView from './TransactionView';
 import NftView from './NftView';
 import DashboradView from './DashboradView';
+import useWalletQrCode from '@/zustandStore/walletQrCode';
+import WalletQrView from './WalletQrView';
 
 const WalletFeatureData = ({
   microsites,
@@ -17,6 +19,7 @@ const WalletFeatureData = ({
   const { address, isConnected } = useAccount();
 
   const { selectTabValue } = useWalletTabValue();
+  const { walletQrCode } = useWalletQrCode();
 
   return (
     <div
@@ -31,22 +34,26 @@ const WalletFeatureData = ({
       >
         <SetupPrimarySmartsiteWalletModal microsites={microsites} />
       </div>
-      <div>
-        {selectTabValue === 'wallet' ? (
-          <CashFlowView flowData={flowData} />
-        ) : selectTabValue === 'transaction' ? (
-          <TransactionView
-            transactionData={transactionData}
-            walletObj={walletObj}
-          />
-        ) : selectTabValue === 'nft' ? (
-          <NftView walletObj={walletObj} nftData={nftData} />
-        ) : selectTabValue === 'dashborad' ? (
-          <DashboradView walletObj={walletObj} nftData={nftData} />
-        ) : (
-          ''
-        )}
-      </div>
+      {!walletQrCode ? (
+        <div>
+          {selectTabValue === 'wallet' ? (
+            <CashFlowView flowData={flowData} />
+          ) : selectTabValue === 'transaction' ? (
+            <TransactionView
+              transactionData={transactionData}
+              walletObj={walletObj}
+            />
+          ) : selectTabValue === 'nft' ? (
+            <NftView walletObj={walletObj} nftData={nftData} />
+          ) : selectTabValue === 'dashborad' ? (
+            <DashboradView walletObj={walletObj} nftData={nftData} />
+          ) : (
+            ''
+          )}
+        </div>
+      ) : (
+        <WalletQrView />
+      )}
     </div>
   );
 };

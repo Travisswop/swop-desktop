@@ -8,21 +8,28 @@ import WalletFeature from '../walletFeature/WalletFeature';
 import ShowEnsName from '../ShowEnsName';
 import Link from 'next/link';
 import { getCashFlow } from '@/actions/cashflow';
+import WalletAddsCopy from './WalletAddsCopy';
+import WalletQrButton from './WalletQrButton';
 
 const Wallet = async ({ profileData, data, microsites, token }: any) => {
+  const getPrimaryMicrositeData = microsites.find(
+    (microsite: any) => microsite.primary,
+  );
+
   const getImgSrc = () => {
-    const imageSrc = isUrl(profileData && profileData?.data?.profilePic)
-      ? profileData?.data?.profilePic
-      : `/images/user_avator/${profileData?.data?.profilePic}.png`;
+    const imageSrc = isUrl(
+      getPrimaryMicrositeData && getPrimaryMicrositeData?.profilePic,
+    )
+      ? getPrimaryMicrositeData?.profilePic
+      : `/images/user_avator/${getPrimaryMicrositeData?.profilePic}.png`;
 
     return imageSrc;
   };
 
   let walletBalance;
   let totalBalance = 0;
-  console.log('data?.owner', data?.owner);
+
   if (data?.owner && data?.addresses['501']) {
-    console.log('address', data.owner);
     const walletObj = {
       ethAddress: data.owner,
       solanaAddress: data.addresses['501'],
@@ -42,6 +49,8 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
     totalBalance = parseFloat(totalBalance.toFixed(2));
   }
 
+  console.log('cehck addss 39', getPrimaryMicrositeData[0]);
+
   return (
     <div className='w-full'>
       {/* <div className='flex justify-end items-start'>
@@ -50,7 +59,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
       <div className='flex justify-center'>
         <div className='relative inline-block mx-0'>
-          {profileData && profileData?.data?.profilePic ? (
+          {getPrimaryMicrositeData && getPrimaryMicrositeData?.profilePic ? (
             <Image
               src={getImgSrc()}
               alt='user image'
@@ -64,14 +73,16 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
             </div>
           )}
           <div className='absolute bottom-0 right-0'>
-            <Link href={`/update-profile/${profileData?.data?._id}`}>
+            <Link href={`/smartsites/${getPrimaryMicrositeData?._id}`}>
               <TbEdit className='size-8 text-[#424651] bg-white rounded-full p-1.5 cursor-pointer hover:bg-slate-50 hover:text-black border' />
             </Link>
           </div>
         </div>
       </div>
       <div className='text-[#424651] text-center mt-6'>
-        <h2 className='text-[22px] font-bold'>{profileData?.data?.name}</h2>
+        <h2 className='text-[22px] font-bold'>
+          {getPrimaryMicrositeData?.name}
+        </h2>
         {/* <h3 className='text-[20px]'>
          
         </h3> */}
@@ -92,9 +103,9 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         <div>
           <h2 className='text-[22px] font-bold flex items-center'>
             {profileData?.data?.connections?.followers?.length}
-            <span className='text-xs bg-[#7ae38b3c] p-1 text-[#00E725] rounded-full ml-1'>
+            {/* <span className='text-xs bg-[#7ae38b3c] p-1 text-[#00E725] rounded-full ml-1'>
               +24%
-            </span>
+            </span> */}
           </h2>
           <h3 className='text-[20px]'>Followers</h3>
         </div>
@@ -103,14 +114,8 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         className='flex items-center justify-between mt-6 gap-3
       '
       >
-        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
-          <Image
-            src={'/images/homepage/wallet/qr.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-9'
-          />
+        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+          <WalletQrButton />
         </div>
         <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
           <Image
@@ -135,14 +140,8 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
             className='mx-auto size-9'
           />
         </div>
-        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>
-          <Image
-            src={'/images/homepage/wallet/copy.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-9'
-          />
+        <div className='w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
+          <WalletAddsCopy microsites={microsites} />
         </div>
       </div>
 

@@ -10,6 +10,7 @@ import {
 } from '@nextui-org/react';
 import useWalletTabValue from '@/zustandStore/walletTabValue';
 import { GoDotFill } from 'react-icons/go';
+import useWalletQrCode from '@/zustandStore/walletQrCode';
 
 interface WalletTabProps {}
 
@@ -25,16 +26,23 @@ const WalletTab: React.FC<WalletTabProps> = () => {
       url: '/images/homepage/wallet/transaction-history.png',
     },
   ];
-  const {
-    selectTabValue,
-    selectTabViewValue,
-    setSelectTabValue,
-    setSelectTabViewValue,
-  } = useWalletTabValue();
+
+  const dropdownList = [
+    { title: 'Ethereum', url: '/images/homepage/wallet/network-selection.png' },
+    { title: 'Polygon', url: '/images/homepage/Polygon.png' },
+    { title: 'Base', url: '/images/homepage/coinbase.png' },
+    { title: 'Solana', url: '/images/homepage/Solana.png' },
+  ];
+
+  const { setSelectTabValue, setSelectTabViewValue } = useWalletTabValue();
+  const { walletQrCode } = useWalletQrCode();
 
   const [selected, setSelected] = React.useState('');
   const [selectedView, setSelectedView] = React.useState('walletList');
-  const [dropdownSelect, setDropdownSelect] = useState('ethereum');
+  const [dropdownTriggerUrl, setDropdownTriggerUrl] = useState(
+    '/images/homepage/wallet/network-selection.png',
+  );
+  const [dropdownSelect, setDropdownSelect] = useState('Ethereum');
 
   const handleSelectionChange = (key: React.Key) => {
     const selectedKey = String(key);
@@ -48,164 +56,118 @@ const WalletTab: React.FC<WalletTabProps> = () => {
     setSelectTabViewValue(selectedKey);
   };
 
-  return (
-    <div className='flex flex-wrap items-center gap-1'>
-      <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-        <Image
-          src={'/images/homepage/wallet/menu-1.png'}
-          alt={'Icon'}
-          width={500}
-          height={500}
-          className='mx-auto size-8 cursor-pointer'
-          onClick={() => {
-            handleSelectionViewChange('walletList');
-          }}
-        />
-        <Image
-          src={'/images/homepage/wallet/menu-2.png'}
-          alt={'Icon'}
-          width={500}
-          height={500}
-          className='mx-auto size-8 cursor-pointer'
-          onClick={() => {
-            handleSelectionViewChange('walletCard');
-          }}
-        />
-      </div>
-      <Tabs
-        selectedKey={selected}
-        onSelectionChange={handleSelectionChange}
-        variant={'underlined'}
-        aria-label='Tabs variants'
-        classNames={{
-          cursor: 'pointer',
-          tab: 'max-w-fit px-0 h-16',
-          tabContent: 'group-data-[selected=true]:text-[#06b6d4]',
-        }}
-      >
-        {tabList?.map((el) => (
-          <Tab
-            key={el?.title}
-            title={
-              <div className='flex justify-center w-14 h-12'>
-                {/* Adjusted width and height */}
-                <div className='bg-[#EEEEEE] p-3 rounded-lg flex items-center'>
-                  {/* Adjust padding */}
-                  <Image
-                    src={el?.url}
-                    alt={el?.title}
-                    width={32} /* Adjust width */
-                    height={32} /* Adjust height */
-                    className='w-8 h-8' /* Adjust the image size */
-                  />
-                </div>
-              </div>
-            }
-          />
-        ))}
-      </Tabs>
+  console.log('chekwalte', walletQrCode);
 
-      <div className='flex items-center gap-4'>
-        <Dropdown placement='bottom-start'>
-          <DropdownTrigger>
-            <div className='bg-[#EEEEEE] p-2 rounded-lg flex items-center'>
-              <Image
-                src={'/images/homepage/wallet/network-selection.png'}
-                alt={'Icon'}
-                width={500}
-                height={500}
-                className='mx-auto size-8'
+  return (
+    <div>
+      {!walletQrCode && (
+        <div className='flex flex-wrap items-center gap-1'>
+          <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
+            <Image
+              src={'/images/homepage/wallet/menu-1.png'}
+              alt={'Icon'}
+              width={500}
+              height={500}
+              className='mx-auto size-8 cursor-pointer'
+              onClick={() => {
+                handleSelectionViewChange('walletList');
+              }}
+            />
+            <Image
+              src={'/images/homepage/wallet/menu-2.png'}
+              alt={'Icon'}
+              width={500}
+              height={500}
+              className='mx-auto size-8 cursor-pointer'
+              onClick={() => {
+                handleSelectionViewChange('walletCard');
+              }}
+            />
+          </div>
+          <Tabs
+            selectedKey={selected}
+            onSelectionChange={handleSelectionChange}
+            variant={'underlined'}
+            aria-label='Tabs variants'
+            classNames={{
+              cursor: 'pointer',
+              tab: 'max-w-fit px-0 h-16',
+              tabContent: 'group-data-[selected=true]:text-[#06b6d4]',
+            }}
+          >
+            {tabList?.map((el) => (
+              <Tab
+                key={el?.title}
+                title={
+                  <div className='flex justify-center w-14 h-12'>
+                    {/* Adjusted width and height */}
+                    <div className='bg-[#EEEEEE] p-3 rounded-lg flex items-center'>
+                      {/* Adjust padding */}
+                      <Image
+                        src={el?.url}
+                        alt={el?.title}
+                        width={32} /* Adjust width */
+                        height={32} /* Adjust height */
+                        className='w-8 h-8' /* Adjust the image size */
+                      />
+                    </div>
+                  </div>
+                }
               />
-              <Image
-                src={'/images/homepage/wallet/arrow.png'}
-                alt={'Icon'}
-                width={500}
-                height={500}
-                className='mx-auto size-3'
-              />
-            </div>
-          </DropdownTrigger>
-          <DropdownMenu aria-label='User Actions' variant='flat'>
-            <DropdownItem
-              key='ethereum'
-              onClick={() => setDropdownSelect('ethereum')}
-            >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-x-1'>
+            ))}
+          </Tabs>
+
+          <div className='flex items-center gap-4'>
+            <Dropdown placement='bottom-start'>
+              <DropdownTrigger>
+                <div className='bg-[#EEEEEE] p-3 rounded-lg flex items-center gap-1'>
                   <Image
-                    src={'/images/homepage/ETH.png'}
+                    src={dropdownTriggerUrl}
                     alt={'Icon'}
-                    width={100}
-                    height={100}
-                    className='size-4 rounded-full'
+                    width={500}
+                    height={500}
+                    className='mx-auto size-6 rounded-full'
                   />
-                  <p>Ethereum</p>
-                </div>
-                {dropdownSelect === 'ethereum' && (
-                  <GoDotFill className='size-3 text-green-700' />
-                )}
-              </div>
-            </DropdownItem>
-            <DropdownItem
-              key='polygon'
-              onClick={() => setDropdownSelect('polygon')}
-            >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-x-1'>
                   <Image
-                    src={'/images/homepage/Polygon.png'}
+                    src={'/images/homepage/wallet/arrow.png'}
                     alt={'Icon'}
-                    width={100}
-                    height={100}
-                    className='size-4 rounded-full'
+                    width={500}
+                    height={500}
+                    className='mx-auto size-3'
                   />
-                  <p>Polygon </p>
                 </div>
-                {dropdownSelect === 'polygon' && (
-                  <GoDotFill className='size-3 text-green-700' />
-                )}
-              </div>
-            </DropdownItem>
-            <DropdownItem key='base' onClick={() => setDropdownSelect('base')}>
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-x-1'>
-                  <Image
-                    src={'/images/homepage/coinbase.png'}
-                    alt={'Icon'}
-                    width={100}
-                    height={100}
-                    className='size-4 rounded-full'
-                  />
-                  <p>Base</p>
-                </div>
-                {dropdownSelect === 'base' && (
-                  <GoDotFill className='size-3 text-green-700' />
-                )}
-              </div>
-            </DropdownItem>
-            <DropdownItem
-              key='solana'
-              onClick={() => setDropdownSelect('solana')}
-            >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-x-1'>
-                  <Image
-                    src={'/images/homepage/Solana.png'}
-                    alt={'Icon'}
-                    width={100}
-                    height={100}
-                    className='size-4 rounded-full'
-                  />
-                  <p>Solana</p>
-                </div>
-                {dropdownSelect === 'solana' && (
-                  <GoDotFill className='size-3 text-green-700' />
-                )}
-              </div>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </div>
+              </DropdownTrigger>
+              <DropdownMenu aria-label='User Actions' variant='flat'>
+                {dropdownList?.map((el, index) => (
+                  <DropdownItem
+                    key={el.title}
+                    onClick={() => {
+                      setDropdownSelect(el?.title);
+                      setDropdownTriggerUrl(el?.url);
+                    }}
+                  >
+                    <div className='flex items-center justify-between'>
+                      <div className='flex items-center gap-x-1'>
+                        <Image
+                          src={el?.url}
+                          alt={'Icon'}
+                          width={100}
+                          height={100}
+                          className='size-4 rounded-full'
+                        />
+                        <p>{el.title}</p>
+                      </div>
+                      {dropdownSelect === el.title && (
+                        <GoDotFill className='size-3 text-green-700' />
+                      )}
+                    </div>
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

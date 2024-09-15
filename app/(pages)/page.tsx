@@ -60,6 +60,7 @@ export default async function HomePage() {
     const dataSet = data.data.microsites.find(
       (microsite: any) => microsite.primary,
     );
+
     // console.log("data set", dataSet);
 
     if (dataSet) {
