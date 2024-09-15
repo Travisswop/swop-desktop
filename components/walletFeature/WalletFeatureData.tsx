@@ -52,7 +52,7 @@ const WalletFeatureData = ({
           )}
         </div>
       ) : (
-        <WalletQrView />
+        <WalletQrView walletObj={walletObj} microsites={microsites} />
       )}
     </div>
   );

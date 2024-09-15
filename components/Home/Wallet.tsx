@@ -49,7 +49,6 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
     totalBalance = parseFloat(totalBalance.toFixed(2));
   }
 
-  console.log('cehck addss 39', getPrimaryMicrositeData[0]);
 
   return (
     <div className='w-full'>

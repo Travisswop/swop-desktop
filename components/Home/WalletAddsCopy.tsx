@@ -12,8 +12,6 @@ import {
 } from '@nextui-org/react';
 
 const WalletAddsCopy = ({ microsites }: any) => {
-  console.log('check data 16', microsites);
-
   const dropdownList = [
     { title: 'Ethereum', address: microsites[0]?.ensData?.addresses?.[60] },
     { title: 'Polygon', address: microsites[0]?.ensData?.addresses?.[60] },
