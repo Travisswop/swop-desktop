@@ -604,7 +604,9 @@ const MessageList = ({ userDetails }: any) => {
                       </div>
                       {isLoading && <Spinner size="sm" color="primary" />}
                       {isEnsNotAvailable && ensname.length > 1 ? (
-                        <p>User not found</p>
+                        <p className="text-center text-sm text-gray-600">
+                          User Not Found!
+                        </p>
                       ) : (
                         <>
                           {!isLoading &&
