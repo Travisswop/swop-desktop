@@ -2,25 +2,28 @@ import React from "react";
 import MintCart from "@/components/MintCart";
 import Link from "next/link";
 import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import ForceSignOut from "@/components/ForceSignOut";
-import { GetServerSideProps } from "next";
-import isUserAuthenticate from "@/util/isUserAuthenticate";
 
-interface MintDashboardProps {
-  session: any;
-  data: any;
-}
+const MintDashboard = async () => {
+  const session: any = await isUserAuthenticate(); // check if user exists
 
-const MintDashboard: React.FC<MintDashboardProps> = ({ session, data }) => {
+  console.log("Session:", session); // Check if session is valid
+
   // Force sign out if user is unauthenticated
   if (!session) {
     return <ForceSignOut />;
   }
 
+  const data = await getMintPageData(session.accessToken);
+
+  console.log("Fetched data:", data); // Check the fetched data
+
   // Handle loading state or fallback
   if (!data) {
+    console.error("Data is null or empty");
     return <HomePageLoading />;
   }
 
@@ -52,19 +55,13 @@ const MintDashboard: React.FC<MintDashboardProps> = ({ session, data }) => {
                     img={template.metadata.image}
                     title={template.metadata.name}
                     text={`Limit: ${template.supply.limit}, Minted: ${template.supply.minted}`}
-                    collectionId={group.collection.id}
-                    templateId={template.templateId}
+                    collectionId={group.collection.id} // Pass collectionId
+                    templateId={template.templateId} // Pass templateId
                   />
                 ))}
               </div>
               <Link href={"/mint/createTemplate"} className="flex justify-center my-6">
-                <button
-                  className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg"
-                  onClick={() => {
-                    // Update local storage with the collection ID
-                    localStorage.setItem("swop_desktop_selected_collection_id", group.collection.id);
-                  }}
-                >
+                <button className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg">
                   Add NFTs To This Collection
                 </button>
               </Link>
@@ -80,29 +77,6 @@ const MintDashboard: React.FC<MintDashboardProps> = ({ session, data }) => {
 
   // Fallback in case data does not match expected structure
   return <HomePageLoading />;
-};
-
-// Fetch session and data from the server side using getServerSideProps
-export const getServerSideProps: GetServerSideProps = async () => {
-  const session:any = await isUserAuthenticate(); // Fetch session from the server
-  if (!session) {
-    return {
-      props: {
-        session: null,
-        data: null,
-      },
-    };
-  }
-
-  // Fetch mint page data with the session's access token
-  const data = await getMintPageData(session.accessToken);
-
-  return {
-    props: {
-      session,
-      data,
-    },
-  };
 };
 
 export default MintDashboard;
