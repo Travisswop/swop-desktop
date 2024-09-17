@@ -44,12 +44,14 @@ const MessageList = ({ userDetails }: any) => {
 
   const [isSignerLoading, setIsSignerLoading] = useState<any>(false);
 
+  const [isEnsNotAvailable, setIsEnsNotAvailable] = useState<any>(false);
+
   const { address, isConnected: isWalletAddresConnected } = useAccount();
 
   // Create a cancel token source
   const cancelTokenSource = axios.CancelToken.source();
 
-  // console.log("peerData", peerData);
+  console.log("result", result);
 
   // Debounced API call function for getting ens data
   const debouncedFetchEnsData = useCallback(
@@ -59,6 +61,7 @@ const MessageList = ({ userDetails }: any) => {
         return;
       }
 
+      setIsEnsNotAvailable(false);
       setIsLoading(true);
 
       try {
@@ -83,6 +86,8 @@ const MessageList = ({ userDetails }: any) => {
         setResult(info);
       } catch (err) {
         setResult(null);
+        // console.log("not found error");
+        setIsEnsNotAvailable(true);
       } finally {
         setIsLoading(false);
       }
@@ -598,46 +603,53 @@ const MessageList = ({ userDetails }: any) => {
                         />
                       </div>
                       {isLoading && <Spinner size="sm" color="primary" />}
-                      {!isLoading &&
-                        !result &&
-                        micrositeData &&
-                        peerData.map((chat, index) => (
-                          <div
-                            key={index}
-                            onClick={() => handleWalletClick(chat)}
-                            className={`${
-                              chat.ethAddress === micrositeData.ethAddress
-                                ? "bg-black text-white"
-                                : "text-black"
-                            }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
-                          >
-                            <div className="flex items-center gap-2 justify-between">
-                              {isUrl(chat.profilePic) ? (
-                                <Avatar src={chat.profilePic} />
-                              ) : (
-                                <Avatar
-                                  src={`/images/user_avator/${chat.profilePic}.png`}
-                                />
-                              )}
-                              <div>
-                                <p className="font-sembold">{chat.name}</p>
-                                <p
-                                  className={`text-sm ${
-                                    peerAddress === chat.ethAddress
-                                      ? "text-white"
-                                      : "text-gray-500"
-                                  } font-medium`}
-                                >
-                                  {chat.bio}
-                                </p>
-                              </div>
-                            </div>
-                            {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
-                            {/* <BsThreeDots color="black" size={17} /> */}
+                      {isEnsNotAvailable && ensname.length > 1 ? (
+                        <p>User not found</p>
+                      ) : (
+                        <>
+                          {!isLoading &&
+                            !result &&
+                            micrositeData &&
+                            peerData.map((chat, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleWalletClick(chat)}
+                                className={`${
+                                  chat.ethAddress === micrositeData.ethAddress
+                                    ? "bg-black text-white"
+                                    : "text-black"
+                                }  flex items-center justify-between p-2 rounded-lg cursor-pointer border`}
+                              >
+                                <div className="flex items-center gap-2 justify-between">
+                                  {isUrl(chat.profilePic) ? (
+                                    <Avatar src={chat.profilePic} />
+                                  ) : (
+                                    <Avatar
+                                      src={`/images/user_avator/${chat.profilePic}.png`}
+                                    />
+                                  )}
+                                  <div>
+                                    <p className="font-sembold">{chat.name}</p>
+                                    <p
+                                      className={`text-sm ${
+                                        peerAddress === chat.ethAddress
+                                          ? "text-white"
+                                          : "text-gray-500"
+                                      } font-medium`}
+                                    >
+                                      {chat.bio}
+                                    </p>
+                                  </div>
+                                </div>
+                                {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
+                                {/* <BsThreeDots color="black" size={17} /> */}
 
-                            {/* </div> */}
-                          </div>
-                        ))}
+                                {/* </div> */}
+                              </div>
+                            ))}
+                        </>
+                      )}
+
                       {result && !isLoading && (
                         <div
                           onClick={() => handleWalletClick(result)}
