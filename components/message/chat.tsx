@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { GrEmoji } from "react-icons/gr";
-import { LuPlusCircle } from "react-icons/lu";
 
 interface Message {
   id: string;
@@ -55,42 +53,46 @@ export default function Chat({
       (v, i, a) => a.findIndex((t) => t.id === v.id) === i
     );
 
+    // console.log("messages", messages);
+    // console.log("uniqueMessages", uniqueMessages);
+
     return (
       <div className="px-4 md:px-8">
-        {uniqueMessages.map((message, index) => (
-          <div
-            key={message.id}
-            className={`mb-4 ${
-              message.senderAddress === client.address
-                ? "text-right"
-                : "text-left"
-            }`}
-            ref={index === uniqueMessages.length - 1 ? lastMessageRef : null}
-          >
+        {uniqueMessages &&
+          uniqueMessages.map((message: any, index: number) => (
             <div
-              className={`inline-block px-3 py-2 rounded-lg ${
+              key={message.id}
+              ref={index === uniqueMessages.length - 1 ? lastMessageRef : null}
+              className={`mb-4 ${
                 message.senderAddress === client.address
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground"
+                  ? "text-right"
+                  : "text-left"
               }`}
             >
-              {message.content}
+              <div
+                className={`inline-block px-3 py-2 rounded-lg ${
+                  message.senderAddress === client.address
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-secondary-foreground"
+                }`}
+              >
+                {message.content}
+              </div>
+              <div className="text-xs mt-1 text-muted-foreground">
+                {message.sent.toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </div>
             </div>
-            <div className="text-xs mt-1 text-muted-foreground">
-              {message.sent.toLocaleTimeString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              })}
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     );
   };
 
   return (
-    <div className="pt-4 w-full overflow-x-hidden">
+    <div className="pt-4 w-full overflow-x-hidden pb-20">
       <MessageList messages={messageHistory} />
       <div className="absolute bottom-0 bg-white  py-4 w-full">
         <form onSubmit={onSendMessage} className="">

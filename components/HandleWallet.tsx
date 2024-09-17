@@ -9,11 +9,12 @@ import { useAccount, useDisconnect } from "wagmi";
 import { Flip, toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import TriggerWalletConnectButton from "./TriggerWalletConnectButton";
+// import TriggerWalletConnectButton from "./TriggerWalletConnectButton";
 import DynamicPrimaryBtn from "./Button/DynamicPrimaryBtn";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
-  const [open, setOpen] = useState(false);
+  const [openWallet, setOpenWallet] = useState(false);
   //   const [micrositeData, setMicrositeData] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
   const { address, isConnected } = useAccount();
@@ -23,9 +24,11 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("signup");
 
+  const { open } = useWeb3Modal();
+
   // Function to close the modal
   const closeModal = () => {
-    setOpen(false);
+    setOpenWallet(false);
   };
 
   // Function to handle click on the backdrop
@@ -53,14 +56,14 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
   };
 
   useEffect(() => {
-    setOpen(false);
+    // setOpen(false);
     if (
       address &&
       micrositeData?.data?.ethAddress &&
       address === micrositeData.data.ethAddress &&
       !localStorage.getItem("connected wallet")
     ) {
-      setOpen(false);
+      setOpenWallet(false);
       localStorage.setItem("connected wallet", address);
       toast.success("Wallet Connected", {
         toastId: "customId",
@@ -117,6 +120,13 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
     setIsMicrositeConnected(false);
   };
 
+  const handleOpenWeb3Modal = async () => {
+    console.log("hittt");
+    await open();
+    console.log("kittt");
+    console.log("open", open());
+  };
+
   return (
     <>
       {isLoading ? (
@@ -135,7 +145,7 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
           ) : (
             <button
               className="px-4 py-1.5 text-sm font-medium text-gray-500 bg-gray-300 hover:bg-gray-500 hover:text-gray-200 rounded-lg"
-              onClick={() => setOpen(true)}
+              onClick={() => setOpenWallet(true)}
             >
               $ Connect Your Wallet
             </button>
@@ -143,9 +153,9 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
         </>
       )}
 
-      {open && (
+      {openWallet && (
         <div
-          className="fixed z-50 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
+          className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center bg-overlay/50 backdrop"
           onClick={handleBackdropClick}
         >
           <div className="h-max w-max bg-white relative rounded-xl">
@@ -192,7 +202,24 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
                     <p className="text-sm text-center font-medium text-gray-400">
                       Please connect your wallet with this etherium address
                     </p>
-                    <TriggerWalletConnectButton isLoading={isLoading} />
+                    {/* <TriggerWalletConnectButton isLoading={isLoading} /> */}
+                    <div>
+                      {isLoading ? (
+                        <button
+                          disabled
+                          className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg w-max"
+                        >
+                          Loading...
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleOpenWeb3Modal}
+                          className="px-4 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg"
+                        >
+                          $ Connect Your Web3 Wallet
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ) : (

@@ -49,6 +49,8 @@ const MessageList = ({ userDetails }: any) => {
   // Create a cancel token source
   const cancelTokenSource = axios.CancelToken.source();
 
+  // console.log("peerData", peerData);
+
   // Debounced API call function for getting ens data
   const debouncedFetchEnsData = useCallback(
     debounce(async (searchTerm: string) => {
@@ -301,6 +303,9 @@ const MessageList = ({ userDetails }: any) => {
   console.log("conversation", conversation);
 
   console.log("result", result);
+  console.log("xmtpClient", xmtpClient);
+  console.log("messageHistory", messageHistory);
+  console.log("peerAddressList", peerAddressList);
 
   return (
     <div>
@@ -553,7 +558,7 @@ const MessageList = ({ userDetails }: any) => {
                             </button>
                           </div>
                         </div>
-                        <div className="h-full">
+                        <div className="">
                           {xmtpClient && (
                             <Chat
                               client={xmtpClient}
@@ -638,28 +643,26 @@ const MessageList = ({ userDetails }: any) => {
                           onClick={() => handleWalletClick(result)}
                           className="text-black flex items-center justify-between p-2 rounded-lg cursor-pointer border"
                         >
-                          <div className="flex items-center gap-2 justify-between">
-                            {/* <Image
-                          alt="user image"
-                          src={"/images/travis.png"}
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                        /> */}
-                            <div
-                              className={`w-10 h-10 rounded-full`}
-                              style={{
-                                backgroundColor: randomColorHex(),
-                              }}
-                            ></div>
-                            <div>
-                              <p className="font-sembold">
-                                {(result as any).name}
-                              </p>
-                              <p className="text-sm text-gray-500 font-medium">
-                                {(result as any).bio}
-                              </p>
+                          <div className="flex items-center gap-2 justify-between w-full">
+                            <div className="flex flex-1 items-center gap-2">
+                              <div
+                                className={`w-10 h-10 rounded-full`}
+                                style={{
+                                  backgroundColor: randomColorHex(),
+                                }}
+                              ></div>
+                              <div>
+                                <p className="font-sembold">
+                                  {(result as any).name}
+                                </p>
+                                <p className="text-sm text-gray-500 font-medium">
+                                  {(result as any).bio}
+                                </p>
+                              </div>
                             </div>
+                            <p className="text-gray-600 text-sm">
+                              {(result as any)?.ens}
+                            </p>
                           </div>
                           {/* <div className="bg-[#FFFFFF] opacity-40 rounded-full w-6 h-6 flex items-center justify-center"> */}
                           {/* <BsThreeDots color="black" size={17} /> */}
@@ -683,7 +686,7 @@ const MessageList = ({ userDetails }: any) => {
             className={`${
               isWalletAddresConnected
                 ? "hidden"
-                : "w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
+                : "w-full h-full absolute z-10 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
             }`}
           >
             {micrositeData && (
