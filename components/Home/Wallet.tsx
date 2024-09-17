@@ -12,8 +12,8 @@ import WalletAddsCopy from './WalletAddsCopy';
 import WalletQrButton from './WalletQrButton';
 
 const Wallet = async ({ profileData, data, microsites, token }: any) => {
-  const getPrimaryMicrositeData = microsites.find(
-    (microsite: any) => microsite.primary,
+  const getPrimaryMicrositeData = microsites?.find(
+    (microsite: any) => microsite?.primary,
   );
 
   const getImgSrc = () => {
@@ -48,7 +48,6 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
     totalBalance = parseFloat(totalBalance.toFixed(2));
   }
-
 
   return (
     <div className='w-full'>
