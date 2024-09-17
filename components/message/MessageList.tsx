@@ -502,7 +502,7 @@ const MessageList = ({ userDetails }: any) => {
               )}
               {isConnected && conversation && (
                 <div
-                  style={{ height: "calc(100vh - 130px)" }}
+                  style={{ height: "calc(100vh - 112px)" }}
                   className="flex gap-7 items-start main-container"
                 >
                   <div className="w-[62%] bg-white rounded-xl relative h-full">
@@ -570,7 +570,7 @@ const MessageList = ({ userDetails }: any) => {
                       </div>
                     )}
                   </div>
-                  <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col">
+                  <div className="w-[38%] bg-white rounded-xl px-6 py-4 flex gap-3 flex-col h-full overflow-y-auto">
                     <>
                       <div className="flex items-center gap-3">
                         <button
