@@ -2,7 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // import 'swiper/swiper-bundle.min.css';
 
-const DashboardSlider = ({ walletList }: any) => {
+const DashboardSlider = ({ walletList, totalBalance }: any) => {
   return (
     <Swiper spaceBetween={15} slidesPerView={4} loop={true} grabCursor={true}>
       {walletList?.map((item: any, index: number) => (
@@ -13,7 +13,13 @@ const DashboardSlider = ({ walletList }: any) => {
         >
           <div className='text-base font-medium gap-x-2 flex items-center justify-center'>
             <p>{item?.data?.symbol}</p>
-            <p>40.25%</p>
+            <p>
+              {item.balance
+                ? `${((parseFloat(item.balance) / totalBalance) * 100).toFixed(
+                    2,
+                  )}%`
+                : '0.00%'}
+            </p>
           </div>
         </SwiperSlide>
       ))}

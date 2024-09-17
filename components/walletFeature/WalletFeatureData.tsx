@@ -23,7 +23,7 @@ const WalletFeatureData = ({
 
   return (
     <div
-      className={`h-[520px] ${isConnected && 'overflow-y-auto'} relative mt-4 `}
+      className={`h-[580px] ${isConnected && 'overflow-y-auto'} relative mt-4 `}
     >
       <div
         className={`${
