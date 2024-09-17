@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
-import travis from "../../public/travis-image.svg";
+// import travis from "../../public/travis-image.svg";
 import isUrl from "@/util/isUrl";
 import {
-  Avatar,
+  // Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -23,9 +23,9 @@ const UserProfile = ({ session }: any) => {
 
   console.log("session", session);
 
-  const imageSrc = isUrl(session?.picture)
-    ? session?.picture
-    : `/images/user_avator/${session?.picture}.png`;
+  // const imageSrc = isUrl(session?.picture)
+  //   ? session?.picture
+  //   : `/images/user_avator/${session?.picture}.png`;
 
   // console.log("image src formm user profile", imageSrc);
 

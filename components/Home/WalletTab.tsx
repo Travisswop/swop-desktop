@@ -28,10 +28,10 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   ];
 
   const dropdownList = [
-    { title: 'Ethereum', url: '/images/homepage/wallet/network-selection.png' },
-    { title: 'Polygon', url: '/images/homepage/Polygon.png' },
+    { title: 'Ethereum', url: '/images/homepage/eth-with-bg.png' },
+    { title: 'Polygon', url: '/images/homepage/polygon.png' },
     { title: 'Base', url: '/images/homepage/coinbase.png' },
-    { title: 'Solana', url: '/images/homepage/Solana.png' },
+    { title: 'Solana', url: '/images/homepage/solana.png' },
   ];
 
   const { setSelectTabValue, setSelectTabViewValue } = useWalletTabValue();
@@ -40,7 +40,7 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   const [selected, setSelected] = React.useState('');
   const [selectedView, setSelectedView] = React.useState('walletList');
   const [dropdownTriggerUrl, setDropdownTriggerUrl] = useState(
-    '/images/homepage/wallet/network-selection.png',
+    '/images/homepage/eth-with-bg.png',
   );
   const [dropdownSelect, setDropdownSelect] = useState('Ethereum');
 
@@ -55,8 +55,6 @@ const WalletTab: React.FC<WalletTabProps> = () => {
     setSelectedView(selectedKey);
     setSelectTabViewValue(selectedKey);
   };
-
-  console.log('chekwalte', walletQrCode);
 
   return (
     <div>
@@ -120,13 +118,13 @@ const WalletTab: React.FC<WalletTabProps> = () => {
           <div className='flex items-center gap-4'>
             <Dropdown placement='bottom-start'>
               <DropdownTrigger>
-                <div className='bg-[#EEEEEE] p-3 rounded-lg flex items-center gap-1'>
+                <div className='bg-[#EEEEEE] p-3.5 rounded-lg flex items-center gap-1'>
                   <Image
                     src={dropdownTriggerUrl}
                     alt={'Icon'}
                     width={500}
                     height={500}
-                    className='mx-auto size-6 rounded-full'
+                    className='mx-auto size-[21px] rounded-full'
                   />
                   <Image
                     src={'/images/homepage/wallet/arrow.png'}
