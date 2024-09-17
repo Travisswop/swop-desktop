@@ -1,21 +1,19 @@
-"use client"; 
+"use client"; // Ensures this is a client-side component
 
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 
 interface SaveToLocalAndNavigateProps {
   collectionId: string;
 }
 
 const SaveToLocalAndNavigate: React.FC<SaveToLocalAndNavigateProps> = ({ collectionId }) => {
-  const router = useRouter();
 
   const handleClick = () => {
     // Save the collectionId to localStorage
     localStorage.setItem("collectionId", collectionId);
 
-    // Navigate to the desired route
-    router.push("/mint/createTemplate");
+    // Navigate using window.location.href
+    window.location.href = "/mint/createTemplate";
   };
 
   return (
