@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
 import Image from "next/image";
+import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 
 const CreateTemplatePage = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,9 @@ const CreateTemplatePage = () => {
     supplyLimit: "",
     expiry: "",
   });
+
+  const [imageUploading, setImageUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // UseEffect to load collectionId from local storage
   useEffect(() => {
@@ -42,6 +46,35 @@ const CreateTemplatePage = () => {
       [name]:
         name === "supplyLimit" || name === "price" ? Number(value) : value, // Convert to number for those fields
     }));
+  };
+
+  // Handle file selection and upload to Cloudinary
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        const base64Image = reader.result as string;
+
+        try {
+          setImageUploading(true);
+          const imageUrl = await sendCloudinaryImage(base64Image);
+          setFormData((prevState) => ({
+            ...prevState,
+            image: imageUrl,
+          }));
+          setImageUploading(false);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          setImageUploading(false);
+          alert("Failed to upload image. Please try again.");
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -142,18 +175,17 @@ const CreateTemplatePage = () => {
 
           <div>
             <label htmlFor="image" className="mb-1 block font-medium">
-              Image URL:
+              Image Upload:
             </label>
             <input
-              type="text"
+              type="file"
               id="image"
               name="image"
-              placeholder="Image URL"
-              value={formData.image}
-              onChange={handleChange}
+              accept="image/*"
+              onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
-              required
             />
+            {imageUploading && <p>Uploading image...</p>}
             {/* Conditional rendering of the image preview */}
             {formData.image && (
               <div className="mt-4">
