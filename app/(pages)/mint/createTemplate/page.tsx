@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
 import Image from "next/image";
@@ -15,6 +15,19 @@ const CreateTemplatePage = () => {
     supplyLimit: "",
     expiry: "",
   });
+
+  // UseEffect to load collectionId from local storage
+  useEffect(() => {
+    const collectionId = localStorage.getItem(
+      "swop_desktop_collectionId_for_createTemplate"
+    );
+    if (collectionId) {
+      setFormData((prevState) => ({
+        ...prevState,
+        collectionId, // Populate the collectionId from local storage
+      }));
+    }
+  }, []); // Empty dependency array to run only once after the component mounts
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -91,6 +104,7 @@ const CreateTemplatePage = () => {
               value={formData.collectionId}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              disabled // Disable manual input
               required
             />
           </div>
