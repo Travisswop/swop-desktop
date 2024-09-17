@@ -5,9 +5,9 @@ import useWalletTabValue from '@/zustandStore/walletTabValue';
 import CashFlowView from './CashFlowView';
 import TransactionView from './TransactionView';
 import NftView from './NftView';
-import DashboradView from './DashboradView';
 import useWalletQrCode from '@/zustandStore/walletQrCode';
 import WalletQrView from './WalletQrView';
+import DashboardView from './DashboardView';
 
 const WalletFeatureData = ({
   microsites,
@@ -46,7 +46,7 @@ const WalletFeatureData = ({
           ) : selectTabValue === 'nft' ? (
             <NftView walletObj={walletObj} nftData={nftData} />
           ) : selectTabValue === 'dashborad' ? (
-            <DashboradView walletObj={walletObj} nftData={nftData} />
+            <DashboardView flowData={flowData} />
           ) : (
             ''
           )}
