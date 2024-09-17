@@ -1,6 +1,5 @@
 import React from "react";
 import MintCart from "@/components/MintCart";
-import Link from "next/link";
 import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
@@ -60,11 +59,19 @@ const MintDashboard = async () => {
                   />
                 ))}
               </div>
-              <Link href={"/mint/createTemplate"} className="flex justify-center my-6">
-                <button className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg">
+              <div className="flex justify-center my-6">
+                <button
+                  className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg"
+                  onClick={() => {
+                    // Update the local storage with the collection ID
+                    localStorage.setItem("swop_desktop_selected_collection_id", group.collection.id);
+                    // Redirect to the desired page
+                    window.location.href = "/mint/createTemplate";
+                  }}
+                >
                   Add NFTs To This Collection
                 </button>
-              </Link>
+              </div>
             </div>
           ))}
           <div className="flex justify-center">
