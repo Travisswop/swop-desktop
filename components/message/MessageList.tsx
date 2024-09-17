@@ -496,11 +496,11 @@ const MessageList = ({ userDetails }: any) => {
                 </div>
               )}
               {isConnected && conversation && (
-                <div className="flex gap-7 items-start h-full main-container">
-                  <div
-                    style={{ height: "calc(100vh - 130px)" }}
-                    className="w-[62%] bg-white rounded-xl relative"
-                  >
+                <div
+                  style={{ height: "calc(100vh - 130px)" }}
+                  className="flex gap-7 items-start main-container"
+                >
+                  <div className="w-[62%] bg-white rounded-xl relative h-full">
                     {changeConversationLoading && (
                       <div className="w-full h-full flex items-center justify-center">
                         <Spinner label="Loading..." color="primary" />
