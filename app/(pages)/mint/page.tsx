@@ -61,7 +61,13 @@ const MintDashboard = async () => {
                 ))}
               </div>
               <Link href={"/mint/createTemplate"} className="flex justify-center my-6">
-                <button className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg">
+                <button
+                  className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg"
+                  onClick={() => {
+                    // Update the local storage with the collection ID
+                    localStorage.setItem("swop_desktop_selected_collection_id", group.collection.id);
+                  }}
+                >
                   Add NFTs To This Collection
                 </button>
               </Link>
