@@ -49,6 +49,8 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
     totalBalance = parseFloat(totalBalance.toFixed(2));
   }
 
+  console.log('check balance 53', walletBalance?.result);
+
   return (
     <div className='w-full'>
       {/* <div className='flex justify-end items-start'>
