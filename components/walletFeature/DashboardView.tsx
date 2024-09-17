@@ -24,7 +24,7 @@ interface DashboardViewProps {
 }
 
 const DashboardView = ({ flowData }: DashboardViewProps) => {
-  console.log('check value 28', flowData);
+  console.log('check value 28', flowData?.result);
 
   const totalBalance = flowData?.result
     ? flowData.result
