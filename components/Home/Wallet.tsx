@@ -38,18 +38,17 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
 
     const flowData = await getCashFlow(walletObj, token);
 
-    walletBalance = flowData;
+    walletBalance = flowData?.result;
 
-    if (walletBalance?.result) {
-      totalBalance = walletBalance.result
-        .map((item: { balance: any }) => parseFloat(item.balance))
-        .reduce((acc: number, balance: number) => acc + balance, 0);
+    if (walletBalance) {
+      totalBalance =
+        walletBalance?.reduce((acc: any, item: any) => {
+          const balance = parseFloat(item?.balance) || 0;
+          const dataBalance = parseFloat(item?.data?.price) || 0;
+          return acc + balance * dataBalance;
+        }, 0) || 0;
     }
-
-    totalBalance = parseFloat(totalBalance.toFixed(2));
   }
-
-  console.log('check balance 53', walletBalance?.result);
 
   return (
     <div className='w-full'>
@@ -101,7 +100,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         </div>
         <div className='h-[60px] min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-black to-transparent'></div>
         <div>
-          <h2 className='text-[22px] font-bold flex items-center'>
+          <h2 className='text-[22px] font-bold flex items-center text-center justify-center'>
             {profileData?.data?.connections?.followers?.length}
             {/* <span className='text-xs bg-[#7ae38b3c] p-1 text-[#00E725] rounded-full ml-1'>
               +24%
@@ -128,7 +127,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         </div>
         <div className='w-[40%] bg-black p-3 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]'>
           <p className='text-white text-center font-semibold text-2xl'>
-            ${totalBalance}
+            ${totalBalance.toFixed(2)}
           </p>
         </div>
         <div className='w-[15%] bg-black p-2 rounded-xl  flex items-center justify-center cursor-not-allowed hover:bg-[#424651]'>

@@ -5,7 +5,7 @@ import { MdRemoveRedEye } from 'react-icons/md';
 const DashboardPieChart = ({ totalBalance, flowData }: any) => {
   const data = flowData?.map((item: any, index: number) => ({
     name: item.network,
-    value: item?.balance,
+    value: (parseFloat(item.balance) / totalBalance) * 100,
   }));
 
   const colors = flowData?.map((item: any, index: number) => item?.data?.color);
@@ -44,7 +44,7 @@ const DashboardPieChart = ({ totalBalance, flowData }: any) => {
             My Balance
           </tspan>
           <tspan x='50%' dy='1.5em'>
-            ${totalBalance}
+            ${totalBalance.toFixed(2)}
           </tspan>
         </text>
       </PieChart>

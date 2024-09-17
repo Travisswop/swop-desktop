@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import Image from 'next/image';
 import DashboardPieChart from './DashboardPieChart';
 import DashboardSlider from './DashboardSlider';
@@ -9,6 +10,7 @@ interface FlowItem {
   data: {
     color: string;
     symbol: string;
+    price: string;
   };
   metadata: {
     logo: string;
@@ -21,29 +23,30 @@ interface FlowData {
 
 interface DashboardViewProps {
   flowData: FlowData;
+  totalBalance?: number;
 }
 
 const DashboardView = ({ flowData }: DashboardViewProps) => {
-  console.log('check value 28', flowData?.result);
-
-  const totalBalance = flowData?.result
-    ? flowData.result
-        .map((item) => parseFloat(item.balance))
-        .reduce((acc, balance) => acc + balance, 0)
-    : 0;
-
-  const roundedTotalBalance = parseFloat(totalBalance.toFixed(2));
+  const totalBalance =
+    flowData?.result?.reduce((acc, item) => {
+      const balance = parseFloat(item?.balance) || 0;
+      const dataBalance = parseFloat(item?.data?.price) || 0;
+      return acc + balance * dataBalance;
+    }, 0) || 0;
 
   return (
     <div>
       <div>
         <DashboardPieChart
-          totalBalance={roundedTotalBalance}
-          flowData={flowData?.result}
+          totalBalance={totalBalance}
+          flowData={flowData?.result || []}
         />
       </div>
       <div className='mt-4'>
-        <DashboardSlider walletList={flowData.result} />
+        <DashboardSlider
+          walletList={flowData?.result || []}
+          totalBalance={totalBalance}
+        />
       </div>
       <div className='border rounded-2xl mt-8'>
         {flowData?.result?.map((item, index) => (
@@ -54,18 +57,28 @@ const DashboardView = ({ flowData }: DashboardViewProps) => {
             <div className='flex items-center gap-x-2'>
               <div
                 className='size-3'
-                style={{ backgroundColor: item?.data?.color }}
+                style={{ backgroundColor: item?.data?.color || 'transparent' }}
               />
-              <Image
-                src={item?.metadata?.logo}
-                alt={'Icon'}
-                width={500}
-                height={500}
-                className='mx-auto size-10 rounded-full'
-              />
-              <p className='text-lg'>{item?.data?.symbol}</p>
+
+              {item?.metadata?.logo && (
+                <Image
+                  src={item?.metadata?.logo}
+                  alt={'Icon'}
+                  width={500}
+                  height={500}
+                  className='mx-auto size-10 rounded-full'
+                />
+              )}
+              <p className='text-lg'>{item?.data?.symbol || 'N/A'}</p>
             </div>
-            <p className='text-base'>{item?.balance}%</p>
+
+            <p className='text-base'>
+              {item.balance
+                ? `${((parseFloat(item.balance) / totalBalance) * 100).toFixed(
+                    2,
+                  )}%`
+                : '0.00%'}
+            </p>
           </div>
         ))}
       </div>
