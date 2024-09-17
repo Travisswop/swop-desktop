@@ -10,7 +10,7 @@ const SaveToLocalAndNavigate: React.FC<SaveToLocalAndNavigateProps> = ({ collect
 
   const handleClick = () => {
     // Save the collectionId to localStorage
-    localStorage.setItem("collectionId", collectionId);
+    localStorage.setItem("swop_desktop_collectionId_for_createTemplate", collectionId);
 
     // Navigate using window.location.href
     window.location.href = "/mint/createTemplate";
