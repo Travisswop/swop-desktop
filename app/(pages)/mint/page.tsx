@@ -6,6 +6,7 @@ import isUserAuthenticate from "@/util/isUserAuthenticate";
 import getMintPageData, { GroupedTemplates } from "@/util/fetchingData/getMintPageData";
 import HomePageLoading from "@/components/loading/HomePageLoading";
 import ForceSignOut from "@/components/ForceSignOut";
+import SaveToLocalAndNavigate from "@/components/SaveToLocalAndNavigate";
 
 const MintDashboard = async () => {
   const session: any = await isUserAuthenticate(); // check if user exists
@@ -46,27 +47,28 @@ const MintDashboard = async () => {
         <div className="bg-white p-4">
           {/* Render collections dynamically */}
           {data.data.map((group: GroupedTemplates) => (
-            <div key={group.collection.id}>
-              <h6 className="heading-4 mb-4">{group.collection.metadata.name}</h6>
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 xl:gap-10 2xl:gap-16">
-                {group.templates.map((template) => (
-                  <MintCart
-                    key={template.templateId}
-                    img={template.metadata.image}
-                    title={template.metadata.name}
-                    text={`Limit: ${template.supply.limit}, Minted: ${template.supply.minted}`}
-                    collectionId={group.collection.id} // Pass collectionId
-                    templateId={template.templateId} // Pass templateId
-                  />
-                ))}
-              </div>
-              <Link href={"/mint/createTemplate"} className="flex justify-center my-6">
-                <button className="px-4 py-2 text-sm font-medium border border-gray-400 rounded-lg">
-                  Add NFTs To This Collection
-                </button>
-              </Link>
-            </div>
-          ))}
+  <div key={group.collection.id}>
+    <h6 className="heading-4 mb-4">{group.collection.metadata.name}</h6>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 xl:gap-10 2xl:gap-16">
+      {group.templates.map((template) => (
+        <MintCart
+          key={template.templateId}
+          img={template.metadata.image}
+          title={template.metadata.name}
+          text={`Limit: ${template.supply.limit}, Minted: ${template.supply.minted}`}
+          collectionId={group.collection.id} // Pass collectionId
+          templateId={template.templateId} // Pass templateId
+        />
+      ))}
+    </div>
+
+    {/* Use the new client-side component for handling localStorage and navigation */}
+    <div className="flex justify-center my-6">
+      <SaveToLocalAndNavigate collectionId={group.collection.id} />
+    </div>
+  </div>
+))}
+
           <div className="flex justify-center">
             <PushToMintCollectionButton className="!py-2">Create Collection</PushToMintCollectionButton>
           </div>
