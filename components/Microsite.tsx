@@ -99,7 +99,7 @@ const Microsite = ({ microsites }: any) => {
         >
           {microsites.map((microsite: any) => (
             <div key={microsite._id}>
-              <SwiperSlide>
+              <SwiperSlide key={microsite._id}>
                 <div className="py-8 px-8 bg-white">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg text-gray-700 font-semibold">

@@ -168,23 +168,25 @@ const SetupPrimarySmartsiteWalletModal = ({ microsites }: any) => {
                       ENS:{" "}
                       <span className="font-semibold">{micrositeData.ens}</span>
                     </p>
-                    <p className="font-medium text-gray-700 flex items-center gap-2">
-                      Etherium Address:{" "}
-                      <span className="font-semibold">
-                        {micrositeData.ethAddress}
-                      </span>
-                      <button onClick={handleSaveEthAddress}>
-                        {isCopied ? (
-                          <MdDone
-                            size={24}
-                            color={"green"}
-                            className="bg-gray-200 p-1 rounded"
-                          />
-                        ) : (
-                          <BiCopy size={22} />
-                        )}
-                      </button>
-                    </p>
+                    <div className="font-medium text-gray-700 flex flex-col gap-2">
+                      <p>Etherium Address:</p>
+                      <div className="flex items-center gap-1">
+                        <span className="font-semibold">
+                          {micrositeData.ethAddress}
+                        </span>
+                        <button onClick={handleSaveEthAddress}>
+                          {isCopied ? (
+                            <MdDone
+                              size={24}
+                              color={"green"}
+                              className="bg-gray-200 p-1 rounded"
+                            />
+                          ) : (
+                            <BiCopy size={22} />
+                          )}
+                        </button>
+                      </div>
+                    </div>
                     <p className="text-sm text-center font-medium text-gray-400">
                       Please connect your wallet with this etherium address
                     </p>

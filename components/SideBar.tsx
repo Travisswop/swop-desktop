@@ -10,13 +10,13 @@ import { CiViewList } from "react-icons/ci";
 import { TbMessageChatbot } from "react-icons/tb";
 import Link from "next/link";
 import SideBarLink from "./SideBarLink";
-import SideBarToggle from "./SideBarToggle";
+// import SideBarToggle from "./SideBarToggle";
 // import SideBarUpgradePlan from "./SideBarUpgradePlan";
 // import { doSignOut } from "@/actions/auth";
 import LogOutComponent from "./LogOut";
 import SideBarUpgradePlan from "./SideBarUpgradePlan";
-import isUserAuthenticate from "@/util/isUserAuthenticate";
-import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
+// import isUserAuthenticate from "@/util/isUserAuthenticate";
+// import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const SideBar = ({ toggle, onToggle }: any) => {
   // const session: any = await isUserAuthenticate();

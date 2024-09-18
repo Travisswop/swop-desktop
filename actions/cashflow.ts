@@ -1,15 +1,16 @@
+"use server";
 export async function getCashFlow(walletInfo: any, token: string) {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v5/wallet/tokenList`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(walletInfo),
-      },
+      }
     );
     //   revalidatePath(`/smartsites/icons/${contactCardInfo.micrositeId}`);
     const data = await response.json();
@@ -17,6 +18,6 @@ export async function getCashFlow(walletInfo: any, token: string) {
 
     return data;
   } catch (error) {
-    console.error('Error from action:', error);
+    console.error("Error from action:", error);
   }
 }

@@ -3,15 +3,12 @@ import React from "react";
 import { TbEdit } from "react-icons/tb";
 import isUrl from "@/util/isUrl";
 import { FaUserTie } from "react-icons/fa";
-import WalletTab from "./WalletTab";
-import WalletFeature from "../walletFeature/WalletFeature";
 import ShowEnsName from "../ShowEnsName";
 import Link from "next/link";
 import { getCashFlow } from "@/actions/cashflow";
-import WalletAddsCopy from "./WalletAddsCopy";
-import WalletQrButton from "./WalletQrButton";
-import SetupPrimarySmartsiteWalletModal from "../modal/SetupPrimarySmartsiteWallet";
 import HomepageWallet from "./HomepageWallet";
+import { getNftData } from "@/actions/nftData";
+import { getTransactionData } from "@/actions/transactionData";
 
 const Wallet = async ({ profileData, data, microsites, token }: any) => {
   const getPrimaryMicrositeData = microsites?.find(
@@ -31,6 +28,8 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
   let walletBalance;
   let totalBalance = 0;
 
+  let flowData;
+
   if (data?.owner && data?.addresses["501"]) {
     const walletObj = {
       ethAddress: data.owner,
@@ -38,7 +37,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
       btcAddress: "ererwewfsdsdweew",
     };
 
-    const flowData = await getCashFlow(walletObj, token);
+    flowData = await getCashFlow(walletObj, token);
 
     walletBalance = flowData?.result;
 
@@ -51,6 +50,25 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         }, 0) || 0;
     }
   }
+
+  const walletObj = {
+    ethAddress: data.owner,
+    solanaAddress: data.addresses["501"],
+    btcAddress: "ererwewfsdsdweew",
+  };
+
+  const nftDataPromise =
+    data?.addresses["501"] &&
+    getNftData(token, data.owner, data.addresses["501"]);
+
+  const transactionDataPromise = getTransactionData(walletObj, token);
+
+  const [nftData, transactionData] = await Promise.all([
+    nftDataPromise,
+    transactionDataPromise,
+  ]);
+
+  console.log("flowData", flowData);
 
   return (
     <div className="w-full">
@@ -84,9 +102,6 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         <h2 className="text-[22px] font-bold">
           {getPrimaryMicrositeData?.name}
         </h2>
-        {/* <h3 className='text-[20px]'>
-         
-        </h3> */}
 
         <div className="flex justify-center">
           <ShowEnsName data={profileData?.data} />
@@ -112,76 +127,17 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         </div>
       </div>
 
-      <HomepageWallet
-        totalBalance={totalBalance}
-        data={data}
-        microsites={microsites}
-        token={token}
-      />
-
-      {/* <div>
-        {isConnected ? (
-          <div>
-            <div className="flex items-center justify-between mt-6 gap-3">
-              <div className="w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]">
-                <WalletQrButton />
-              </div>
-              <div className="w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-not-allowed hover:bg-[#424651]">
-                <Image
-                  src={"/images/homepage/wallet/send.png"}
-                  alt={"Icon"}
-                  width={500}
-                  height={500}
-                  className="mx-auto size-9"
-                />
-              </div>
-              <div className="w-[40%] bg-black p-3 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]">
-                <p className="text-white text-center font-semibold text-2xl">
-                  ${totalBalance.toFixed(2)}
-                </p>
-              </div>
-              <div className="w-[15%] bg-black p-2 rounded-xl  flex items-center justify-center cursor-not-allowed hover:bg-[#424651]">
-                <Image
-                  src={"/images/homepage/wallet/in-app-swop.png"}
-                  alt={"Icon"}
-                  width={500}
-                  height={500}
-                  className="mx-auto size-9"
-                />
-              </div>
-              <div className="w-[15%] bg-black p-2 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#424651]">
-                <WalletAddsCopy microsites={microsites} />
-              </div>
-            </div>
-
-      
-
-            <div className="mt-8 flex items-center justify-center gap-3">
-              <WalletTab />
-            </div>
-
-          
-
-            <div>
-              <WalletFeature
-                data={data}
-                token={token}
-                microsites={microsites}
-              />
-            </div>
-          </div>
-        ) : (
-          <div
-            className={`${
-              isConnected
-                ? "hidden"
-                : "w-full h-full absolute z-50 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
-            }`}
-          >
-            <SetupPrimarySmartsiteWalletModal microsites={microsites} />
-          </div>
-        )}
-      </div> */}
+      {flowData && nftData && transactionData && (
+        <HomepageWallet
+          totalBalance={totalBalance}
+          data={data}
+          microsites={microsites}
+          token={token}
+          flowData={flowData}
+          nftData={nftData}
+          transactionData={transactionData}
+        />
+      )}
     </div>
   );
 };
