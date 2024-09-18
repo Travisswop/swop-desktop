@@ -40,7 +40,7 @@ const MessageList = ({ userDetails }: any) => {
     useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [micrositeData, setMicrositeData] = useState<any>(null);
-  const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
+  // const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
 
   const [isSignerLoading, setIsSignerLoading] = useState<any>(false);
 
@@ -51,7 +51,7 @@ const MessageList = ({ userDetails }: any) => {
   // Create a cancel token source
   const cancelTokenSource = axios.CancelToken.source();
 
-  console.log("result", result);
+  // console.log("result", result);
 
   // Debounced API call function for getting ens data
   const debouncedFetchEnsData = useCallback(
@@ -248,10 +248,10 @@ const MessageList = ({ userDetails }: any) => {
         console.error("Metamask is not installed");
       }
     };
-    if (address && isWalletAddresConnected && isMicrositeConnected) {
+    if (address && isWalletAddresConnected) {
       connectWallet();
     }
-  }, [address, isMicrositeConnected, isWalletAddresConnected]);
+  }, [address, isWalletAddresConnected]);
 
   const handleWalletClick = async (chat: any) => {
     setChangeConversationLoading(true);
@@ -286,35 +286,32 @@ const MessageList = ({ userDetails }: any) => {
     }
   }, [micrositeId, userDetails?.accessToken]);
 
-  useEffect(() => {
-    if (address && isWalletAddresConnected) {
-      setIsMicrositeConnected(true);
-    } else {
-      setIsMicrositeConnected(false);
-    }
-  }, [address, isWalletAddresConnected]);
+  // useEffect(() => {
+  //   if (address && isWalletAddresConnected) {
+  //     setIsMicrositeConnected(true);
+  //   } else {
+  //     setIsMicrositeConnected(false);
+  //   }
+  // }, [address, isWalletAddresConnected]);
 
-  // console.log(
-  //   "addresssds",
-  //   address,
-  //   isWalletAddresConnected,
-  //   isMicrositeConnected
-  // );
+  console.log("addresssds", address, isWalletAddresConnected);
 
   // console.log("loading", isSignerLoading);
 
-  console.log("peer data", peerData);
+  // console.log("peer data", peerData);
 
-  console.log("conversation", conversation);
+  // console.log("conversation", conversation);
 
-  console.log("result", result);
-  console.log("xmtpClient", xmtpClient);
-  console.log("messageHistory", messageHistory);
-  console.log("peerAddressList", peerAddressList);
+  // console.log("result", result);
+  // console.log("xmtpClient", xmtpClient);
+  // console.log("messageHistory", messageHistory);
+  // console.log("peerAddressList", peerAddressList);
+
+  // console.log("address", address);
 
   return (
     <div>
-      {address && isWalletAddresConnected && isMicrositeConnected ? (
+      {address && isWalletAddresConnected ? (
         <>
           {isSignerLoading ? (
             <div
@@ -703,12 +700,7 @@ const MessageList = ({ userDetails }: any) => {
                 : "w-full h-full absolute z-10 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
             }`}
           >
-            {micrositeData && (
-              <SetupWallet
-                micrositeData={micrositeData}
-                setIsMicrositeConnected={setIsMicrositeConnected}
-              />
-            )}
+            {micrositeData && <SetupWallet micrositeData={micrositeData} />}
           </div>{" "}
         </div>
       )}
