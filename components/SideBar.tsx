@@ -13,8 +13,10 @@ import SideBarLink from "./SideBarLink";
 // import SideBarToggle from "./SideBarToggle";
 // import SideBarUpgradePlan from "./SideBarUpgradePlan";
 // import { doSignOut } from "@/actions/auth";
-import LogOutComponent from "./LogOut";
+// import LogOutComponent from "./LogOut";
 import SideBarUpgradePlan from "./SideBarUpgradePlan";
+import { doSignOut } from "@/actions/auth";
+import { IoLogOutOutline } from "react-icons/io5";
 // import isUserAuthenticate from "@/util/isUserAuthenticate";
 // import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
@@ -105,6 +107,11 @@ const SideBar = ({ toggle, onToggle }: any) => {
     },
   ];
 
+  const handleLogOut = async (e: any) => {
+    e.preventDefault();
+    await doSignOut();
+  };
+
   return (
     <div className={`sticky top-0  ${toggle && "pl-1.5"}`}>
       <div
@@ -136,18 +143,14 @@ const SideBar = ({ toggle, onToggle }: any) => {
         {/* {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && ( */}
         <SideBarUpgradePlan toggle={toggle} />
 
-        {/* logout  */}
-        {/* <button
-          className={`flex items-center justify-center gap-1 mt-6 ${
-            !toggle ? "pl-4" : "px-2"
-          } font-medium text-[#424651]`}
+        <button
+          type="button"
+          onClick={handleLogOut}
+          className={`flex items-center justify-center gap-1 mt-6 pb-6 pl-4 font-medium text-[#424651]`}
         >
           <IoLogOutOutline size={18} />
-          {!toggle && "Logout"}
-        </button> */}
-
-        <LogOutComponent />
-        {/* <LogOutComponent toggle={toggle} /> */}
+          Logout
+        </button>
       </div>
     </div>
   );

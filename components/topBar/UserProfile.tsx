@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 // import travis from "../../public/travis-image.svg";
 import isUrl from "@/util/isUrl";
 import {
@@ -17,11 +17,11 @@ import Link from "next/link";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const UserProfile = ({ session }: any) => {
-  const formRef = useRef<HTMLFormElement>(null);
+  // const formRef = useRef<HTMLFormElement>(null);
 
   const setSesstionState = useLoggedInUserStore((state) => state.setUser);
 
-  console.log("session", session);
+  // console.log("session", session);
 
   // const imageSrc = isUrl(session?.picture)
   //   ? session?.picture
@@ -29,17 +29,22 @@ const UserProfile = ({ session }: any) => {
 
   // console.log("image src formm user profile", imageSrc);
 
-  const handleLogOut = () => {
-    localStorage.removeItem("selected smartsite");
-    // Trigger the form submission
-    if (formRef.current) {
-      formRef.current.submit();
-    }
-  };
+  // const handleLogOut = () => {
+  //   localStorage.removeItem("selected smartsite");
+  //   // Trigger the form submission
+  //   if (formRef.current) {
+  //     formRef.current.submit();
+  //   }
+  // };
 
   useEffect(() => {
     setSesstionState(session);
   }, [session, setSesstionState]);
+
+  const handleLogOut = async (e: any) => {
+    e.preventDefault();
+    await doSignOut();
+  };
 
   return (
     <div>
@@ -119,7 +124,7 @@ const UserProfile = ({ session }: any) => {
             className="text-white bg-danger-400"
             color="danger"
           >
-            <form ref={formRef} action={doSignOut}>
+            {/* <form ref={formRef} action={doSignOut}>
               <button
                 type="submit"
                 onClick={handleLogOut}
@@ -128,7 +133,15 @@ const UserProfile = ({ session }: any) => {
                 <IoLogOutOutline size={18} />
                 Logout
               </button>
-            </form>
+            </form> */}
+            <button
+              type="button"
+              onClick={handleLogOut}
+              className={`flex items-center justify-center gap-1 font-medium`}
+            >
+              <IoLogOutOutline size={18} />
+              Logout
+            </button>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
