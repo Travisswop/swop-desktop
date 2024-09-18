@@ -15,7 +15,8 @@ export async function getTemplateDetails(collectionId: string, templateId: strin
         }
 
         const data = await response.json();
-        return data.data;  // Assuming the template details are located inside `data.data`
+        console.log("this is data.data: "+data.data);
+        return data.data;  
     } catch (error) {
         console.error("Error fetching template details:", error);
         return null;
