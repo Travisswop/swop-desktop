@@ -85,7 +85,7 @@ const WalletAddsCopy = ({ microsites }: any) => {
                 transition={{ duration: 0.2, ease: 'easeOut' }}
               >
                 <ul className='py-1'>
-                  {dropdownList.map((el, index) => (
+                  {dropdownList?.map((el, index) => (
                     <li
                       key={index}
                       className='block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer'

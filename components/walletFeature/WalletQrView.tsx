@@ -100,9 +100,7 @@ const WalletQrView = ({ walletObj, microsites }: any) => {
 
                         {/* Additional Information */}
                         <p className='text-gray-500 font-light mb-1 text-sm text-center'>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
+                          {`Use this address for receiving tokens and NFTs on Ethereum, Polygon and other compatible networks. Transactions may take a few minutes to complete.`}
                         </p>
 
                         {/* Share Address Button */}
@@ -178,10 +176,7 @@ const WalletQrView = ({ walletObj, microsites }: any) => {
             <CopyWalletAddress walletAddress={microsites[0]?.ens} />
           </div>
           <p className='text-gray-500 font-light mb-1 text-sm text-center'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {`Swop wallet provides a convenient way for users to send and receive cryptocurrencies using a unique username. With this username, other SWOP users can send you crypto without needing to know your wallet address.`}
           </p>
           {/* <div className='flex justify-center mt-10'>
             <button>
