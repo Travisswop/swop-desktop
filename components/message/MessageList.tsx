@@ -40,7 +40,7 @@ const MessageList = ({ userDetails }: any) => {
     useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [micrositeData, setMicrositeData] = useState<any>(null);
-  // const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
+  const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
 
   const [isSignerLoading, setIsSignerLoading] = useState<any>(false);
 
@@ -248,10 +248,10 @@ const MessageList = ({ userDetails }: any) => {
         console.error("Metamask is not installed");
       }
     };
-    if (address && isWalletAddresConnected) {
+    if (address && isWalletAddresConnected && isMicrositeConnected) {
       connectWallet();
     }
-  }, [address, isWalletAddresConnected]);
+  }, [address, isMicrositeConnected, isWalletAddresConnected]);
 
   const handleWalletClick = async (chat: any) => {
     setChangeConversationLoading(true);
@@ -286,15 +286,20 @@ const MessageList = ({ userDetails }: any) => {
     }
   }, [micrositeId, userDetails?.accessToken]);
 
-  // useEffect(() => {
-  //   if (address && isWalletAddresConnected) {
-  //     setIsMicrositeConnected(true);
-  //   } else {
-  //     setIsMicrositeConnected(false);
-  //   }
-  // }, [address, isWalletAddresConnected]);
+  useEffect(() => {
+    if (address && isWalletAddresConnected) {
+      setIsMicrositeConnected(true);
+    } else {
+      setIsMicrositeConnected(false);
+    }
+  }, [address, isWalletAddresConnected]);
 
-  console.log("addresssds", address, isWalletAddresConnected);
+  // console.log(
+  //   "addresssds",
+  //   address,
+  //   isWalletAddresConnected,
+  //   isMicrositeConnected
+  // );
 
   // console.log("loading", isSignerLoading);
 
@@ -307,11 +312,9 @@ const MessageList = ({ userDetails }: any) => {
   // console.log("messageHistory", messageHistory);
   // console.log("peerAddressList", peerAddressList);
 
-  // console.log("address", address);
-
   return (
     <div>
-      {address && isWalletAddresConnected ? (
+      {address && isWalletAddresConnected && isMicrositeConnected ? (
         <>
           {isSignerLoading ? (
             <div
@@ -700,7 +703,12 @@ const MessageList = ({ userDetails }: any) => {
                 : "w-full h-full absolute z-10 bg-gray-200 bg-opacity-50 backdrop-blur-sm flex items-center justify-center"
             }`}
           >
-            {micrositeData && <SetupWallet micrositeData={micrositeData} />}
+            {micrositeData && (
+              <SetupWallet
+                micrositeData={micrositeData}
+                setIsMicrositeConnected={setIsMicrositeConnected}
+              />
+            )}
           </div>{" "}
         </div>
       )}

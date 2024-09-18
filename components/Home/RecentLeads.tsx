@@ -165,11 +165,11 @@ const RecentLeads = ({ subscribers }: any) => {
 
       <div className="flex justify-center mt-10">
         <AnimateButton
-          width="w-full"
-          className="text-gray-700 flex gap-1 text-lg"
+          width="w-60"
+          className="text-gray-700 flex gap-1"
           onClick={() => downloadCSV(null)}
         >
-          <TbLocation className="size-6" />
+          <TbLocation size={20} />
           Export Leads to CSV
         </AnimateButton>
       </div>
