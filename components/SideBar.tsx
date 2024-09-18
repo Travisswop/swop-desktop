@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import swopLogo from "../public/images/logo/swop-logo.svg";
 import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
@@ -17,13 +17,12 @@ import SideBarLink from "./SideBarLink";
 import SideBarUpgradePlan from "./SideBarUpgradePlan";
 import { doSignOut } from "@/actions/auth";
 import { IoLogOutOutline } from "react-icons/io5";
+import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 // import isUserAuthenticate from "@/util/isUserAuthenticate";
 // import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 
 const SideBar = ({ toggle, onToggle }: any) => {
-  // const session: any = await isUserAuthenticate();
-
-  // console.log("loggedInUserInfo", loggedInUserInfo);
+  const [isShow, setIsShow] = useState(true);
 
   const sidebarArray = [
     {
@@ -112,6 +111,10 @@ const SideBar = ({ toggle, onToggle }: any) => {
     await doSignOut();
   };
 
+  const loggedInUserInfo = useLoggedInUserStore(
+    (state: any) => state.state.user
+  );
+
   return (
     <div className={`sticky top-0  ${toggle && "pl-1.5"}`}>
       <div
@@ -141,7 +144,14 @@ const SideBar = ({ toggle, onToggle }: any) => {
 
         {/* upgrade plan  */}
         {/* {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && ( */}
-        <SideBarUpgradePlan toggle={toggle} />
+
+        {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && isShow && (
+          <SideBarUpgradePlan
+            toggle={toggle}
+            isShow={isShow}
+            setIsShow={setIsShow}
+          />
+        )}
 
         <button
           type="button"

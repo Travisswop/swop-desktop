@@ -13,7 +13,7 @@ import Link from "next/link";
 import DynamicPrimaryBtn from "./Button/DynamicPrimaryBtn";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
-const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
+const SetupWallet = ({ micrositeData }: any) => {
   const [openWallet, setOpenWallet] = useState(false);
   //   const [micrositeData, setMicrositeData] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -69,14 +69,8 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
         toastId: "customId",
         transition: Flip,
       });
-      setIsMicrositeConnected(true);
     }
-  }, [
-    address,
-    micrositeData.data.ethAddress,
-    micrositeData.ethAddress,
-    setIsMicrositeConnected,
-  ]);
+  }, [address, micrositeData.data.ethAddress, micrositeData.ethAddress]);
 
   // * is user has address and it's not matched then force disconnect it
   useEffect(() => {
@@ -96,7 +90,6 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
       setTimeout(() => {
         disconnect();
         setIsLoading(false);
-        setIsMicrositeConnected(false);
       }, 1000);
     }
   }, [
@@ -105,7 +98,6 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
     micrositeData,
     micrositeData?.data?.ethAddress,
     search,
-    setIsMicrositeConnected,
   ]);
 
   //   console.log("isConnected", isConnected);
@@ -117,7 +109,6 @@ const SetupWallet = ({ micrositeData, setIsMicrositeConnected }: any) => {
       toastId: "customId2",
       transition: Flip,
     });
-    setIsMicrositeConnected(false);
   };
 
   const handleOpenWeb3Modal = async () => {
