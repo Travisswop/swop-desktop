@@ -15,7 +15,7 @@ const MintDetails = ({ templateDetails }: { templateDetails: any }) => {
 
   const { template, collection } = templateDetails;
 
-  return (
+  return ( 
     <div className="main-container">
       <div className="bg-white py-20 flex justify-center">
         <div className="w-[50%] flex flex-col gap-8">
