@@ -7,22 +7,15 @@ const TokenCashFlow = ({ flowData }: any) => {
   const { selectTabViewValue } = useWalletTabValue();
 
   return (
-    <div>
+    <div className='max-h-[700px] overflow-y-scroll bg-white p-6'>
       {selectTabViewValue === 'walletList' ? (
-        <div className='flex flex-col gap-2 relative z-10'>
+        <div className='flex flex-col gap-4 relative z-10 '>
           {flowData?.result.map((item: any, index: number) => (
             <div
               key={index}
-              className='px-3 py-2 rounded-lg shadow-medium flex items-center bg-white'
+              className='px-3 py-3 rounded-lg shadow-medium flex items-center bg-white'
             >
-              <div className='w-[20%] flex items-start gap-1 '>
-                <Image
-                  src={item.metadata.logo}
-                  alt='eth logo'
-                  width={40}
-                  height={40}
-                  className='w-8 h-auto'
-                />
+              <div className='w-[40%] flex items-start gap-1 '>
                 {item.data.change < 0 ? (
                   <p className='text-red-500 text-sm font-medium'>
                     {item.data.change}%
@@ -32,11 +25,21 @@ const TokenCashFlow = ({ flowData }: any) => {
                     +{item.data.change}%
                   </p>
                 )}
+                <div className='flex items-center'>
+                  <Image
+                    src={item.metadata.logo}
+                    alt='eth logo'
+                    width={40}
+                    height={40}
+                    className='size-14'
+                  />
+                  <div className='ml-2'>
+                    <h3 className='font-semibold'>{item.data.name}</h3>
+                    <p className='text-sm text-gray-500'>{item.data.symbol}</p>
+                  </div>
+                </div>
               </div>
-              <div className='w-[20%]'>
-                <h3 className='font-semibold'>{item.data.name}</h3>
-                <p className='text-sm text-gray-500'>{item.data.symbol}</p>
-              </div>
+
               <div className='w-[40%] px-14'>
                 <SparklineChart
                   data={item.data.sparkline}

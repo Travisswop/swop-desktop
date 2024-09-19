@@ -45,14 +45,15 @@ const WalletPage = async () => {
   //   }
   // };
 
-  if (data?.owner && data?.addresses['501']) {
+  if (getPrimaryMicrositeData?.ensData) {
     const walletObj = {
-      ethAddress: data.owner,
-      solanaAddress: data.addresses['501'],
+      ethAddress: getPrimaryMicrositeData?.ensData?.addresses[60],
+      solanaAddress: getPrimaryMicrositeData?.ensData?.addresses[501],
       btcAddress: 'ererwewfsdsdweew',
     };
 
     flowData = await getCashFlow(walletObj, session);
+
 
     // walletBalance = flowData?.result;
 
@@ -84,8 +85,6 @@ const WalletPage = async () => {
   // ]);
 
   // console.log('check flowdata 60', getPrimaryMicrositeData);
-
-  console.log('check data 29', getPrimaryMicrositeData);
 
   return (
     <div>
