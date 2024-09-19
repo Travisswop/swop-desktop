@@ -10,7 +10,7 @@ import SetupPrimarySmartsiteWalletModal from "../modal/SetupPrimarySmartsiteWall
 import { isValidObjectId } from "@/util/checkMongoId";
 import Link from "next/link";
 import DynamicPrimaryBtn from "../Button/DynamicPrimaryBtn";
-import WalletFeatureData from "../walletFeature/WalletFeatureData";
+// import WalletFeatureData from "../walletFeature/WalletFeatureData";
 
 const HomepageWallet = ({
   totalBalance,

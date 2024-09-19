@@ -6,6 +6,7 @@ import NftView from "./NftView";
 import useWalletQrCode from "@/zustandStore/walletQrCode";
 import WalletQrView from "./WalletQrView";
 import DashboardView from "./DashboardView";
+import HomepageWalletMessage from "./Message";
 
 const WalletFeatureData = ({
   microsites,
@@ -20,7 +21,7 @@ const WalletFeatureData = ({
   return (
     <div className={`h-[580px] overflow-y-auto relative mt-4`}>
       {!walletQrCode ? (
-        <div>
+        <div className="h-full">
           {selectTabValue === "wallet" ? (
             <CashFlowView flowData={flowData} />
           ) : selectTabValue === "transaction" ? (
@@ -32,6 +33,8 @@ const WalletFeatureData = ({
             <NftView walletObj={walletObj} nftData={nftData} />
           ) : selectTabValue === "dashborad" ? (
             <DashboardView flowData={flowData} />
+          ) : selectTabValue === "message" ? (
+            <HomepageWalletMessage />
           ) : (
             ""
           )}
