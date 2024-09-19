@@ -35,6 +35,7 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   ];
 
   const { setSelectTabValue, setSelectTabViewValue } = useWalletTabValue();
+  
   const { walletQrCode } = useWalletQrCode();
 
   const [selected, setSelected] = React.useState('');

@@ -1,11 +1,10 @@
 'use client';
-import Image from 'next/image';
-import SparklineChart from './CashflowChart';
 import useWalletTabValue from '@/zustandStore/walletTabValue';
+import Image from 'next/image';
+import SparklineChart from '../walletFeature/CashflowChart';
 
-const CashFlowView = ({ flowData }: any) => {
+const TokenCashFlow = ({ flowData }: any) => {
   const { selectTabViewValue } = useWalletTabValue();
-
 
   return (
     <div>
@@ -214,4 +213,4 @@ const CashFlowView = ({ flowData }: any) => {
   );
 };
 
-export default CashFlowView;
+export default TokenCashFlow;
