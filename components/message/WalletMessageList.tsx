@@ -14,6 +14,7 @@ import isUrl from "@/util/isUrl";
 import { FaChevronLeft } from "react-icons/fa";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import WalletChat from "./WalletChat";
+import UserImageAvatar from "../Avatar";
 const WalletMessageList = () => {
   const userDetails = useLoggedInUserStore((state: any) => state.state.user);
   const [micrositeId, setMicrositeId] = useState<any>(null);
@@ -26,6 +27,9 @@ const WalletMessageList = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [micrositeData, setMicrositeData] = useState<any>(null);
   const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
+  const [result, setResult] = useState<object | null>(null);
+
+  console.log("micrositeData", micrositeData);
 
   const [isSignerLoading, setIsSignerLoading] = useState<any>(false);
 
@@ -80,13 +84,13 @@ const WalletMessageList = () => {
         const messages = await conversation.messages();
         setMessageHistory(messages);
         // if (!result) {
-        //   const microsite = peerData.map((peer) => {
-        //     if (peer.ethAddress === recipientAddress) {
-        //       return peer;
-        //     }
-        //   });
-        //   const filtered = microsite.filter(Boolean);
-        //   setMicrositeData(filtered[0]);
+        const microsite = peerData.map((peer) => {
+          if (peer.ethAddress === recipientAddress) {
+            return peer;
+          }
+        });
+        const filtered = microsite.filter(Boolean);
+        setMicrositeData(filtered[0]);
         // } else {
         //   setMicrositeData(result);
         // }
@@ -308,12 +312,18 @@ const WalletMessageList = () => {
                               target="_blank"
                               className="flex items-center gap-3"
                             >
-                              {isUrl(micrositeData.profilePic) ? (
-                                <Avatar src={micrositeData.profilePic} />
-                              ) : (
-                                <Avatar
-                                  src={`/images/user_avator/${micrositeData.profilePic}.png`}
-                                />
+                              {micrositeData && (
+                                <>
+                                  {isUrl(micrositeData.profilePic) ? (
+                                    <UserImageAvatar
+                                      src={micrositeData.profilePic}
+                                    />
+                                  ) : (
+                                    <UserImageAvatar
+                                      src={`/images/user_avator/${micrositeData.profilePic}.png`}
+                                    />
+                                  )}
+                                </>
                               )}
                               <div>
                                 <h1 className="font-bold">
