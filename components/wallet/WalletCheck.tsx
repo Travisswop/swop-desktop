@@ -4,7 +4,16 @@ import WalletMainTabs from './WalletMainTabs';
 import { useAccount } from 'wagmi';
 import SetupPrimarySmartsiteWalletModal from '../modal/SetupPrimarySmartsiteWallet';
 
-const WalletCheck = ({ session, data, microsites, flowData }: any) => {
+const WalletCheck = ({
+  session,
+  data,
+  microsites,
+  flowData,
+  nftData,
+  totalBalance,
+  transactionData,
+  walletObj,
+}: any) => {
   const { isConnected } = useAccount();
 
   return (
@@ -24,6 +33,10 @@ const WalletCheck = ({ session, data, microsites, flowData }: any) => {
         data={data}
         microsites={microsites}
         flowData={flowData}
+        nftData={nftData}
+        totalBalance={totalBalance}
+        transactionData={transactionData}
+        walletObj={walletObj}
       />
     </div>
   );

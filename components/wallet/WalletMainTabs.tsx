@@ -91,7 +91,11 @@
 import useWalletTabValue from '@/zustandStore/walletTabValue';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import TokenView from './TokenView';
+import TokenView from './token/TokenView';
+import PortfolioView from './portfolio/PortfolioView';
+import NftView from './nft/NftView';
+import DefiView from './defi/DefiView';
+import TransectionView from './transection/TransectionView';
 
 const tabList = [
   {
@@ -120,23 +124,30 @@ const tabList = [
     iconUrl: '/images/homepage/wallet/Mining.png',
   },
   {
-    key: 'transection',
-    title: 'Transection',
+    key: 'transaction',
+    title: 'Transaction',
     iconUrl: '/images/homepage/wallet/transaction-history.png',
   },
 ];
 
-const WalletMainTabs = ({ session, data, microsites, flowData }: any) => {
+const WalletMainTabs = ({
+  session,
+  data,
+  microsites,
+  flowData,
+  totalBalance,
+  nftData,
+  transactionData,
+  walletObj,
+}: any) => {
   const {
     selectWalletTabValue,
     setSelectTabViewValue,
     setSelectWalletTabValue,
   } = useWalletTabValue();
 
-  console.log('check flowdata 137', flowData);
-
   return (
-    <div>
+    <div className=''>
       <div className='flex items-center gap-x-6 justify-start'>
         <div
           className={`flex items-center bg-white space-x-3 p-2 rounded-lg px-14`}
@@ -201,7 +212,19 @@ const WalletMainTabs = ({ session, data, microsites, flowData }: any) => {
       </div>
       <div className='mt-6'>
         {selectWalletTabValue === 'token' ? (
-          <TokenView flowData={flowData} />
+          <TokenView flowData={flowData} totalBalance={totalBalance} />
+        ) : selectWalletTabValue === 'portfolio' ? (
+          <PortfolioView flowData={flowData} totalBalance={totalBalance} />
+        ) : selectWalletTabValue === 'nft' ? (
+          <NftView nftData={nftData} />
+        ) : selectWalletTabValue === 'defi' ? (
+          <DefiView />
+        ) : selectWalletTabValue === 'transaction' ? (
+          <TransectionView
+            transactionData={transactionData}
+            walletObj={walletObj}
+            microsites={microsites}
+          />
         ) : (
           ''
         )}
