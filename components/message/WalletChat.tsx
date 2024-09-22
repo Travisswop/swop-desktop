@@ -25,13 +25,13 @@ export default function WalletChat({
   messageHistory,
 }: ChatProps) {
   const [inputMessage, setInputMessage] = useState("");
-  const lastMessageRef = useRef<HTMLDivElement>(null);
+  // const lastMessageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messageHistory]);
+  // useEffect(() => {
+  //   if (lastMessageRef.current) {
+  //     lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [messageHistory]);
 
   const onSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function WalletChat({
           uniqueMessages.map((message: any, index: number) => (
             <div
               key={message.id}
-              ref={index === uniqueMessages.length - 1 ? lastMessageRef : null}
+              // ref={index === uniqueMessages.length - 1 ? lastMessageRef : null}
               className={`mb-4 ${
                 message.senderAddress === client.address
                   ? "text-right"
