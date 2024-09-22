@@ -126,12 +126,14 @@ const tabList = [
   },
 ];
 
-const WalletMainTabs = ({ session, data, microsites }: any) => {
+const WalletMainTabs = ({ session, data, microsites, flowData }: any) => {
   const {
     selectWalletTabValue,
     setSelectTabViewValue,
     setSelectWalletTabValue,
   } = useWalletTabValue();
+
+  console.log('check flowdata 137', flowData);
 
   return (
     <div>
@@ -198,7 +200,11 @@ const WalletMainTabs = ({ session, data, microsites }: any) => {
         </div>
       </div>
       <div className='mt-6'>
-        {selectWalletTabValue === 'token' ? <TokenView data={data} /> : ''}
+        {selectWalletTabValue === 'token' ? (
+          <TokenView flowData={flowData} />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

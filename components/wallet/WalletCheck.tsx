@@ -19,7 +19,12 @@ const WalletCheck = ({ session, data, microsites, flowData }: any) => {
         <SetupPrimarySmartsiteWalletModal microsites={microsites} />
       </div> */}
 
-      <WalletMainTabs session={session} data={data} microsites={microsites} />
+      <WalletMainTabs
+        session={session}
+        data={data}
+        microsites={microsites}
+        flowData={flowData}
+      />
     </div>
   );
 };

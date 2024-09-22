@@ -2,13 +2,12 @@
 import Image from 'next/image';
 import React from 'react';
 import TokenCashFlow from './TokenCashFlow';
+import RechartAreaChart from '../chart/HomepageCashFlow';
 
-const TokenView = ({ data }: any) => {
-  console.log('data check 8', data);
-
+const TokenView = ({ flowData }: any) => {
   return (
     <div>
-      <div className='flex items-start'>
+      <div className='flex items-start gap-x-6'>
         <div className='w-[75%]'>
           <h2 className='text-2xl font-bold text-black'>$29.8799</h2>
           <div className='flex items-center gap-x-2 mt-3'>
@@ -21,10 +20,17 @@ const TokenView = ({ data }: any) => {
               className='size-5'
             />
           </div>
-          {/* <TokenCashFlow flowData={flowData} /> */}
+          <div className='mb-6'>
+            <RechartAreaChart />
+          </div>
+          <div>
+            <TokenCashFlow flowData={flowData} />
+          </div>
         </div>
-        <div className='divide-x divide-black'></div>
-        <div className='w-[35%] bg-white p-6'>
+        <div className='w-[1%] flex items-start justify-center'>
+          <hr className='w-px h-[800px] bg-gray-300 border-0' />
+        </div>
+        <div className='w-[34%] bg-white p-6'>
           <p className='text-lg text-black py-4'>Overview</p>
           <div className='flex justify-center'>
             <Image
