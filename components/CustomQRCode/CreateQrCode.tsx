@@ -6,7 +6,7 @@ import { Switch } from "@nextui-org/react";
 // import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
 import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { MdAttachFile } from "react-icons/md";
 import { MdQrCode2 } from "react-icons/md";
@@ -46,6 +46,8 @@ const CreateQRCode = ({ session }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
+  const pickerRef = useRef<HTMLDivElement>(null);
+  const backgroundPickerRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
 
@@ -288,23 +290,115 @@ const CreateQRCode = ({ session }: any) => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        pickerRef.current &&
+        !pickerRef.current.contains(event.target as Node)
+      ) {
+        setToggle(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Cleanup event listener when component unmounts
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        backgroundPickerRef.current &&
+        !backgroundPickerRef.current.contains(event.target as Node)
+      ) {
+        setBackgroundColorToggle(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Cleanup event listener when component unmounts
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <main className="main-container overflow-hidden">
       <div className="flex gap-6 items-start">
         <div className="w-[62%] border-r border-gray-300 pr-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-gray-700">Customize QR</p>
-            {/* <div onClick={handleModal}>
-              <EditMicrositeBtn>
-                <FiSend />
-                Share
-              </EditMicrositeBtn>
-            </div> */}
           </div>
           <form
             onSubmit={handleFormSubmit}
             className="bg-white py-6 px-10 flex flex-col gap-4"
           >
+            {/* Your Title */}
+            <div className="">
+              <label htmlFor="title" className="heading-4 block mb-2">
+                Your QR Name{" "}
+              </label>
+              <div className="flex-1">
+                <input
+                  required
+                  type="text"
+                  placeholder={`Enter qr name`}
+                  id="title"
+                  name="title"
+                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-4"
+                />
+              </div>
+            </div>
+            {/* I want my QR code to scan to */}
+            <div className="">
+              <label htmlFor="name" className="heading-4 block mb-2">
+                I want my QR code to scan to:{" "}
+              </label>
+              <div className="flex items-center gap-x-2 mb-2">
+                {defaultSocialLinkArray.map((data) => (
+                  <div
+                    className={`p-2 border-2 cursor-pointer ${
+                      data.socialUrl === selectQrCodeSocialLink
+                        ? "border-blue-500"
+                        : "border-gray-200"
+                    }`}
+                    key={data._id}
+                    onClick={() => setSelectQrCodeSocialLink(data.socialUrl)}
+                  >
+                    <Image
+                      src={data.socialIcon}
+                      alt={data.socialTitle}
+                      width={30}
+                      height={30}
+                      className="w-6 h-6"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="relative flex-1">
+                <IoMdLink
+                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder={selectQrCodeSocialLink}
+                  id="url"
+                  name="url"
+                  // defaultValue={selectQrCodeSocialLink}
+                  value={selectQrCodeSocialLink}
+                  onChange={(e) => setSelectQrCodeSocialLink(e.target.value)}
+                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-10"
+                />
+              </div>
+            </div>
             <div>
               <p className="heading-4 mb-2">Choose A Pattern: </p>
               <div className="flex items-center gap-2">
@@ -379,7 +473,7 @@ const CreateQRCode = ({ session }: any) => {
             <div>
               <p className="heading-4 mb-2">Pick QR Color: </p>
               <div className="flex items-center gap-3 bg-gray-100 p-2 rounded-lg">
-                <button type="button" onClick={() => setToggle(!toggle)}>
+                <button type="button" onClick={() => setToggle(true)}>
                   <Image
                     alt="pick color"
                     src={"/images/color.png"}
@@ -391,7 +485,9 @@ const CreateQRCode = ({ session }: any) => {
                   {!color || color === "#NaNNaNNaN" ? "#HEX" : color}
                 </p>
               </div>
-              {toggle && <HexColorPicker color={color} onChange={setColor} />}
+              <div ref={pickerRef} className="w-max">
+                {toggle && <HexColorPicker color={color} onChange={setColor} />}
+              </div>
             </div>
             <div>
               <p className="heading-4 mb-2">Default QR Colors: </p>
@@ -418,9 +514,7 @@ const CreateQRCode = ({ session }: any) => {
               <div className="flex items-center gap-3 bg-gray-100 p-2 rounded-lg">
                 <button
                   type="button"
-                  onClick={() =>
-                    setBackgroundColorToggle(!backgroundColorToggle)
-                  }
+                  onClick={() => setBackgroundColorToggle(true)}
                 >
                   <Image
                     alt="pick color"
@@ -433,9 +527,11 @@ const CreateQRCode = ({ session }: any) => {
                   {!bgColor || bgColor === "#NaNNaNNaN" ? "#HEX" : bgColor}
                 </p>
               </div>
-              {backgroundColorToggle && (
-                <HexColorPicker color={bgColor} onChange={setBgColor} />
-              )}
+              <div className="w-max" ref={backgroundPickerRef}>
+                {backgroundColorToggle && (
+                  <HexColorPicker color={bgColor} onChange={setBgColor} />
+                )}
+              </div>
             </div>
             <div>
               <p className="heading-4 mb-2">Default Background Colors: </p>
@@ -460,7 +556,6 @@ const CreateQRCode = ({ session }: any) => {
             </div>
 
             {/* Choose Shape */}
-
             <div className="">
               <p className="heading-4 mb-2">Choose Shape:</p>
               <div className="flex items-center gap-3">
@@ -486,7 +581,6 @@ const CreateQRCode = ({ session }: any) => {
             </div>
 
             {/* Choose Frame */}
-
             <div className="">
               <p className="heading-4 mb-2">Choose Frame:</p>
               <div className="flex items-center gap-3">
@@ -511,26 +605,7 @@ const CreateQRCode = ({ session }: any) => {
               </div>
             </div>
 
-            {/* Your Title */}
-
-            <div className="">
-              <label htmlFor="name" className="heading-4 mb-2">
-                Title:{" "}
-              </label>
-              <div className="flex-1">
-                <input
-                  required
-                  type="text"
-                  placeholder={`Enter qr code title`}
-                  id="title"
-                  name="title"
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-4"
-                />
-              </div>
-            </div>
-
             {/* Edit Logo */}
-
             <div className="">
               <label htmlFor="name" className="heading-4 mb-2">
                 Edit Logo:{" "}
@@ -563,62 +638,7 @@ const CreateQRCode = ({ session }: any) => {
               </div>
             </div>
 
-            {/* I want my QR code to scan to */}
-
-            <div className="">
-              <div>
-                <label htmlFor="name" className="heading-4 mb-2">
-                  I want my QR code to scan to:{" "}
-                </label>
-                <div></div>
-              </div>
-              {/* <label
-                htmlFor='url'
-                className='font-semibold text-gray-700 text-sm'
-              >
-                Url:{' '}
-              </label> */}
-              <div className="flex items-center gap-x-1 mb-2">
-                {defaultSocialLinkArray.map((data) => (
-                  <div
-                    className={`p-2.5 border-2 cursor-pointer ${
-                      data.socialUrl === selectQrCodeSocialLink
-                        ? "border-blue-500"
-                        : "border-gray-200"
-                    }`}
-                    key={data._id}
-                    onClick={() => setSelectQrCodeSocialLink(data.socialUrl)}
-                  >
-                    <Image
-                      src={data.socialIcon}
-                      alt={data.socialTitle}
-                      width={30}
-                      height={30}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="relative flex-1">
-                <IoMdLink
-                  className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder={selectQrCodeSocialLink}
-                  id="url"
-                  name="url"
-                  // defaultValue={selectQrCodeSocialLink}
-                  value={selectQrCodeSocialLink}
-                  onChange={(e) => setSelectQrCodeSocialLink(e.target.value)}
-                  className="w-full border border-[#ede8e8] focus:border-[#e5e0e0] rounded-lg focus:outline-none px-4 py-2.5 text-gray-700 bg-gray-100 pl-10"
-                />
-              </div>
-            </div>
-
             {/* QR Code Branding */}
-
             <div className="">
               <div className="flex items-center gap-x-2 mb-2">
                 <label htmlFor="name" className="heading-4">
@@ -641,23 +661,6 @@ const CreateQRCode = ({ session }: any) => {
                 />
               </div>
             </div>
-            {/* <div>
-              <div className="flex items-center gap-4">
-                <p className="heading-4 mb-2">QR Code Branding</p>
-                <DynamicPrimaryBtn className="text-xs !py-1 !px-2 !gap-1">
-                  <IoIosLock /> Pro
-                </DynamicPrimaryBtn>
-              </div>
-              <div className="flex items-center gap-2">
-                <p>I want to remove the swop logo: </p>
-                <Switch
-                  color="default"
-                  size="sm"
-                  defaultSelected
-                  aria-label="Lead Captures"
-                />
-              </div>
-            </div> */}
             <div>
               <DynamicPrimaryBtn disabled={isLoading} className="mt-3 w-48">
                 {isLoading ? (
