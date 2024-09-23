@@ -11,6 +11,14 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+interface DataItem {
+  sparkline: number[];
+}
+
+interface FlowDataItem {
+  data: DataItem[];
+}
+
 const data = [
   { date: '', value: 31 },
   { date: '1H', value: 31 },
@@ -21,14 +29,16 @@ const data = [
 ];
 
 const RechartAreaChart = ({ selectToken, flowData }: any) => {
-  // const data = flowData?.result
-  //   ?.filter((el: any, no: number) => no === selectToken)
-  //   ?.map((item: any) =>
-  //     item?.data?.map((el: any, no: number) => ({
+  // const data1 = flowData?.result
+  //   ?.filter((el: FlowDataItem, no: number) => no === selectToken)
+  //   ?.flatMap((item: FlowDataItem) =>
+  //     item?.data?.map((el: DataItem) => ({
   //       date: '1H',
-  //       value: el?.sparkline,
+  //       value: el.sparkline,
   //     })),
   //   );
+
+  console.log('check vlaue data1 33', flowData);
 
   return (
     <div className='bg-white p-3 rounded-lg mt-4'>
