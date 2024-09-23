@@ -147,7 +147,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
         {/* upgrade plan  */}
         {/* {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && ( */}
 
-        {loggedInUserInfo && !loggedInUserInfo?.isPremiumUser && isShow && (
+        {!loggedInUserInfo?.isPremiumUser && isShow && (
           <SideBarUpgradePlan
             toggle={toggle}
             isShow={isShow}
