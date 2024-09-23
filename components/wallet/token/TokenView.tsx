@@ -7,6 +7,10 @@ import TokenCashFlow from './TokenCashFlow';
 const TokenView = ({ totalBalance, flowData }: any) => {
   const [selectToken, setSelectToken] = useState(0);
 
+  const cashFlowChartData = flowData?.result
+    ?.filter((el: any, no: number) => no === selectToken)
+    ?.flatMap((item: any) => ({ ...item }));
+
   return (
     <div>
       <div className='flex items-start gap-x-6'>
@@ -15,17 +19,22 @@ const TokenView = ({ totalBalance, flowData }: any) => {
             ${totalBalance.toFixed(4)}
           </h2>
           <div className='flex items-center gap-x-2 mt-3'>
-            <p className='text-lg text-black'>0.014518948 SOL</p>
+            <p className='text-lg text-black'>
+              {cashFlowChartData[0]?.data?.btcPrice}
+            </p>
+            <p className='text-lg text-black'>
+              {cashFlowChartData[0]?.data?.symbol}
+            </p>
             <Image
-              src={'/images/homepage/Solana.png'}
-              alt={'Solana'}
+              src={cashFlowChartData[0]?.data?.iconUrl}
+              alt={cashFlowChartData[0]?.data?.symbol}
               width={32}
               height={32}
               className='size-5'
             />
           </div>
           <div className='mb-6'>
-            <RechartAreaChart flowData={flowData} selectToken={selectToken} />
+            <RechartAreaChart flowData={cashFlowChartData[0]?.data} />
           </div>
           <div>
             <TokenCashFlow

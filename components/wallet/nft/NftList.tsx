@@ -62,7 +62,7 @@ const NftList = ({ nftData, selectNft, setSelectNft }: any) => {
             <div
               key={index}
               className={`rounded-lg shadow-medium p-4 ${
-                selectNft === index ? 'bg-gray-100' : 'bg-white'
+                selectNft === index ? 'border border-black' : ''
               }`}
               onClick={() => setSelectNft(index)}
             >

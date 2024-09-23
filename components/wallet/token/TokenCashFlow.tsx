@@ -8,6 +8,7 @@ const TokenCashFlow = ({ flowData, selectToken, setSelectToken }: any) => {
 
   return (
     <div className='max-h-[700px] overflow-y-scroll bg-white p-6'>
+      <p className='text-lg text-black pb-4'>Assets</p>
       {selectTabViewValue === 'walletList' ? (
         <div className='flex flex-col gap-4 relative z-10 '>
           {flowData?.result.map((item: any, index: number) => (
@@ -114,7 +115,13 @@ const TokenCashFlow = ({ flowData, selectToken, setSelectToken }: any) => {
       ) : (
         <div className='grid grid-cols-2 gap-3 relative z-10'>
           {flowData.result.map((item: any, index: number) => (
-            <div key={index} className='rounded-lg shadow-medium p-4'>
+            <div
+              key={index}
+              className={`rounded-lg shadow-medium p-4 ${
+                selectToken === index ? 'border border-black' : ''
+              }`}
+              onClick={() => setSelectToken(index)}
+            >
               <div className='flex items-start justify-between gap-2 '>
                 <div className='flex items-center gap-x-2'>
                   <Image
