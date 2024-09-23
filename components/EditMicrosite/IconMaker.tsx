@@ -21,6 +21,7 @@ import embedIcon from "@/public/images/websites/edit-microsite/updated/embed-ico
 import infoBar from "@/public/images/websites/edit-microsite/updated/info-bar.svg";
 import referral from "@/public/images/websites/edit-microsite/updated/referral.svg";
 import message from "@/public/images/websites/edit-microsite/updated/message.svg";
+import feed from "@/public/images/feed.png";
 import { FaRegSquareMinus } from "react-icons/fa6";
 
 function SampleNextArrow(props: any) {
@@ -155,6 +156,11 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
       src: referral,
       title: "Referral",
     },
+    {
+      _id: 12542,
+      src: feed,
+      title: "Feed",
+    },
   ];
 
   return (
@@ -172,7 +178,9 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
                     alt="icon"
                     src={data.src}
                     quality={100}
-                    className={`${data.title === "Small Icon" && "w-9 h-auto"}`}
+                    className={`${
+                      data.title === "Small Icon" && "w-9 h-auto"
+                    } ${data.title === "Feed" && "w-9 h-auto"}`}
                   />
                 </div>
                 {toggleIcon.find((item: any) => item == data.title) ? (
