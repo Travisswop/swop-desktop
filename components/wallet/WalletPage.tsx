@@ -19,32 +19,6 @@ const WalletPage = async () => {
 
   let flowData;
 
-  // const getEnsData = async () => {
-  //   const dataSet = data.data.microsites.find(
-  //     (microsite: any) => microsite.primary
-  //   );
-
-  //   // console.log("data set", dataSet);
-
-  //   if (dataSet) {
-  //     if (dataSet.ensData) {
-  //       return dataSet.ensData;
-  //     } else if (dataSet.ens) {
-  //       const walletData = await fetch(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
-  //       );
-  //       const data = await walletData.json();
-  //       // console.log('funct', data);
-
-  //       return data;
-  //     } else {
-  //       return dataSet._id;
-  //     }
-  //   } else {
-  //     return "No Primary microsite found!";
-  //   }
-  // };
-
   if (getPrimaryMicrositeData?.ensData) {
     const walletObj = {
       ethAddress: getPrimaryMicrositeData?.ensData?.addresses[60],
