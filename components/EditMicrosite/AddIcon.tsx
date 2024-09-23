@@ -10,6 +10,7 @@ import AddAudio from "./audio/AddAudio";
 import AddSwopPay from "./SwopPay/AddSwopPay";
 import AddReferral from "./referral/AddReferral";
 import AddMessage from "./message/AddMessage";
+import AddFeed from "./feed/AddFeed";
 
 const AddIcon = ({
   data,
@@ -47,6 +48,7 @@ const AddIcon = ({
         <AddReferral handleRemoveIcon={handleRemoveIcon} />
       )}
       {data === "Message" && <AddMessage handleRemoveIcon={handleRemoveIcon} />}
+      {data === "Feed" && <AddFeed handleRemoveIcon={handleRemoveIcon} />}
     </div>
   );
 };
