@@ -1,13 +1,11 @@
 'use client';
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-// import 'swiper/swiper-bundle.min.css';
 
-const DashboardSlider = ({ walletList, totalBalance }: any) => {
+const PortfolioSlider = ({ walletList, totalBalance }: any) => {
   return (
-    <Swiper spaceBetween={15} slidesPerView={4} loop={true} grabCursor={true}>
+    <div className='grid grid-cols-3 md:grid-cols-4 items-center justify-between gap-4'>
       {walletList?.map((item: any, index: number) => (
-        <SwiperSlide
+        <div
           key={index}
           className={`flex items-center justify-center p-2.5 rounded-2xl text-white`}
           style={{ backgroundColor: item?.data?.color }}
@@ -22,10 +20,10 @@ const DashboardSlider = ({ walletList, totalBalance }: any) => {
                 : '0.00%'}
             </p>
           </div>
-        </SwiperSlide>
+        </div>
       ))}
-    </Swiper>
+    </div>
   );
 };
 
-export default DashboardSlider;
+export default PortfolioSlider;

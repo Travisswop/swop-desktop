@@ -54,37 +54,38 @@ const WalletPage = async () => {
 
     flowData = await getCashFlow(walletObj, session);
 
+    walletBalance = flowData?.result;
 
-    // walletBalance = flowData?.result;
-
-    // if (walletBalance) {
-    //   totalBalance =
-    //     walletBalance?.reduce((acc: any, item: any) => {
-    //       const balance = parseFloat(item?.balance) || 0;
-    //       const dataBalance = parseFloat(item?.data?.price) || 0;
-    //       return acc + balance * dataBalance;
-    //     }, 0) || 0;
-    // }
+    if (walletBalance) {
+      totalBalance =
+        walletBalance?.reduce((acc: any, item: any) => {
+          const balance = parseFloat(item?.balance) || 0;
+          const dataBalance = parseFloat(item?.data?.price) || 0;
+          return acc + balance * dataBalance;
+        }, 0) || 0;
+    }
   }
 
-  // const walletObj = {
-  //   ethAddress: data.owner,
-  //   solanaAddress: data.addresses['501'],
-  //   btcAddress: 'ererwewfsdsdweew',
-  // };
+  const walletObj = {
+    ethAddress: getPrimaryMicrositeData?.ensData?.addresses[60],
+    solanaAddress: getPrimaryMicrositeData?.ensData?.addresses[501],
+    btcAddress: 'ererwewfsdsdweew',
+  };
 
-  // const nftDataPromise =
-  //   data?.addresses['501'] &&
-  //   getNftData(session, data.owner, data.addresses['501']);
+  const nftDataPromise =
+    getPrimaryMicrositeData?.ensData?.addresses[501] &&
+    getNftData(
+      session,
+      getPrimaryMicrositeData?.ensData?.addresses[60],
+      getPrimaryMicrositeData?.ensData?.addresses[501],
+    );
 
-  // const transactionDataPromise = getTransactionData(walletObj, session);
+  const transactionDataPromise = getTransactionData(walletObj, session);
 
-  // const [nftData, transactionData] = await Promise.all([
-  //   nftDataPromise,
-  //   transactionDataPromise,
-  // ]);
-
-  // console.log('check flowdata 60', getPrimaryMicrositeData);
+  const [nftData, transactionData] = await Promise.all([
+    nftDataPromise,
+    transactionDataPromise,
+  ]);
 
   return (
     <div>
@@ -93,6 +94,10 @@ const WalletPage = async () => {
         data={data}
         microsites={data.data.microsites}
         flowData={flowData}
+        totalBalance={totalBalance}
+        nftData={nftData}
+        transactionData={transactionData}
+        walletObj={walletObj}
       />
     </div>
   );

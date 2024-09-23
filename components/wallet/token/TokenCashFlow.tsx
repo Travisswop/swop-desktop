@@ -1,9 +1,9 @@
 'use client';
+import SparklineChart from '@/components/walletFeature/CashflowChart';
 import useWalletTabValue from '@/zustandStore/walletTabValue';
 import Image from 'next/image';
-import SparklineChart from '../walletFeature/CashflowChart';
 
-const TokenCashFlow = ({ flowData }: any) => {
+const TokenCashFlow = ({ flowData, selectToken, setSelectToken }: any) => {
   const { selectTabViewValue } = useWalletTabValue();
 
   return (
@@ -13,7 +13,10 @@ const TokenCashFlow = ({ flowData }: any) => {
           {flowData?.result.map((item: any, index: number) => (
             <div
               key={index}
-              className='px-3 py-3 rounded-lg shadow-medium flex items-center bg-white'
+              className={`px-3 py-3 rounded-lg shadow-medium flex items-center bg-white ${
+                selectToken === index ? 'border border-black' : ''
+              }`}
+              onClick={() => setSelectToken(index)}
             >
               <div className='w-[40%] flex items-start gap-1 '>
                 {item.data.change < 0 ? (
