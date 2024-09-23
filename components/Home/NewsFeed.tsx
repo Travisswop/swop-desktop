@@ -1,101 +1,161 @@
-import Image from 'next/image';
-import React from 'react';
-import { BsThreeDots } from 'react-icons/bs';
-import { LuDot } from 'react-icons/lu';
-import { GoPlusCircle } from 'react-icons/go';
-import { PiArrowFatUp } from 'react-icons/pi';
-import { LuRepeat } from 'react-icons/lu';
-import { FiHeart } from 'react-icons/fi';
-import { HiOutlineUpload } from 'react-icons/hi';
+"use client";
+import Image from "next/image";
+import React from "react";
+import { BsThreeDots } from "react-icons/bs";
+import { LuDot } from "react-icons/lu";
+import { GoPlusCircle } from "react-icons/go";
+import { PiArrowFatUp } from "react-icons/pi";
+import { LuRepeat } from "react-icons/lu";
+import { FiHeart } from "react-icons/fi";
+import { HiOutlineUpload } from "react-icons/hi";
+import isUrl from "@/util/isUrl";
+import connection from "@/public/images/feed/connection.png";
 
-const NewsFeed = () => {
+const NewsFeed = ({ data }: any) => {
+  console.log("dataaass", data);
+
   return (
-    <div className='w-full'>
-      {[1, 2]?.map((el: any, index: number) => (
-        <div key={index} className='mb-5'>
-          <div className='w-full flex item justify-between'>
-            <div className='flex items-start gap-x-4'>
+    <div className="w-full">
+      {[1]?.map((el: any, index: number) => (
+        <div key={index} className="mb-5">
+          <div className="w-full flex item justify-between">
+            <div className="flex items-start gap-x-4">
               <Image
-                src={'/images/homepage/HawkTuah.png'}
-                alt={'HawkTuah'}
+                src={"/images/homepage/HawkTuah.png"}
+                alt={"HawkTuah"}
                 width={500}
                 height={500}
-                className='size-14'
+                className="size-14"
               />
-              <h2 className='font-medium text-black text-xl'>HawkTuah</h2>
-              <h2 className='font-normal text-[#8D8D8D] text-xl'>
+              <h2 className="font-medium text-black text-xl">HawkTuah</h2>
+              <h2 className="font-normal text-[#8D8D8D] text-xl">
                 Hawktuah.Swop.ID
               </h2>
-              <h2 className='font-medium text-black text-xl flex items-center'>
-                <LuDot className='size-6' />
+              <h2 className="font-medium text-black text-xl flex items-center">
+                <LuDot className="size-6" />
                 <span>1d</span>
               </h2>
             </div>
             <div>
-              <BsThreeDots className='size-8 text-[#8D8D8D] hover:text-black ' />
+              <BsThreeDots className="size-8 text-[#8D8D8D] hover:text-black " />
             </div>
           </div>
-          <div className='w-full flex items-center justify-start gap-x-6 ml-16'>
-            <div className='bg-white shadow-md rounded-xl p-4'>
-              <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+          <div className="w-full flex items-center justify-start gap-x-6 ml-16">
+            <div className="bg-white shadow-md rounded-xl p-4">
+              <div className="flex justify-end items-center mb-1">
+                <GoPlusCircle className="text-2xl text-[#424651] hover:text-black cursor-not-allowed" />
               </div>
               <Image
-                src={'/images/homepage/coupon.png'}
-                alt={'Coupon'}
+                src={"/images/homepage/coupon.png"}
+                alt={"Coupon"}
                 width={500}
                 height={500}
-                className='size-36'
+                className="size-36"
               />
-              <h2 className='text-lg text-center mt-2'>$29.99</h2>
+              <h2 className="text-lg text-center mt-2">$29.99</h2>
             </div>
-            <div className='bg-white shadow-md rounded-xl p-4'>
-              <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+            <div className="bg-white shadow-md rounded-xl p-4">
+              <div className="flex justify-end items-center mb-1">
+                <GoPlusCircle className="text-2xl text-[#424651] hover:text-black cursor-not-allowed" />
               </div>
               <Image
-                src={'/images/homepage/coupon.png'}
-                alt={'Coupon'}
+                src={"/images/homepage/coupon.png"}
+                alt={"Coupon"}
                 width={500}
                 height={500}
-                className='size-36'
+                className="size-36"
               />
-              <h2 className='text-lg text-center mt-2'>$29.99</h2>
+              <h2 className="text-lg text-center mt-2">$29.99</h2>
             </div>
-            <div className='bg-white shadow-md rounded-xl p-4'>
-              <div className='flex justify-end items-center mb-1'>
-                <GoPlusCircle className='text-2xl text-[#424651] hover:text-black cursor-not-allowed' />
+            <div className="bg-white shadow-md rounded-xl p-4">
+              <div className="flex justify-end items-center mb-1">
+                <GoPlusCircle className="text-2xl text-[#424651] hover:text-black cursor-not-allowed" />
               </div>
               <Image
-                src={'/images/homepage/coupon.png'}
-                alt={'Coupon'}
+                src={"/images/homepage/coupon.png"}
+                alt={"Coupon"}
                 width={500}
                 height={500}
-                className='size-36'
+                className="size-36"
               />
-              <h2 className='text-lg text-center mt-2'>$29.99</h2>
+              <h2 className="text-lg text-center mt-2">$29.99</h2>
             </div>
           </div>
-          <div className='flex items-center justify-start gap-x-12 mt-16 ml-16'>
-            <div className='flex items-center gap-x-1'>
-              <PiArrowFatUp className='text-2xl text-[#424651] hover:text-black' />
+          <div className="flex items-center justify-start gap-x-12 mt-4 ml-16">
+            <div className="flex items-center gap-x-1">
+              <PiArrowFatUp className="text-2xl text-[#424651] hover:text-black" />
               <p>123</p>
             </div>
-            <div className='flex items-center gap-x-1'>
-              <LuRepeat className='text-2xl text-[#424651] hover:text-black' />
+            <div className="flex items-center gap-x-1">
+              <LuRepeat className="text-2xl text-[#424651] hover:text-black" />
               <p>98</p>
             </div>
-            <div className='flex items-center gap-x-1'>
-              <FiHeart className='text-2xl text-[#424651] hover:text-black' />
+            <div className="flex items-center gap-x-1">
+              <FiHeart className="text-2xl text-[#424651] hover:text-black" />
               <p>7</p>
             </div>
-            <div className='flex items-center gap-x-1'>
-              <HiOutlineUpload className='text-2xl text-[#424651] hover:text-black' />
+            <div className="flex items-center gap-x-1">
+              <HiOutlineUpload className="text-2xl text-[#424651] hover:text-black" />
               <p>7</p>
             </div>
           </div>
         </div>
       ))}
+      <div className="mb-5">
+        <div className="w-full flex item justify-between">
+          <div className="flex items-start gap-x-4">
+            {isUrl(data.data.profilePic) ? (
+              <Image
+                src={data.data.profilePic}
+                alt={"HawkTuah"}
+                width={500}
+                height={500}
+                className="size-14 rounded-full"
+              />
+            ) : (
+              <Image
+                src={`/images/user_avator/${data.data.profilePic}.png`}
+                alt={"HawkTuah"}
+                width={500}
+                height={500}
+                className="size-14 rounded-full"
+              />
+            )}
+            <h2 className="font-medium text-black text-xl">{data.data.name}</h2>
+            <h2 className="font-normal text-[#8D8D8D] text-xl">
+              created a new smartsite
+            </h2>
+            <h2 className="font-medium text-black text-lg flex items-center">
+              {/* <LuDot className="size-6" /> */}
+              <span>1/2/24 12:22PM</span>
+            </h2>
+          </div>
+          <div>
+            <BsThreeDots className="size-8 text-[#8D8D8D] hover:text-black " />
+          </div>
+        </div>
+        <div className="ml-16">
+          <Image src={connection} alt="create smartsite" />
+        </div>
+        {/* <div className="flex items-center justify-start gap-x-12 mt-16 ml-16">
+          <div className="flex items-center gap-x-1">
+            <PiArrowFatUp className="text-2xl text-[#424651] hover:text-black" />
+            <p>123</p>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <LuRepeat className="text-2xl text-[#424651] hover:text-black" />
+            <p>98</p>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <FiHeart className="text-2xl text-[#424651] hover:text-black" />
+            <p>7</p>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <HiOutlineUpload className="text-2xl text-[#424651] hover:text-black" />
+            <p>7</p>
+          </div>
+        </div> */}
+      </div>
     </div>
   );
 };

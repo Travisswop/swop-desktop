@@ -148,8 +148,8 @@ export default async function HomePage() {
               <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center">
                 <Dashboard />
               </div>
-              <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center">
-                <NewsFeed />
+              <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center mt-4">
+                <NewsFeed data={data} />
               </div>
             </div>
             <div className="w-2/5 bg-white px-6 py-6 flex items-start rounded-lg justify-center">
