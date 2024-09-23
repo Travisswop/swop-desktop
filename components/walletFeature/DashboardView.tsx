@@ -73,7 +73,7 @@ const DashboardView = ({ flowData }: DashboardViewProps) => {
             </div>
 
             <p className='text-base'>
-              {item.balance
+              {parseFloat(item.balance) !== 0
                 ? `${((parseFloat(item.balance) / totalBalance) * 100).toFixed(
                     2,
                   )}%`

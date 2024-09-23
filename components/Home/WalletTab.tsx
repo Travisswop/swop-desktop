@@ -20,7 +20,7 @@ const WalletTab: React.FC<WalletTabProps> = () => {
     { title: 'message', url: '/images/homepage/wallet/message.png' },
     { title: 'dashborad', url: '/images/homepage/wallet/dashboard.png' },
     { title: 'nft', url: '/images/homepage/wallet/NFT.png' },
-    { title: 'mining', url: '/images/homepage/wallet/Mining.png' },
+    { title: 'difi', url: '/images/homepage/wallet/Mining.png' },
     {
       title: 'transaction',
       url: '/images/homepage/wallet/transaction-history.png',
@@ -34,8 +34,9 @@ const WalletTab: React.FC<WalletTabProps> = () => {
     { title: 'Solana', url: '/images/homepage/solana.png' },
   ];
 
-  const { setSelectTabValue, setSelectTabViewValue } = useWalletTabValue();
-  
+  const { setSelectTabValue, setSelectTabViewValue, selectTabViewValue } =
+    useWalletTabValue();
+
   const { walletQrCode } = useWalletQrCode();
 
   const [selected, setSelected] = React.useState('');
@@ -67,7 +68,9 @@ const WalletTab: React.FC<WalletTabProps> = () => {
               alt={'Icon'}
               width={500}
               height={500}
-              className='mx-auto size-8 cursor-pointer'
+              className={`w-8 h-8 cursor-pointer ${
+                selectTabViewValue === 'walletList' ? 'opacity-35' : ''
+              }`}
               onClick={() => {
                 handleSelectionViewChange('walletList');
               }}
@@ -77,7 +80,9 @@ const WalletTab: React.FC<WalletTabProps> = () => {
               alt={'Icon'}
               width={500}
               height={500}
-              className='mx-auto size-8 cursor-pointer'
+              className={`w-8 h-8 cursor-pointer ${
+                selectTabViewValue === 'walletCard' ? 'opacity-35' : ''
+              }`}
               onClick={() => {
                 handleSelectionViewChange('walletCard');
               }}

@@ -28,7 +28,7 @@ const TransectionList = ({
   return (
     <div className='max-w-full max-h-[750px] overflow-y-scroll'>
       <div className='flex flex-col gap-2 relative z-10 p-2'>
-        {transactionData?.result.map((item: any, index: number) => (
+        {transactionData?.result?.map((item: any, index: number) => (
           <div
             key={index}
             className={`px-4 py-2 rounded-lg shadow-medium flex items-center bg-white justify-between ${

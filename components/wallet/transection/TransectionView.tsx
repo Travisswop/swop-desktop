@@ -8,24 +8,28 @@ const TransectionView = ({ microsites, transactionData, walletObj }: any) => {
 
   return (
     <div>
-      <div className='flex items-stretch gap-x-6 '>
-        <div className='w-[60%] bg-white p-6'>
-          <TransectionList
-            transactionData={transactionData}
-            walletObj={walletObj}
-            selectTransection={selectTransection}
-            setSelectTransection={setSelectTransection}
-          />
+      {transactionData?.result?.length === 0 ? (
+        <p className='!text-lg text-center py-8'>Not transaction available!</p>
+      ) : (
+        <div className='flex items-stretch gap-x-6 '>
+          <div className='w-[60%] bg-white p-6'>
+            <TransectionList
+              transactionData={transactionData}
+              walletObj={walletObj}
+              selectTransection={selectTransection}
+              setSelectTransection={setSelectTransection}
+            />
+          </div>
+          <div className='w-[40%] bg-white p-6'>
+            <TransectionDetailsView
+              selectTransection={selectTransection}
+              transactionData={transactionData}
+              walletObj={walletObj}
+              microsites={microsites}
+            />
+          </div>
         </div>
-        <div className='w-[40%] bg-white p-6'>
-          <TransectionDetailsView
-            selectTransection={selectTransection}
-            transactionData={transactionData}
-            walletObj={walletObj}
-            microsites={microsites}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };
