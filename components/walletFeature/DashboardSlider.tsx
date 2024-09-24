@@ -4,9 +4,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // import 'swiper/swiper-bundle.min.css';
 
 const DashboardSlider = ({ walletList, totalBalance }: any) => {
+  console.log('check data value 8', walletList);
+
   return (
     <Swiper spaceBetween={15} slidesPerView={4} loop={true} grabCursor={true}>
-      {walletList?.result
+      {walletList
         ?.filter((el: any) => parseFloat(el?.balance) !== 0)
         ?.map((item: any, index: number) => (
           <SwiperSlide
@@ -21,7 +23,7 @@ const DashboardSlider = ({ walletList, totalBalance }: any) => {
                   ? `${(
                       (parseFloat(item.balance) / totalBalance) *
                       100
-                    ).toFixed(2)}%`
+                    ).toFixed(4)}%`
                   : '0.00%'}
               </p>
             </div>

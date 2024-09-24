@@ -6,7 +6,6 @@ import useWalletTabValue from '@/zustandStore/walletTabValue';
 const CashFlowView = ({ flowData }: any) => {
   const { selectTabViewValue } = useWalletTabValue();
 
-
   return (
     <div>
       {selectTabViewValue === 'walletList' ? (
@@ -53,49 +52,18 @@ const CashFlowView = ({ flowData }: any) => {
                     item.balance,
                   ).toFixed(2)} ${item.data.symbol}`}</p>
                 </div>
-                {/* {item.network === 'ethereum' && (
-                  <Image
-                    src={'/images/cashflow/ETH@2x.png'}
-                    alt='eth logo'
-                    width={40}
-                    height={40}
-                    className='w-5 h-5 rounded-full'
-                  />
-                )}
-                {item.network === 'polygon' && (
-                  <Image
-                    src={'/images/cashflow/Polygon@2x.png'}
-                    alt='eth logo'
-                    width={40}
-                    height={40}
-                    className='w-5 h-5 rounded-full'
-                  />
-                )}
-                {item.network === 'solana' && (
-                  <Image
-                    src={'/images/cashflow/SOL.webp'}
-                    alt='eth logo'
-                    width={40}
-                    height={40}
-                    className='w-5 h-5 rounded-full'
-                  />
-                )} */}
+
                 <Image
                   src={
-                    item?.data?.symbol === 'SOL'
+                    item?.network === 'solana'
                       ? '/images/homepage/Solana.png'
-                      : item?.data?.symbol === 'ETH'
+                      : item?.network === 'ethereum'
                       ? '/images/homepage/eth-with-bg.png'
-                      : item?.data?.symbol === 'USDC' ||
-                        item?.data?.symbol === 'WETH'
-                      ? '/images/homepage/USDC.png'
-                      : item?.data?.symbol === 'MATIC' ||
-                        item?.data?.symbol === 'WETH' ||
-                        item?.data?.symbol === 'DAI' ||
-                        item?.data?.symbol === 'AAVE' ||
-                        item?.data?.symbol === 'POL'
+                      : item?.network === 'polygon'
                       ? '/images/homepage/Polygon.png'
-                      : '/images/homepage/Polygon.png'
+                      : item?.network === 'base'
+                      ? '/images/homepage/eth-with-bg.png'
+                      : ''
                   }
                   alt='coin icon'
                   width={40}
@@ -128,53 +96,21 @@ const CashFlowView = ({ flowData }: any) => {
                 <div>
                   <Image
                     src={
-                      item?.data?.symbol === 'SOL'
+                      item?.network === 'solana'
                         ? '/images/homepage/Solana.png'
-                        : item?.data?.symbol === 'ETH'
+                        : item?.network === 'ethereum'
                         ? '/images/homepage/eth-with-bg.png'
-                        : item?.data?.symbol === 'USDC' ||
-                          item?.data?.symbol === 'WETH'
-                        ? '/images/homepage/USDC.png'
-                        : item?.data?.symbol === 'MATIC' ||
-                          item?.data?.symbol === 'WETH' ||
-                          item?.data?.symbol === 'DAI' ||
-                          item?.data?.symbol === 'AAVE' ||
-                          item?.data?.symbol === 'POL'
+                        : item?.network === 'polygon'
                         ? '/images/homepage/Polygon.png'
-                        : '/images/homepage/Polygon.png'
+                        : item?.network === 'base'
+                        ? '/images/homepage/eth-with-bg.png'
+                        : ''
                     }
                     alt='coin icon'
                     width={40}
                     height={40}
                     className='w-5 h-5 rounded-full'
                   />
-                  {/* {item.network === 'ethereum' && (
-                    <Image
-                      src={'/images/cashflow/ETH@2x.png'}
-                      alt='eth logo'
-                      width={40}
-                      height={40}
-                      className='w-5 h-5 rounded-full'
-                    />
-                  )}
-                  {item.network === 'polygon' && (
-                    <Image
-                      src={'/images/cashflow/Polygon@2x.png'}
-                      alt='eth logo'
-                      width={40}
-                      height={40}
-                      className='w-5 h-5 rounded-full'
-                    />
-                  )}
-                  {item.network === 'solana' && (
-                    <Image
-                      src={'/images/cashflow/SOL.webp'}
-                      alt='eth logo'
-                      width={40}
-                      height={40}
-                      className='w-5 h-5 rounded-full'
-                    />
-                  )} */}
                 </div>
               </div>
 

@@ -59,34 +59,38 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   };
 
   return (
-    <div>
+    <div className=''>
       {!walletQrCode && (
-        <div className='flex flex-wrap items-center gap-1'>
+        <div className='flex items-center gap-x-1 w-[550px] overflow-x-auto pb-3 custom-scrollbar'>
           <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>
-            <Image
-              src={'/images/homepage/wallet/menu-1.png'}
-              alt={'Icon'}
-              width={500}
-              height={500}
-              className={`w-8 h-8 cursor-pointer ${
-                selectTabViewValue === 'walletList' ? 'opacity-35' : ''
-              }`}
-              onClick={() => {
-                handleSelectionViewChange('walletList');
-              }}
-            />
-            <Image
-              src={'/images/homepage/wallet/menu-2.png'}
-              alt={'Icon'}
-              width={500}
-              height={500}
-              className={`w-8 h-8 cursor-pointer ${
-                selectTabViewValue === 'walletCard' ? 'opacity-35' : ''
-              }`}
-              onClick={() => {
-                handleSelectionViewChange('walletCard');
-              }}
-            />
+            <div className='w-8 h-8'>
+              <Image
+                src={'/images/homepage/wallet/menu-1.png'}
+                alt={'Icon'}
+                width={500}
+                height={500}
+                className={`w-8 h-8 cursor-pointer ${
+                  selectTabViewValue === 'walletList' ? 'opacity-35' : ''
+                }`}
+                onClick={() => {
+                  handleSelectionViewChange('walletList');
+                }}
+              />
+            </div>
+            <div className='w-8 h-8'>
+              <Image
+                src={'/images/homepage/wallet/menu-2.png'}
+                alt={'Icon'}
+                width={500}
+                height={500}
+                className={`w-8 h-8 cursor-pointer ${
+                  selectTabViewValue === 'walletCard' ? 'opacity-35' : ''
+                }`}
+                onClick={() => {
+                  handleSelectionViewChange('walletCard');
+                }}
+              />
+            </div>
           </div>
           <Tabs
             selectedKey={selected}
@@ -125,20 +129,24 @@ const WalletTab: React.FC<WalletTabProps> = () => {
             <Dropdown placement='bottom-start'>
               <DropdownTrigger>
                 <div className='bg-[#EEEEEE] p-3.5 rounded-lg flex items-center gap-1'>
-                  <Image
-                    src={dropdownTriggerUrl}
-                    alt={'Icon'}
-                    width={500}
-                    height={500}
-                    className='mx-auto size-[21px] rounded-full'
-                  />
-                  <Image
-                    src={'/images/homepage/wallet/arrow.png'}
-                    alt={'Icon'}
-                    width={500}
-                    height={500}
-                    className='mx-auto size-3'
-                  />
+                  <div className='size-[21px]'>
+                    <Image
+                      src={dropdownTriggerUrl}
+                      alt={'Icon'}
+                      width={500}
+                      height={500}
+                      className='mx-auto size-[21px] rounded-full'
+                    />
+                  </div>
+                  <div className='size-3'>
+                    <Image
+                      src={'/images/homepage/wallet/arrow.png'}
+                      alt={'Icon'}
+                      width={500}
+                      height={500}
+                      className='mx-auto size-3'
+                    />
+                  </div>
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label='User Actions' variant='flat'>

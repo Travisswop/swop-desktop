@@ -21,7 +21,7 @@ const PortfolioSlider = ({ walletList, totalBalance }: any) => {
                   ? `${(
                       (parseFloat(item.balance) / totalBalance) *
                       100
-                    ).toFixed(2)}%`
+                    ).toFixed(4)}%`
                   : '0.00%'}
               </p>
             </div>
