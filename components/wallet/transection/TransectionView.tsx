@@ -6,6 +6,8 @@ import TransectionDetailsView from './TransectionDetailsView';
 const TransectionView = ({ microsites, transactionData, walletObj }: any) => {
   const [selectTransection, setSelectTransection] = useState(0);
 
+  console.log('check value 99', transactionData);
+
   return (
     <div>
       {transactionData?.result?.length === 0 ? (

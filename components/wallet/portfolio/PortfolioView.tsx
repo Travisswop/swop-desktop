@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import React from 'react';
-import TokenCashFlow from '../token/TokenCashFlow';
 import DashboardPieChart from '@/components/walletFeature/DashboardPieChart';
 import PortfolioSlider from './PortfolioSlider';
 import PortfolioTokenView from './PortfolioTokenView';
+import TokenCashFlow from '../token/TokenCashFlow';
 
 const PortfolioView = ({ flowData, walletList, totalBalance }: any) => {
   return (

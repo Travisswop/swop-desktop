@@ -80,30 +80,34 @@ const WalletMainTabs = ({
 
   return (
     <div className=''>
-      <div className='flex items-center gap-x-2 justify-start'>
+      <div className='flex items-center gap-x-2 justify-start overflow-x-auto pb-3 custom-scrollbar'>
         <div
           className={`flex items-center bg-white space-x-3 p-2 rounded-lg px-14`}
         >
-          <Image
-            onClick={() => setSelectTabViewValue('walletList')}
-            src={'/images/homepage/wallet/menu-1.png'}
-            alt={'Menu List'}
-            width={32}
-            height={32}
-            className={`w-8 h-8 cursor-pointer ${
-              selectTabViewValue === 'walletList' ? 'opacity-35' : ''
-            }`}
-          />
-          <Image
-            onClick={() => setSelectTabViewValue('walletCard')}
-            src={'/images/homepage/wallet/menu-2.png'}
-            alt={'Menu Card'}
-            width={32}
-            height={32}
-            className={`w-8 h-8 cursor-pointer ${
-              selectTabViewValue === 'walletCard' ? 'opacity-35' : ''
-            }`}
-          />
+          <div className='w-8 h-8'>
+            <Image
+              onClick={() => setSelectTabViewValue('walletList')}
+              src={'/images/homepage/wallet/menu-1.png'}
+              alt={'Menu List'}
+              width={32}
+              height={32}
+              className={`w-8 h-8 cursor-pointer ${
+                selectTabViewValue === 'walletList' ? 'opacity-35' : ''
+              }`}
+            />
+          </div>
+          <div className='w-8 h-8'>
+            <Image
+              onClick={() => setSelectTabViewValue('walletCard')}
+              src={'/images/homepage/wallet/menu-2.png'}
+              alt={'Menu Card'}
+              width={32}
+              height={32}
+              className={`w-8 h-8 cursor-pointer ${
+                selectTabViewValue === 'walletCard' ? 'opacity-35' : ''
+              }`}
+            />
+          </div>
         </div>
         <div className='flex items-center gap-x-6 px-4 justify-stretch'>
           {tabList?.map((el: any, index: number) => (
@@ -144,20 +148,24 @@ const WalletMainTabs = ({
           <Dropdown placement='bottom-start'>
             <DropdownTrigger>
               <div className='bg-white py-[13px] rounded-lg flex items-center gap-1 px-14'>
-                <Image
-                  src={dropdownTriggerUrl}
-                  alt={'Icon'}
-                  width={500}
-                  height={500}
-                  className='mx-auto size-[21px] rounded-full'
-                />
-                <Image
-                  src={'/images/homepage/wallet/arrow.png'}
-                  alt={'Icon'}
-                  width={500}
-                  height={500}
-                  className='mx-auto size-3'
-                />
+                <div className='size-[21px]'>
+                  <Image
+                    src={dropdownTriggerUrl}
+                    alt={'Icon'}
+                    width={500}
+                    height={500}
+                    className='mx-auto size-[21px] rounded-full'
+                  />
+                </div>
+                <div className='size-3'>
+                  <Image
+                    src={'/images/homepage/wallet/arrow.png'}
+                    alt={'Icon'}
+                    width={500}
+                    height={500}
+                    className='mx-auto size-3'
+                  />
+                </div>
               </div>
             </DropdownTrigger>
             <DropdownMenu aria-label='User Actions' variant='flat'>
