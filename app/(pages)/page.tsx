@@ -19,6 +19,7 @@ import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 import Dashboard from "@/components/Home/Dashboard";
 import Wallet from "@/components/Home/Wallet";
 import NewsFeed from "@/components/Home/NewsFeed";
+import { Suspense } from "react";
 
 // import { useEffect } from "react";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
@@ -142,14 +143,18 @@ export default async function HomePage() {
   return (
     <>
       {data ? (
-        <main className="main-container ">
+        <main className="main-container flex-1 h-full overflow-auto">
           <div className="flex justify-between gap-6">
             <div className="w-3/5 gap-6">
               <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center">
-                <Dashboard />
+                <Suspense fallback={<p>Loading newsfeed...</p>}>
+                  <Dashboard />
+                </Suspense>
               </div>
-              <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center mt-4">
-                <NewsFeed data={data} />
+              <div className="bg-white py-5 px-6 flex items-center rounded-lg justify-center mt-4">
+                <Suspense fallback={<p>Loading newsfeed...</p>}>
+                  <NewsFeed data={data} session={session} />
+                </Suspense>
               </div>
             </div>
             <div className="w-2/5 bg-white px-6 py-6 flex items-start rounded-lg justify-center">
