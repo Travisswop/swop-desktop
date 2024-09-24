@@ -13,6 +13,7 @@ import {
 
 const RechartAreaChart = ({ flowData }: any) => {
   const chartData = flowData?.sparkline?.map((el: any, index: number) => ({
+    index,
     value: parseFloat(el),
   }));
 
@@ -43,16 +44,19 @@ const RechartAreaChart = ({ flowData }: any) => {
               <stop offset='95%' stopColor={flowData?.color} stopOpacity={0} />
             </linearGradient>
           </defs>
+
           <XAxis
             dataKey='time' // Use custom time labels for the X-axis
             tickFormatter={(value) => value} // Use custom labels directly
           />
+          {/* <YAxis /> */}
+
           <Tooltip />
           <Area
             type='monotone'
             dataKey='value'
             stroke={flowData?.color}
-            strokeWidth={4}
+            strokeWidth={2}
             fillOpacity={1}
             fill='url(#colorValue)'
           />

@@ -6,8 +6,6 @@ import Image from 'next/image';
 const TokenCashFlow = ({ flowData, selectToken, setSelectToken }: any) => {
   const { selectTabViewValue } = useWalletTabValue();
 
-  console.log('check it 9', flowData);
-
   return (
     <div className='max-h-[700px] overflow-y-scroll bg-white p-6'>
       <p className='text-lg text-black pb-4'>Assets</p>
