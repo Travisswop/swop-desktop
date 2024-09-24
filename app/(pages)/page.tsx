@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 // import Chart from "@/components/Chart";
 import Microsite from "@/components/Microsite";
 import WebsiteAnalytics from "@/components/Home/WebsiteAnalytics";
@@ -18,8 +19,8 @@ import CreateQRCodeFromHome from "@/components/CreateQRCodeFromHome";
 
 import Dashboard from "@/components/Home/Dashboard";
 import Wallet from "@/components/Home/Wallet";
-import NewsFeed from "@/components/Home/NewsFeed";
-import { Suspense } from "react";
+// import NewsFeed from "@/components/Home/NewsFeed";
+const NewsFeed = lazy(() => import("@/components/Home/NewsFeed"));
 
 // import { useEffect } from "react";
 // import TriggerWalletConnectButton from "@/components/TriggerWalletConnectButton";
@@ -147,7 +148,7 @@ export default async function HomePage() {
           <div className="flex justify-between gap-6">
             <div className="w-3/5 gap-6">
               <div className=" bg-white py-5 px-6 flex items-center rounded-lg justify-center">
-                <Suspense fallback={<p>Loading newsfeed...</p>}>
+                <Suspense fallback={<p>Loading dashboard...</p>}>
                   <Dashboard />
                 </Suspense>
               </div>
