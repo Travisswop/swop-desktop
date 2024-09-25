@@ -10,8 +10,8 @@ import HomepageWallet from "./HomepageWallet";
 import { getNftData } from "@/actions/nftData";
 import { getTransactionData } from "@/actions/transactionData";
 
-const Wallet = async ({ profileData, data, microsites, token }: any) => {
-  const getPrimaryMicrositeData = microsites?.find(
+const Wallet = async ({ data, token, homepageData }: any) => {
+  const getPrimaryMicrositeData = homepageData?.data?.microsites?.find(
     (microsite: any) => microsite?.primary
   );
 
@@ -104,21 +104,21 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         </h2>
 
         <div className="flex justify-center">
-          <ShowEnsName data={profileData?.data} />
+          <ShowEnsName data={homepageData?.data} />
         </div>
       </div>
       <div className="text-black text-center mt-10 flex gap-6 justify-center items-start">
         <div>
           <h2 className="text-[22px] font-bold">
             {" "}
-            {profileData?.data?.connections?.following?.length}
+            {homepageData?.data?.connections?.following?.length}
           </h2>
           <h3 className="text-[20px]">Following</h3>
         </div>
         <div className="h-[60px] min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-black to-transparent"></div>
         <div>
           <h2 className="text-[22px] font-bold flex items-center text-center justify-center">
-            {profileData?.data?.connections?.followers?.length}
+            {homepageData?.data?.connections?.followers?.length}
             {/* <span className='text-xs bg-[#7ae38b3c] p-1 text-[#00E725] rounded-full ml-1'>
               +24%
             </span> */}
@@ -131,7 +131,7 @@ const Wallet = async ({ profileData, data, microsites, token }: any) => {
         <HomepageWallet
           totalBalance={totalBalance}
           data={data}
-          microsites={microsites}
+          microsites={homepageData?.data?.microsites}
           token={token}
           flowData={flowData}
           nftData={nftData}

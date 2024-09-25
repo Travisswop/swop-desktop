@@ -4,9 +4,6 @@ import React from "react";
 const ProfileLoading = () => {
   return (
     <Card className="w-full h-full p-6 shadow-none">
-      {/* <Skeleton className="rounded-lg">
-        <div className="h-24 rounded-lg bg-default-300"></div>
-      </Skeleton> */}
       <h6 className="font-semibold mb-4 text-lg">Parent Profile</h6>
       <div className="flex flex-col gap-6">
         <Skeleton className="w-full rounded-lg">
