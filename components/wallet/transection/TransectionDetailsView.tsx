@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { HiOutlineWallet } from 'react-icons/hi2';
 
 const TransectionDetailsView = ({
@@ -8,6 +8,7 @@ const TransectionDetailsView = ({
   selectTransection,
   transactionData,
   walletObj,
+  flowData,
 }: any) => {
   const convertTimestampToDateTime = (timestamp: any) => {
     const date = new Date(timestamp * 1000);
@@ -27,7 +28,39 @@ const TransectionDetailsView = ({
     return `${formattedTime} ${formattedDate}`;
   };
 
-  console.log('check data vlaue 30', transactionData);
+  const weiToEther = (wei: number) => wei / 1e18;
+  const weiToSolana = (wei: number) => wei / 1e9;
+
+  const transactionFeeMap: Record<string, (wei: number) => number> = {
+    ethereum: weiToEther,
+    polygon: weiToEther,
+    base: weiToEther,
+    solana: weiToSolana,
+  };
+
+  const transactionFee = transactionData?.result
+    ?.filter((el: any, no: number) => no === selectTransection)
+    ?.map((item: any) => {
+      const gasFee = item?.gasPrice * item?.gasUsed;
+
+      const transactionFee = transactionFeeMap[item?.network](gasFee);
+      let transactionFeeInUsd: number | undefined;
+
+      if (item?.network === 'ethereum' && flowData?.tokenPrices?.[0]?.ETH) {
+        transactionFeeInUsd = transactionFee * flowData.tokenPrices[0].ETH;
+      } else if (
+        item?.network === 'polygon' &&
+        flowData?.tokenPrices?.[3]?.MATIC
+      ) {
+        transactionFeeInUsd = transactionFee * flowData.tokenPrices[3].MATIC;
+      } else if (
+        item?.network === 'solana' &&
+        flowData?.tokenPrices?.[12]?.SOL
+      ) {
+        transactionFeeInUsd = transactionFee * flowData.tokenPrices[12].SOL;
+      }
+      return { usdFee: transactionFeeInUsd ?? 0, btcFee: transactionFee };
+    });
 
   return (
     <div className='mt-8 mx-0'>
@@ -113,9 +146,13 @@ const TransectionDetailsView = ({
                 Network Fee
               </h2>
               <div>
-                <h2 className='mt-6 text-lg font-semibold text-right'>$1.87</h2>
+                <h2 className='mt-6 text-lg font-semibold text-right'>
+                  ${transactionFee[0]?.usdFee?.toFixed(8)}
+                </h2>
                 <div className='flex items-center gap-x-2 mt-3'>
-                  <h2 className='text-sm text-center '>0.0017835</h2>
+                  <h2 className='text-sm text-center '>
+                    {transactionFee[0]?.btcFee?.toFixed(8)}
+                  </h2>
                   <h2 className='text-sm text-center '>{item?.tokenSymbol}</h2>
                   <Image
                     src={

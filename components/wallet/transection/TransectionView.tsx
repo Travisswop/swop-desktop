@@ -3,10 +3,14 @@ import React, { useState } from 'react';
 import TransectionList from './TransectionList';
 import TransectionDetailsView from './TransectionDetailsView';
 
-const TransectionView = ({ microsites, transactionData, walletObj }: any) => {
+const TransectionView = ({
+  microsites,
+  transactionData,
+  walletObj,
+  flowData,
+}: any) => {
   const [selectTransection, setSelectTransection] = useState(0);
 
-  console.log('check value 99', transactionData);
 
   return (
     <div>
@@ -28,6 +32,7 @@ const TransectionView = ({ microsites, transactionData, walletObj }: any) => {
               transactionData={transactionData}
               walletObj={walletObj}
               microsites={microsites}
+              flowData={flowData}
             />
           </div>
         </div>

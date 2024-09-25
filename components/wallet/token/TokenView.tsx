@@ -11,6 +11,8 @@ const TokenView = ({ totalBalance, flowData }: any) => {
     ?.filter((el: any, no: number) => no === selectToken)
     ?.flatMap((item: any) => ({ ...item }));
 
+  console.log('Token Detials:', flowData[0] * 2647.8740988090344);
+
   return (
     <div>
       <div className='flex items-start gap-x-6'>

@@ -33,7 +33,7 @@ const RechartAreaChart = ({ flowData }: any) => {
           )}
         </p>
       </div>
-      <ResponsiveContainer width='100%' height={400}>
+      <ResponsiveContainer width='100%' height={380}>
         <AreaChart
           data={chartData}
           margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
@@ -46,11 +46,9 @@ const RechartAreaChart = ({ flowData }: any) => {
           </defs>
 
           <XAxis
-            dataKey='time' // Use custom time labels for the X-axis
-            tickFormatter={(value) => value} // Use custom labels directly
+            dataKey='time'
+            tickFormatter={(value) => value} 
           />
-          {/* <YAxis /> */}
-
           <Tooltip />
           <Area
             type='monotone'

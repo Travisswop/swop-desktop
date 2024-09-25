@@ -16,6 +16,7 @@ const WalletCheck = ({
 }: any) => {
   const { isConnected } = useAccount();
 
+
   return (
     <div
       className={`w-full relative ${!isConnected && 'overflow-hidden'}`}

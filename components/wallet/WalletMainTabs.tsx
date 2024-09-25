@@ -218,6 +218,7 @@ const WalletMainTabs = ({
             transactionData={transactionData}
             walletObj={walletObj}
             microsites={microsites}
+            flowData={flowData}
           />
         ) : (
           ''

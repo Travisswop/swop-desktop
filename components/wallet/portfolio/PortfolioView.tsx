@@ -1,12 +1,14 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardPieChart from '@/components/walletFeature/DashboardPieChart';
 import PortfolioSlider from './PortfolioSlider';
 import PortfolioTokenView from './PortfolioTokenView';
 import TokenCashFlow from '../token/TokenCashFlow';
 
 const PortfolioView = ({ flowData, walletList, totalBalance }: any) => {
+  const [selectToken, setSelectToken] = useState(0);
+
   return (
     <div>
       <div className='flex items-stretch gap-x-6 '>
@@ -27,7 +29,11 @@ const PortfolioView = ({ flowData, walletList, totalBalance }: any) => {
         </div>
       </div>
       <div className='mt-6'>
-        <TokenCashFlow flowData={flowData} />
+        <TokenCashFlow
+          flowData={flowData}
+          selectToken={selectToken}
+          setSelectToken={setSelectToken}
+        />
       </div>
     </div>
   );
