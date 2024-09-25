@@ -59,7 +59,7 @@ const WalletTab: React.FC<WalletTabProps> = () => {
   };
 
   return (
-    <div className=''>
+    <div className='overflow-x-auto custom-scrollbar'>
       {!walletQrCode && (
         <div className='flex items-center gap-x-1 w-[550px] overflow-x-auto pb-3 custom-scrollbar'>
           <div className='bg-[#EEEEEE] p-2 rounded-lg gap-x-2 flex items-center'>

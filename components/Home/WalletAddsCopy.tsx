@@ -63,14 +63,16 @@ const WalletAddsCopy = ({ microsites }: any) => {
     <div>
       <div className='flex items-center gap-4'>
         <div className='relative inline-block z-20'>
-          <Image
-            src={'/images/homepage/wallet/copy.png'}
-            alt={'Icon'}
-            width={500}
-            height={500}
-            className='mx-auto size-9 '
-            onClick={() => setIsOpen(!isOpen)}
-          />
+          <div className='size-9 '>
+            <Image
+              src={'/images/homepage/wallet/copy.png'}
+              alt={'Icon'}
+              width={500}
+              height={500}
+              className='mx-auto size-9 '
+              onClick={() => setIsOpen(!isOpen)}
+            />
+          </div>
 
           <AnimatePresence>
             {isOpen && (

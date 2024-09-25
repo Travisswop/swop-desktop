@@ -11,14 +11,16 @@ const WalletQrButton: React.FC = () => {
       onClick={() => setWalletQrCode(!walletQrCode)}
       aria-label='Toggle Wallet QR Code'
     >
-      <Image
-        src={'/images/homepage/wallet/qr.png'}
-        alt={'Wallet QR Code'}
-        width={500}
-        height={500}
-        className='mx-auto size-9'
-        priority
-      />
+      <div className='size-9'>
+        <Image
+          src={'/images/homepage/wallet/qr.png'}
+          alt={'Wallet QR Code'}
+          width={500}
+          height={500}
+          className='mx-auto size-9'
+          priority
+        />
+      </div>
     </button>
   );
 };
