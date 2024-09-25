@@ -15,7 +15,7 @@ const Wallet = async ({ data, token, homepageData }: any) => {
     (microsite: any) => microsite?.primary
   );
 
-  // console.log('get primary', getPrimaryMicrositeData);
+  // console.log("datahhaahhk", homepageData.data.microsites);
 
   const getImgSrc = () => {
     const imageSrc = isUrl(
