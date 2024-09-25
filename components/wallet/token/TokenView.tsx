@@ -11,14 +11,12 @@ const TokenView = ({ totalBalance, flowData }: any) => {
     ?.filter((el: any, no: number) => no === selectToken)
     ?.flatMap((item: any) => ({ ...item }));
 
-  console.log('Token Detials:', flowData[0] * 2647.8740988090344);
-
   return (
     <div>
       <div className='flex items-start gap-x-6'>
         <div className='w-[75%]'>
           <h2 className='text-2xl font-bold text-black'>
-            ${totalBalance.toFixed(4)}
+            ${totalBalance?.toFixed(4)}
           </h2>
           <div className='flex items-center gap-x-2 mt-3'>
             <p className='text-lg text-black'>

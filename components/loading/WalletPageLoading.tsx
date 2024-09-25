@@ -10,7 +10,7 @@ const WalletPageLoading = () => {
         ))}
       </div>
       <div className='flex items-start gap-x-6 mt-6'>
-        <div className='w-[75%] bg-white p-6'>
+        <div className='w-[75%]'>
           <Skeleton className='flex rounded-lg w-[200px] h-[45px] mb-2' />
           <Skeleton className='flex rounded-lg w-[300px] h-[45px] mb-2' />
           <Skeleton className='flex rounded-lg w-full h-[500px]' />
@@ -19,7 +19,7 @@ const WalletPageLoading = () => {
         <div className='w-[1%] flex items-start justify-center'>
           <hr className='w-px h-[1300px] bg-gray-300 border-0' />
         </div>
-        <div className='w-[34%] bg-white p-6'>
+        <div className='w-[34%]'>
           <Skeleton className='flex rounded-lg w-full h-[800px]' />
         </div>
       </div>
