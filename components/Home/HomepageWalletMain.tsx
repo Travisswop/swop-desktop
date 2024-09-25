@@ -1,11 +1,11 @@
-import React from "react";
-import Wallet from "./Wallet";
+import React from 'react';
+import Wallet from './Wallet';
 
 const HomepageWalletMain = async ({ homepageDataPromise, session }: any) => {
   const data = await homepageDataPromise;
   const getEnsData = async () => {
     const dataSet = data.data.microsites.find(
-      (microsite: any) => microsite.primary
+      (microsite: any) => microsite.primary,
     );
 
     // console.log("data set", dataSet);
@@ -15,7 +15,7 @@ const HomepageWalletMain = async ({ homepageDataPromise, session }: any) => {
         return dataSet.ensData;
       } else if (dataSet.ens) {
         const walletData = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${dataSet.ens}`,
         );
         const data = await walletData.json();
         // console.log('funct', data);
@@ -25,11 +25,11 @@ const HomepageWalletMain = async ({ homepageDataPromise, session }: any) => {
         return dataSet._id;
       }
     } else {
-      return "No Primary microsite found!";
+      return 'No Primary microsite found!';
     }
   };
   return (
-    <div>
+    <div className='w-full'>
       <Wallet
         data={await getEnsData()}
         token={session.accessToken}
