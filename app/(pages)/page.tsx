@@ -12,6 +12,10 @@ import NewsFeed from "@/components/Home/NewsFeed";
 import HomepageWebsiteAnalytics from "@/components/Home/HomepageWebsiteAnalytics";
 import HomepageWalletMain from "@/components/Home/HomepageWalletMain";
 import HomepageSetupMainAccount from "@/components/HomepageSetupMainAccount";
+import HomepageNewsFeedLoading from "@/components/loading/HomepageNewsFeedLoading";
+import HomepageSmartsiteLoading from "@/components/loading/HomepageSmartsiteLoading";
+import HomepageWebsiteAnalyticsLoading from "@/components/loading/HomePageWebsiteAnalytics";
+import HomepageRecentLeadsLoading from "@/components/loading/HomepageRecentLeadsLoading";
 
 export default async function HomePage() {
   const session: any = await isUserAuthenticate(); // check if user exists
@@ -31,7 +35,7 @@ export default async function HomePage() {
               <Dashboard />
             </div>
             <div className="bg-white py-5 px-6 flex items-center rounded-lg justify-center mt-4">
-              <Suspense fallback={<p>Loading newsfeed...</p>}>
+              <Suspense fallback={<HomepageNewsFeedLoading />}>
                 <NewsFeed
                   homepageDataPromise={homepageDataPromise}
                   session={session}
@@ -53,11 +57,11 @@ export default async function HomePage() {
           {/* Smartsite */}
           <div>
             <div className="bg-white rounded-lg overflow-hidden">
-              <Suspense fallback={<p>Loading homepage smartsite...</p>}>
+              <Suspense fallback={<HomepageSmartsiteLoading />}>
                 <HomepageSmartsite homepageDataPromise={homepageDataPromise} />
               </Suspense>
             </div>
-            <Suspense fallback={<p>Loading homepage smartsite...</p>}>
+            <Suspense fallback={<p>Loading QR Code...</p>}>
               <CreateQRCodeFromHome session={session} />
             </Suspense>
           </div>
@@ -67,7 +71,7 @@ export default async function HomePage() {
             <h3 className="text-lg text-gray-700 font-semibold mb-4">
               Website Analytics
             </h3>
-            <Suspense fallback={"loading web analytics..."}>
+            <Suspense fallback={<HomepageWebsiteAnalyticsLoading />}>
               <HomepageWebsiteAnalytics
                 homepageDataPromise={homepageDataPromise}
               />
@@ -76,12 +80,12 @@ export default async function HomePage() {
             <h3 className="text-lg text-gray-700 font-semibold mt-6 mb-4">
               Recent Leads
             </h3>
-            <Suspense fallback={"loading recent leads..."}>
+            <Suspense fallback={<HomepageRecentLeadsLoading />}>
               <HomepageRecentLeads homepageDataPromise={homepageDataPromise} />
             </Suspense>
           </div>
         </div>
-        <Suspense fallback={"loading setup accout..."}>
+        <Suspense fallback={null}>
           <HomepageSetupMainAccount homepageDataPromise={homepageDataPromise} />
         </Suspense>
       </main>
