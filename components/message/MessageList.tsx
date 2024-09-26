@@ -329,7 +329,7 @@ const MessageList = ({ userDetails }: any) => {
           ) : (
             <>
               {!conversation && peerData.length > 0 && (
-                <div className="main-container">
+                <div className="">
                   <h1 className="text-lg font-semibold mb-5">Messages</h1>
                   <div>
                     <div className="flex items-center mb-3">
@@ -508,7 +508,7 @@ const MessageList = ({ userDetails }: any) => {
               {isConnected && conversation && (
                 <div
                   style={{ height: "calc(100vh - 112px)" }}
-                  className="flex gap-7 items-start main-container"
+                  className="flex gap-7 items-start"
                 >
                   <div className="w-[62%] bg-white rounded-xl relative h-full">
                     {changeConversationLoading && (

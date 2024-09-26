@@ -2,7 +2,7 @@
 import React from "react";
 import SideBar from "./SideBar";
 import { Providers } from "@/app/providers";
-import { MotionSection } from "@/util/Motion";
+// import { MotionSection } from "@/util/Motion";
 // import { MotionSection, easeInOutProp } from "@/util/Motion";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 // import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
@@ -67,14 +67,14 @@ const LayoutComponent = ({ children }: any) => {
 
       {/* for sidebar  */}
       <section
-        className={`px-4 overflow-y-auto w-[30%] xl:w-[25%] 2xl:w-[16%]`}
+        className={`px-4 overflow-y-auto w-[22%] xl:w-[20%] 2xl:w-[16%]`}
       >
         <SideBar toggle={toggle} onToggle={handleToggle} />
       </section>
 
       {/* for children to right side  */}
       <section
-        className={`bg-gray-100 overflow-y-auto w-[70%] xl:w-[75%] 2xl:w-[84%]`}
+        className={`bg-gray-100 overflow-y-auto w-[78%] xl:w-[80%] 2xl:w-[84%]`}
       >
         {/* <TopBar /> */}
         <Providers>{children}</Providers>

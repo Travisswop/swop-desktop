@@ -4,7 +4,7 @@ const MessagePage = async () => {
   const userDetails: any = await isUserAuthenticate();
 
   return (
-    <div className="overflow-y-hidden">
+    <div className="overflow-y-hidden main-container">
       <MessageList userDetails={userDetails} />
     </div>
   );

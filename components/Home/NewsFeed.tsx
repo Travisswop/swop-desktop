@@ -40,7 +40,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
       console.log("feedsss", feeds);
 
       return (
-        <div className="w-full h-[800px] overflow-y-auto pr-1">
+        <div className="w-full h-[800px] overflow-auto pr-1">
           {/* {[1]?.map((el: any, index: number) => (
         <div key={index} className="mb-5">
           <div className="w-full flex item justify-between">
@@ -130,6 +130,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
             <div className="flex flex-col gap-5">
               {feeds.feedData.map((feed: any, index: string) => (
                 <div key={index}>
+                  {/* connection feed  */}
                   {feed?.name ? (
                     <div className="pb-5 border-b w-full">
                       <div className="w-full flex">
@@ -209,6 +210,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
       </div> */}
                     </div>
                   ) : feed?.from ? (
+                    // transaction feed
                     <div className="pb-5 border-b w-full">
                       <div className="w-full flex">
                         <div className="flex items-start gap-4 w-full">
@@ -232,7 +234,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
                             )}
                           </div>
                           <div className="flex flex-col gap-1 w-full">
-                            <div className="flex items-center gap-10 justify-between w-full">
+                            <div className="flex items-center gap-6 2xl:gap-10 justify-between w-full">
                               <div className="flex flex-1 items-center gap-4">
                                 <h2 className="font-semibold text-black text-lg">
                                   {data.data.name}
@@ -240,14 +242,11 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
                                 <h2 className="font-normal text-[#8D8D8D]">
                                   created a new transaction
                                 </h2>
-                                <h2 className="font-medium text-black text-base flex items-center">
-                                  {/* <LuDot className="size-6" /> */}
-                                  <span>
-                                    {formatTimestampWithTimeAndDate(
-                                      feed.timestamp
-                                    )}
-                                  </span>
-                                </h2>
+                                <p className="font-medium text-black text-base flex items-center">
+                                  {formatTimestampWithTimeAndDate(
+                                    feed.timestamp
+                                  )}
+                                </p>
                               </div>
                               <div>
                                 <BsThreeDots className="size-8 text-[#8D8D8D] hover:text-black " />
@@ -291,6 +290,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
           </div> */}
                     </div>
                   ) : (
+                    // smartsite create feed
                     <div className="pb-5 border-b w-full">
                       <div className="w-full flex">
                         <div className="flex items-start gap-4 w-full">

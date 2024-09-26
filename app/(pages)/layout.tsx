@@ -46,10 +46,12 @@ export default async function PageLayout({
               <AppWalletProvider>
                 <LayoutComponent>
                   {/* <XMTPProvider> */}
-                  <div className="flex flex-col min-h-screen">
+                  <main className="flex flex-col">
                     <TopBar />
-                    {children}
-                  </div>
+                    <section style={{ height: "calc(100vh - 108px)" }}>
+                      {children}
+                    </section>
+                  </main>
                   {/* </XMTPProvider> */}
                 </LayoutComponent>
               </AppWalletProvider>
