@@ -3,17 +3,19 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Progress } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
-const DeployingSmartSiteLoading = () => {
+const DeployingSmartSitePage = () => {
   const [value, setValue] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setValue((v) => (v >= 100 ? 0 : v + 10));
     }, 500);
-
+    router.push("/");
     return () => clearInterval(interval);
-  }, []);
+  }, [router]);
 
   return (
     <div className="h-screen m-8 overflow-hidden bg-white">
@@ -37,7 +39,7 @@ const DeployingSmartSiteLoading = () => {
           showValueLabel={false}
           className="max-w-[180px] mt-8"
         />
-        <h2 className="font-medium text-[22px] text-center mt-4">
+        <h2 className="font-medium text-xl text-center mt-2">
           Deploying SmartSite...
         </h2>
       </div>
@@ -45,4 +47,4 @@ const DeployingSmartSiteLoading = () => {
   );
 };
 
-export default DeployingSmartSiteLoading;
+export default DeployingSmartSitePage;

@@ -390,7 +390,7 @@ const SmartsideOpeningInfo = ({
                 </div>
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center">
               <button
                 type="submit"
                 className="mt-8 bg-black text-white rounded py-2 w-32"

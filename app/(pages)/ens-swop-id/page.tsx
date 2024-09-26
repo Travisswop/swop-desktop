@@ -7,7 +7,10 @@ const EnsSwopId = async () => {
   const session: any = await isUserAuthenticate();
 
   return (
-    <div className="flex-1 flex items-center justify-center">
+    <div
+      style={{ height: "calc(100vh - 108px)" }}
+      className="flex-1 flex items-center justify-center"
+    >
       <ClaimEnsUserName token={session.accessToken} />
       <Suspense fallback={<div>Loading...</div>}>
         <ClaimUserNameModal />

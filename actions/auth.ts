@@ -37,7 +37,7 @@ export async function checkIsUserExist(email: string) {
     };
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/checkUser`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/checkUser`,
       {
         method: "POST",
         headers: {
@@ -46,6 +46,8 @@ export async function checkIsUserExist(email: string) {
         body: JSON.stringify(emailData),
       }
     );
+    console.log("response", response);
+
     const data = await response.json();
     return data;
   } catch (error) {

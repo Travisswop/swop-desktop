@@ -333,7 +333,7 @@ const ClaimEnsUserName = ({ token }: any) => {
               </p>
             </Checkbox>
             {isFinalRecoverySelected ? (
-              <Link href={"/"}>
+              <Link href={"/deploying-smartsite"}>
                 <DynamicPrimaryBtn className="w-52">Next</DynamicPrimaryBtn>
               </Link>
             ) : (
