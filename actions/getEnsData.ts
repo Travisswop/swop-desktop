@@ -1,16 +1,14 @@
 "use server";
-export async function getNewsFeed(payload: any, token: string) {
+export async function getEnsDataUsingEns(ens: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/feed`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v4/wallet/getEnsAddress/${ens}`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
       }
     );
     const data = await response.json();
