@@ -233,7 +233,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
                               />
                             )}
                           </div>
-                          <div className="flex flex-col gap-1 w-full">
+                          <div className="flex flex-col w-full">
                             <div className="flex items-center gap-6 2xl:gap-10 justify-between w-full">
                               <div className="flex flex-1 items-center gap-4">
                                 <h2 className="font-semibold text-black text-lg">
@@ -313,7 +313,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
                               />
                             )}
                           </div>
-                          <div className="flex flex-col gap-1 w-full">
+                          <div className="flex flex-col w-full">
                             <div className="flex items-center gap-10 justify-between w-full">
                               <div className="flex flex-1 items-center gap-4">
                                 <h2 className="font-semibold text-black text-lg">
