@@ -23,7 +23,7 @@ import { Navigation, Grid } from "swiper/modules";
 import Link from "next/link";
 import AnimateButton from "../Button/AnimateButton";
 
-const RecentLeads = ({ subscribers }: any) => {
+const RecentLeads = ({ subscribers, sessionUserName }: any) => {
   // const downloadCSV = (subscriberId: any) => {
   //   // Define the fields you want in the CSV
   //   const fields = ['name', 'jobTitle', 'email', 'mobileNo'];
@@ -73,6 +73,8 @@ const RecentLeads = ({ subscribers }: any) => {
     document.body.removeChild(link);
   };
 
+  // console.log("subscrivers", subscribers);
+
   return (
     <div className="">
       <Swiper
@@ -103,9 +105,9 @@ const RecentLeads = ({ subscribers }: any) => {
           <SwiperSlide key={subscriber._id}>
             <div className="px-10 bg-white">
               <div className="border border-gray-300 rounded-lg">
-                <div className="border-b border-gray-300 flex items-center justify-between py-4">
+                <div className="border-b border-gray-300 flex items-center justify-between py-3">
                   <h3 className="text-lg font-bold ml-4 text-gray-700">
-                    Travis Main
+                    {sessionUserName}
                   </h3>
                 </div>
                 <div className="mx-4 my-4 flex items-center justify-between">
@@ -127,7 +129,7 @@ const RecentLeads = ({ subscribers }: any) => {
                   {/* <button className="flex items-center gap-2 px-6 py-2 border border-gray-400 rounded-xl font-semibold hover:bg-gray-700 hover:text-white text-gray-600">
                     <LuPhoneCall /> Contact Lead
                   </button> */}
-                  <div className="flex items-center gap-x-1">
+                  <div className="flex flex-wrap items-center gap-1 justify-center">
                     {/* <Link href={`tel:${subscriber.mobileNo}`}>
                       <AnimateButton
                         width='w-full'

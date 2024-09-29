@@ -67,22 +67,29 @@ export default async function HomePage() {
           </div>
 
           {/* Website Analytics */}
-          <div className="p-6 bg-white rounded-lg">
-            <h3 className="text-lg text-gray-700 font-semibold mb-4">
-              Website Analytics
-            </h3>
-            <Suspense fallback={<HomepageWebsiteAnalyticsLoading />}>
-              <HomepageWebsiteAnalytics
-                homepageDataPromise={homepageDataPromise}
-              />
-            </Suspense>
+          <div className=" bg-white rounded-lg">
+            <div className="p-6">
+              <h3 className="text-lg text-gray-700 font-semibold mb-4">
+                Website Analytics
+              </h3>
+              <Suspense fallback={<HomepageWebsiteAnalyticsLoading />}>
+                <HomepageWebsiteAnalytics
+                  homepageDataPromise={homepageDataPromise}
+                />
+              </Suspense>
+            </div>
 
-            <h3 className="text-lg text-gray-700 font-semibold mt-6 mb-4">
-              Recent Leads
-            </h3>
-            <Suspense fallback={<HomepageRecentLeadsLoading />}>
-              <HomepageRecentLeads homepageDataPromise={homepageDataPromise} />
-            </Suspense>
+            <div className="pb-6">
+              <h3 className="text-lg text-gray-700 font-semibold mb-4 pl-6">
+                Recent Leads
+              </h3>
+              <Suspense fallback={<HomepageRecentLeadsLoading />}>
+                <HomepageRecentLeads
+                  homepageDataPromise={homepageDataPromise}
+                  sessionUserName={session.name}
+                />
+              </Suspense>
+            </div>
           </div>
         </div>
         <Suspense fallback={null}>
