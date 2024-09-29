@@ -6,7 +6,7 @@ const HomepageNewsFeedLoading = () => {
     <Card className="w-full h-full py-6 px-2 shadow-none">
       <div className="flex flex-col items-center gap-6">
         <div className="flex items-start gap-5 w-full h-full pb-6 border-b">
-          <Skeleton className="h-20 w-20 rounded-full flex justify-center">
+          <Skeleton className="h-16 w-16 rounded-full flex justify-center">
             <div className="rounded-full bg-gray-100"></div>
           </Skeleton>
           <div className="flex flex-col gap-2 flex-1">
@@ -20,7 +20,7 @@ const HomepageNewsFeedLoading = () => {
           <BsThreeDots className="text-gray-300" size={36} />
         </div>
         <div className="flex items-start gap-5 w-full h-full pb-6 border-b">
-          <Skeleton className="h-20 w-20 rounded-full flex justify-center">
+          <Skeleton className="h-16 w-16 rounded-full flex justify-center">
             <div className="rounded-full bg-gray-100"></div>
           </Skeleton>
           <div className="flex flex-col gap-2 flex-1">
@@ -34,7 +34,7 @@ const HomepageNewsFeedLoading = () => {
           <BsThreeDots className="text-gray-300" size={36} />
         </div>
         <div className="flex items-start gap-5 w-full h-full pb-6 border-b">
-          <Skeleton className="h-20 w-20 rounded-full flex justify-center">
+          <Skeleton className="h-16 w-16 rounded-full flex justify-center">
             <div className="rounded-full bg-gray-100"></div>
           </Skeleton>
           <div className="flex flex-col gap-2 flex-1">
@@ -48,7 +48,7 @@ const HomepageNewsFeedLoading = () => {
           <BsThreeDots className="text-gray-300" size={36} />
         </div>
         <div className="flex items-start gap-5 w-full h-full pb-6 border-b">
-          <Skeleton className="h-20 w-20 rounded-full flex justify-center">
+          <Skeleton className="h-16 w-16 rounded-full flex justify-center">
             <div className="rounded-full bg-gray-100"></div>
           </Skeleton>
           <div className="flex flex-col gap-2 flex-1">
@@ -62,7 +62,7 @@ const HomepageNewsFeedLoading = () => {
           <BsThreeDots className="text-gray-300" size={36} />
         </div>
         <div className="flex items-start gap-5 w-full h-full pb-6 border-b">
-          <Skeleton className="h-20 w-20 rounded-full flex justify-center">
+          <Skeleton className="h-16 w-16 rounded-full flex justify-center">
             <div className="rounded-full bg-gray-100"></div>
           </Skeleton>
           <div className="flex flex-col gap-2 flex-1">
