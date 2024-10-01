@@ -1,7 +1,7 @@
 "use client";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 // import EditMicrositeBtn from "@/components/Button/EditMicrositeBtn";
-import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
+// import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
 
   const router = useRouter();
 
-  console.log("qr code data", qrCodeData);
+  // console.log("qr code data", qrCodeData);
 
   useEffect(() => {
     setQrPattern(qrCodeData.qrCodeSvgName);
@@ -180,11 +180,10 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
     try {
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);
-        console.log("image url", imageUrl);
+        // console.log("image url", imageUrl);
 
         qrData.image = imageUrl;
       }
-      // qrData.image = imageUrl;
       qrData.backgroundOptions = { color: bgColor };
       qrData.dotsOptions = { ...qrData.dotsOptions, color: color };
       qrData.data = qrCodeData.qrCodeUrl;
@@ -207,7 +206,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
         currentUrl: qrCodeData.qrCodeUrl,
       };
 
-      console.log("payload ff", payload);
+      // console.log("payload ff", payload);
 
       // console.log("hit 3");
 
@@ -571,7 +570,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
           </DynamicPrimaryBtn> */}
         </div>
       </div>
-      <QRCodeShareModal
+      {/* <QRCodeShareModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         // bannerImgArr={bannerImgArr}
@@ -579,7 +578,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
         // onSelectImage={handleSelectImage}
         setIsModalOpen={setIsModalOpen}
         // handleFileChange={handleFileChange}
-      />
+      /> */}
     </main>
   );
 };

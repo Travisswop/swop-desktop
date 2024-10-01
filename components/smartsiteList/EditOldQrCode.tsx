@@ -31,6 +31,8 @@ const EditOldQRCode = ({ profileUrl, micrositeId, token }: any) => {
   const [fileError, setFileError] = useState<string>("");
   const [qrPattern, setQrPattern] = useState("style1");
 
+  console.log("imageFilesss", imageFile);
+
   const router = useRouter();
 
   const defaultColorArray = [

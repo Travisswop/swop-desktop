@@ -213,7 +213,7 @@ const Microsite = ({ microsites }: any) => {
                       src={microsite.qrcodeUrl}
                       width={150}
                       height={150}
-                      className="border-2 p-2 border-gray-500 rounded-2xl"
+                      className="border-2 border-gray-500 rounded-2xl"
                     />
                     <div className="flex items-center gap-3">
                       <Link href={`/smartsites/qr-code/${microsite._id}`}>

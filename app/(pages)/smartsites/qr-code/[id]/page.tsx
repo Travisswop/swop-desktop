@@ -1,4 +1,3 @@
-import ForceSignOut from "@/components/ForceSignOut";
 import EditOldQRCode from "@/components/smartsiteList/EditOldQrCode";
 import EditQRCode from "@/components/smartsiteList/EditQrCode";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
@@ -23,7 +22,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
   //   return <ForceSignOut />;
   // }
 
-  console.log("data gg", data);
+  // console.log("data gg", data);
 
   if (data && data.state === "failed") {
     // has server action also called fetchMicrositeInfo
