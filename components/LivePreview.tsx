@@ -43,7 +43,7 @@ const LivePreview = ({ data }: { data?: any }) => {
   // console.log("audio", data.info.audio);
 
   // console.log("formdata", formData);
-  // console.log("data", data);
+  console.log("data from live preview", data);
 
   useEffect(() => {
     if (data) {
