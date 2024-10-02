@@ -30,11 +30,11 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
 
   const [selectedIconType, setSelectedIconType] = useState("Social Media");
   const [selectedIcon, setSelectedIcon] = useState({
-    name: "X",
-    icon: icon.appIconTwitter,
-    placeHolder: "https://x.com/username",
-    inputText: "X Username",
-    url: "www.x.com",
+    name: "Amazon Music",
+    icon: icon.appIconAmazonMusic,
+    placeHolder: "https://www.music.amazon.com/abc",
+    inputText: "Amazon Music Link",
+    url: "https://music.amazon.com",
   });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   // const [selectedIconByLivePreview, setSelectedIconByLivePreview] =
@@ -96,63 +96,15 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const handleSelectIconType = (category: string) => {
     setSelectedIconType(category);
     // console.log("cateogy", category);
-    if (category === "Social Media") {
+    if (category === "Link") {
       setSelectedIcon({
-        name: "X",
-        icon: icon.appIconTwitter,
-        placeHolder: "https://x.com/username",
-        inputText: "X Username",
-        url: "www.x.com",
+        name: "Amazon Music",
+        icon: icon.appIconAmazonMusic,
+        placeHolder: "https://www.music.amazon.com/abc",
+        inputText: "Amazon Music Link",
+        url: "https://music.amazon.com",
       });
-    } else if (category === "Dapps") {
-      setSelectedIcon({
-        name: "Etherscan",
-        icon: icon.appIconEtherscan,
-        placeHolder: "https://etherscan.com/abc",
-        inputText: "Etherscan Link",
-        url: "etherscan.com",
-      });
-    } else if (category === "App Links") {
-      setSelectedIcon({
-        name: "Calendly",
-        icon: icon.appIconCalendly,
-        placeHolder: "https://www.calendly.com/xyz",
-        inputText: "Calendly Link",
-        url: "https://calendly.com",
-      });
-    } else if (category === "Music/Video Links") {
-      setSelectedIcon({
-        name: "YouTube",
-        icon: icon.appIconYoutube,
-        placeHolder: "https:www.youtube.com/abc",
-        inputText: "YouTube Link",
-        url: "https://youtube.com",
-      });
-    } else if (category === "Chat Links") {
-      setSelectedIcon({
-        name: "Whatsapp",
-        icon: icon.appIconWhatsApp,
-        placeHolder: "+123456789",
-        inputText: "Whatsapp Number",
-        url: "www.whatsapp.com",
-      });
-    } else if (category === "General Links") {
-      setSelectedIcon({
-        name: "Calendar",
-        icon: icon.appIconCalendar,
-        placeHolder: "https://www.calendarapp.com/xyz",
-        inputText: "Calendar Event",
-        url: "www.calendarapp.com",
-      });
-    } else if (category === "Copy Address") {
-      setSelectedIcon({
-        name: "Solana",
-        icon: icon.appIconSolana,
-        placeHolder: "Your Solana Address",
-        inputText: "Solana Address",
-        url: "www.solana.com",
-      });
-    } else if (category === "Command/Action") {
+    } else if (category === "Call To Action") {
       setSelectedIcon({
         name: "Email",
         icon: icon.appIconEmail,
@@ -268,72 +220,26 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
                   <h3 className="font-semibold text-gray-700">
                     Small Icon Type
                   </h3>
-                  {!selectedIconType && (
-                    <Image
-                      alt="app-icon"
-                      src={appIconImg}
-                      className="w-8 h-auto"
-                    />
-                  )}
-
-                  {selectedIconType === "Social Media" && (
+                  {selectedIconType === "Link" && (
                     <Image
                       alt="app-icon"
                       src={icon.SocialIconType}
                       className="w-5 h-auto"
                     />
                   )}
-                  {selectedIconType === "Dapps" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.DappType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "App Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.AppLinkType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Music/Video Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.MusicVideo}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Chat Links" && (
+
+                  {selectedIconType === "Call To Action" && (
                     <Image
                       alt="app-icon"
                       src={icon.ChatlinkType}
                       className="w-5 h-auto"
                     />
                   )}
-                  {selectedIconType === "General Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.generalLinkType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Copy Address" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.copyAddressType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Command/Action" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.CommandType}
-                      className="w-5 h-auto"
-                    />
-                  )}
 
-                  <Dropdown className="ml-44 w-max">
+                  <Dropdown
+                    className="w-max rounded-lg"
+                    placement="bottom-start"
+                  >
                     <DropdownTrigger>
                       <button>
                         <AiOutlineDownCircle size={20} color="gray" />
@@ -420,10 +326,25 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
                         className="w-5 h-auto"
                       />
                     )}
+                    {selectedIconType === "Link" && (
+                      <Image
+                        alt="app-icon"
+                        src={icon.SocialIconType}
+                        className="w-5 h-auto"
+                      />
+                    )}
+
+                    {selectedIconType === "Call To Action" && (
+                      <Image
+                        alt="app-icon"
+                        src={icon.ChatlinkType}
+                        className="w-5 h-auto"
+                      />
+                    )}
                   </>
                 )}
 
-                <Dropdown className="ml-44 w-max">
+                <Dropdown className="w-max rounded-lg" placement="bottom-start">
                   <DropdownTrigger>
                     <div
                       className={`flex items-center ${
@@ -450,7 +371,7 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
                     <DropdownMenu
                       disabledKeys={["title"]}
                       aria-label="Static Actions"
-                      className="p-2"
+                      className="p-2 overflow-y-auto custom-scrollbar max-h-[30rem]"
                     >
                       <DropdownItem
                         key={"title"}

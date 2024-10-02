@@ -323,7 +323,10 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
                     />
                   )}
 
-                  <Dropdown className="ml-44 w-max">
+                  <Dropdown
+                    className="w-max rounded-lg"
+                    placement="bottom-start"
+                  >
                     <DropdownTrigger>
                       <button>
                         <AiOutlineDownCircle size={20} color="gray" />
@@ -389,7 +392,7 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
                   />
                 )}
 
-                <Dropdown className="ml-44 w-max">
+                <Dropdown className="rounded-lg w-max" placement="bottom-start">
                   <DropdownTrigger>
                     <div
                       className={`flex items-center ${

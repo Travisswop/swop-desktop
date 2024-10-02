@@ -23,19 +23,19 @@ import { FaTimes } from "react-icons/fa";
 const AddAppIcon = ({ handleRemoveIcon }: any) => {
   const state: any = useSmartSiteApiDataStore((state) => state); //get small icon store value
   const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
-  const [selectedIconType, setSelectedIconType] = useState("Social Media");
+  const [selectedIconType, setSelectedIconType] = useState("Link");
   const [selectedIcon, setSelectedIcon] = useState({
-    name: "X",
-    icon: icon.appIconTwitter,
-    placeHolder: "https://x.com/username",
-    inputText: "X Username",
-    url: "www.x.com",
+    name: "Amazon Music",
+    icon: icon.appIconAmazonMusic,
+    placeHolder: "https://www.music.amazon.com/abc",
+    inputText: "Amazon Music Link",
+    url: "https://music.amazon.com",
   });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // console.log("selected icon name", selectedIcon);
-  // console.log("selected icon data", selectedIconData);
-  // console.log("selected icon", selectedIcon);
+  console.log("selected icon type", selectedIconType);
+  console.log("selected icon data", selectedIconData);
+  console.log("selected icon", selectedIcon);
 
   const iconData: any = newIcons[1];
   // console.log("iconData", iconData);
@@ -51,63 +51,15 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
 
   const handleSelectIconType = (category: string) => {
     setSelectedIconType(category);
-    if (category === "Social Media") {
+    if (category === "Link") {
       setSelectedIcon({
-        name: "X",
-        icon: icon.appIconTwitter,
-        placeHolder: "https://x.com/username",
-        inputText: "X Username",
-        url: "www.x.com",
+        name: "Amazon Music",
+        icon: icon.appIconAmazonMusic,
+        placeHolder: "https://www.music.amazon.com/abc",
+        inputText: "Amazon Music Link",
+        url: "https://music.amazon.com",
       });
-    } else if (category === "Dapps") {
-      setSelectedIcon({
-        name: "Etherscan",
-        icon: icon.appIconEtherscan,
-        placeHolder: "https://etherscan.com/abc",
-        inputText: "Etherscan Link",
-        url: "etherscan.com",
-      });
-    } else if (category === "App Links") {
-      setSelectedIcon({
-        name: "Calendly",
-        icon: icon.appIconCalendly,
-        placeHolder: "https://www.calendly.com/xyz",
-        inputText: "Calendly Link",
-        url: "https://calendly.com",
-      });
-    } else if (category === "Music/Video Links") {
-      setSelectedIcon({
-        name: "YouTube",
-        icon: icon.appIconYoutube,
-        placeHolder: "https:www.youtube.com/abc",
-        inputText: "YouTube Link",
-        url: "https://youtube.com",
-      });
-    } else if (category === "Chat Links") {
-      setSelectedIcon({
-        name: "Whatsapp",
-        icon: icon.appIconWhatsApp,
-        placeHolder: "+123456789",
-        inputText: "Whatsapp Number",
-        url: "www.whatsapp.com",
-      });
-    } else if (category === "General Links") {
-      setSelectedIcon({
-        name: "Calendar",
-        icon: icon.appIconCalendar,
-        placeHolder: "https://www.calendarapp.com/xyz",
-        inputText: "Calendar Event",
-        url: "www.calendarapp.com",
-      });
-    } else if (category === "Copy Address") {
-      setSelectedIcon({
-        name: "Solana",
-        icon: icon.appIconSolana,
-        placeHolder: "Your Solana Address",
-        inputText: "Solana Address",
-        url: "www.solana.com",
-      });
-    } else if (category === "Command/Action") {
+    } else if (category === "Call To Action") {
       setSelectedIcon({
         name: "Email",
         icon: icon.appIconEmail,
@@ -116,6 +68,55 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
         url: "www.email.com",
       });
     }
+    // else if (category === "App Links") {
+    //   setSelectedIcon({
+    //     name: "Calendly",
+    //     icon: icon.appIconCalendly,
+    //     placeHolder: "https://www.calendly.com/xyz",
+    //     inputText: "Calendly Link",
+    //     url: "https://calendly.com",
+    //   });
+    // } else if (category === "Music/Video Links") {
+    //   setSelectedIcon({
+    //     name: "YouTube",
+    //     icon: icon.appIconYoutube,
+    //     placeHolder: "https:www.youtube.com/abc",
+    //     inputText: "YouTube Link",
+    //     url: "https://youtube.com",
+    //   });
+    // } else if (category === "Chat Links") {
+    //   setSelectedIcon({
+    //     name: "Whatsapp",
+    //     icon: icon.appIconWhatsApp,
+    //     placeHolder: "+123456789",
+    //     inputText: "Whatsapp Number",
+    //     url: "www.whatsapp.com",
+    //   });
+    // } else if (category === "General Links") {
+    //   setSelectedIcon({
+    //     name: "Calendar",
+    //     icon: icon.appIconCalendar,
+    //     placeHolder: "https://www.calendarapp.com/xyz",
+    //     inputText: "Calendar Event",
+    //     url: "www.calendarapp.com",
+    //   });
+    // } else if (category === "Copy Address") {
+    //   setSelectedIcon({
+    //     name: "Solana",
+    //     icon: icon.appIconSolana,
+    //     placeHolder: "Your Solana Address",
+    //     inputText: "Solana Address",
+    //     url: "www.solana.com",
+    //   });
+    // } else if (category === "Command/Action") {
+    //   setSelectedIcon({
+    //     name: "Email",
+    //     icon: icon.appIconEmail,
+    //     placeHolder: "Type Your Email Address",
+    //     inputText: "Email Address",
+    //     url: "www.email.com",
+    //   });
+    // }
   };
 
   const handleAppIconFormSubmit = async (e: any) => {
@@ -157,14 +158,22 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
           {!selectedIconType && (
             <Image alt="app-icon" src={appIconImg} className="w-8 h-auto" />
           )}
-          {selectedIconType === "Social Media" && (
+          {selectedIconType === "Link" && (
             <Image
               alt="app-icon"
               src={icon.SocialIconType}
               className="w-5 h-auto"
             />
           )}
-          {selectedIconType === "Dapps" && (
+
+          {selectedIconType === "Call To Action" && (
+            <Image
+              alt="app-icon"
+              src={icon.ChatlinkType}
+              className="w-5 h-auto"
+            />
+          )}
+          {/* {selectedIconType === "Dapps" && (
             <Image alt="app-icon" src={icon.DappType} className="w-5 h-auto" />
           )}
           {selectedIconType === "App Links" && (
@@ -180,15 +189,9 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
               src={icon.MusicVideo}
               className="w-5 h-auto"
             />
-          )}
-          {selectedIconType === "Chat Links" && (
-            <Image
-              alt="app-icon"
-              src={icon.ChatlinkType}
-              className="w-5 h-auto"
-            />
-          )}
-          {selectedIconType === "General Links" && (
+          )} */}
+
+          {/* {selectedIconType === "General Links" && (
             <Image
               alt="app-icon"
               src={icon.generalLinkType}
@@ -208,9 +211,9 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
               src={icon.CommandType}
               className="w-5 h-auto"
             />
-          )}
+          )} */}
 
-          <Dropdown className="ml-44 w-max">
+          <Dropdown className="w-max rounded-lg" placement="bottom-start">
             <DropdownTrigger>
               <button>
                 <AiOutlineDownCircle size={20} color="gray" />
@@ -267,7 +270,7 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
           />
         )}
 
-        <Dropdown className="ml-44 w-max">
+        <Dropdown className="w-max rounded-lg" placement="bottom-start">
           <DropdownTrigger>
             <div
               className={`flex items-center ${
@@ -293,7 +296,7 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
             <DropdownMenu
               disabledKeys={["title"]}
               aria-label="Static Actions"
-              className="p-2"
+              className="p-2 overflow-y-auto custom-scrollbar max-h-[30rem]"
             >
               <DropdownItem
                 key={"title"}

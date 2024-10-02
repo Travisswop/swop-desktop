@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import swop from "@/public/images/live-preview/swop.svg";
-import { BiSolidEdit } from "react-icons/bi";
 import useSmartsiteFormStore from "@/zustandStore/EditSmartsiteInfo";
 import isUrl from "@/util/isUrl";
 import { tintStyle } from "@/util/IconTintStyle";
@@ -25,7 +24,7 @@ const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
   const { toggle } = useSideBarToggleStore();
 
-  // console.log("data form live", data);
+  console.log("data form live", data);
   const { formData, setFormData }: any = useSmartsiteFormStore();
 
   // console.log("form data from live preview", formData);
@@ -43,7 +42,7 @@ const LivePreview = ({ data }: { data?: any }) => {
   // console.log("audio", data.info.audio);
 
   // console.log("formdata", formData);
-  console.log("data from live preview", data);
+  // console.log("data from live preview", data);
 
   useEffect(() => {
     if (data) {
@@ -74,6 +73,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                   src={`/images/smartsite-banner/${formData.backgroundImg}.png`}
                   width={800}
                   height={400}
+                  quality={100}
                   className="rounded-xl w-full h-auto"
                 />
               </div>
@@ -96,8 +96,9 @@ const LivePreview = ({ data }: { data?: any }) => {
                     <Image
                       alt="user image"
                       src={`/images/user_avator/${formData.profileImg}.png`}
-                      width={140}
-                      height={140}
+                      width={220}
+                      height={220}
+                      quality={100}
                       className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
                     />
                   )}
@@ -215,7 +216,12 @@ const LivePreview = ({ data }: { data?: any }) => {
             {data.info.socialLarge.length > 0 && (
               <div className="flex gap-x-5 gap-y-3 justify-center items-center flex-wrap px-10">
                 {data.info.socialLarge.map((data: any, index: number) => (
-                  <div className="flex flex-col items-center gap-1" key={index}>
+                  <div
+                    className={`flex flex-col items-center gap-1 ${
+                      isUrl(data.iconName) && "cursor-not-allowed"
+                    }`}
+                    key={index}
+                  >
                     <button
                       onClick={() =>
                         handleTriggerUpdate({
@@ -223,14 +229,30 @@ const LivePreview = ({ data }: { data?: any }) => {
                           categoryForTrigger: "socialLarge",
                         })
                       }
+                      disabled={isUrl(data.iconName)}
+                      className={`${
+                        isUrl(data.iconName) && "cursor-not-allowed"
+                      }`}
                     >
-                      <Image
-                        src={getAppIconImage(data.name, data.group) as any}
-                        alt="icon"
-                        // style={tintStyle}
-                        className="w-[4.2rem]"
-                        quality={100}
-                      />
+                      {isUrl(data.iconName) ? (
+                        <Image
+                          src={data.iconName}
+                          alt="icon"
+                          // style={tintStyle}
+                          className="w-[4.2rem] rounded-lg"
+                          quality={100}
+                          width={200}
+                          height={200}
+                        />
+                      ) : (
+                        <Image
+                          src={getAppIconImage(data.name, data.group) as any}
+                          alt="icon"
+                          // style={tintStyle}
+                          className="w-[4.2rem]"
+                          quality={100}
+                        />
+                      )}
                     </button>
                     <p className="text-sm">{data.name}</p>
                   </div>
@@ -423,13 +445,26 @@ const LivePreview = ({ data }: { data?: any }) => {
                       }
                       className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                     >
-                      <Image
-                        src={location}
-                        // src={getAppIconImage(data.iconName, data.group) as any}
-                        alt="icon"
-                        quality={100}
-                        className="w-9 h-9"
-                      />
+                      {isUrl(data.iconName) ? (
+                        <Image
+                          src={data.iconName}
+                          // src={getAppIconImage(data.iconName, data.group) as any}
+                          alt="icon"
+                          quality={100}
+                          className="w-9 h-9 rounded-lg"
+                          width={100}
+                          height={100}
+                        />
+                      ) : (
+                        <Image
+                          src={location}
+                          // src={getAppIconImage(data.iconName, data.group) as any}
+                          alt="icon"
+                          quality={100}
+                          className="w-9 h-9"
+                        />
+                      )}
+
                       <div className="flex flex-col items-start gap-0.5 text-start">
                         <p className="font-semibold text-gray-700">
                           {data.buttonName ? data.buttonName : data.iconName}
