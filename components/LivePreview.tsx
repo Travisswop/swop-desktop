@@ -442,7 +442,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                           data,
                           categoryForTrigger: "infoBar",
                         })
-                      }
+                      } //handle trigger
                       className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
                     >
                       {isUrl(data.iconName) ? (
