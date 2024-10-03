@@ -72,7 +72,7 @@ const IconMaker = ({ handleAddIcon, handleRemoveIcon, toggleIcon }: any) => {
       {
         breakpoint: 1350,
         settings: {
-          slidesToShow: 6,
+          slidesToShow: 5,
           slidesToScroll: 4,
         },
       },

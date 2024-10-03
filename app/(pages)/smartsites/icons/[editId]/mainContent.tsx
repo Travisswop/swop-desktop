@@ -96,7 +96,7 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
       <div className="flex gap-6 items-start h-[90vh]">
         <div
           style={{ height: "100%" }}
-          className="w-[62%] relative border-r border-gray-200 pr-8 flex flex-col gap-4 overflow-y-auto"
+          className="w-[62%] relative border-r border-gray-200 pr-8 flex flex-col gap-4 overflow-y-auto custom-scrollbar"
         >
           <div className="flex items-center justify-between">
             <h5 className="heading-3">Microsite Builder</h5>
@@ -111,7 +111,7 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
             handleRemoveIcon={handleRemoveIcon}
             toggleIcon={toggleIcon}
           />
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {/* <EditMicrositeBtn>
               <LiaFileMedicalSolid size={20} />
               Customize QR

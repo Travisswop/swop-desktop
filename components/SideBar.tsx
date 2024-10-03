@@ -124,7 +124,7 @@ const SideBar = ({ toggle, onToggle }: any) => {
     }
   }, [loggedInUserInfo]);
 
-  console.log("userSessionData", userSessionData);
+  // console.log("userSessionData", userSessionData);
 
   return (
     <div className={`sticky top-0  ${toggle && "pl-1.5"}`}>

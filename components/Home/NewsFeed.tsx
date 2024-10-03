@@ -44,7 +44,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
         console.log("feedsss", feeds);
 
         return (
-          <div className="w-full h-[800px] overflow-auto pr-1">
+          <div className="w-full h-[800px] overflow-auto custom-scrollbar pr-1">
             {/* {[1]?.map((el: any, index: number) => (
         <div key={index} className="mb-5">
           <div className="w-full flex item justify-between">

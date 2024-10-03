@@ -13,7 +13,7 @@
     @apply text-base font-bold text-[#424651];
   }
 }
-
+/* scroll bar basic design start */
 ::-webkit-scrollbar {
   height: 12px;
   width: 6px;
@@ -28,6 +28,7 @@
 ::-webkit-scrollbar-corner {
   background: rgb(199, 199, 199);
 }
+/* scroll bar basic design end */
 
 .no-scroll {
   overflow: hidden;
@@ -269,7 +270,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .custom-audio .rhap_progress-section {
   display: none !important;
 }
-
 
 /* custom scroll bar */
 

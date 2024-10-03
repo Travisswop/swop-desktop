@@ -164,7 +164,9 @@ const QrCodePage = async () => {
       </table>
       <div className="flex justify-center pt-10">
         {data.data.length === 0 && (
-          <p className="font-medium">No QR Code Available!</p>
+          <p className="font-medium mb-6 text-gray-600">
+            No QR Code Available!
+          </p>
         )}
       </div>
       <Link href={"/qr-code/create"}>

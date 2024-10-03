@@ -67,7 +67,7 @@ const LayoutComponent = ({ children }: any) => {
 
       {/* for sidebar  */}
       <section
-        className={`px-4 overflow-y-auto w-[22%] xl:w-[20%] 2xl:w-[16%]`}
+        className={`px-4 overflow-y-auto custom-scrollbar w-[22%] xl:w-[20%] 2xl:w-[16%]`}
       >
         <SideBar toggle={toggle} onToggle={handleToggle} />
       </section>

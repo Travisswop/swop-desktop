@@ -60,7 +60,7 @@ const LivePreview = ({ data }: { data?: any }) => {
           `url(/images/smartsite-background/${formData.backgroundImg}.png)`,
         height: "100%",
       }}
-      className="w-[38%] overflow-y-auto shadow-md bg-white bg-cover "
+      className="w-[38%] overflow-y-auto custom-scrollbar shadow-md bg-white bg-cover "
     >
       {/* <p className="text-sm text-gray-500 mb-2">Preview</p> */}
       <div className={`flex flex-col justify-between min-h-full`}>
@@ -111,7 +111,7 @@ const LivePreview = ({ data }: { data?: any }) => {
               !formData.theme && "mt-[4.5rem] xl:mt-20 2xl:mt-28"
             }  flex flex-col gap-6 mt-6 h-full justify-start`}
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <p className="text-lg font-bold text-gray-700">
                 {formData.name || data?.name}
               </p>
