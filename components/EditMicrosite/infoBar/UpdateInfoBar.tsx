@@ -18,10 +18,10 @@ import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import AnimateButton from "@/components/Button/AnimateButton";
-import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
+// import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
 import { deleteInfoBar, postInfoBar, updateInfoBar } from "@/actions/infoBar";
 import useSmartSiteApiDataStore from "@/zustandStore/UpdateSmartsiteInfo";
-import { deleteEmbedLink } from "@/actions/embedLink";
+// import { deleteEmbedLink } from "@/actions/embedLink";
 // import AnimateButton from "../Button/AnimateButton";
 
 const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
@@ -29,11 +29,11 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
   const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
   const [selectedIconType, setSelectedIconType] = useState("");
   const [selectedIcon, setSelectedIcon] = useState({
-    name: "X",
-    icon: icon.appIconTwitter,
-    placeHolder: "https://x.com/username",
-    inputText: "X Username",
-    url: "www.x.com",
+    name: "Amazon Music",
+    icon: icon.appIconAmazonMusic,
+    placeHolder: "https://www.music.amazon.com/abc",
+    inputText: "Amazon Music Link",
+    url: "https://music.amazon.com",
   });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,74 +82,19 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
       setSelectedIcon(iconDatas);
       setSelectedIconData(data);
     }
-  }, [iconData, iconDataObj.data.iconName]);
+  }, [iconData, iconDataObj.data.group, iconDataObj.data.iconName]);
 
   const handleSelectIconType = (category: string) => {
     setSelectedIconType(category);
-    if (category === "Social Media") {
+    if (category === "Link") {
       setSelectedIcon({
-        name: "X",
-        icon: icon.appIconTwitter,
-        placeHolder: "https://x.com/username",
-        inputText: "X Username",
-        url: "www.x.com",
+        name: "Amazon Music",
+        icon: icon.appIconAmazonMusic,
+        placeHolder: "https://www.music.amazon.com/abc",
+        inputText: "Amazon Music Link",
+        url: "https://music.amazon.com",
       });
-      setButtonName("X");
-    } else if (category === "Dapps") {
-      setSelectedIcon({
-        name: "Etherscan",
-        icon: icon.appIconEtherscan,
-        placeHolder: "https://etherscan.com/abc",
-        inputText: "Etherscan Link",
-        url: "etherscan.com",
-      });
-      setButtonName("Etherscan");
-    } else if (category === "App Links") {
-      setSelectedIcon({
-        name: "Calendly",
-        icon: icon.appIconCalendly,
-        placeHolder: "https://www.calendly.com/xyz",
-        inputText: "Calendly Link",
-        url: "https://calendly.com",
-      });
-      setButtonName("Calendly");
-    } else if (category === "Music/Video Links") {
-      setSelectedIcon({
-        name: "YouTube",
-        icon: icon.appIconYoutube,
-        placeHolder: "https:www.youtube.com/abc",
-        inputText: "YouTube Link",
-        url: "https://youtube.com",
-      });
-      setButtonName("YouTube");
-    } else if (category === "Chat Links") {
-      setSelectedIcon({
-        name: "Whatsapp",
-        icon: icon.appIconWhatsApp,
-        placeHolder: "+123456789",
-        inputText: "Whatsapp Number",
-        url: "www.whatsapp.com",
-      });
-      setButtonName("Whatsapp");
-    } else if (category === "General Links") {
-      setSelectedIcon({
-        name: "Calendar",
-        icon: icon.appIconCalendar,
-        placeHolder: "https://www.calendarapp.com/xyz",
-        inputText: "Calendar Event",
-        url: "www.calendarapp.com",
-      });
-      setButtonName("Calendar");
-    } else if (category === "Copy Address") {
-      setSelectedIcon({
-        name: "Solana",
-        icon: icon.appIconSolana,
-        placeHolder: "Your Solana Address",
-        inputText: "Solana Address",
-        url: "www.solana.com",
-      });
-      setButtonName("Solana");
-    } else if (category === "Command/Action") {
+    } else if (category === "Call To Action") {
       setSelectedIcon({
         name: "Email",
         icon: icon.appIconEmail,
@@ -157,7 +102,6 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
         inputText: "Email Address",
         url: "www.email.com",
       });
-      setButtonName("Email");
     }
   };
 
@@ -266,59 +210,18 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
                       className="w-8 h-auto"
                     />
                   )}
-                  {selectedIconType === "Social Media" && (
+                  {selectedIconType === "Link" && (
                     <Image
                       alt="app-icon"
                       src={icon.SocialIconType}
                       className="w-5 h-auto"
                     />
                   )}
-                  {selectedIconType === "Dapps" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.DappType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "App Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.AppLinkType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Music/Video Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.MusicVideo}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Chat Links" && (
+
+                  {selectedIconType === "Call To Action" && (
                     <Image
                       alt="app-icon"
                       src={icon.ChatlinkType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "General Links" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.generalLinkType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Copy Address" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.copyAddressType}
-                      className="w-5 h-auto"
-                    />
-                  )}
-                  {selectedIconType === "Command/Action" && (
-                    <Image
-                      alt="app-icon"
-                      src={icon.CommandType}
                       className="w-5 h-auto"
                     />
                   )}
@@ -419,7 +322,7 @@ const UpdateInfoBar = ({ iconDataObj, isOn, setOff }: any) => {
                     <DropdownMenu
                       disabledKeys={["title"]}
                       aria-label="Static Actions"
-                      className="p-2"
+                      className="p-2 overflow-y-auto custom-scrollbar max-h-[30rem]"
                     >
                       <DropdownItem
                         key={"title"}

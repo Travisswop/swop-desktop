@@ -443,7 +443,10 @@ const LivePreview = ({ data }: { data?: any }) => {
                           categoryForTrigger: "infoBar",
                         })
                       }
-                      className="flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium"
+                      disabled={isUrl(data.iconName)}
+                      className={`flex items-center gap-3 bg-white py-2 px-3 rounded-lg shadow-medium ${
+                        isUrl(data.iconName) && "cursor-not-allowed"
+                      }`}
                     >
                       {isUrl(data.iconName) ? (
                         <Image
@@ -457,8 +460,9 @@ const LivePreview = ({ data }: { data?: any }) => {
                         />
                       ) : (
                         <Image
-                          src={location}
-                          // src={getAppIconImage(data.iconName, data.group) as any}
+                          src={
+                            getAppIconImage(data.iconName, data.group) as any
+                          }
                           alt="icon"
                           quality={100}
                           className="w-9 h-9"

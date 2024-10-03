@@ -13,10 +13,10 @@ import { IoLinkOutline } from "react-icons/io5";
 import { LiaFileMedicalSolid } from "react-icons/lia";
 import { icon, newIcons } from "@/util/data/smartsiteIconData";
 import { isEmptyObject } from "@/util/checkIsEmptyObject";
-import {
-  handleDeleteSmallIcon,
-  handleUpdateSmallIcon,
-} from "@/actions/createSmallIcon";
+// import {
+//   handleDeleteSmallIcon,
+//   handleUpdateSmallIcon,
+// } from "@/actions/createSmallIcon";
 import useLoggedInUserStore from "@/zustandStore/SetLogedInUserSession";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
