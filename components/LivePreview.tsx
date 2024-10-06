@@ -19,12 +19,13 @@ import ethereum from "@/public/images/social-icon/ethereum.png";
 import card from "@/public/images/social-icon/card.png";
 import message from "@/public/images/social-icon/message.png";
 import location from "@/public/images/social-icon/location.png";
+import getAllSmartsitesIcon from "@/util/retriveIconImage/getAllSmartsiteIcon";
 
 const LivePreview = ({ data }: { data?: any }) => {
   const setSmartSiteData = useUpdateSmartIcon((state: any) => state.setState);
   const { toggle } = useSideBarToggleStore();
 
-  console.log("data form live", data);
+  // console.log("data form live", data.info.socialLarge);
   const { formData, setFormData }: any = useSmartsiteFormStore();
 
   // console.log("form data from live preview", formData);
@@ -246,7 +247,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                         />
                       ) : (
                         <Image
-                          src={getAppIconImage(data.name, data.group) as any}
+                          src={getAllSmartsitesIcon(data.iconName) as any}
                           alt="icon"
                           // style={tintStyle}
                           className="w-[4.2rem]"
@@ -460,9 +461,7 @@ const LivePreview = ({ data }: { data?: any }) => {
                         />
                       ) : (
                         <Image
-                          src={
-                            getAppIconImage(data.iconName, data.group) as any
-                          }
+                          src={getAllSmartsitesIcon(data.iconName) as any}
                           alt="icon"
                           quality={100}
                           className="w-9 h-9"

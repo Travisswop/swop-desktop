@@ -19,7 +19,7 @@ export default function SmartSiteUrlShareModal({
   onOpenChange,
   smartSiteProfileUrl,
 }: any) {
-  console.log("smartstie", smartSiteProfileUrl);
+  // console.log("smartstie", smartSiteProfileUrl);
 
   return (
     <>

@@ -37,7 +37,7 @@ const EditQrCodePage = async ({ params }: { params: { id: string } }) => {
       }
     );
     const data = await response.json();
-    console.log("failed", data.data);
+    //console.log("failed", data.data);
 
     return (
       <div>

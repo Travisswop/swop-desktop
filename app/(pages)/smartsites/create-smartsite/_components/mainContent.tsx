@@ -35,7 +35,7 @@ const CreateSmartSite = ({ token, session }: any) => {
     (state: any) => state.setUser
   ); //get setter for setting session info from zustand store
 
-  console.log("formData from create smartsite", formData);
+  //console.log("formData from create smartsite", formData);
 
   const [selectedImage, setSelectedImage] = useState(null); // get user avator image
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
@@ -223,10 +223,10 @@ const CreateSmartSite = ({ token, session }: any) => {
 
     try {
       const response = await handleCreateSmartSite(smartSiteInfo, token);
-      console.log("response", response);
+      //console.log("response", response);
 
       if (response.state === "success") {
-        console.log("responseeee", response);
+        //console.log("responseeee", response);
         const micrositeId =
           response?.data?.microsites[response?.data?.microsites.length - 1]._id;
         router.push(`/ens-swop-id?id=${micrositeId}`);

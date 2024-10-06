@@ -218,7 +218,7 @@ const SmartsideOpeningInfo = ({
     try {
       const response = await postPrimaryMicrosite(dataForPost, token);
 
-      console.log("dataaaa", response);
+      //console.log("dataaaa", response);
 
       if (response.state === "success") {
         toast.success("smartsite info updated");

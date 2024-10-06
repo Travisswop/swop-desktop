@@ -48,7 +48,7 @@ const Microsite = ({ microsites }: any) => {
     }
   }, [microsites]);
 
-  console.log("microstiessfs", microsites);
+  // console.log("microstiessfs", microsites);
 
   useEffect(() => {
     if (typeof window !== undefined) {

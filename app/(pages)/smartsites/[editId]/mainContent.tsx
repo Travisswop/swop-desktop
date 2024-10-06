@@ -36,7 +36,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
     useSmartsiteFormStore();
 
   // console.log("selected image", selectedImage);
-  console.log("formData from edit page", smartSiteEditFormData);
+  //console.log("formData from edit page", smartSiteEditFormData);
 
   const [galleryImage, setGalleryImage] = useState(null); // get upload image base64 data
   const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // get uploaded url from cloudinery
@@ -82,7 +82,7 @@ const EditSmartSite = ({ data, token, session }: any) => {
     onOpen();
   };
 
-  console.log("data", data);
+  //console.log("data", data);
 
   useEffect(() => {
     setFormData("backgroundImg", data.data.backgroundImg);

@@ -25,7 +25,7 @@ const TransectionList = ({
     return `${formattedTime} ${formattedDate}`;
   };
 
-  console.log("transaction dataaaaadd", transactionData);
+  // console.log("transaction dataaaaadd", transactionData);
 
   return (
     <div className="max-w-full max-h-[750px] overflow-y-scroll">

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 export async function postCustomQrCode(payload: any, token: string) {
   try {
-    console.log(payload);
+    // console.log(payload);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v4/microsite/customQrCode`,
@@ -18,10 +18,10 @@ export async function postCustomQrCode(payload: any, token: string) {
       }
     );
     revalidatePath(`/`);
-    console.log("response", response);
+    // console.log("response", response);
 
     const data = await response.json();
-    console.log("data from hola", data);
+    // console.log("data from hola", data);
     return data;
   } catch (error) {
     console.error("Error from action:", error);

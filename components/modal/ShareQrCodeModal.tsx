@@ -24,7 +24,7 @@ const ShareQrCodeModal = ({ isModalOpen, setIsModalOpen, qrCodeUrl }: any) => {
   const [loading, setLoading] = useState<any>(false);
   const [error, setError] = useState<any>(null);
 
-  console.log("imageurl", imageUrl);
+  // console.log("imageurl", imageUrl);
 
   useEffect(() => {
     setLoading(true);

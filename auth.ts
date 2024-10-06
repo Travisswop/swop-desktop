@@ -99,7 +99,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           if (response.ok) {
             const data = await response.json();
-            console.log("datasssee", data);
+            // console.log("datasssee", data);
 
             const dataWithToken = {
               ...token,

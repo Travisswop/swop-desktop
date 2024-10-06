@@ -20,13 +20,13 @@ export default function QRCodeShareModal({
   onOpenChange,
   qrCodeUrl,
 }: any) {
-  console.log("qr code url", qrCodeUrl);
+  // console.log("qr code url", qrCodeUrl);
 
   const [imageUrl, setImageUrl] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
   const [error, setError] = useState<any>(null);
 
-  console.log("imageurl", imageUrl);
+  // console.log("imageurl", imageUrl);
 
   useEffect(() => {
     setLoading(true);

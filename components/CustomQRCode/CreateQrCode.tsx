@@ -242,8 +242,8 @@ const CreateQRCode = ({ session }: any) => {
         qrCodeSvgName: qrPattern,
       };
 
-      console.log("paoodf", payload);
-      console.log("color", color);
+      // console.log("paoodf", payload);
+      // console.log("color", color);
 
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);

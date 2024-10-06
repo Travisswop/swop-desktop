@@ -84,7 +84,7 @@ const MicrositeEditMainContentPage = ({ session, data }: any) => {
 
   // console.log("open", open);
 
-  console.log("data", data);
+  //console.log("data", data);
 
   const handleOpenShareModal = (smartsiteUrl: any) => {
     onOpen();

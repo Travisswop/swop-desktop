@@ -13,14 +13,14 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
   // console.log("dataassggh", data);
   const data = await homepageDataPromise;
 
-  console.log("homepage data", data);
+  // console.log("homepage data", data);
 
   if (data) {
     const primarySmartsite = data.data.microsites.find(
       (microsite: any) => microsite.primary
     );
 
-    console.log("primary smartsite", primarySmartsite);
+    // console.log("primary smartsite", primarySmartsite);
     // ! when new user signup processed, then it doesn't shown
     if (primarySmartsite.ens) {
       let ensData;
@@ -41,7 +41,7 @@ const NewsFeed = async ({ homepageDataPromise, session }: any) => {
 
         const feeds = await getNewsFeed(payload, session.accessToken);
 
-        console.log("feedsss", feeds);
+        // console.log("feedsss", feeds);
 
         return (
           <div className="w-full h-[800px] overflow-auto custom-scrollbar pr-1">

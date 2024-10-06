@@ -29,7 +29,7 @@ const WalletMessageList = () => {
   const [isMicrositeConnected, setIsMicrositeConnected] = useState<any>(false);
   const [result, setResult] = useState<object | null>(null);
 
-  console.log("micrositeData", micrositeData);
+  // console.log("micrositeData", micrositeData);
 
   const [isSignerLoading, setIsSignerLoading] = useState<any>(false);
 

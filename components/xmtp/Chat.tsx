@@ -43,7 +43,7 @@ const Chat: React.FC<ChatProps> = ({
     messages = messages.filter(
       (v: any, i: any, a: any) => a.findIndex((t: any) => t.id === v.id) === i
     );
-    console.log("messages", messages);
+    // console.log("messages", messages);
 
     return (
       <div className="px-4 md:px-8 h-full overflow-y-auto">

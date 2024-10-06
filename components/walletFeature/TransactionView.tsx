@@ -20,7 +20,7 @@ const TransactionView = ({ transactionData, walletObj }: any) => {
     return `${formattedTime} ${formattedDate}`;
   };
 
-  console.log("transaction data", transactionData);
+  // console.log("transaction data", transactionData);
 
   return (
     <div>

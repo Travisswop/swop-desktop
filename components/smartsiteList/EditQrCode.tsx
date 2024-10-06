@@ -215,7 +215,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
 
       // console.log("hit 4");
 
-      console.log("data for update qr code", data);
+      // console.log("data for update qr code", data);
 
       if (data && data.state === "success") {
         router.back();

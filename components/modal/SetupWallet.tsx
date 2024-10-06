@@ -55,7 +55,7 @@ const SetupWalletModal = ({ microsites }: any) => {
     }
   }, [microsites]);
 
-  console.log("micrositeData", micrositeData);
+  // console.log("micrositeData", micrositeData);
 
   // * copy wallet address
   const handleSaveEthAddress = () => {

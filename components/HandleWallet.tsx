@@ -112,10 +112,10 @@ const SetupWallet = ({ micrositeData }: any) => {
   };
 
   const handleOpenWeb3Modal = async () => {
-    console.log("hittt");
+    //console.log("hittt");
     await open();
-    console.log("kittt");
-    console.log("open", open());
+    // console.log("kittt");
+    // console.log("open", open());
   };
 
   return (

@@ -46,7 +46,7 @@ export async function checkIsUserExist(email: string) {
         body: JSON.stringify(emailData),
       }
     );
-    console.log("response", response);
+    // console.log("response", response);
 
     const data = await response.json();
     return data;
@@ -71,7 +71,7 @@ export async function getPeerData(peerAddresses: any, token: any) {
     );
 
     const data = await response.json();
-    console.log("🚀 ~ getPeerData ~ data:", data);
+    // console.log("🚀 ~ getPeerData ~ data:", data);
     return data;
   } catch (error) {
     console.error("Error:", error);

@@ -33,9 +33,9 @@ const AddAppIcon = ({ handleRemoveIcon }: any) => {
   });
   const [selectedIconData, setSelectedIconData] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  console.log("selected icon type", selectedIconType);
-  console.log("selected icon data", selectedIconData);
-  console.log("selected icon", selectedIcon);
+  // console.log("selected icon type", selectedIconType);
+  // console.log("selected icon data", selectedIconData);
+  // console.log("selected icon", selectedIcon);
 
   const iconData: any = newIcons[1];
   // console.log("iconData", iconData);

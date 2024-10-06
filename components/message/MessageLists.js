@@ -23,18 +23,18 @@ const MessagesLists = ({ session }) => {
   useEffect(() => {
     const fetchConversations = async () => {
       if (!signer) {
-        console.log("Signer is not available");
+        // console.log("Signer is not available");
         return;
       }
 
       try {
-        console.log("Creating XMTP client...");
+        // console.log("Creating XMTP client...");
         const xmtp = await Client.create(signer, { env: "production" });
-        console.log("XMTP client created successfully", xmtp);
+        // console.log("XMTP client created successfully", xmtp);
 
-        console.log("Fetching conversations...");
+        // console.log("Fetching conversations...");
         const conversationList = await xmtp.conversations.list();
-        console.log("Conversations fetched successfully", conversationList);
+        // console.log("Conversations fetched successfully", conversationList);
 
         setConversations(conversationList);
         setError(null);
@@ -49,7 +49,7 @@ const MessagesLists = ({ session }) => {
 
         // Check if the error is related to the plugin
         if (error.message.includes("Plugin Closed")) {
-          console.log("Plugin state:", await checkPluginState());
+          // console.log("Plugin state:", await checkPluginState());
         }
       }
     };
@@ -75,12 +75,12 @@ const MessagesLists = ({ session }) => {
     const getSigner = async () => {
       if (typeof window.ethereum !== "undefined" && address) {
         try {
-          console.log("Getting Web3 provider...");
+          // console.log("Getting Web3 provider...");
           const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-          console.log("Getting signer for address:", address);
+          // console.log("Getting signer for address:", address);
           const newSigner = provider.getSigner(`${address}`);
-          console.log("Signer obtained:", newSigner);
+          // console.log("Signer obtained:", newSigner);
 
           setSigner(newSigner);
           setIsConnected(true);
@@ -92,19 +92,19 @@ const MessagesLists = ({ session }) => {
           setError(`Failed to get signer: ${error.message}`);
         }
       } else {
-        console.log("Ethereum provider not found or address not available");
+        // console.log("Ethereum provider not found or address not available");
         setIsConnected(false);
         setSigner(null);
-        setError("Ethereum provider not found or address not available");
+        // setError("Ethereum provider not found or address not available");
       }
     };
 
     getSigner();
-  }, [address]);
+  }, [address, setError, setSigner]);
 
-  console.log("Signer:", signer);
-  console.log("Is connected:", isConnected);
-  console.log("Address:", address);
+  // console.log("Signer:", signer);
+  // console.log("Is connected:", isConnected);
+  // console.log("Address:", address);
 
   return (
     <div className="main-container">

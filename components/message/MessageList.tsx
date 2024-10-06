@@ -72,7 +72,7 @@ const MessageList = ({ userDetails }: any) => {
           }
         );
 
-        console.log("datas", data);
+        // console.log("datas", data);
 
         const info = {
           profilePic: data.domainOwner.name,

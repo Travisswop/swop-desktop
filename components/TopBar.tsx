@@ -7,7 +7,7 @@ import UserProfile from "./topBar/UserProfile";
 
 const TopBar = async () => {
   const session = await isUserAuthenticate();
-  console.log("current session from topbar", session);
+  // console.log("current session from topbar", session);
 
   return (
     <div className="flex items-center gap-4 main-container py-7 bg-white">
