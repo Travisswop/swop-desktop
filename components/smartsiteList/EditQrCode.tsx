@@ -4,7 +4,7 @@ import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 // import QRCodeShareModal from "@/components/ShareModal/QRCodeShareModal";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 // import { FiSend } from "react-icons/fi";
 import {
@@ -29,7 +29,7 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [toggle, setToggle] = useState(false);
   const [backgroundColorToggle, setBackgroundColorToggle] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<any>(null);
   const [fileError, setFileError] = useState<string>("");
@@ -122,12 +122,12 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
     },
   ];
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const handleModal = () => {
-    onOpen();
-    setIsModalOpen(true);
-  };
+  // const handleModal = () => {
+  //   onOpen();
+  //   setIsModalOpen(true);
+  // };
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -180,8 +180,8 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
     try {
       if (imageFile) {
         const imageUrl = await sendCloudinaryImage(imageFile);
-        // console.log("image url", imageUrl);
-
+        qrData.image = imageUrl;
+      } else {
         qrData.image = imageUrl;
       }
       qrData.backgroundOptions = { color: bgColor };
@@ -229,6 +229,47 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
       setIsLoading(false);
     }
   };
+
+  const backgroundUpdatePickerRef = useRef<HTMLDivElement>(null);
+  const updateColorPickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        backgroundUpdatePickerRef.current &&
+        !backgroundUpdatePickerRef.current.contains(event.target as Node)
+      ) {
+        setBackgroundColorToggle(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Cleanup event listener when component unmounts
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        updateColorPickerRef.current &&
+        !updateColorPickerRef.current.contains(event.target as Node)
+      ) {
+        setToggle(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Cleanup event listener when component unmounts
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <main className="main-container overflow-hidden">
@@ -333,7 +374,9 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
                   {!color || color === "#NaNNaNNaN" ? "#HEX" : color}
                 </p>
               </div>
-              {toggle && <HexColorPicker color={color} onChange={setColor} />}
+              <div className="w-max" ref={updateColorPickerRef}>
+                {toggle && <HexColorPicker color={color} onChange={setColor} />}
+              </div>
             </div>
             <div>
               <p className="heading-4 mb-2">Default QR Colors: </p>
@@ -375,9 +418,11 @@ const EditQRCode = ({ qrCodeData, token }: any) => {
                   {!bgColor || bgColor === "#NaNNaNNaN" ? "#HEX" : bgColor}
                 </p>
               </div>
-              {backgroundColorToggle && (
-                <HexColorPicker color={bgColor} onChange={setBgColor} />
-              )}
+              <div ref={backgroundUpdatePickerRef} className="w-max">
+                {backgroundColorToggle && (
+                  <HexColorPicker color={bgColor} onChange={setBgColor} />
+                )}
+              </div>
             </div>
             <div>
               <p className="heading-4 mb-2">Default Background Colors: </p>

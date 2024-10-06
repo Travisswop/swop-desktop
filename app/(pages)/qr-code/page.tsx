@@ -1,9 +1,9 @@
 // "use client";
-import { deleteQrCode } from "@/actions/customQrCode";
+// import { deleteQrCode } from "@/actions/customQrCode";
 import DynamicPrimaryBtn from "@/components/Button/DynamicPrimaryBtn";
 import DeleteQRCode from "@/components/DeleteQRCode";
 import ShareCustomQRCode from "@/components/ShareModal/ShareCustomQRCode";
-import TestShare from "@/components/TestShare";
+// import TestShare from "@/components/TestShare";
 import { getFormattedDate } from "@/util/getFormattedDate";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 // import { Checkbox, Switch } from "@nextui-org/react";
@@ -13,7 +13,7 @@ import React from "react";
 import { FiDownload } from "react-icons/fi";
 // import { CiSearch } from "react-icons/ci";
 import { IoQrCodeSharp } from "react-icons/io5";
-import { MdDeleteForever } from "react-icons/md";
+// import { MdDeleteForever } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 
 const QrCodePage = async () => {
