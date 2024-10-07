@@ -7,7 +7,7 @@ import { tintStyle } from "@/util/IconTintStyle";
 import useUpdateSmartIcon from "@/zustandStore/UpdateSmartIcon";
 import useSmallIconToggleStore from "@/zustandStore/SmallIconModalToggle";
 import getSmallIconImage from "@/util/retriveIconImage/getSmallIconImage";
-import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
+// import getAppIconImage from "@/util/retriveIconImage/getAppIconImage";
 import { FaEdit, FaEye } from "react-icons/fa";
 import useSideBarToggleStore from "@/zustandStore/SideBarToggleStore";
 import AnimateButton from "./Button/AnimateButton";
@@ -18,7 +18,7 @@ import referral from "@/public/images/websites/referral.jpeg";
 import ethereum from "@/public/images/social-icon/ethereum.png";
 import card from "@/public/images/social-icon/card.png";
 import message from "@/public/images/social-icon/message.png";
-import location from "@/public/images/social-icon/location.png";
+// import location from "@/public/images/social-icon/location.png";
 import getAllSmartsitesIcon from "@/util/retriveIconImage/getAllSmartsiteIcon";
 
 const LivePreview = ({ data }: { data?: any }) => {
@@ -97,8 +97,8 @@ const LivePreview = ({ data }: { data?: any }) => {
                     <Image
                       alt="user image"
                       src={`/images/user_avator/${formData.profileImg}.png`}
-                      width={220}
-                      height={220}
+                      width={420}
+                      height={420}
                       quality={100}
                       className="rounded-full w-28 xl:w-36 2xl:w-44 h-auto p-1 bg-white shadow-medium border-2 border-gray-200"
                     />

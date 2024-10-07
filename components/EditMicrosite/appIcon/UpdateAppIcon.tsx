@@ -28,7 +28,7 @@ import { handleDeleteAppIcon, handleUpdateAppIcon } from "@/actions/appIcon";
 const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const sesstionState = useLoggedInUserStore((state) => state.state.user); //get session value
 
-  const [selectedIconType, setSelectedIconType] = useState("Social Media");
+  const [selectedIconType, setSelectedIconType] = useState("Link");
   const [selectedIcon, setSelectedIcon] = useState({
     name: "Amazon Music",
     icon: icon.appIconAmazonMusic,
@@ -56,7 +56,12 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
   const iconData: any = newIcons[1];
   // console.log("selectedIconByLivePreview", selectedIconByLivePreview);
   useEffect(() => {
-    setSelectedIconType(iconDataObj.data.group);
+    if (
+      iconDataObj.data.group === "Link" ||
+      iconDataObj.data.group === "Call To Action"
+    ) {
+      setSelectedIconType(iconDataObj.data.group);
+    }
   }, [iconDataObj.data.group]);
 
   useEffect(() => {
@@ -111,6 +116,14 @@ const UpdateAppIcon = ({ iconDataObj, isOn, setOff }: any) => {
         placeHolder: "Type Your Email Address",
         inputText: "Email Address",
         url: "www.email.com",
+      });
+    } else {
+      setSelectedIcon({
+        name: "Amazon Music",
+        icon: icon.appIconAmazonMusic,
+        placeHolder: "https://www.music.amazon.com/abc",
+        inputText: "Amazon Music Link",
+        url: "https://music.amazon.com",
       });
     }
   };
