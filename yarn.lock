@@ -7999,6 +7999,13 @@ elliptic@^6.5.7:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
+emoji-picker-react@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-4.12.0.tgz#4cc310ad4b8a39844a2d5edcc92967683d6b5138"
+  integrity sha512-q2c8UcZH0eRIMj41bj0k1akTjk69tsu+E7EzkW7giN66iltF6H9LQvQvw6ugscsxdC+1lmt3WZpQkkY65J95tg==
+  dependencies:
+    flairup "1.0.0"
+
 emoji-regex@^7.0.1:
   version "7.0.3"
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz"
@@ -8895,6 +8902,11 @@ firebase@^10.12.2:
     "@firebase/util" "1.9.7"
     "@firebase/vertexai-preview" "0.0.3"
 
+flairup@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flairup/-/flairup-1.0.0.tgz#d3af0052ad02734c12d2446608a869498adb351b"
+  integrity sha512-IKlE+pNvL2R+kVL1kEhUYqRxVqeFnjiIvHWDMLFXNaqyUdFXQM2wte44EfMYJNHkW16X991t2Zg8apKkhv7OBA==
+
 flat-cache@^3.0.4:
   version "3.2.0"
   resolved "https://registry.npmjs.org/flat-cache/-/flat-cache-3.2.0.tgz"
@@ -9063,6 +9075,11 @@ get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.npmjs.org/get-value/-/get-value-2.0.6.tgz"
   integrity sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==
+
+gif-picker-react@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/gif-picker-react/-/gif-picker-react-1.4.0.tgz#f63bd8870d27c548d7beb73bf242e218ba4581b8"
+  integrity sha512-e48u077ldBiMoPS4NZ+3noW9aJCLMYMQqcx4xdcaGJdONVXCWNxw3bJ0MF2X5xO6fJXHY4IA9vD4/pdswMrorA==
 
 glob-parent@^3.1.0:
   version "3.1.0"
@@ -11963,6 +11980,11 @@ react-phone-number-input@*, react-phone-number-input@^3.4.3:
     libphonenumber-js "^1.11.2"
     prop-types "^15.8.1"
 
+react-photo-album@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-photo-album/-/react-photo-album-3.0.2.tgz#994644afe651cc8516ea15bfc2f054563568ba45"
+  integrity sha512-w3+8i6aj9l1jRfcubgVbAlBGSdtiXcqWdcwZcH4/Bavc+v7X7h+S3TkQ723pvDABjhaaxS168g9ECEBP6xnKrQ==
+
 react-qr-reader@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-qr-reader/-/react-qr-reader-2.2.1.tgz"
@@ -12923,7 +12945,7 @@ string-convert@^0.2.0:
   resolved "https://registry.npmjs.org/string-convert/-/string-convert-0.2.1.tgz"
   integrity sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -12948,15 +12970,6 @@ string-width@^3.0.0, string-width@^3.1.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -13043,7 +13056,7 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -13063,13 +13076,6 @@ strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -13935,7 +13941,7 @@ word@~0.3.0:
   resolved "https://registry.npmjs.org/word/-/word-0.3.0.tgz"
   integrity sha512-OELeY0Q61OXpdUfTp+oweA/vtLVg5VDOXh+3he3PNzLGG/y0oylSOC1xRVj0+l4vQ3tj/bB1HVHv1ocXkQceFA==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -13957,15 +13963,6 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-6.2.0.tgz"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
