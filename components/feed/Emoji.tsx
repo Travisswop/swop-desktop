@@ -10,21 +10,25 @@ interface EmojiProps {
 const Emoji = ({ onEmojiSelect }: EmojiProps) => {
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const togglePicker = () => {
-    setShowPicker(!showPicker);
+    setShowPicker((prev) => !prev);
   };
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
-    onEmojiSelect(emojiData.emoji); // Add the selected emoji to the textarea
+    onEmojiSelect(emojiData.emoji);
+    //setShowPicker(false); // Close picker after selecting an emoji
   };
 
-  // Close picker when clicking outside
+  // Close picker when clicking outside, excluding button
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         pickerRef.current &&
-        !pickerRef.current.contains(event.target as Node)
+        !pickerRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setShowPicker(false);
       }
@@ -43,7 +47,7 @@ const Emoji = ({ onEmojiSelect }: EmojiProps) => {
 
   return (
     <div className="relative flex items-center">
-      <button onClick={togglePicker}>
+      <button ref={buttonRef} onClick={togglePicker}>
         <GrEmoji size={22} className="text-gray-800" />
       </button>
 
