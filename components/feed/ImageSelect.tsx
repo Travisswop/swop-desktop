@@ -4,7 +4,7 @@ import { FaRegImage } from "react-icons/fa";
 interface ImageContentProps {
   setFileError: (error: string) => void;
   setMediaFiles: React.Dispatch<
-    React.SetStateAction<{ type: "image" | "video"; src: string }[]>
+    React.SetStateAction<{ type: "image" | "video" | "gif"; src: string }[]>
   >;
   mediaFilesLength: any;
 }

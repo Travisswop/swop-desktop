@@ -32,7 +32,7 @@ const DynamicPrimaryBtn = ({
 
   return (
     <MotionButton
-      whileTap={{ scale: 0.85 }}
+      whileTap={!disabled ? { scale: 0.85 } : { scale: 1 }}
       disabled={disabled}
       className={mergedClasses}
       onClick={onClick}

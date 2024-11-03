@@ -5,6 +5,7 @@ import Transaction from "@/components/feed/Transaction";
 import PostFeed from "@/components/feed/PostFeed";
 import TabSwitcher from "@/components/feed/TabSwitcher";
 import SearchSwopId from "@/components/feed/SearchSwopId";
+import isUserAuthenticate from "@/util/isUserAuthenticate";
 
 type Tab = "feed" | "timeline" | "transaction";
 interface PageProps {
@@ -13,7 +14,9 @@ interface PageProps {
   };
 }
 
-const FeedPage = ({ searchParams }: PageProps) => {
+const FeedPage = async ({ searchParams }: PageProps) => {
+  const session: any = await isUserAuthenticate();
+
   const { tab } = searchParams;
 
   let ComponentToRender: JSX.Element;
@@ -44,7 +47,7 @@ const FeedPage = ({ searchParams }: PageProps) => {
           </div>
         </div>
         {/* posting feed here  */}
-        <PostFeed />
+        <PostFeed userId={session._id} token={session.accessToken} />
         {/* component to render based on tab */}
         {ComponentToRender}
       </div>
