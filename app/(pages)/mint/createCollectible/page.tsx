@@ -191,7 +191,7 @@ const CreateCollectiblePage = () => {
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">Create Collectible</h2>
             <div>
-              <label htmlFor="name" className="mb-1 block font-medium">Name*</label>
+              <label htmlFor="name" className="mb-1 block font-medium">Name</label>
               <input
                 type="text"
                 id="name"
@@ -220,7 +220,7 @@ const CreateCollectiblePage = () => {
             </div>
 
             <div>
-              <label htmlFor="description" className="mb-1 block font-medium">Description*</label>
+              <label htmlFor="description" className="mb-1 block font-medium">Description</label>
               <textarea
                 id="description"
                 name="description"
@@ -267,12 +267,14 @@ const CreateCollectiblePage = () => {
               {/* Content Preview Grid */}
               <div className="grid grid-cols-3 gap-4 mt-4">
                 {formData.content.map((file, index) => (
-                  <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm">
+                    <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full">
                     <div className="text-2xl">{getFileTypeIcon(file.type)}</div>
-                    <p className="text-xs text-gray-600 mt-1 text-center truncate">{file.name}</p>
-                  </div>
+                    <p className="text-xs text-gray-600 mt-1 text-center truncate w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                        {file.name}
+                    </p>
+                    </div>
                 ))}
-              </div>
+                </div>
             </div>
 
             {/* Benefits Input */}
