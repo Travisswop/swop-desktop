@@ -5,8 +5,29 @@ import PushToMintCollectionButton from "@/components/Button/PushToMintCollection
 import Image from "next/image";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 
+interface ContentFile {
+  url: string;
+  name: string;
+  type: string;
+}
+
+interface FormData {
+  name: string;
+  description: string;
+  imageUrl: string;
+  price: string;
+  recipientAddress: string;
+  currency: string;
+  type: string;
+  benefits: string;
+  content: ContentFile[];
+  enableCreditCard: boolean;
+  verifyIdentity: boolean;
+  limitQuantity: boolean;
+}
+
 const CreateCollectiblePage = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
     imageUrl: "",
@@ -15,7 +36,7 @@ const CreateCollectiblePage = () => {
     currency: "usdc", // Default to USDC
     type: "Collectible", // Default type
     benefits: "", // Benefits input
-    content: null, // Content file input
+    content: [], // Content array for multiple files
     enableCreditCard: false,
     verifyIdentity: false,
     limitQuantity: false,
@@ -31,7 +52,6 @@ const CreateCollectiblePage = () => {
   ) => {
     const { name, value, type } = e.target;
   
-    // Type narrowing to handle checkbox inputs correctly
     if (type === "checkbox") {
       setFormData((prevState) => ({
         ...prevState,
@@ -44,9 +64,9 @@ const CreateCollectiblePage = () => {
       }));
     }
   };
-  
-  // Handle file selection and upload to Cloudinary
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+
+  // Handle image upload
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -55,20 +75,56 @@ const CreateCollectiblePage = () => {
       const base64Image = reader.result as string;
 
       try {
-        fieldName === "imageUrl" ? setImageUploading(true) : setContentUploading(true);
+        setImageUploading(true);
         const uploadedUrl = await sendCloudinaryImage(base64Image);
         setFormData((prevState) => ({
           ...prevState,
-          [fieldName]: uploadedUrl,
+          imageUrl: uploadedUrl,
         }));
       } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("Failed to upload file. Please try again.");
+        console.error("Error uploading image:", error);
+        alert("Failed to upload image. Please try again.");
       } finally {
-        fieldName === "imageUrl" ? setImageUploading(false) : setContentUploading(false);
+        setImageUploading(false);
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  // Handle multiple file selection and upload to Cloudinary
+  const handleContentUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
+
+    setContentUploading(true);
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        const reader = new FileReader();
+        return new Promise<ContentFile | null>((resolve) => {
+          reader.onloadend = async () => {
+            const base64File = reader.result as string;
+            try {
+              const uploadedUrl = await sendCloudinaryImage(base64File);
+              resolve({ url: uploadedUrl, name: file.name, type: file.type });
+            } catch (error) {
+              console.error("Error uploading file:", error);
+              alert(`Failed to upload file: ${file.name}`);
+              resolve(null); // Return null if failed to upload
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      })
+    );
+
+    // Filter out any failed uploads (null values)
+    const successfulUploads = uploadedFiles.filter(Boolean) as ContentFile[];
+
+    setFormData((prevState) => ({
+      ...prevState,
+      content: [...prevState.content, ...successfulUploads],
+    }));
+    setContentUploading(false);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -97,11 +153,34 @@ const CreateCollectiblePage = () => {
 
       if (response.data.state === "success") {
         alert("Collectible created successfully!");
-      }
+        setFormData({
+          name: "",
+          description: "",
+          imageUrl: "",
+          price: "",
+          recipientAddress: "",
+          currency: "usdc",
+          type: "Collectible",
+          benefits: "",
+          content: [],
+          enableCreditCard: false,
+          verifyIdentity: false,
+          limitQuantity: false,
+        });
+      }          
     } catch (error) {
       console.error("Error creating collectible:", error);
       alert("Failed to create collectible");
     }
+  };
+
+  // Helper to get an icon based on file type
+  const getFileTypeIcon = (type: string) => {
+    if (type.startsWith("image")) return "🖼️"; // Image icon
+    if (type.startsWith("audio")) return "🎵"; // Audio icon
+    if (type.startsWith("video")) return "🎥"; // Video icon
+    if (type === "application/pdf") return "📄"; // PDF icon
+    return "📁"; // Generic file icon
   };
 
   return (
@@ -134,7 +213,7 @@ const CreateCollectiblePage = () => {
                 id="imageUrl"
                 name="imageUrl"
                 accept="image/*"
-                onChange={(e) => handleFileChange(e, "imageUrl")}
+                onChange={handleImageUpload}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
               />
               {imageUploading && <p>Uploading image...</p>}
@@ -172,16 +251,28 @@ const CreateCollectiblePage = () => {
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
               <h3 className="text-lg font-medium text-black-600">Content</h3>
               <p className="text-sm text-gray-600">
-                Add content to sell. You can sell access to any combination of audio, video, pages, or other digital files.
+                Add content to sell. You can upload images, audio, video, PDFs, or other digital files.
               </p>
               <input
                 type="file"
                 id="content"
                 name="content"
-                onChange={(e) => handleFileChange(e, "content")}
+                multiple
+                accept="*/*"
+                onChange={handleContentUpload}
                 className="w-full border border-dashed border-gray-300 rounded-lg px-4 py-2 mt-2"
               />
               {contentUploading && <p>Uploading content...</p>}
+
+              {/* Content Preview Grid */}
+              <div className="grid grid-cols-3 gap-4 mt-4">
+                {formData.content.map((file, index) => (
+                  <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm">
+                    <div className="text-2xl">{getFileTypeIcon(file.type)}</div>
+                    <p className="text-xs text-gray-600 mt-1 text-center truncate">{file.name}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Benefits Input */}
