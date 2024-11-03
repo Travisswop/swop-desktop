@@ -10,15 +10,22 @@ import "react-photo-album/styles.css";
 import ImageContent from "./ImageSelect";
 import { toast } from "react-toastify";
 import { AiOutlineClose } from "react-icons/ai"; // Icon for close button
+import { Spinner } from "@nextui-org/react";
+import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
+import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
+import { postFeed } from "@/actions/postFeed";
 
-const PostFeed = () => {
+const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
+  const [postLoading, setPostLoading] = useState<boolean>(false);
+  const [primaryMicrosite, setPrimaryMicrosite] = useState<string>("");
+
   const [postContent, setPostContent] = useState<string>("");
   const [fileError, setFileError] = useState<string>("");
   const [mediaFiles, setMediaFiles] = useState<
-    { type: "image" | "video"; src: string }[]
+    { type: "image" | "video" | "gif"; src: string }[]
   >([]);
 
-  // console.log("mediaFiles", mediaFiles);
+  console.log("mediaFiles", mediaFiles);
   // console.log("gifContent", gifContent);
 
   // Callback function to handle emoji selection
@@ -32,9 +39,59 @@ const PostFeed = () => {
     }
   }, [fileError]);
 
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const micrositeId = localStorage.getItem("userPrimaryMicrosite");
+      if (micrositeId) {
+        setPrimaryMicrosite(micrositeId);
+      }
+    }
+  }, []);
+
   // Function to remove media item
   const handleRemoveMedia = (index: number) => {
     setMediaFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleFeedPosting = async () => {
+    try {
+      setPostLoading(true);
+      const updatedMediaFiles = await Promise.all(
+        mediaFiles.map(async (file) => {
+          if (file.type === "image") {
+            const imageUrl = await sendCloudinaryImage(file.src);
+            return { type: "image", src: imageUrl };
+          } else if (file.type === "video") {
+            const videoUrl = await sendCloudinaryVideo(file.src);
+            return { type: "video", src: videoUrl };
+          } else {
+            // If it's a GIF or another type, keep the original URL
+            return file;
+          }
+        })
+      );
+      // console.log("updatedMediaFiles", updatedMediaFiles);
+
+      const payload = {
+        smartsiteId: primaryMicrosite,
+        userId: userId,
+        postType: "post",
+        content: {
+          title: postContent,
+          post_content: updatedMediaFiles,
+        },
+      };
+      const data = await postFeed(payload, token);
+      if (data?.state === "success") {
+        toast.success("You posted successfully!");
+      }
+      // console.log("payload", payload);
+      // console.log("data", data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPostLoading(false);
+    }
   };
 
   return (
@@ -63,7 +120,8 @@ const PostFeed = () => {
                   >
                     <AiOutlineClose size={20} className="text-gray-600" />
                   </button>
-                  {mediaFiles[0].type === "image" ? (
+                  {mediaFiles[0].type === "image" ||
+                  mediaFiles[0].type === "gif" ? (
                     <Image
                       src={mediaFiles[0].src}
                       alt="media"
@@ -99,7 +157,7 @@ const PostFeed = () => {
                       >
                         <AiOutlineClose size={20} className="text-gray-600" />
                       </button>
-                      {file.type === "image" ? (
+                      {file.type === "image" || file.type === "gif" ? (
                         <Image
                           src={file.src}
                           alt="media"
@@ -133,7 +191,7 @@ const PostFeed = () => {
                       >
                         <AiOutlineClose size={20} className="text-gray-600" />
                       </button>
-                      {file.type === "image" ? (
+                      {file.type === "image" || file.type === "gif" ? (
                         <Image
                           src={file.src}
                           alt="media"
@@ -167,7 +225,7 @@ const PostFeed = () => {
                       >
                         <AiOutlineClose size={20} className="text-gray-600" />
                       </button>
-                      {file.type === "image" ? (
+                      {file.type === "image" || file.type === "gif" ? (
                         <Image
                           src={file.src}
                           alt="media"
@@ -211,9 +269,21 @@ const PostFeed = () => {
             </div>
             <DynamicPrimaryBtn
               enableGradient={false}
-              className="!rounded w-20 hover:!bg-black !py-1.5"
+              disabled={postLoading}
+              className={`!rounded w-28 !py-1.5 ${
+                postLoading ? "bg-gray-500" : "hover:!bg-black"
+              }`}
+              onClick={handleFeedPosting}
             >
-              Post
+              <div>
+                {postLoading ? (
+                  <span className="flex items-center gap-1">
+                    Posting <Spinner size="sm" color="default" />
+                  </span>
+                ) : (
+                  "Post"
+                )}
+              </div>
             </DynamicPrimaryBtn>
           </div>
         </div>

@@ -34,7 +34,7 @@ const GifPickerContent = ({
     setMediaFiles((prevMediaFiles: any) => [
       ...prevMediaFiles,
       {
-        type: "image",
+        type: "gif",
         src: gifData.url,
       },
     ]);
