@@ -1,7 +1,9 @@
+// "use client";
 import Link from "next/link";
 import React from "react";
 import DynamicPrimaryBtn from "../Button/DynamicPrimaryBtn";
 import AnimateButton from "../Button/AnimateButton";
+// import { useSearchParams } from "next/navigation";
 
 type Tab = "feed" | "timeline" | "transaction";
 

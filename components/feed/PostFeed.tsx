@@ -13,23 +13,17 @@ import { AiOutlineClose } from "react-icons/ai"; // Icon for close button
 
 const PostFeed = () => {
   const [postContent, setPostContent] = useState<string>("");
-  const [gifContent, setGifContent] = useState<string[]>([]);
   const [fileError, setFileError] = useState<string>("");
   const [mediaFiles, setMediaFiles] = useState<
     { type: "image" | "video"; src: string }[]
   >([]);
 
-  console.log("mediaFiles", mediaFiles);
-  console.log("gifContent", gifContent);
+  // console.log("mediaFiles", mediaFiles);
+  // console.log("gifContent", gifContent);
 
   // Callback function to handle emoji selection
   const handleEmojiSelect = (emoji: string) => {
     setPostContent((prevContent) => prevContent + emoji);
-  };
-
-  // Callback function to handle GIF selection
-  const handleGifSelect = (gif: string) => {
-    setGifContent((prevContent) => [...prevContent, gif]);
   };
 
   useEffect(() => {
@@ -200,14 +194,19 @@ const PostFeed = () => {
               <ImageContent
                 setFileError={setFileError}
                 setMediaFiles={setMediaFiles}
+                mediaFilesLength={mediaFiles.length}
               />
-              <GifPickerContent onGifSelect={handleGifSelect} />
+              <GifPickerContent
+                mediaFilesLength={mediaFiles.length}
+                setMediaFiles={setMediaFiles}
+                setFileError={setFileError}
+              />
               <Emoji onEmojiSelect={handleEmojiSelect} />
-              <button>
-                <MdOutlineDateRange size={22} className="text-gray-600" />
+              <button className="cursor-not-allowed">
+                <MdOutlineDateRange size={22} className="text-gray-400" />
               </button>
-              <button>
-                <MdOutlineLocationOn size={24} className="text-gray-600" />
+              <button className="cursor-not-allowed">
+                <MdOutlineLocationOn size={24} className="text-gray-400" />
               </button>
             </div>
             <DynamicPrimaryBtn

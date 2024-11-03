@@ -1,14 +1,19 @@
-// ImageContent.tsx
-
 import React, { useRef } from "react";
 import { FaRegImage } from "react-icons/fa";
 
 interface ImageContentProps {
   setFileError: (error: string) => void;
-  setMediaFiles: (files: { type: "image" | "video"; src: string }[]) => void;
+  setMediaFiles: React.Dispatch<
+    React.SetStateAction<{ type: "image" | "video"; src: string }[]>
+  >;
+  mediaFilesLength: any;
 }
 
-const ImageContent = ({ setFileError, setMediaFiles }: ImageContentProps) => {
+const ImageContent = ({
+  setFileError,
+  setMediaFiles,
+  mediaFilesLength,
+}: ImageContentProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleButtonClick = () => {
@@ -49,8 +54,12 @@ const ImageContent = ({ setFileError, setMediaFiles }: ImageContentProps) => {
               setFileError("Only images and videos are allowed");
             }
 
+            // After all files are processed, update the state
             if (selectedFiles.length === files.length) {
-              setMediaFiles(selectedFiles);
+              setMediaFiles((prevMediaFiles) => [
+                ...prevMediaFiles,
+                ...selectedFiles,
+              ]);
             }
           };
           reader.readAsDataURL(file);
@@ -69,8 +78,17 @@ const ImageContent = ({ setFileError, setMediaFiles }: ImageContentProps) => {
         multiple
         accept="image/*,video/*" // Optional: restrict to image and video formats only
       />
-      <button onClick={handleButtonClick} type="button">
-        <FaRegImage size={22} className="text-gray-600" />
+      <button
+        onClick={mediaFilesLength !== 4 ? handleButtonClick : () => {}}
+        type="button"
+        className={`${mediaFilesLength > 3 && "cursor-not-allowed disabled"}`}
+      >
+        <FaRegImage
+          size={22}
+          className={`${
+            mediaFilesLength > 3 ? "text-gray-400" : "text-gray-700"
+          }`}
+        />
       </button>
     </div>
   );
