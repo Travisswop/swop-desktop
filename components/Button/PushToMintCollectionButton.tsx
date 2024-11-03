@@ -31,7 +31,7 @@ const PushToMintCollectionButton = ({
     if (onClick) {
       onClick(e); // If a custom onClick handler is passed, call it
     }
-    router.push("/mint/createCollection"); // Navigate to the target page
+    // router.push("/mint/createCollection"); // Navigate to the target page
   };
 
   return (
