@@ -202,7 +202,7 @@ const CreateCollectiblePage = () => {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
-              <p className="text-sm text-gray-500 mt-1">Note: Your pass name can't be changed after creation</p>
+              <p className="text-sm text-gray-500 mt-1">Note: Your pass name can&#39;t be changed after creation</p>
             </div>
 
             {/* Image Upload */}
@@ -244,7 +244,7 @@ const CreateCollectiblePage = () => {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
-              <p className="text-sm text-gray-500 mt-1">Note: Currency can't be changed after creation</p>
+              <p className="text-sm text-gray-500 mt-1">Note: Currency can&#39;t be changed after creation</p>
             </div>
 
             {/* Content Upload */}
