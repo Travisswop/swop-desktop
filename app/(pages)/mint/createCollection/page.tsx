@@ -13,7 +13,7 @@ const CreateCollectionPage = () => {
     price: "",
     recipientAddress: "",
     currency: "sol", // Default to Solana
-    type: "Collectable", // Default type
+    type: "Collectible", // Default type
     benefits: "", // Benefits input
   });
 
@@ -148,7 +148,7 @@ const CreateCollectionPage = () => {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               >
-                <option value="Collectable">Collectable</option>
+                <option value="Collectible">Collectible</option>
                 <option value="Digital Good">Digital Good</option>
                 <option value="Subscription">Subscription</option>
                 <option value="Membership">Membership</option>
