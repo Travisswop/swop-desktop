@@ -48,8 +48,9 @@ const FeedPage = async ({ searchParams }: PageProps) => {
         </div>
         {/* posting feed here  */}
         <PostFeed userId={session._id} token={session.accessToken} />
+        <hr />
         {/* component to render based on tab */}
-        {ComponentToRender}
+        <section className="p-6">{ComponentToRender}</section>
       </div>
     </div>
   );

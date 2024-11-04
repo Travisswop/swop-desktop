@@ -25,7 +25,7 @@ const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
     { type: "image" | "video" | "gif"; src: string }[]
   >([]);
 
-  console.log("mediaFiles", mediaFiles);
+  // console.log("mediaFiles", mediaFiles);
   // console.log("gifContent", gifContent);
 
   // Callback function to handle emoji selection
@@ -84,6 +84,11 @@ const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
       const data = await postFeed(payload, token);
       if (data?.state === "success") {
         toast.success("You posted successfully!");
+        setMediaFiles([]);
+        setPostContent("");
+      }
+      if (data?.state === "not-allowed") {
+        toast.error("You not allowed to create feed post!");
       }
       // console.log("payload", payload);
       // console.log("data", data);
@@ -269,10 +274,14 @@ const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
             </div>
             <DynamicPrimaryBtn
               enableGradient={false}
-              disabled={postLoading}
+              disabled={
+                postLoading || (postContent === "" && mediaFiles.length === 0)
+              }
               className={`!rounded w-28 !py-1.5 ${
-                postLoading ? "bg-gray-500" : "hover:!bg-black"
-              }`}
+                postContent === "" &&
+                mediaFiles.length === 0 &&
+                "bg-gray-500 brightness-75"
+              } ${postLoading && "bg-gray-500"}`}
               onClick={handleFeedPosting}
             >
               <div>
