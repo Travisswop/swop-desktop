@@ -362,7 +362,7 @@ const CreateCollectiblePage = () => {
             </div>
 
             <div className="mt-4">
-              <input type="checkbox" required /> I agree with swap Minting Privacy & Policy
+              <input type="checkbox" required /> I agree with swop Minting Privacy & Policy
             </div>
 
             <PushToMintCollectionButton onClick={handleSubmit} className="w-max mt-4">
