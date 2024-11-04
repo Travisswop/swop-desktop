@@ -19,7 +19,7 @@ interface FormData {
   recipientAddress: string;
   currency: string;
   type: string;
-  benefits: string;
+  benefits: string[];
   content: ContentFile[];
   enableCreditCard: boolean;
   verifyIdentity: boolean;
@@ -33,15 +33,16 @@ const CreateCollectiblePage = () => {
     imageUrl: "",
     price: "",
     recipientAddress: "",
-    currency: "usdc", // Default to USDC
-    type: "Collectible", // Default type
-    benefits: "", // Benefits input
-    content: [], // Content array for multiple files
+    currency: "usdc",
+    type: "Collectible",
+    benefits: [],
+    content: [],
     enableCreditCard: false,
     verifyIdentity: false,
     limitQuantity: false,
   });
 
+  const [newBenefit, setNewBenefit] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
   const [contentUploading, setContentUploading] = useState(false);
 
@@ -51,7 +52,7 @@ const CreateCollectiblePage = () => {
     >
   ) => {
     const { name, value, type } = e.target;
-  
+
     if (type === "checkbox") {
       setFormData((prevState) => ({
         ...prevState,
@@ -65,7 +66,6 @@ const CreateCollectiblePage = () => {
     }
   };
 
-  // Handle image upload
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -91,7 +91,6 @@ const CreateCollectiblePage = () => {
     reader.readAsDataURL(file);
   };
 
-  // Handle multiple file selection and upload to Cloudinary
   const handleContentUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
@@ -109,7 +108,7 @@ const CreateCollectiblePage = () => {
             } catch (error) {
               console.error("Error uploading file:", error);
               alert(`Failed to upload file: ${file.name}`);
-              resolve(null); // Return null if failed to upload
+              resolve(null);
             }
           };
           reader.readAsDataURL(file);
@@ -117,7 +116,6 @@ const CreateCollectiblePage = () => {
       })
     );
 
-    // Filter out any failed uploads (null values)
     const successfulUploads = uploadedFiles.filter(Boolean) as ContentFile[];
 
     setFormData((prevState) => ({
@@ -161,35 +159,51 @@ const CreateCollectiblePage = () => {
           recipientAddress: "",
           currency: "usdc",
           type: "Collectible",
-          benefits: "",
+          benefits: [],
           content: [],
           enableCreditCard: false,
           verifyIdentity: false,
           limitQuantity: false,
         });
-      }          
+      }
     } catch (error) {
       console.error("Error creating collectible:", error);
       alert("Failed to create collectible");
     }
   };
 
-  // Helper to get an icon based on file type
+  const handleAddBenefit = () => {
+    if (newBenefit.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        benefits: [...prevState.benefits, newBenefit.trim()],
+      }));
+      setNewBenefit("");
+    }
+  };
+
+  const handleRemoveBenefit = (index: number) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      benefits: prevState.benefits.filter((_, i) => i !== index),
+    }));
+  };
+
   const getFileTypeIcon = (type: string) => {
-    if (type.startsWith("image")) return "🖼️"; // Image icon
-    if (type.startsWith("audio")) return "🎵"; // Audio icon
-    if (type.startsWith("video")) return "🎥"; // Video icon
-    if (type === "application/pdf") return "📄"; // PDF icon
-    return "📁"; // Generic file icon
+    if (type.startsWith("image")) return "🖼️";
+    if (type.startsWith("audio")) return "🎵";
+    if (type.startsWith("video")) return "🎥";
+    if (type === "application/pdf") return "📄";
+    return "📁";
   };
 
   return (
     <div className="main-container flex">
-      {/* Left Column */}
       <div className="w-1/2 p-5">
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-300">
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">Create Collectible</h2>
+
             <div>
               <label htmlFor="name" className="mb-1 block font-medium">Name</label>
               <input
@@ -205,7 +219,6 @@ const CreateCollectiblePage = () => {
               <p className="text-sm text-gray-500 mt-1">Note: Your pass name can&#39;t be changed after creation</p>
             </div>
 
-            {/* Image Upload */}
             <div>
               <label htmlFor="imageUrl" className="mb-1 block font-medium">Image (JPEG, JPG, PNG)</label>
               <input
@@ -247,7 +260,6 @@ const CreateCollectiblePage = () => {
               <p className="text-sm text-gray-500 mt-1">Note: Currency can&#39;t be changed after creation</p>
             </div>
 
-            {/* Content Upload */}
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
               <h3 className="text-lg font-medium text-black-600">Content</h3>
               <p className="text-sm text-gray-600">
@@ -264,33 +276,53 @@ const CreateCollectiblePage = () => {
               />
               {contentUploading && <p>Uploading content...</p>}
 
-              {/* Content Preview Grid */}
               <div className="grid grid-cols-3 gap-4 mt-4">
                 {formData.content.map((file, index) => (
-                    <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full">
+                  <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full">
                     <div className="text-2xl">{getFileTypeIcon(file.type)}</div>
                     <p className="text-xs text-gray-600 mt-1 text-center truncate w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                        {file.name}
+                      {file.name}
                     </p>
-                    </div>
+                  </div>
                 ))}
-                </div>
+              </div>
             </div>
 
-            {/* Benefits Input */}
             <div>
               <label htmlFor="benefits" className="mb-1 block font-medium">Benefits</label>
-              <textarea
-                id="benefits"
-                name="benefits"
-                placeholder="Enter each benefit on a new line"
-                value={formData.benefits}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              <input
+                type="text"
+                placeholder="Enter a benefit"
+                value={newBenefit}
+                onChange={(e) => setNewBenefit(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2"
               />
+              <button
+                type="button"
+                onClick={handleAddBenefit}
+                className="bg-black text-white px-4 py-2 rounded-lg"
+              >
+                + Add Benefit
+              </button>
+              <div className="flex flex-col gap-2 mt-2">
+                {formData.benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                  >
+                    <span className="text-sm">{benefit}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveBenefit(index)}
+                      className="text-red-500 font-bold"
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Enable Pay with Credit Card & Verify Identity */}
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
               <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
               <p className="text-sm text-gray-600 mb-2">Let fans buy this pass with a credit card</p>
@@ -315,7 +347,6 @@ const CreateCollectiblePage = () => {
               </div>
             </div>
 
-            {/* Advanced Settings - Limit Quantity */}
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
               <h3 className="text-md font-medium">Advanced Settings</h3>
               <div className="flex items-center justify-between mt-2">
@@ -333,7 +364,6 @@ const CreateCollectiblePage = () => {
               </p>
             </div>
 
-            {/* Agreement */}
             <div className="mt-4">
               <input type="checkbox" required /> I agree with swap Minting Privacy & Policy
             </div>
@@ -345,10 +375,8 @@ const CreateCollectiblePage = () => {
         </div>
       </div>
 
-      {/* Right Column (Preview) */}
       <div className="w-1/2 flex justify-center items-center p-5">
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-300 w-full max-w-md aspect-[3/4] flex flex-col items-start">
-          {/* Display dynamic Image as a square */}
           <div className="w-full aspect-square bg-gray-200 flex items-center justify-center rounded-t-lg mb-4">
             {formData.imageUrl ? (
               <Image
@@ -363,30 +391,26 @@ const CreateCollectiblePage = () => {
             )}
           </div>
 
-          {/* Display Name with label */}
           <div className="mb-2">
             <p className="text-lg font-bold">Name</p>
             <p className="text-sm text-gray-500">{formData.name || "Name will appear here"}</p>
           </div>
 
-          {/* Display Price with label */}
           <div className="mb-2">
             <p className="text-lg font-bold">Price</p>
             <p className="text-sm text-gray-500">{formData.price ? `$${formData.price}` : "Free"}</p>
           </div>
 
-          {/* Display Description with label */}
           <div className="mb-2">
             <p className="text-lg font-bold">Description</p>
             <p className="text-sm text-gray-500">{formData.description || "Description will appear here"}</p>
           </div>
 
-          {/* Dynamic Benefits Section with label */}
           <div className="mt-4 w-full">
             <p className="text-lg font-bold">Benefits</p>
             <ul className="list-disc list-inside text-sm text-gray-500">
-              {formData.benefits
-                ? formData.benefits.split("\n").map((benefit, index) => (
+              {formData.benefits.length > 0
+                ? formData.benefits.map((benefit, index) => (
                     <li key={index}>{benefit}</li>
                   ))
                 : <li>No benefits added</li>}
