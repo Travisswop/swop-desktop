@@ -24,6 +24,7 @@ interface FormData {
   enableCreditCard: boolean;
   verifyIdentity: boolean;
   limitQuantity: boolean;
+  quantity?: number;
 }
 
 const CreateCollectiblePage = () => {
@@ -40,6 +41,7 @@ const CreateCollectiblePage = () => {
     enableCreditCard: false,
     verifyIdentity: false,
     limitQuantity: false,
+    quantity: undefined,
   });
 
   const [newBenefit, setNewBenefit] = useState("");
@@ -64,6 +66,14 @@ const CreateCollectiblePage = () => {
         [name]: value,
       }));
     }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    setFormData((prevState) => ({
+      ...prevState,
+      quantity: isNaN(value) ? undefined : value,
+    }));
   };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,6 +174,7 @@ const CreateCollectiblePage = () => {
           enableCreditCard: false,
           verifyIdentity: false,
           limitQuantity: false,
+          quantity: undefined,
         });
       }
     } catch (error) {
@@ -324,30 +335,6 @@ const CreateCollectiblePage = () => {
             </div>
 
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
-              <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
-              <p className="text-sm text-gray-600 mb-2">Let fans buy this pass with a credit card</p>
-              <input
-                type="checkbox"
-                id="enableCreditCard"
-                name="enableCreditCard"
-                checked={formData.enableCreditCard}
-                onChange={handleChange}
-              /> Enable
-
-              <div className="mt-4">
-                <h3 className="text-md font-medium">Verify Identity</h3>
-                <p className="text-sm text-gray-600">Verify your identity to enable credit card payments. You only complete this process once.</p>
-                <button
-                  type="button"
-                  onClick={() => alert("Verification triggered!")}
-                  className="bg-black text-white px-4 py-2 rounded-lg mt-2"
-                >
-                  Verify
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
               <h3 className="text-md font-medium">Advanced Settings</h3>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-sm font-medium">Limit quantity</span>
@@ -359,6 +346,16 @@ const CreateCollectiblePage = () => {
                   onChange={handleChange}
                 />
               </div>
+              {formData.limitQuantity && (
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Enter quantity"
+                  value={formData.quantity || ""}
+                  onChange={handleQuantityChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2"
+                />
+              )}
               <p className="text-sm text-gray-500 mt-1">
                 Limit the number of times this digital good can be purchased
               </p>
