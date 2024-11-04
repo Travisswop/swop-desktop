@@ -2,6 +2,23 @@
 // export const maxDuration = 60;
 import { revalidatePath } from "next/cache";
 
+export async function getUserFeed(url: string, token: string) {
+  try {
+    const response = await fetch(`${url}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error from getting feed:", error);
+  }
+}
+
 export async function postFeed(payload: any, token: string) {
   try {
     const response = await fetch(

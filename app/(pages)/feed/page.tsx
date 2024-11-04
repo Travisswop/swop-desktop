@@ -23,7 +23,9 @@ const FeedPage = async ({ searchParams }: PageProps) => {
 
   switch (tab) {
     case "feed":
-      ComponentToRender = <Feed />;
+      ComponentToRender = (
+        <Feed accessToken={session.accessToken} userId={session._id} />
+      );
       break;
     case "timeline":
       ComponentToRender = <Timeline />;
@@ -32,7 +34,9 @@ const FeedPage = async ({ searchParams }: PageProps) => {
       ComponentToRender = <Transaction />;
       break;
     default:
-      ComponentToRender = <Feed />; // Default to Feed
+      ComponentToRender = (
+        <Feed accessToken={session.accessToken} userId={session._id} />
+      ); // Default to Feed
   }
 
   return (
