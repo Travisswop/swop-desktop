@@ -119,7 +119,7 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
               ))}
             </div>
           )}
-          <Reaction />
+          {/* <Reaction /> */}
         </div>
       )}
     </div>

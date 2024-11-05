@@ -6,8 +6,12 @@ import { FaUser } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import PostTypeMedia from "./view/PostTypeMedia";
-import { HiDotsHorizontal, HiOutlineDotsVertical } from "react-icons/hi";
+import { HiDotsHorizontal } from "react-icons/hi";
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import relativeTime from "dayjs/plugin/relativeTime";
+import Reaction from "./view/Reaction";
+import Link from "next/link";
+import { FiPlusCircle } from "react-icons/fi";
 
 const Feed = async ({
   accessToken,
@@ -18,9 +22,8 @@ const Feed = async ({
 }) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/feed/user/connect/${userId}?page=1&limit=5`;
   const feedData = await getUserFeed(url, accessToken);
-  console.log("feedData", feedData);
 
-  const dayJS: any = dayjs;
+  dayjs.extend(relativeTime);
 
   return (
     <div>
@@ -35,7 +38,7 @@ const Feed = async ({
                 const profilePic =
                   feed?.smartsiteId?.profilePic || feed?.smartsiteProfilePic;
 
-                console.log("profile picss", profilePic);
+                // console.log("profile picss", profilePic);
 
                 if (profilePic) {
                   return isUrl(profilePic) ? (
@@ -77,7 +80,7 @@ const Feed = async ({
                     </p>
                     <GoDotFill size={10} />
                     <p className="text-gray-500 font-normal">
-                      {dayJS(feed.createdAt).fromNow()}
+                      {dayjs(feed.createdAt).fromNow()}
                     </p>
                   </div>
                   {/* post type title  */}
@@ -85,6 +88,47 @@ const Feed = async ({
                     <p>{feed.content.title}</p>
                   )}
                   {/* connection type title  */}
+                  {feed.postType === "connection" && (
+                    <div>
+                      <p className="text-gray-600 text-sm">
+                        Connected with{" "}
+                        <span className="text-gray-700 font-medium text-base">
+                          {feed.content.connectedSmartsiteName}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+                  {/* connection type title  */}
+                  {feed.postType === "ensClaim" && (
+                    <div>
+                      <p className="text-gray-600 text-sm">
+                        Claim a new ENS{" "}
+                        <span className="text-gray-700 font-medium text-base">
+                          {feed.content.claimEnsName}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+
+                  {/* transaction type */}
+                  {feed.postType === "transaction" && (
+                    <div>
+                      <p className="text-gray-600 text-sm">
+                        Created a new transaction{" "}
+                        <span className="text-gray-700 font-medium text-base">
+                          {`${feed.content.receiver_wallet_address.slice(
+                            0,
+                            5
+                          )}....${feed.content.receiver_wallet_address.slice(
+                            -5
+                          )}`}
+                        </span>
+                      </p>
+                      <p className="text-gray-700 font-medium text-base">
+                        {feed.content.currency} {feed.content.amount}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <Popover
@@ -118,7 +162,30 @@ const Feed = async ({
                   feed.content.post_content.length > 0 && (
                     <PostTypeMedia mediaFiles={feed.content.post_content} />
                   )}
+                {feed.postType === "minting" && (
+                  <div className="w-max">
+                    <p>{feed.content.title}</p>
+                    <div className="shadow-medium bg-white rounded-lg mt-2 p-2 relative">
+                      <Link href={feed.content.link} className="w-max">
+                        <Image
+                          src={feed.content.image}
+                          alt="nft image"
+                          width={200}
+                          height={200}
+                        />
+                        <p className="text-center text-sm text-gray-500 font-medium">
+                          {feed.content.price}
+                        </p>
+                        <FiPlusCircle
+                          className="absolute top-2 right-2"
+                          size={24}
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </div>
+              <Reaction />
             </div>
           </div>
         ))}
