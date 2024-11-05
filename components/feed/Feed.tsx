@@ -9,19 +9,34 @@ import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import PostTypeMedia from "./view/PostTypeMedia";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Skeleton,
+} from "@nextui-org/react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Reaction from "./view/Reaction";
 import Link from "next/link";
 import { FiPlusCircle } from "react-icons/fi";
 import FeedLoading from "../loading/FeedLoading";
+import { MdDeleteForever } from "react-icons/md";
+import { RiEdit2Fill } from "react-icons/ri";
 
 const Feed = ({
   accessToken,
   userId,
+  setIsPosting,
+  isPosting,
+  setIsPostLoading,
+  isPostLoading,
 }: {
   accessToken: string;
   userId: string;
+  setIsPosting: any;
+  isPosting: boolean;
+  setIsPostLoading: any;
+  isPostLoading: any;
 }) => {
   const [feedData, setFeedData] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -31,26 +46,48 @@ const Feed = ({
 
   dayjs.extend(relativeTime);
 
-  const fetchFeedData = useCallback(async () => {
-    if (isFetching.current) return; // Prevent duplicate fetch
-    isFetching.current = true;
+  const fetchFeedData = useCallback(
+    async (reset = false) => {
+      if (isFetching.current) return; // Prevent duplicate fetch
+      isFetching.current = true;
 
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/feed/user/connect/${userId}?page=${page}&limit=5`;
-    const newFeedData = await getUserFeed(url, accessToken);
+      const url = `${
+        process.env.NEXT_PUBLIC_API_URL
+      }/api/v1/feed/user/connect/${userId}?page=${reset ? 1 : page}&limit=5`;
+      const newFeedData = await getUserFeed(url, accessToken);
 
-    if (newFeedData.data.length === 0) {
-      setHasMore(false);
-    } else {
-      setFeedData((prev) => [...prev, ...newFeedData.data]);
-    }
+      if (reset) {
+        setFeedData(newFeedData.data); // Reset data when refetching
+        setPage(1); // Reset page number
+        setIsPostLoading(false);
+      } else {
+        if (newFeedData.data.length === 0) {
+          setHasMore(false);
+          setIsPostLoading(false);
+        } else {
+          setFeedData((prev) => [...prev, ...newFeedData.data]);
+          setIsPostLoading(false);
+        }
+      }
 
-    isFetching.current = false;
-  }, [page, accessToken, userId]);
+      isFetching.current = false;
+    },
+    [userId, page, accessToken, setIsPostLoading]
+  );
 
   // Initial fetch and fetch on page increment
   useEffect(() => {
     fetchFeedData();
   }, [page, fetchFeedData]);
+
+  // Refetch data when isPosting becomes true
+  useEffect(() => {
+    if (isPosting) {
+      fetchFeedData(true); // Pass `true` to reset data
+      setIsPosting(false); // Reset isPosting after fetch
+      setIsPostLoading(true);
+    }
+  }, [isPosting, fetchFeedData, setIsPosting, setIsPostLoading]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -69,9 +106,24 @@ const Feed = ({
     return () => observer.disconnect();
   }, [hasMore]);
 
+  const handlePostDelete = () => {
+    console.log("post deleted"); //need to handle it
+  };
+
   return (
-    <div>
-      <div className="flex flex-col gap-4 w-4/5 xl:w-2/3 2xl:w-1/2">
+    <div className="w-4/5 xl:w-2/3 2xl:w-1/2">
+      {isPostLoading && (
+        <div className="w-full flex items-center gap-3 border-b pb-5 mb-5">
+          <div>
+            <Skeleton className="flex rounded-full w-12 h-12" />
+          </div>
+          <div className="w-full flex flex-col gap-2">
+            <Skeleton className="h-5 w-3/5 rounded-lg" />
+            <Skeleton className="h-5 w-4/5 rounded-lg" />
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col gap-4">
         {feedData.map((feed) => (
           <div
             key={feed._id}
@@ -159,32 +211,37 @@ const Feed = ({
                     </p>
                   )}
                 </div>
-                <div>
-                  <Popover
-                    backdrop="transparent"
-                    placement="bottom-end"
-                    showArrow={true}
-                  >
-                    <PopoverTrigger>
-                      <button type="button">
-                        <HiDotsHorizontal
-                          size={20}
-                          className="border-transparent"
-                        />
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="px-1 py-2">
-                        <div className="text-small font-bold">
-                          Popover Content
+                {userId === feed.userId && (
+                  <div>
+                    <Popover
+                      backdrop="transparent"
+                      placement="bottom-end"
+                      showArrow={true}
+                    >
+                      <PopoverTrigger>
+                        <button type="button">
+                          <HiDotsHorizontal
+                            size={20}
+                            className="border-transparent"
+                          />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <div className="px-1 py-2 flex flex-col gap-1">
+                          <button className="text-gray-700 flex items-center gap-1 font-medium border-b p-1 text-sm">
+                            <RiEdit2Fill color="black" size={18} /> Edit
+                          </button>
+                          <button
+                            onClick={() => handlePostDelete()}
+                            className="text-red-600 flex items-center gap-1 font-medium border-b p-1 text-sm"
+                          >
+                            <MdDeleteForever color="red" size={19} /> Delete
+                          </button>
                         </div>
-                        <div className="text-tiny">
-                          This is the popover content
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
               </div>
               <div>
                 {/* Post Media */}

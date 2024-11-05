@@ -15,7 +15,17 @@ import { sendCloudinaryVideo } from "@/util/sendCloudineryVideo";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
 import { postFeed } from "@/actions/postFeed";
 
-const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
+const PostFeed = ({
+  userId,
+  token,
+  setIsPosting,
+  setIsPostLoading,
+}: {
+  userId: string;
+  token: string;
+  setIsPosting: any;
+  setIsPostLoading: any;
+}) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [primaryMicrosite, setPrimaryMicrosite] = useState<string>("");
 
@@ -56,6 +66,7 @@ const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
   const handleFeedPosting = async () => {
     try {
       setPostLoading(true);
+      setIsPostLoading(true);
       const updatedMediaFiles = await Promise.all(
         mediaFiles.map(async (file) => {
           if (file.type === "image") {
@@ -86,6 +97,7 @@ const PostFeed = ({ userId, token }: { userId: string; token: string }) => {
         toast.success("You posted successfully!");
         setMediaFiles([]);
         setPostContent("");
+        setIsPosting(true);
       }
       if (data?.state === "not-allowed") {
         toast.error("You not allowed to create feed post!");

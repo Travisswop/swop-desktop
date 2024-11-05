@@ -6,6 +6,7 @@ import PostFeed from "@/components/feed/PostFeed";
 import TabSwitcher from "@/components/feed/TabSwitcher";
 import SearchSwopId from "@/components/feed/SearchSwopId";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
+import FeedMain from "@/components/feed/FeedMain";
 
 type Tab = "feed" | "timeline" | "transaction";
 interface PageProps {
@@ -19,25 +20,25 @@ const FeedPage = async ({ searchParams }: PageProps) => {
 
   const { tab } = searchParams;
 
-  let ComponentToRender: JSX.Element;
+  // let ComponentToRender: JSX.Element;
 
-  switch (tab) {
-    case "feed":
-      ComponentToRender = (
-        <Feed accessToken={session.accessToken} userId={session._id} />
-      );
-      break;
-    case "timeline":
-      ComponentToRender = <Timeline />;
-      break;
-    case "transaction":
-      ComponentToRender = <Transaction />;
-      break;
-    default:
-      ComponentToRender = (
-        <Feed accessToken={session.accessToken} userId={session._id} />
-      ); // Default to Feed
-  }
+  // switch (tab) {
+  //   case "feed":
+  //     ComponentToRender = (
+  //       <Feed accessToken={session.accessToken} userId={session._id} />
+  //     );
+  //     break;
+  //   case "timeline":
+  //     ComponentToRender = <Timeline />;
+  //     break;
+  //   case "transaction":
+  //     ComponentToRender = <Transaction />;
+  //     break;
+  //   default:
+  //     ComponentToRender = (
+  //       <Feed accessToken={session.accessToken} userId={session._id} />
+  //     ); // Default to Feed
+  // }
 
   return (
     <div className="main-container">
@@ -50,11 +51,7 @@ const FeedPage = async ({ searchParams }: PageProps) => {
             <SearchSwopId />
           </div>
         </div>
-        {/* posting feed here  */}
-        <PostFeed userId={session._id} token={session.accessToken} />
-        <hr />
-        {/* component to render based on tab */}
-        <section className="p-6">{ComponentToRender}</section>
+        <FeedMain tab={tab} session={session} />
       </div>
     </div>
   );
