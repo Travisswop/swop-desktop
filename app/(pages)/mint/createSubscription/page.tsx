@@ -27,7 +27,7 @@ interface FormData {
   quantity?: number;
 }
 
-const CreateCollectiblePage = () => {
+const CreateSubscriptionPage = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
@@ -35,7 +35,7 @@ const CreateCollectiblePage = () => {
     price: "",
     recipientAddress: "",
     currency: "usdc",
-    type: "Collectible",
+    type: "Subscription",
     benefits: [],
     content: [],
     enableCreditCard: false,
@@ -161,13 +161,13 @@ const CreateCollectiblePage = () => {
       };
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/collectibles`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/desktop/nft/subscriptions`,
         formData,
         config
       );
 
       if (response.data.state === "success") {
-        alert("Collectible created successfully!");
+        alert("Subscription created successfully!");
         setFormData({
           name: "",
           description: "",
@@ -175,7 +175,7 @@ const CreateCollectiblePage = () => {
           price: "",
           recipientAddress: "",
           currency: "usdc",
-          type: "Collectible",
+          type: "Subscription",
           benefits: [],
           content: [],
           enableCreditCard: false,
@@ -186,8 +186,8 @@ const CreateCollectiblePage = () => {
         setSelectedImageName(null);
       }
     } catch (error) {
-      console.error("Error creating collectible:", error);
-      alert("Failed to create collectible");
+      console.error("Error creating subscription:", error);
+      alert("Failed to create subscription");
     }
   };
 
@@ -221,7 +221,7 @@ const CreateCollectiblePage = () => {
       <div className="w-1/2 p-5">
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-300">
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">Create Collectible</h2>
+            <h2 className="text-2xl font-bold">Create Subscription</h2>
 
             <div>
               <label htmlFor="name" className="mb-1 block font-medium">
@@ -231,20 +231,20 @@ const CreateCollectiblePage = () => {
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Give your digital good a name."
+                placeholder="Give your subscription a name."
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
-                Note: Your pass name can&#39;t be changed after creation
+                Note: Your subscription name can&#39;t be changed after creation
               </p>
             </div>
 
             <label htmlFor="imageUrl" className="mb-1 block font-medium">
-                Image (JPEG, JPG, PNG)
-              </label>
+              Image (JPEG, JPG, PNG)
+            </label>
             <div className="bg-gray-100 p-4 rounded-lg border border-dashed border-gray-300 text-center">
               {formData.imageUrl ? (
                 <div className="flex flex-col items-center">
@@ -355,30 +355,6 @@ const CreateCollectiblePage = () => {
               </div>
             </div>
 
-            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
-              <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
-              <p className="text-sm text-gray-600 mb-2">Let fans buy this pass with a credit card</p>
-              <input
-                type="checkbox"
-                id="enableCreditCard"
-                name="enableCreditCard"
-                checked={formData.enableCreditCard}
-                onChange={handleChange}
-              /> Enable
-
-              <div className="mt-4">
-                <h3 className="text-md font-medium">Verify Identity</h3>
-                <p className="text-sm text-gray-600">Verify your identity to enable credit card payments. You only complete this process once.</p>
-                <button
-                  type="button"
-                  onClick={() => alert("Verification triggered!")}
-                  className="bg-black text-white px-4 py-2 rounded-lg mt-2"
-                >
-                  Verify
-                </button>
-              </div>
-            </div>
-
             <div>
               <label htmlFor="benefits" className="mb-1 block font-medium">
                 Benefits
@@ -443,6 +419,30 @@ const CreateCollectiblePage = () => {
               </p>
             </div>
 
+            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
+              <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
+              <p className="text-sm text-gray-600 mb-2">Let users buy this subscription with a credit card</p>
+              <input
+                type="checkbox"
+                id="enableCreditCard"
+                name="enableCreditCard"
+                checked={formData.enableCreditCard}
+                onChange={handleChange}
+              /> Enable
+
+              <div className="mt-4">
+                <h3 className="text-md font-medium">Verify Identity</h3>
+                <p className="text-sm text-gray-600">Verify your identity to enable credit card payments. You only complete this process once.</p>
+                <button
+                  type="button"
+                  onClick={() => alert("Verification triggered!")}
+                  className="bg-black text-white px-4 py-2 rounded-lg mt-2"
+                >
+                  Verify
+                </button>
+              </div>
+            </div>
+
             <div className="mt-4">
               <input type="checkbox" required /> I agree with swop Minting Privacy & Policy
             </div>
@@ -501,4 +501,4 @@ const CreateCollectiblePage = () => {
   );
 };
 
-export default CreateCollectiblePage;
+export default CreateSubscriptionPage;
