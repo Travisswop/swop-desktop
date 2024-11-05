@@ -47,6 +47,7 @@ const CreateCollectiblePage = () => {
   const [newBenefit, setNewBenefit] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
   const [contentUploading, setContentUploading] = useState(false);
+  const [selectedImageName, setSelectedImageName] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -76,9 +77,13 @@ const CreateCollectiblePage = () => {
     }));
   };
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    setSelectedImageName(file.name);
 
     const reader = new FileReader();
     reader.onloadend = async () => {
@@ -101,7 +106,9 @@ const CreateCollectiblePage = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleContentUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleContentUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
@@ -176,6 +183,7 @@ const CreateCollectiblePage = () => {
           limitQuantity: false,
           quantity: undefined,
         });
+        setSelectedImageName(null);
       }
     } catch (error) {
       console.error("Error creating collectible:", error);
@@ -216,7 +224,9 @@ const CreateCollectiblePage = () => {
             <h2 className="text-2xl font-bold">Create Collectible</h2>
 
             <div>
-              <label htmlFor="name" className="mb-1 block font-medium">Name</label>
+              <label htmlFor="name" className="mb-1 block font-medium">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -227,24 +237,63 @@ const CreateCollectiblePage = () => {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
-              <p className="text-sm text-gray-500 mt-1">Note: Your pass name can&#39;t be changed after creation</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Note: Your pass name can&#39;t be changed after creation
+              </p>
             </div>
 
-            <div>
-              <label htmlFor="imageUrl" className="mb-1 block font-medium">Image (JPEG, JPG, PNG)</label>
+            <label htmlFor="imageUrl" className="mb-1 block font-medium">
+                Image (JPEG, JPG, PNG)
+              </label>
+            <div className="bg-gray-100 p-4 rounded-lg border border-dashed border-gray-300 text-center">
+              {formData.imageUrl ? (
+                <div className="flex flex-col items-center">
+                  <Image
+                    src={formData.imageUrl}
+                    width={100}
+                    height={100}
+                    alt="Preview"
+                    className="rounded-lg object-cover"
+                  />
+                  <p className="text-sm mt-2 text-gray-700">{selectedImageName}</p>
+                  <label
+                    htmlFor="imageUrl"
+                    className="inline-block bg-black text-white px-4 py-2 rounded-lg mt-2 cursor-pointer"
+                  >
+                    Change Picture
+                  </label>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex flex-col items-center justify-center h-32 cursor-pointer">
+                    <div className="text-6xl text-gray-400">📷</div>
+                    <p className="text-gray-500">
+                      Browse or drag and drop an image here.
+                    </p>
+                    <label
+                      htmlFor="imageUrl"
+                      className="inline-block bg-black text-white px-4 py-2 rounded-lg mt-2 cursor-pointer"
+                    >
+                      Browse
+                    </label>
+                  </div>
+                </div>
+              )}
               <input
                 type="file"
                 id="imageUrl"
                 name="imageUrl"
                 accept="image/*"
                 onChange={handleImageUpload}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                className="hidden"
               />
               {imageUploading && <p>Uploading image...</p>}
             </div>
 
             <div>
-              <label htmlFor="description" className="mb-1 block font-medium">Description</label>
+              <label htmlFor="description" className="mb-1 block font-medium">
+                Description
+              </label>
               <textarea
                 id="description"
                 name="description"
@@ -257,7 +306,9 @@ const CreateCollectiblePage = () => {
             </div>
 
             <div>
-              <label htmlFor="price" className="mb-1 block font-medium">Price</label>
+              <label htmlFor="price" className="mb-1 block font-medium">
+                Price
+              </label>
               <input
                 type="text"
                 id="price"
@@ -268,7 +319,9 @@ const CreateCollectiblePage = () => {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
-              <p className="text-sm text-gray-500 mt-1">Note: Currency can&#39;t be changed after creation</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Note: Currency can&#39;t be changed after creation
+              </p>
             </div>
 
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
@@ -289,7 +342,10 @@ const CreateCollectiblePage = () => {
 
               <div className="grid grid-cols-3 gap-4 mt-4">
                 {formData.content.map((file, index) => (
-                  <div key={index} className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full">
+                  <div
+                    key={index}
+                    className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full"
+                  >
                     <div className="text-2xl">{getFileTypeIcon(file.type)}</div>
                     <p className="text-xs text-gray-600 mt-1 text-center truncate w-full overflow-hidden text-ellipsis whitespace-nowrap">
                       {file.name}
@@ -300,7 +356,9 @@ const CreateCollectiblePage = () => {
             </div>
 
             <div>
-              <label htmlFor="benefits" className="mb-1 block font-medium">Benefits</label>
+              <label htmlFor="benefits" className="mb-1 block font-medium">
+                Benefits
+              </label>
               <input
                 type="text"
                 placeholder="Enter a benefit"
