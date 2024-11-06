@@ -128,9 +128,9 @@ const PostFeed = ({
 
           {/* Render media files */}
           {mediaFiles.length > 0 && (
-            <div className="mt-4">
+            <div className="mt-4 w-4/5 xl:w-2/3 2xl:w-1/2">
               {mediaFiles.length === 1 && (
-                <div className="relative w-1/2 min-h-96 max-h-[30rem] border border-black bg-black rounded-2xl overflow-hidden">
+                <div className="relative w-full min-h-96 max-h-[30rem] border border-black bg-black rounded-2xl overflow-hidden">
                   <button
                     onClick={() => handleRemoveMedia(0)}
                     className="absolute top-2 right-2 bg-white p-1 rounded-full hover:bg-gray-300 z-50"
@@ -162,7 +162,7 @@ const PostFeed = ({
 
               {/* Display for 2 media items */}
               {mediaFiles.length === 2 && (
-                <div className="w-full 2xl:w-[70%] grid grid-cols-2 gap-2 border border-black bg-black rounded-2xl overflow-hidden relative h-auto sm:h-72 md:h-96 xl:h-[28rem]">
+                <div className="w-full grid grid-cols-2 gap-2 border border-black bg-black rounded-2xl overflow-hidden relative h-auto sm:h-72 md:h-96 xl:h-[28rem]">
                   {mediaFiles.map((file, index) => (
                     <div
                       key={index}
@@ -230,7 +230,7 @@ const PostFeed = ({
 
               {/* Display for 4 media items */}
               {mediaFiles.length === 4 && (
-                <div className="w-full 2xl:w-2/3 grid grid-cols-2 gap-1 border-2 border-black bg-black rounded-2xl overflow-hidden relative h-auto sm:h-72 md:h-96 xl:h-[30rem]">
+                <div className="grid grid-cols-2 gap-1 border-2 border-black bg-black rounded-2xl overflow-hidden relative h-auto sm:h-72 md:h-96 xl:h-[30rem]">
                   {mediaFiles.map((file, index) => (
                     <div
                       key={index}
