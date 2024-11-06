@@ -9,7 +9,12 @@ import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import PostTypeMedia from "./view/PostTypeMedia";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@nextui-org/react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Reaction from "./view/Reaction";
 import Link from "next/link";
@@ -196,30 +201,16 @@ const Feed = ({
                   )}
                 </div>
                 {userId === feed.userId && (
-                  <div>
+                  <div className="">
                     <Popover
                       backdrop="transparent"
                       placement="bottom-end"
                       showArrow={true}
-                      style={{ zIndex: 10, position: "absolute" }}
-                      // classNames={{
-                      //   base: [
-                      //     // arrow color
-                      //     "before:bg-default-200 -z-10",
-                      //   ],
-                      //   content: [
-                      //     "py-3 px-4 border border-default-200",
-                      //     "bg-gradient-to-br from-white to-default-300",
-                      //     "dark:from-default-100 dark:to-default-50 -z-10",
-                      //   ],
-                      // }}
+                      style={{ zIndex: 10 }}
                     >
                       <PopoverTrigger>
                         <button type="button">
-                          <HiDotsHorizontal
-                            size={20}
-                            className="border-transparent"
-                          />
+                          <HiDotsHorizontal size={20} />
                         </button>
                       </PopoverTrigger>
                       <PopoverContent>
@@ -267,7 +258,14 @@ const Feed = ({
                   </div>
                 )}
               </div>
-              <Reaction />
+              <Reaction
+                smartsiteId={feed.smartsiteId._id}
+                postId={feed._id}
+                likeCount={feed.likeCount}
+                commentCount={feed.commentCount}
+                repostCount={feed.repostCount}
+                viewsCount={feed.viewsCount}
+              />
             </div>
           </div>
         ))}
