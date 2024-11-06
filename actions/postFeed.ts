@@ -41,6 +41,25 @@ export async function postFeed(payload: any, token: string) {
     console.error("Error from posting feed:", error);
   }
 }
+export async function deleteFeed(postId: string, token: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/feed/${postId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    revalidatePath(`/feed`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error from posting feed:", error);
+  }
+}
 // export async function updateVideo(info: any, token: string) {
 //   try {
 //     const response = await fetch(

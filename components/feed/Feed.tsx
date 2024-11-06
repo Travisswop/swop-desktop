@@ -20,8 +20,8 @@ import Reaction from "./view/Reaction";
 import Link from "next/link";
 import { FiPlusCircle } from "react-icons/fi";
 import FeedLoading from "../loading/FeedLoading";
-import { MdDeleteForever } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
+import DeleteFeedModal from "./DeleteFeedModal";
 
 const Feed = ({
   accessToken,
@@ -30,6 +30,10 @@ const Feed = ({
   isPosting,
   setIsPostLoading,
   isPostLoading,
+  setIsPostUpdating,
+  isPostUpdating,
+  setIsPostDeleting,
+  isPostDeleting,
 }: {
   accessToken: string;
   userId: string;
@@ -37,12 +41,16 @@ const Feed = ({
   isPosting: boolean;
   setIsPostLoading: any;
   isPostLoading: any;
+  setIsPostUpdating: any;
+  isPostUpdating: any;
+  setIsPostDeleting: any;
+  isPostDeleting: any;
 }) => {
   const [feedData, setFeedData] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement>(null);
-  const isFetching = useRef(false); // Flag to prevent duplicate fetches
+  const isFetching = useRef(false);
 
   dayjs.extend(relativeTime);
 
@@ -89,6 +97,14 @@ const Feed = ({
     }
   }, [isPosting, fetchFeedData, setIsPosting, setIsPostLoading]);
 
+  // Refetch data when isPosting becomes true
+  useEffect(() => {
+    if (isPostDeleting || isPostUpdating) {
+      fetchFeedData(true); // Pass `true` to reset data
+      setIsPostDeleting(false);
+    }
+  }, [fetchFeedData, isPostDeleting, isPostUpdating, setIsPostDeleting]);
+
   // Infinite scroll observer
   useEffect(() => {
     if (!hasMore) return;
@@ -105,10 +121,6 @@ const Feed = ({
 
     return () => observer.disconnect();
   }, [hasMore]);
-
-  const handlePostDelete = () => {
-    console.log("post deleted"); //need to handle it
-  };
 
   return (
     <div className="w-4/5 xl:w-2/3 2xl:w-1/2">
@@ -217,6 +229,18 @@ const Feed = ({
                       backdrop="transparent"
                       placement="bottom-end"
                       showArrow={true}
+                      style={{ zIndex: 10, position: "absolute" }}
+                      // classNames={{
+                      //   base: [
+                      //     // arrow color
+                      //     "before:bg-default-200 -z-10",
+                      //   ],
+                      //   content: [
+                      //     "py-3 px-4 border border-default-200",
+                      //     "bg-gradient-to-br from-white to-default-300",
+                      //     "dark:from-default-100 dark:to-default-50 -z-10",
+                      //   ],
+                      // }}
                     >
                       <PopoverTrigger>
                         <button type="button">
@@ -227,16 +251,15 @@ const Feed = ({
                         </button>
                       </PopoverTrigger>
                       <PopoverContent>
-                        <div className="px-1 py-2 flex flex-col gap-1">
+                        <div className="px-1 py-2 flex flex-col">
                           <button className="text-gray-700 flex items-center gap-1 font-medium border-b p-1 text-sm">
                             <RiEdit2Fill color="black" size={18} /> Edit
                           </button>
-                          <button
-                            onClick={() => handlePostDelete()}
-                            className="text-red-600 flex items-center gap-1 font-medium border-b p-1 text-sm"
-                          >
-                            <MdDeleteForever color="red" size={19} /> Delete
-                          </button>
+                          <DeleteFeedModal
+                            postId={feed._id}
+                            token={accessToken}
+                            setIsPostDeleting={setIsPostDeleting}
+                          />
                         </div>
                       </PopoverContent>
                     </Popover>

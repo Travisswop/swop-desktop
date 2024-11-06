@@ -291,3 +291,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.1); /* For Firefox */
 }
+
+.custom-popover .nextui-popover-content {
+  z-index: 10 !important; /* Adjust as needed */
+}

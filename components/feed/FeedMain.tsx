@@ -7,6 +7,8 @@ import PostFeed from "./PostFeed";
 
 const FeedMain = ({ tab, session }: any) => {
   const [isPosting, setIsPosting] = useState(false);
+  const [isPostDeleting, setIsPostDeleting] = useState(false);
+  const [isPostUpdating, setIsPostUpdating] = useState(false);
 
   const [isPostLoading, setIsPostLoading] = useState(false);
 
@@ -22,6 +24,10 @@ const FeedMain = ({ tab, session }: any) => {
           userId={session._id}
           setIsPosting={setIsPosting}
           isPosting={isPosting}
+          setIsPostUpdating={setIsPostUpdating}
+          isPostUpdating={isPostUpdating}
+          setIsPostDeleting={setIsPostDeleting}
+          isPostDeleting={isPostDeleting}
           setIsPostLoading={setIsPostLoading}
           isPostLoading={isPostLoading}
         />
@@ -42,6 +48,10 @@ const FeedMain = ({ tab, session }: any) => {
           isPosting={isPosting}
           setIsPostLoading={setIsPostLoading}
           isPostLoading={isPostLoading}
+          setIsPostUpdating={setIsPostUpdating}
+          isPostUpdating={isPostUpdating}
+          setIsPostDeleting={setIsPostDeleting}
+          isPostDeleting={isPostDeleting}
         />
       ); // Default to Feed
   }
