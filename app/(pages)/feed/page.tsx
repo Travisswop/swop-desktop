@@ -1,8 +1,4 @@
 import React from "react";
-import Feed from "@/components/feed/Feed";
-import Timeline from "@/components/feed/Timeline";
-import Transaction from "@/components/feed/Transaction";
-import PostFeed from "@/components/feed/PostFeed";
 import TabSwitcher from "@/components/feed/TabSwitcher";
 import SearchSwopId from "@/components/feed/SearchSwopId";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
@@ -19,26 +15,6 @@ const FeedPage = async ({ searchParams }: PageProps) => {
   const session: any = await isUserAuthenticate();
 
   const { tab } = searchParams;
-
-  // let ComponentToRender: JSX.Element;
-
-  // switch (tab) {
-  //   case "feed":
-  //     ComponentToRender = (
-  //       <Feed accessToken={session.accessToken} userId={session._id} />
-  //     );
-  //     break;
-  //   case "timeline":
-  //     ComponentToRender = <Timeline />;
-  //     break;
-  //   case "transaction":
-  //     ComponentToRender = <Transaction />;
-  //     break;
-  //   default:
-  //     ComponentToRender = (
-  //       <Feed accessToken={session.accessToken} userId={session._id} />
-  //     ); // Default to Feed
-  // }
 
   return (
     <div className="main-container">

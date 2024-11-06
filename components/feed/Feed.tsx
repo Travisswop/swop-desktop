@@ -9,12 +9,7 @@ import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import PostTypeMedia from "./view/PostTypeMedia";
 import { HiDotsHorizontal } from "react-icons/hi";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Skeleton,
-} from "@nextui-org/react";
+import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Reaction from "./view/Reaction";
 import Link from "next/link";
@@ -29,22 +24,14 @@ const Feed = ({
   setIsPosting,
   isPosting,
   setIsPostLoading,
-  isPostLoading,
-  setIsPostUpdating,
-  isPostUpdating,
-  setIsPostDeleting,
-  isPostDeleting,
-}: {
+}: // isPostLoading,
+{
   accessToken: string;
   userId: string;
   setIsPosting: any;
   isPosting: boolean;
   setIsPostLoading: any;
   isPostLoading: any;
-  setIsPostUpdating: any;
-  isPostUpdating: any;
-  setIsPostDeleting: any;
-  isPostDeleting: any;
 }) => {
   const [feedData, setFeedData] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -66,11 +53,12 @@ const Feed = ({
 
       if (reset) {
         setFeedData(newFeedData.data); // Reset data when refetching
-        setPage(1); // Reset page number
+        setPage(2); // Set page to 2 after initial load for pagination
+        setHasMore(newFeedData.data.length > 0); // Update hasMore based on response
         setIsPostLoading(false);
       } else {
         if (newFeedData.data.length === 0) {
-          setHasMore(false);
+          setHasMore(false); // Stop pagination if no more data
           setIsPostLoading(false);
         } else {
           setFeedData((prev) => [...prev, ...newFeedData.data]);
@@ -91,19 +79,14 @@ const Feed = ({
   // Refetch data when isPosting becomes true
   useEffect(() => {
     if (isPosting) {
-      fetchFeedData(true); // Pass `true` to reset data
+      setPage(1); // Reset page to 1 when a new post is created
+      //setFeedData([]); // Clear feed data to avoid duplication
+      setHasMore(true); // Reset hasMore to enable pagination
+      fetchFeedData(true); // Fetch the first page of new feed data
       setIsPosting(false); // Reset isPosting after fetch
       setIsPostLoading(true);
     }
   }, [isPosting, fetchFeedData, setIsPosting, setIsPostLoading]);
-
-  // Refetch data when isPosting becomes true
-  useEffect(() => {
-    if (isPostDeleting || isPostUpdating) {
-      fetchFeedData(true); // Pass `true` to reset data
-      setIsPostDeleting(false);
-    }
-  }, [fetchFeedData, isPostDeleting, isPostUpdating, setIsPostDeleting]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -124,17 +107,6 @@ const Feed = ({
 
   return (
     <div className="w-4/5 xl:w-2/3 2xl:w-1/2">
-      {isPostLoading && (
-        <div className="w-full flex items-center gap-3 border-b pb-5 mb-5">
-          <div>
-            <Skeleton className="flex rounded-full w-12 h-12" />
-          </div>
-          <div className="w-full flex flex-col gap-2">
-            <Skeleton className="h-5 w-3/5 rounded-lg" />
-            <Skeleton className="h-5 w-4/5 rounded-lg" />
-          </div>
-        </div>
-      )}
       <div className="flex flex-col gap-4">
         {feedData.map((feed) => (
           <div
@@ -258,7 +230,7 @@ const Feed = ({
                           <DeleteFeedModal
                             postId={feed._id}
                             token={accessToken}
-                            setIsPostDeleting={setIsPostDeleting}
+                            setIsPosting={setIsPosting}
                           />
                         </div>
                       </PopoverContent>

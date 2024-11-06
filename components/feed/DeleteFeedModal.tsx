@@ -11,24 +11,19 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
-import { toast } from "react-toastify";
+import { Bounce, Flip, toast } from "react-toastify";
 
-export default function DeleteFeedModal({
-  postId,
-  token,
-  setIsPostDeleting,
-}: any) {
+export default function DeleteFeedModal({ postId, token, setIsPosting }: any) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const handlePostDelete = async () => {
     setDeleteLoading(true);
-    setIsPostDeleting(true);
     const deletePost = await deleteFeed(postId, token);
     if (deletePost.state === "success") {
       setDeleteLoading(false);
-      toast.success("post deleted successfully");
-      setIsPostDeleting(false);
+      toast.success("post deleted successfully", { transition: Flip });
+      setIsPosting(true);
     }
     onClose();
   };
