@@ -32,7 +32,7 @@ const Reaction = ({
   const [animate, setAnimate] = useState(false); // Trigger for the animation
   const [smartsiteId, setSmartsiteId] = useState(""); // Trigger for the animation
 
-  console.log("smartsiteIdhhhhhhh", smartsiteId);
+  // console.log("smartsiteIdhhhhhhh", smartsiteId);
 
   const handleLike = async () => {
     // Optimistically update the like state
@@ -49,7 +49,7 @@ const Reaction = ({
       } else {
         const payload = { postId, smartsiteId, commentId, replyId };
         const remove = await removeFeedLike(payload, accessToken);
-        console.log("remove like", remove);
+        // console.log("remove like", remove);
       }
     } catch (error) {
       console.error("Error updating like status:", error);
@@ -59,8 +59,8 @@ const Reaction = ({
     }
   }; // Adjust the debounce delay as needed
 
-  console.log("postID", postId);
-  console.log("smartsiteId", smartsiteId);
+  // console.log("postID", postId);
+  // console.log("smartsiteId", smartsiteId);
 
   // useEffect(() => {
   //   if (typeof window !== undefined) {
@@ -72,25 +72,31 @@ const Reaction = ({
   // }, []);
 
   useEffect(() => {
-    const smartsiteIdFromStorage = localStorage.getItem("userPrimaryMicrosite");
-    if (smartsiteIdFromStorage) {
-      setSmartsiteId(smartsiteIdFromStorage);
+    if (typeof window !== undefined) {
+      const smartsiteIdFromStorage = localStorage.getItem(
+        "userPrimaryMicrosite"
+      );
+      console.log("smartsiteIdFromStorage", smartsiteIdFromStorage);
 
-      const fetchLikeStatus = async () => {
-        try {
-          const payload = {
-            postId,
-            smartsiteId: smartsiteIdFromStorage,
-            commentId,
-            replyId,
-          };
-          const like = await isPostLiked(payload, accessToken);
-          setLiked(like.liked);
-        } catch (error) {
-          console.error("Error fetching like status:", error);
-        }
-      };
-      fetchLikeStatus();
+      if (smartsiteIdFromStorage) {
+        setSmartsiteId(smartsiteIdFromStorage);
+
+        const fetchLikeStatus = async () => {
+          try {
+            const payload = {
+              postId,
+              smartsiteId: smartsiteIdFromStorage,
+              commentId,
+              replyId,
+            };
+            const like = await isPostLiked(payload, accessToken);
+            setLiked(like.liked);
+          } catch (error) {
+            console.error("Error fetching like status:", error);
+          }
+        };
+        fetchLikeStatus();
+      }
     }
   }, [accessToken, commentId, postId, replyId]);
 

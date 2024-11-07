@@ -14,6 +14,8 @@ interface PageProps {
 const FeedPage = async ({ searchParams }: PageProps) => {
   const session: any = await isUserAuthenticate();
 
+  console.log("session", session);
+
   const { tab } = searchParams;
 
   return (
