@@ -32,6 +32,8 @@ const Reaction = ({
   const [animate, setAnimate] = useState(false); // Trigger for the animation
   const [smartsiteId, setSmartsiteId] = useState(""); // Trigger for the animation
 
+  console.log("smartsiteIdhhhhhhh", smartsiteId);
+
   const handleLike = async () => {
     // Optimistically update the like state
     setLiked(!liked);
@@ -60,31 +62,37 @@ const Reaction = ({
   console.log("postID", postId);
   console.log("smartsiteId", smartsiteId);
 
+  // useEffect(() => {
+  //   if (typeof window !== undefined) {
+  //     const smartsiteId = localStorage.getItem("userPrimaryMicrosite");
+  //     if (smartsiteId) {
+  //       setSmartsiteId(smartsiteId);
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (typeof window !== undefined) {
-      const smartsiteId = localStorage.getItem("userPrimaryMicrosite");
-      if (smartsiteId) {
-        setSmartsiteId(smartsiteId);
-      }
+    const smartsiteIdFromStorage = localStorage.getItem("userPrimaryMicrosite");
+    if (smartsiteIdFromStorage) {
+      setSmartsiteId(smartsiteIdFromStorage);
+
+      const fetchLikeStatus = async () => {
+        try {
+          const payload = {
+            postId,
+            smartsiteId: smartsiteIdFromStorage,
+            commentId,
+            replyId,
+          };
+          const like = await isPostLiked(payload, accessToken);
+          setLiked(like.liked);
+        } catch (error) {
+          console.error("Error fetching like status:", error);
+        }
+      };
+      fetchLikeStatus();
     }
-  }, []);
-
-  useEffect(() => {
-    // Fetch the initial like status for this post
-    const fetchLikeStatus = async () => {
-      try {
-        const payload = { postId, smartsiteId, commentId, replyId };
-        const like = await isPostLiked(payload, accessToken);
-        console.log("likedd", like);
-
-        setLiked(like.liked); // Set liked status from the response
-      } catch (error) {
-        console.error("Error fetching like status:", error);
-      }
-    };
-
-    fetchLikeStatus();
-  }, [accessToken, commentId, postId, replyId, smartsiteId]);
+  }, [accessToken, commentId, postId, replyId]);
 
   console.log("liked", liked);
   console.log("liked count", likeCount);
