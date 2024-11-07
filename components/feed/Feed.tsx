@@ -43,6 +43,7 @@ const Feed = ({
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   dayjs.extend(relativeTime);
 
@@ -201,12 +202,14 @@ const Feed = ({
                   )}
                 </div>
                 {userId === feed.userId && (
-                  <div className="">
+                  <div>
                     <Popover
-                      backdrop="transparent"
+                      backdrop="opaque"
                       placement="bottom-end"
                       showArrow={true}
                       style={{ zIndex: 10 }}
+                      // shouldBlockScroll={true}
+                      // shouldUpdatePosition={false}
                     >
                       <PopoverTrigger>
                         <button type="button">
@@ -265,6 +268,7 @@ const Feed = ({
                 commentCount={feed.commentCount}
                 repostCount={feed.repostCount}
                 viewsCount={feed.viewsCount}
+                accessToken={accessToken}
               />
             </div>
           </div>

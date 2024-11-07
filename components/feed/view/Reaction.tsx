@@ -1,6 +1,8 @@
 "use client";
+import { isPostLiked, postFeedLike, removeFeedLike } from "@/actions/postFeed";
 import { Tooltip } from "@nextui-org/react";
-import React, { useState } from "react";
+// import { debounce } from "lodash";
+import React, { useEffect, useState } from "react";
 import { BiMessageSquare, BiRepost } from "react-icons/bi";
 import { FiHeart, FiShare } from "react-icons/fi";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
@@ -13,6 +15,9 @@ const Reaction = ({
   commentCount,
   repostCount,
   viewsCount,
+  accessToken,
+  commentId = null,
+  replyId = null,
 }: {
   smartsiteId: string;
   postId: string;
@@ -20,23 +25,58 @@ const Reaction = ({
   commentCount: number;
   repostCount: number;
   viewsCount: number;
+  accessToken: string;
+  commentId?: string | null;
+  replyId?: string | null;
 }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [animate, setAnimate] = useState(false); // Trigger for the animation
 
-  const handleLike = () => {
-    if (!liked) {
-      setLikeCount(likeCount + 1);
-      setAnimate(true); // Start the animation
-      setTimeout(() => setAnimate(false), 500); // Stop animation after 500ms
-    } else {
-      setLikeCount(likeCount - 1);
-    }
+  const handleLike = async () => {
+    // Optimistically update the like state
     setLiked(!liked);
+    setLikeCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
+    if (!liked) {
+      setAnimate(true); // Start animation
+      setTimeout(() => setAnimate(false), 500); // Stop animation after 500ms
+    }
 
-    // Optionally, call an API to persist the like status with smartsiteId and postId
-  };
+    try {
+      if (!liked) {
+        await postFeedLike({ postId, smartsiteId }, accessToken);
+      } else {
+        const payload = { postId, smartsiteId, commentId, replyId };
+        const remove = await removeFeedLike(payload, accessToken);
+        console.log("remove like", remove);
+      }
+    } catch (error) {
+      console.error("Error updating like status:", error);
+      // Revert the like state if the API call fails
+      setLiked(liked); // Reset to previous state
+      setLikeCount((prevCount) => (liked ? prevCount + 1 : prevCount - 1));
+    }
+  }; // Adjust the debounce delay as needed
+
+  useEffect(() => {
+    // Fetch the initial like status for this post
+    const fetchLikeStatus = async () => {
+      try {
+        const payload = { postId, smartsiteId };
+        const like = await isPostLiked(payload, accessToken);
+        // console.log("likedd", like);
+
+        setLiked(like.liked); // Set liked status from the response
+      } catch (error) {
+        console.error("Error fetching like status:", error);
+      }
+    };
+
+    fetchLikeStatus();
+  }, [accessToken, postId, smartsiteId]);
+
+  console.log("liked", liked);
+  console.log("liked count", likeCount);
 
   return (
     <div className="flex items-center justify-between gap-2 mt-2 text-gray-700 font-normal">
