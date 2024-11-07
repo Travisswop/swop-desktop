@@ -9,7 +9,6 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { RiBarChartGroupedFill } from "react-icons/ri";
 
 const Reaction = ({
-  smartsiteId,
   postId,
   likeCount: initialLikeCount,
   commentCount,
@@ -19,7 +18,6 @@ const Reaction = ({
   commentId = null,
   replyId = null,
 }: {
-  smartsiteId: string;
   postId: string;
   likeCount: number;
   commentCount: number;
@@ -32,6 +30,7 @@ const Reaction = ({
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [animate, setAnimate] = useState(false); // Trigger for the animation
+  const [smartsiteId, setSmartsiteId] = useState(""); // Trigger for the animation
 
   const handleLike = async () => {
     // Optimistically update the like state
@@ -58,13 +57,25 @@ const Reaction = ({
     }
   }; // Adjust the debounce delay as needed
 
+  console.log("postID", postId);
+  console.log("smartsiteId", smartsiteId);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const smartsiteId = localStorage.getItem("userPrimaryMicrosite");
+      if (smartsiteId) {
+        setSmartsiteId(smartsiteId);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // Fetch the initial like status for this post
     const fetchLikeStatus = async () => {
       try {
-        const payload = { postId, smartsiteId };
+        const payload = { postId, smartsiteId, commentId, replyId };
         const like = await isPostLiked(payload, accessToken);
-        // console.log("likedd", like);
+        console.log("likedd", like);
 
         setLiked(like.liked); // Set liked status from the response
       } catch (error) {
@@ -73,7 +84,7 @@ const Reaction = ({
     };
 
     fetchLikeStatus();
-  }, [accessToken, postId, smartsiteId]);
+  }, [accessToken, commentId, postId, replyId, smartsiteId]);
 
   console.log("liked", liked);
   console.log("liked count", likeCount);

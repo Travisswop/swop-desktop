@@ -262,7 +262,6 @@ const Feed = ({
                 )}
               </div>
               <Reaction
-                smartsiteId={feed.smartsiteId._id}
                 postId={feed._id}
                 likeCount={feed.likeCount}
                 commentCount={feed.commentCount}
