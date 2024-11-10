@@ -218,7 +218,7 @@ const CreateSubscriptionPage = () => {
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
-                Note: Your subscription name can't be changed after creation
+                Note: Your subscription name can&apos;t be changed after creation
               </p>
             </div>
 
@@ -298,7 +298,7 @@ const CreateSubscriptionPage = () => {
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
-                Note: Currency can't be changed after creation
+                Note: Currency can&apos;t be changed after creation
               </p>
             </div>
 
