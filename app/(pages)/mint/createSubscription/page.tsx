@@ -4,12 +4,8 @@ import axios from "axios";
 import PushToMintCollectionButton from "@/components/Button/PushToMintCollectionButton";
 import Image from "next/image";
 import { sendCloudinaryImage } from "@/util/SendCloudineryImage";
-
-interface ContentFile {
-  url: string;
-  name: string;
-  type: string;
-}
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface FormData {
   name: string;
@@ -20,14 +16,18 @@ interface FormData {
   currency: string;
   type: string;
   benefits: string[];
-  content: ContentFile[];
   enableCreditCard: boolean;
   verifyIdentity: boolean;
   limitQuantity: boolean;
   quantity?: number;
+  royaltyPercentage: number;
+  startDate: Date;
+  endDate: Date;
 }
 
 const CreateSubscriptionPage = () => {
+  const today = new Date();
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
@@ -37,22 +37,21 @@ const CreateSubscriptionPage = () => {
     currency: "usdc",
     type: "Subscription",
     benefits: [],
-    content: [],
     enableCreditCard: false,
     verifyIdentity: false,
     limitQuantity: false,
     quantity: undefined,
+    royaltyPercentage: 10, // Default royalty percentage
+    startDate: today,
+    endDate: new Date(today),
   });
 
   const [newBenefit, setNewBenefit] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
-  const [contentUploading, setContentUploading] = useState(false);
   const [selectedImageName, setSelectedImageName] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
 
@@ -64,9 +63,34 @@ const CreateSubscriptionPage = () => {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: value,
+        [name]: type === "number" ? parseFloat(value) : value,
       }));
     }
+  };
+
+  const handleDateChange = (date: Date, field: "startDate") => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [field]: date,
+    }));
+  };
+
+  const handleDurationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const duration = e.target.value;
+    let newEndDate = new Date(formData.startDate);
+
+    if (duration === "Weekly") {
+      newEndDate.setDate(newEndDate.getDate() + 7);
+    } else if (duration === "Monthly") {
+      newEndDate.setMonth(newEndDate.getMonth() + 1);
+    } else if (duration === "Yearly") {
+      newEndDate.setFullYear(newEndDate.getFullYear() + 1);
+    }
+
+    setFormData((prevState) => ({
+      ...prevState,
+      endDate: newEndDate,
+    }));
   };
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,9 +101,7 @@ const CreateSubscriptionPage = () => {
     }));
   };
 
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -104,42 +126,6 @@ const CreateSubscriptionPage = () => {
       }
     };
     reader.readAsDataURL(file);
-  };
-
-  const handleContentUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = Array.from(event.target.files || []);
-    if (files.length === 0) return;
-
-    setContentUploading(true);
-    const uploadedFiles = await Promise.all(
-      files.map(async (file) => {
-        const reader = new FileReader();
-        return new Promise<ContentFile | null>((resolve) => {
-          reader.onloadend = async () => {
-            const base64File = reader.result as string;
-            try {
-              const uploadedUrl = await sendCloudinaryImage(base64File);
-              resolve({ url: uploadedUrl, name: file.name, type: file.type });
-            } catch (error) {
-              console.error("Error uploading file:", error);
-              alert(`Failed to upload file: ${file.name}`);
-              resolve(null);
-            }
-          };
-          reader.readAsDataURL(file);
-        });
-      })
-    );
-
-    const successfulUploads = uploadedFiles.filter(Boolean) as ContentFile[];
-
-    setFormData((prevState) => ({
-      ...prevState,
-      content: [...prevState.content, ...successfulUploads],
-    }));
-    setContentUploading(false);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -177,11 +163,13 @@ const CreateSubscriptionPage = () => {
           currency: "usdc",
           type: "Subscription",
           benefits: [],
-          content: [],
           enableCreditCard: false,
           verifyIdentity: false,
           limitQuantity: false,
           quantity: undefined,
+          royaltyPercentage: 10,
+          startDate: today,
+          endDate: new Date(today),
         });
         setSelectedImageName(null);
       }
@@ -208,14 +196,6 @@ const CreateSubscriptionPage = () => {
     }));
   };
 
-  const getFileTypeIcon = (type: string) => {
-    if (type.startsWith("image")) return "🖼️";
-    if (type.startsWith("audio")) return "🎵";
-    if (type.startsWith("video")) return "🎥";
-    if (type === "application/pdf") return "📄";
-    return "📁";
-  };
-
   return (
     <div className="main-container flex">
       <div className="w-1/2 p-5">
@@ -238,7 +218,7 @@ const CreateSubscriptionPage = () => {
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
-                Note: Your subscription name can&#39;t be changed after creation
+                Note: Your subscription name can't be changed after creation
               </p>
             </div>
 
@@ -267,9 +247,7 @@ const CreateSubscriptionPage = () => {
                 <div>
                   <div className="flex flex-col items-center justify-center h-32 cursor-pointer">
                     <div className="text-6xl text-gray-400">📷</div>
-                    <p className="text-gray-500">
-                      Browse or drag and drop an image here.
-                    </p>
+                    <p className="text-gray-500">Browse or drag and drop an image here.</p>
                     <label
                       htmlFor="imageUrl"
                       className="inline-block bg-black text-white px-4 py-2 rounded-lg mt-2 cursor-pointer"
@@ -320,38 +298,40 @@ const CreateSubscriptionPage = () => {
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
-                Note: Currency can&#39;t be changed after creation
+                Note: Currency can't be changed after creation
               </p>
             </div>
 
-            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
-              <h3 className="text-lg font-medium text-black-600">Content</h3>
-              <p className="text-sm text-gray-600">
-                Add content to sell. You can upload images, audio, video, PDFs, or other digital files.
-              </p>
-              <input
-                type="file"
-                id="content"
-                name="content"
-                multiple
-                accept="*/*"
-                onChange={handleContentUpload}
-                className="w-full border border-dashed border-gray-300 rounded-lg px-4 py-2 mt-2"
-              />
-              {contentUploading && <p>Uploading content...</p>}
-
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                {formData.content.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center p-2 bg-white border rounded shadow-sm w-full"
-                  >
-                    <div className="text-2xl">{getFileTypeIcon(file.type)}</div>
-                    <p className="text-xs text-gray-600 mt-1 text-center truncate w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                      {file.name}
-                    </p>
-                  </div>
-                ))}
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <label htmlFor="startDate" className="mb-1 block font-medium">
+                  Start Date
+                </label>
+                <DatePicker
+                  selected={formData.startDate}
+                  onChange={(date) => handleDateChange(date as Date, "startDate")}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+              <div className="flex-1">
+                <label htmlFor="duration" className="mb-1 block font-medium">
+                  Duration
+                </label>
+                <select
+                  id="duration"
+                  name="duration"
+                  onChange={handleDurationChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Yearly">Yearly</option>
+                </select>
               </div>
             </div>
 
@@ -393,6 +373,30 @@ const CreateSubscriptionPage = () => {
             </div>
 
             <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
+              <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
+              <p className="text-sm text-gray-600 mb-2">Let users buy this subscription with a credit card</p>
+              <input
+                type="checkbox"
+                id="enableCreditCard"
+                name="enableCreditCard"
+                checked={formData.enableCreditCard}
+                onChange={handleChange}
+              /> Enable
+
+              <div className="mt-4">
+                <h3 className="text-md font-medium">Verify Identity</h3>
+                <p className="text-sm text-gray-600">Verify your identity to enable credit card payments. You only complete this process once.</p>
+                <button
+                  type="button"
+                  onClick={() => alert("Verification triggered!")}
+                  className="bg-black text-white px-4 py-2 rounded-lg mt-2"
+                >
+                  Verify
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
               <h3 className="text-md font-medium">Advanced Settings</h3>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-sm font-medium">Limit quantity</span>
@@ -417,29 +421,24 @@ const CreateSubscriptionPage = () => {
               <p className="text-sm text-gray-500 mt-1">
                 Limit the number of times this digital good can be purchased
               </p>
-            </div>
-
-            <div className="bg-gray-100 p-4 rounded-lg border border-gray-300 mt-4">
-              <h3 className="text-md font-medium">Enable Pay with Credit Card</h3>
-              <p className="text-sm text-gray-600 mb-2">Let users buy this subscription with a credit card</p>
-              <input
-                type="checkbox"
-                id="enableCreditCard"
-                name="enableCreditCard"
-                checked={formData.enableCreditCard}
-                onChange={handleChange}
-              /> Enable
 
               <div className="mt-4">
-                <h3 className="text-md font-medium">Verify Identity</h3>
-                <p className="text-sm text-gray-600">Verify your identity to enable credit card payments. You only complete this process once.</p>
-                <button
-                  type="button"
-                  onClick={() => alert("Verification triggered!")}
-                  className="bg-black text-white px-4 py-2 rounded-lg mt-2"
-                >
-                  Verify
-                </button>
+                <label htmlFor="royaltyPercentage" className="block font-medium mb-1">
+                  Royalty Percentage
+                </label>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    id="royaltyPercentage"
+                    name="royaltyPercentage"
+                    value={formData.royaltyPercentage}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                    min="0"
+                    max="100"
+                  />
+                  <span className="ml-2">%</span>
+                </div>
               </div>
             </div>
 
@@ -483,6 +482,21 @@ const CreateSubscriptionPage = () => {
           <div className="mb-2">
             <p className="text-lg font-bold">Description</p>
             <p className="text-sm text-gray-500">{formData.description || "Description will appear here"}</p>
+          </div>
+
+          <div className="mb-2">
+            <p className="text-lg font-bold">Start Date</p>
+            <p className="text-sm text-gray-500">{formData.startDate.toDateString()}</p>
+          </div>
+
+          <div className="mb-2">
+            <p className="text-lg font-bold">End Date</p>
+            <p className="text-sm text-gray-500">{formData.endDate.toDateString()}</p>
+          </div>
+
+          <div className="mb-2">
+            <p className="text-lg font-bold">Royalty Percentage</p>
+            <p className="text-sm text-gray-500">{formData.royaltyPercentage}%</p>
           </div>
 
           <div className="mt-4 w-full">
