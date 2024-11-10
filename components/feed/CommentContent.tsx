@@ -21,7 +21,7 @@ import DeleteFeedComment from "./DeleteFeedComment";
 const CommentContent = ({
   postId,
   accessToken,
-  commentCount,
+  latestCommentCount,
   setLatestCommentCount,
 }: any) => {
   const [postComments, setPostComments] = useState<any>(null);
@@ -112,7 +112,7 @@ const CommentContent = ({
       commentText: commentPostContent,
     };
     const createComment = await postComment(payload, accessToken);
-    setLatestCommentCount(commentCount + 1);
+    setLatestCommentCount(latestCommentCount + 1);
     setCommentPostContent("");
     fetchFeedData();
     setIsLoading(false);
@@ -266,7 +266,7 @@ const CommentContent = ({
                               commentId={comment._id}
                               accessToken={accessToken}
                               setIsCommentDelete={setIsCommentDelete}
-                              commentCount={commentCount}
+                              latestCommentCount={latestCommentCount}
                               setLatestCommentCount={setLatestCommentCount}
                             />
                           </div>

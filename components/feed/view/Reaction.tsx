@@ -34,7 +34,8 @@ const Reaction = ({
   const [animate, setAnimate] = useState(false); // Trigger for the animation
   const [smartsiteId, setSmartsiteId] = useState(""); // Trigger for the animation
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
-  const [latestCommentCount, setLatestCommentCount] = useState(0);
+  // const [propsCommentCount, setPropsCommentCount] = useState(commentCount)
+  const [latestCommentCount, setLatestCommentCount] = useState(commentCount);
 
   const handleLike = async () => {
     // Optimistically update the like state
@@ -97,7 +98,8 @@ const Reaction = ({
       <div className="flex items-center justify-between gap-2 mt-2 text-gray-700 font-normal">
         {/* comment */}
         <CommentMain
-          commentCount={commentCount}
+          latestCommentCount={latestCommentCount}
+          // commentCount={latestCommentCount ? latestCommentCount : commentCount}
           isCommentInputOpen={isCommentInputOpen}
           setIsCommentInputOpen={setIsCommentInputOpen}
         />
@@ -172,8 +174,8 @@ const Reaction = ({
         <CommentContent
           postId={postId}
           accessToken={accessToken}
+          latestCommentCount={latestCommentCount}
           setLatestCommentCount={setLatestCommentCount}
-          commentCount={commentCount}
         />
       )}
     </div>

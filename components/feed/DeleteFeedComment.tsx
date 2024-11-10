@@ -17,7 +17,7 @@ export default function DeleteFeedComment({
   commentId,
   accessToken,
   setIsCommentDelete,
-  commentCount,
+  latestCommentCount,
   setLatestCommentCount,
 }: any) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -27,7 +27,7 @@ export default function DeleteFeedComment({
     setDeleteLoading(true);
     const deletePost = await deleteFeedComment(commentId, accessToken);
     if (deletePost.state === "success") {
-      setLatestCommentCount(commentCount - 1);
+      setLatestCommentCount(latestCommentCount - 1);
       setDeleteLoading(false);
       setIsCommentDelete(true);
       toast.success("Comment Deleted!", { transition: Flip });
