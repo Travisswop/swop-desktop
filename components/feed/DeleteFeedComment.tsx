@@ -48,7 +48,7 @@ export default function DeleteFeedComment({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 pb-2 pt-6">
-                Delete Post?
+                Delete Reply?
               </ModalHeader>
               <ModalBody className="text-slate-600 font-normal">
                 <p>This can’t be undone and it will be removed permanently.</p>

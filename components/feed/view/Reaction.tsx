@@ -97,9 +97,7 @@ const Reaction = ({
       <div className="flex items-center justify-between gap-2 mt-2 text-gray-700 font-normal">
         {/* comment */}
         <CommentMain
-          commentCount={
-            latestCommentCount !== 0 ? latestCommentCount : commentCount
-          }
+          commentCount={commentCount}
           isCommentInputOpen={isCommentInputOpen}
           setIsCommentInputOpen={setIsCommentInputOpen}
         />

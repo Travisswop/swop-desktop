@@ -242,8 +242,7 @@ const CommentContent = ({
                       </div>
                     )}
                   </div>
-                  {/* {userId === feed.userId && ( */}
-                  {true && (
+                  {comment.smartsiteId._id === smartsiteId && (
                     <div>
                       <Popover
                         backdrop="opaque"
