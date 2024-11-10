@@ -9,7 +9,7 @@ const FeedMain = ({ tab, session }: any) => {
   const [isPosting, setIsPosting] = useState(false);
   const [isPostLoading, setIsPostLoading] = useState(false);
 
-  console.log("isposting", isPosting);
+  // console.log("isposting", isPosting);
 
   let ComponentToRender: JSX.Element;
 

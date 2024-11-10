@@ -1,4 +1,4 @@
-import { deleteFeed } from "@/actions/postFeed";
+import { deleteFeedComment } from "@/actions/postFeed";
 import {
   Modal,
   ModalContent,
@@ -13,17 +13,24 @@ import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { Flip, toast } from "react-toastify";
 
-export default function DeleteFeedModal({ postId, token, setIsPosting }: any) {
+export default function DeleteFeedComment({
+  commentId,
+  accessToken,
+  setIsCommentDelete,
+  commentCount,
+  setLatestCommentCount,
+}: any) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const handlePostDelete = async () => {
     setDeleteLoading(true);
-    const deletePost = await deleteFeed(postId, token);
+    const deletePost = await deleteFeedComment(commentId, accessToken);
     if (deletePost.state === "success") {
+      setLatestCommentCount(commentCount - 1);
       setDeleteLoading(false);
-      toast.success("post deleted successfully", { transition: Flip });
-      setIsPosting(true);
+      setIsCommentDelete(true);
+      toast.success("Comment Deleted!", { transition: Flip });
     }
     onClose();
   };

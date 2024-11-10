@@ -9,12 +9,7 @@ import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import PostTypeMedia from "./view/PostTypeMedia";
 import { HiDotsHorizontal } from "react-icons/hi";
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nextui-org/react";
+import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Reaction from "./view/Reaction";
 import Link from "next/link";
@@ -43,7 +38,6 @@ const Feed = ({
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   dayjs.extend(relativeTime);
 
@@ -56,6 +50,10 @@ const Feed = ({
         process.env.NEXT_PUBLIC_API_URL
       }/api/v1/feed/user/connect/${userId}?page=${reset ? 1 : page}&limit=5`;
       const newFeedData = await getUserFeed(url, accessToken);
+
+      console.log("reset", reset);
+
+      console.log("new feed data", newFeedData);
 
       if (reset) {
         setFeedData(newFeedData.data); // Reset data when refetching
@@ -78,6 +76,7 @@ const Feed = ({
   );
 
   // Initial fetch and fetch on page increment
+
   useEffect(() => {
     fetchFeedData();
   }, [page, fetchFeedData]);
@@ -170,7 +169,13 @@ const Feed = ({
                   </div>
                   {/* Post Content */}
                   {feed.postType === "post" && feed.content.title && (
-                    <p>{feed.content.title}</p>
+                    <div>
+                      {feed.content.title
+                        .split("\n")
+                        .map((line: any, index: number) => (
+                          <p key={index}>{line}</p>
+                        ))}
+                    </div>
                   )}
                   {/* Additional Post Types */}
                   {feed.postType === "connection" && (

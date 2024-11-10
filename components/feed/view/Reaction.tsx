@@ -1,12 +1,14 @@
 "use client";
 import { isPostLiked, postFeedLike, removeFeedLike } from "@/actions/postFeed";
+import { formatCountReaction } from "@/util/formatFeedReactionCount";
 import { Tooltip } from "@nextui-org/react";
-// import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
-import { BiMessageSquare, BiRepost } from "react-icons/bi";
-import { FiHeart, FiShare } from "react-icons/fi";
+import { FiShare } from "react-icons/fi";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { RiBarChartGroupedFill } from "react-icons/ri";
+import CommentMain from "../reaction/CommentMain";
+import { BiRepost } from "react-icons/bi";
+import CommentContent from "../CommentContent";
 
 const Reaction = ({
   postId,
@@ -31,8 +33,8 @@ const Reaction = ({
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [animate, setAnimate] = useState(false); // Trigger for the animation
   const [smartsiteId, setSmartsiteId] = useState(""); // Trigger for the animation
-
-  // console.log("smartsiteIdhhhhhhh", smartsiteId);
+  const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
+  const [latestCommentCount, setLatestCommentCount] = useState(0);
 
   const handleLike = async () => {
     // Optimistically update the like state
@@ -57,26 +59,14 @@ const Reaction = ({
       setLiked(liked); // Reset to previous state
       setLikeCount((prevCount) => (liked ? prevCount + 1 : prevCount - 1));
     }
-  }; // Adjust the debounce delay as needed
-
-  // console.log("postID", postId);
-  // console.log("smartsiteId", smartsiteId);
-
-  // useEffect(() => {
-  //   if (typeof window !== undefined) {
-  //     const smartsiteId = localStorage.getItem("userPrimaryMicrosite");
-  //     if (smartsiteId) {
-  //       setSmartsiteId(smartsiteId);
-  //     }
-  //   }
-  // }, []);
+  };
 
   useEffect(() => {
     if (typeof window !== undefined) {
       const smartsiteIdFromStorage = localStorage.getItem(
         "userPrimaryMicrosite"
       );
-      console.log("smartsiteIdFromStorage", smartsiteIdFromStorage);
+      // console.log("smartsiteIdFromStorage", smartsiteIdFromStorage);
 
       if (smartsiteIdFromStorage) {
         setSmartsiteId(smartsiteIdFromStorage);
@@ -100,87 +90,94 @@ const Reaction = ({
     }
   }, [accessToken, commentId, postId, replyId]);
 
-  console.log("liked", liked);
-  console.log("liked count", likeCount);
+  // console.log("commentPostContent", commentPostContent);
 
   return (
-    <div className="flex items-center justify-between gap-2 mt-2 text-gray-700 font-normal">
-      <Tooltip
-        className="text-xs font-medium"
-        placement="bottom"
-        showArrow
-        content="Reply"
-      >
-        <button className="flex items-center gap-1 text-sm font-medium w-12">
-          <BiMessageSquare size={17} />
-          <p>{commentCount}</p>
-        </button>
-      </Tooltip>
-
-      <Tooltip
-        className="text-xs font-medium"
-        placement="bottom"
-        showArrow
-        content="Repost"
-      >
-        <button className="flex items-center gap-1 text-sm font-medium w-12">
-          <BiRepost size={21} />
-          <p>{repostCount}</p>
-        </button>
-      </Tooltip>
-
-      <Tooltip
-        className="text-xs font-medium"
-        placement="bottom"
-        showArrow
-        content="Like"
-      >
-        <button
-          onClick={handleLike}
-          className={`relative flex items-center gap-1 text-sm font-medium w-12 ${
-            liked ? "text-[#FF0000]" : ""
-          }`}
+    <div>
+      <div className="flex items-center justify-between gap-2 mt-2 text-gray-700 font-normal">
+        {/* comment */}
+        <CommentMain
+          commentCount={
+            latestCommentCount !== 0 ? latestCommentCount : commentCount
+          }
+          isCommentInputOpen={isCommentInputOpen}
+          setIsCommentInputOpen={setIsCommentInputOpen}
+        />
+        {/* repost */}
+        <Tooltip
+          className="text-xs font-medium"
+          placement="bottom"
+          showArrow
+          content="Repost"
         >
-          {liked ? (
-            <IoMdHeart size={17} color="red" />
-          ) : (
-            <IoMdHeartEmpty size={17} color="black" />
-          )}
-          <p>{likeCount}</p>
+          <button className="flex items-center gap-1 text-sm font-medium w-12">
+            <BiRepost size={21} />
+            <p>{repostCount}</p>
+          </button>
+        </Tooltip>
 
-          {/* Heart animation effect */}
-          <span
-            className={`absolute top-[-10px] left-[10px] text-red-500 ${
-              animate ? "animate-ping-heart" : "hidden"
+        <Tooltip
+          className="text-xs font-medium"
+          placement="bottom"
+          showArrow
+          content={liked ? "Unlike" : "Like"}
+        >
+          <button
+            onClick={handleLike}
+            className={`relative flex items-center gap-1 text-sm font-medium w-12 ${
+              liked ? "text-[#FF0000]" : ""
             }`}
           >
-            <IoMdHeart size={30} />
-          </span>
-        </button>
-      </Tooltip>
+            {liked ? (
+              <IoMdHeart size={17} color="red" />
+            ) : (
+              <IoMdHeartEmpty size={17} color="black" />
+            )}
+            <p>{formatCountReaction(likeCount)}</p>
 
-      <Tooltip
-        className="text-xs font-medium"
-        placement="bottom"
-        showArrow
-        content="View"
-      >
-        <button className="flex items-center gap-1 text-sm font-medium w-12">
-          <RiBarChartGroupedFill size={17} />
-          <p>{viewsCount}</p>
-        </button>
-      </Tooltip>
+            {/* Heart animation effect */}
+            <span
+              className={`absolute top-[-10px] left-[10px] text-red-500 ${
+                animate ? "animate-ping-heart" : "hidden"
+              }`}
+            >
+              <IoMdHeart size={30} />
+            </span>
+          </button>
+        </Tooltip>
 
-      <Tooltip
-        className="text-xs font-medium"
-        placement="bottom"
-        showArrow
-        content="Share"
-      >
-        <button className="flex items-center gap-1 text-sm font-medium">
-          <FiShare size={17} />
-        </button>
-      </Tooltip>
+        <Tooltip
+          className="text-xs font-medium"
+          placement="bottom"
+          showArrow
+          content="View"
+        >
+          <button className="flex items-center gap-1 text-sm font-medium w-12">
+            <RiBarChartGroupedFill size={17} />
+            <p>{viewsCount}</p>
+          </button>
+        </Tooltip>
+
+        <Tooltip
+          className="text-xs font-medium"
+          placement="bottom"
+          showArrow
+          content="Share"
+        >
+          <button className="flex items-center gap-1 text-sm font-medium">
+            <FiShare size={17} />
+          </button>
+        </Tooltip>
+      </div>
+      {/* comment input field  */}
+      {isCommentInputOpen && (
+        <CommentContent
+          postId={postId}
+          accessToken={accessToken}
+          setLatestCommentCount={setLatestCommentCount}
+          commentCount={commentCount}
+        />
+      )}
     </div>
   );
 };
