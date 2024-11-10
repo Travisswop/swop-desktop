@@ -34,7 +34,7 @@
     "qrcode.react": "^4.0.1",
     "react": "^18",
     "react-colorful": "^5.6.1",
-    "react-datepicker": "^6.9.0",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18",
     "react-gifted-chat": "^1.0.5",
     "react-google-autocomplete": "^2.7.3",
