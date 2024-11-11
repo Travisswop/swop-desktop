@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaRegImage, FaUser } from "react-icons/fa";
 import { HiOutlineGif } from "react-icons/hi2";
 import { IoSend } from "react-icons/io5";
@@ -17,6 +17,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { RiEdit2Fill } from "react-icons/ri";
 import FeedLoading from "../loading/FeedLoading";
 import DeleteFeedComment from "./DeleteFeedComment";
+import FeedCommentLoading from "../loading/FeedCommentLoading";
 
 const CommentContent = ({
   postId,
@@ -24,14 +25,18 @@ const CommentContent = ({
   latestCommentCount,
   setLatestCommentCount,
 }: any) => {
-  const [postComments, setPostComments] = useState<any>(null);
+  const [postComments, setPostComments] = useState<any>([]);
+  const [isNewCommentPost, setIsNewCommentPost] = useState(false);
   const [commentLoading, setCommentLoading] = useState(true);
   const [commentPostContent, setCommentPostContent] = useState("");
   const [smartsiteId, setSmartsiteId] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
   const [isCommentDelete, setIsCommentDelete] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const commentObserverRef = useRef<HTMLDivElement>(null);
+  const isCommentFetching = useRef(false);
 
   const MAX_LENGTH = 280;
 
@@ -60,37 +65,43 @@ const CommentContent = ({
     }
   }, []);
 
-  const fetchFeedData = useCallback(async () => {
-    //   if (isFetching.current) return; // Prevent duplicate fetch
-    //   isFetching.current = true;
+  const fetchFeedData = useCallback(
+    async (reset = false) => {
+      if (isCommentFetching.current) return; // Prevent duplicate fetch
+      isCommentFetching.current = true;
+      // setCommentLoading(true);
+      const url = `${
+        process.env.NEXT_PUBLIC_API_URL
+      }/api/v1/feed/comment/${postId}?page=${reset ? 1 : page}&limit=5`;
+      const newFeedData = await getFeedComments(url, accessToken);
 
-    setCommentLoading(true);
+      console.log("reset", reset);
+      console.log("page", page);
+      console.log("has more", hasMore);
+      console.log("new feed data", newFeedData);
 
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/feed/comment/${postId}?page=${page}&limit=5`;
+      if (reset) {
+        console.log("trigger reset");
 
-    const newFeedData = await getFeedComments(url, accessToken);
+        setPostComments(newFeedData.comments); // Reset data when refetching
+        setPage(1); // Set page to 2 after initial load for pagination
+        setHasMore(newFeedData.comments.length > 0); // Update hasMore based on response
+        setCommentLoading(false);
+      } else {
+        if (newFeedData.comments.length === 0) {
+          setHasMore(false); // Stop pagination if no more data
+          setCommentLoading(false);
+        } else {
+          setHasMore(true);
+          setPostComments((prev: any) => [...prev, ...newFeedData.comments]);
+          setCommentLoading(false);
+        }
+      }
 
-    setPostComments(newFeedData);
-
-    setCommentLoading(false);
-
-    //   if (reset) {
-    //     setFeedData(newFeedData.data); // Reset data when refetching
-    //     setPage(2); // Set page to 2 after initial load for pagination
-    //     setHasMore(newFeedData.data.length > 0); // Update hasMore based on response
-    //     setIsPostLoading(false);
-    //   } else {
-    //     if (newFeedData.data.length === 0) {
-    //       setHasMore(false); // Stop pagination if no more data
-    //       setIsPostLoading(false);
-    //     } else {
-    //       setFeedData((prev) => [...prev, ...newFeedData.data]);
-    //       setIsPostLoading(false);
-    //     }
-    //   }
-
-    //   isFetching.current = false;
-  }, [accessToken, page, postId]);
+      isCommentFetching.current = false;
+    },
+    [accessToken, hasMore, page, postId]
+  );
 
   // Initial fetch and fetch on page increment
   useEffect(() => {
@@ -99,10 +110,82 @@ const CommentContent = ({
 
   useEffect(() => {
     if (isCommentDelete) {
-      fetchFeedData();
+      console.log("hit delete");
+
+      setPage(1); // Reset page to 1 when a new post is created
+      setPostComments([]); // Clear feed data to avoid duplication
+      setHasMore(true); // Reset hasMore to enable pagination !need to check
+      fetchFeedData(true); // Fetch the first page of new feed data
       setIsCommentDelete(false);
     }
   }, [fetchFeedData, isCommentDelete]);
+
+  useEffect(() => {
+    if (isNewCommentPost) {
+      console.log("hit post");
+      setPage(1); // Reset page to 1 when a new post is created
+      setPostComments([]); // Clear feed data to avoid duplication
+      setHasMore(true); // Reset hasMore to enable pagination !need to check
+      fetchFeedData(true); // Fetch the first page of new feed data
+      setIsNewCommentPost(false);
+    }
+  }, [fetchFeedData, isNewCommentPost]);
+
+  // Infinite scroll observer
+  // useEffect(() => {
+  //   console.log("hit outsite intersection");
+  //   if (!hasMore) return;
+
+  //   console.log("hit in intersection");
+
+  //   const commentObserver = new IntersectionObserver((entries) => {
+  //     if (entries[0].isIntersecting && !isCommentFetching.current) {
+  //       setPage((prevPage) => prevPage + 1);
+  //     }
+  //   });
+
+  //   if (commentObserverRef.current) {
+  //     commentObserver.observe(commentObserverRef.current);
+  //   }
+
+  //   return () => commentObserver.disconnect();
+  // }, [hasMore]);
+
+  useEffect(() => {
+    if (!hasMore || isCommentFetching.current) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+
+    if (commentObserverRef.current) {
+      observer.observe(commentObserverRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, isCommentFetching.current]);
+
+  // Infinite Scroll
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting && !commentLoading) {
+  //         fetchFeedData(postComments.currentPage + 1);
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   );
+
+  //   if (commentObserverRef.current)
+  //     observer.observe(commentObserverRef.current);
+
+  //   return () => {
+  //     if (commentObserverRef.current)
+  //       observer.unobserve(commentObserverRef.current);
+  //   };
+  // }, [fetchFeedData, commentLoading, postComments.currentPage]);
 
   const handleCommentPost = async () => {
     setIsLoading(true);
@@ -114,8 +197,12 @@ const CommentContent = ({
     const createComment = await postComment(payload, accessToken);
     setLatestCommentCount(latestCommentCount + 1);
     setCommentPostContent("");
-    fetchFeedData();
     setIsLoading(false);
+    setIsNewCommentPost(true);
+    // setPage(1); // Reset page to 1 when a new post is created
+    // //setFeedData([]); // Clear feed data to avoid duplication
+    // setHasMore(true); // Reset hasMore to enable pagination
+    // fetchFeedData(true); // Fetch the first page of new feed data
   };
 
   console.log("ostComments", postComments);
@@ -175,8 +262,8 @@ const CommentContent = ({
       {commentLoading ? (
         <FeedLoading />
       ) : (
-        <div>
-          {postComments.comments.map((comment: any) => (
+        <div className="max-h-96 overflow-y-auto">
+          {postComments.map((comment: any) => (
             <div
               key={comment._id}
               className="flex gap-2 border-b border-gray-200 pb-4 mt-4"
@@ -286,6 +373,11 @@ const CommentContent = ({
               </div>
             </div>
           ))}
+          {hasMore && (
+            <div ref={commentObserverRef} className="mt-2">
+              <FeedCommentLoading />
+            </div>
+          )}
         </div>
       )}
     </div>
