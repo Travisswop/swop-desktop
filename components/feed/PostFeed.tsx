@@ -34,6 +34,7 @@ const PostFeed = ({
   const [mediaFiles, setMediaFiles] = useState<
     { type: "image" | "video" | "gif"; src: string }[]
   >([]);
+  const [error, setError] = useState("");
 
   // console.log("mediaFiles", mediaFiles);
   // console.log("gifContent", gifContent);
@@ -111,6 +112,21 @@ const PostFeed = ({
     }
   };
 
+  const MAX_LENGTH = 512;
+
+  const handlePostChange = (e: any) => {
+    const value = e.target.value;
+
+    // Check if the content length exceeds the max length
+    if (value.length > MAX_LENGTH) {
+      setError(`** Comment cannot exceed ${MAX_LENGTH} characters.`);
+    } else {
+      setError("");
+    }
+
+    setPostContent(value);
+  };
+
   return (
     <div className="p-6">
       <div className="flex items-start gap-6">
@@ -120,11 +136,18 @@ const PostFeed = ({
             name="user-feed"
             id="user-feed"
             rows={2}
-            className="bg-gray-100 rounded-lg p-3 focus:outline-gray-200 w-full"
+            className={`bg-gray-100 rounded-lg p-3 focus:outline-gray-200 w-full ${
+              postContent.length > MAX_LENGTH
+                ? "border-red-500 focus:outline-red-500"
+                : "border-gray-300 focus:outline-gray-200"
+            }`}
             placeholder="What’s happening?"
             value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
+            onChange={handlePostChange}
           ></textarea>
+          {error && (
+            <p className="text-red-500 text-sm -translate-y-1">{error}</p>
+          )}
 
           {/* Render media files */}
           {mediaFiles.length > 0 && (
