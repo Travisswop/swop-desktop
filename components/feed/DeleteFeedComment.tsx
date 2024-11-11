@@ -39,7 +39,7 @@ export default function DeleteFeedComment({
     <>
       <button
         onClick={onOpen}
-        className="text-red-600 flex items-center gap-1 font-medium border-b p-1 text-sm"
+        className="text-red-600 flex items-center gap-1 font-medium border rounded py-1 px-2 text-sm"
       >
         <MdDeleteForever color="red" size={19} /> Delete
       </button>

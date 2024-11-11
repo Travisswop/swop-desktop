@@ -6,15 +6,15 @@ import { IoSend } from "react-icons/io5";
 import Emoji from "./Emoji";
 import { getFeedComments, postComment } from "@/actions/postFeed";
 import { MdScheduleSend } from "react-icons/md";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
-import { FiPlusCircle } from "react-icons/fi";
+// import { FiPlusCircle } from "react-icons/fi";
 import isUrl from "@/util/isUrl";
 import { GoDotFill } from "react-icons/go";
 import dayjs from "dayjs";
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { RiEdit2Fill } from "react-icons/ri";
+// import { RiEdit2Fill } from "react-icons/ri";
 import FeedLoading from "../loading/FeedLoading";
 import DeleteFeedComment from "./DeleteFeedComment";
 import FeedCommentLoading from "../loading/FeedCommentLoading";
@@ -75,13 +75,13 @@ const CommentContent = ({
       }/api/v1/feed/comment/${postId}?page=${reset ? 1 : page}&limit=5`;
       const newFeedData = await getFeedComments(url, accessToken);
 
-      console.log("reset", reset);
-      console.log("page", page);
-      console.log("has more", hasMore);
-      console.log("new feed data", newFeedData);
+      // console.log("reset", reset);
+      // console.log("page", page);
+      // console.log("has more", hasMore);
+      // console.log("new feed data", newFeedData);
 
       if (reset) {
-        console.log("trigger reset");
+        // console.log("trigger reset");
 
         setPostComments(newFeedData.comments); // Reset data when refetching
         setPage(1); // Set page to 2 after initial load for pagination
@@ -262,11 +262,11 @@ const CommentContent = ({
       {commentLoading ? (
         <FeedLoading />
       ) : (
-        <div className="max-h-96 overflow-y-auto">
+        <div className="max-h-96 overflow-y-auto flex flex-col gap-4">
           {postComments.map((comment: any) => (
             <div
               key={comment._id}
-              className="flex gap-2 border-b border-gray-200 pb-4 mt-4"
+              className="flex gap-2 border-b border-gray-200 pb-4"
             >
               <div className="w-10 h-10 bg-gray-400 border border-gray-300 rounded-full overflow-hidden flex items-center justify-center">
                 {(() => {

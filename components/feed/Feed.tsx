@@ -213,8 +213,6 @@ const Feed = ({
                       placement="bottom-end"
                       showArrow={true}
                       style={{ zIndex: 10 }}
-                      // shouldBlockScroll={true}
-                      // shouldUpdatePosition={false}
                     >
                       <PopoverTrigger>
                         <button type="button">
@@ -223,9 +221,9 @@ const Feed = ({
                       </PopoverTrigger>
                       <PopoverContent>
                         <div className="px-1 py-2 flex flex-col">
-                          <button className="text-gray-700 flex items-center gap-1 font-medium border-b p-1 text-sm">
+                          {/* <button className="text-gray-700 flex items-center gap-1 font-medium border-b p-1 text-sm">
                             <RiEdit2Fill color="black" size={18} /> Edit
-                          </button>
+                          </button> */}
                           <DeleteFeedModal
                             postId={feed._id}
                             token={accessToken}
