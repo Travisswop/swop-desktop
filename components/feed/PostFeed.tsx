@@ -310,13 +310,15 @@ const PostFeed = ({
             <DynamicPrimaryBtn
               enableGradient={false}
               disabled={
-                postLoading || (postContent === "" && mediaFiles.length === 0)
+                postLoading ||
+                (postContent === "" && mediaFiles.length === 0) ||
+                (error as any)
               }
               className={`!rounded w-28 !py-1.5 ${
                 postContent === "" &&
                 mediaFiles.length === 0 &&
                 "bg-gray-500 brightness-75"
-              } ${postLoading && "bg-gray-500"}`}
+              } ${(postLoading || error) && "bg-gray-500"}`}
               onClick={handleFeedPosting}
             >
               <div>

@@ -22,7 +22,7 @@ const FeedPage = async ({ searchParams }: PageProps) => {
     <div className="main-container">
       <div className="bg-white rounded-xl">
         <div className="pb-6 border-b border-gray-200">
-          <div className="flex items-center justify-between px-6 pt-6">
+          <div className="flex items-center justify-between px-6 pt-6 sticky top-10">
             {/* tab switcher */}
             <TabSwitcher tab={tab} />
             {/* search with swop id */}

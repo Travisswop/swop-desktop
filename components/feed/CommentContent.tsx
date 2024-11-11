@@ -324,7 +324,9 @@ const CommentContent = ({
                         {comment.commentText
                           .split("\n")
                           .map((line: any, index: number) => (
-                            <p key={index}>{line}</p>
+                            <p className="break-text" key={index}>
+                              {line}
+                            </p>
                           ))}
                       </div>
                     )}
