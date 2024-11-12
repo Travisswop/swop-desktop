@@ -40,7 +40,16 @@ const FeedMain = ({ tab, session }: any) => {
       );
       break;
     case "transaction":
-      ComponentToRender = <Transaction />;
+      ComponentToRender = (
+        <Transaction
+          accessToken={session.accessToken}
+          userId={session._id}
+          setIsPosting={setIsPosting}
+          isPosting={isPosting}
+          setIsPostLoading={setIsPostLoading}
+          isPostLoading={isPostLoading}
+        />
+      );
       break;
     default:
       ComponentToRender = (
