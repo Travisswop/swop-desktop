@@ -1,9 +1,22 @@
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  useDisclosure,
+} from "@nextui-org/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import placeholder from "@/public/images/image_placeholder.png";
 
 const PostTypeMedia = ({ mediaFiles }: any) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [image, setImage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleOpenImage = (image: string) => {
-    console.log("image", image);
+    setIsLoading(true);
+    setImage(image);
+    onOpen();
   };
 
   return (
@@ -20,8 +33,9 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
                     onClick={() => handleOpenImage(mediaFiles[0].src)}
                     alt="media"
                     fill
+                    // loader={customLoader as any}
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                    className="object-contain"
+                    className="object-contain cursor-pointer"
                   />
                 </div>
               ) : (
@@ -53,8 +67,9 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
                       src={file.src}
                       alt="media"
                       fill
+                      onClick={() => handleOpenImage(file.src)}
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                      className="object-cover"
+                      className="object-cover cursor-pointer"
                     />
                   ) : (
                     <video
@@ -81,8 +96,9 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
                       src={file.src}
                       alt="media"
                       fill
+                      onClick={() => handleOpenImage(file.src)}
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                      className="object-cover"
+                      className="object-cover cursor-pointer"
                     />
                   ) : (
                     <video
@@ -109,8 +125,9 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
                       src={file.src}
                       alt="media"
                       fill
+                      onClick={() => handleOpenImage(file.src)}
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                      className="object-cover"
+                      className="object-cover cursor-pointer"
                     />
                   ) : (
                     <video
@@ -126,6 +143,31 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
           {/* <Reaction /> */}
         </div>
       )}
+      <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <ModalBody>
+              <div className="relative w-[90vw] h-[90vh] mx-auto my-auto">
+                {isLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                    <span>Loading...</span>
+                  </div>
+                )}
+                <Image
+                  src={image}
+                  alt="feed image"
+                  fill
+                  // placeholder="blur"
+                  // blurDataURL="/images/image_placeholder.png"
+                  className="object-contain"
+                  // sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                  onLoadingComplete={() => setIsLoading(false)}
+                />
+              </div>
+            </ModalBody>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
