@@ -18,6 +18,22 @@ export async function getUserFeed(url: string, token: string) {
     console.error("Error from getting feed:", error);
   }
 }
+export async function getSmartsiteFeed(url: string, token: string) {
+  try {
+    const response = await fetch(`${url}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error from getting feed:", error);
+  }
+}
 export async function getFeedComments(url: string, token: string) {
   try {
     const response = await fetch(`${url}`, {

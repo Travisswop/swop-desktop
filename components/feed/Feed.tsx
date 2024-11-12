@@ -15,10 +15,7 @@ import Reaction from "./view/Reaction";
 import Link from "next/link";
 import { FiPlusCircle } from "react-icons/fi";
 import FeedLoading from "../loading/FeedLoading";
-import { RiEdit2Fill } from "react-icons/ri";
 import DeleteFeedModal from "./DeleteFeedModal";
-import SearchSwopId from "./SearchSwopId";
-import Connections from "../Connections";
 
 const Feed = ({
   accessToken,

@@ -28,7 +28,16 @@ const FeedMain = ({ tab, session }: any) => {
       );
       break;
     case "timeline":
-      ComponentToRender = <Timeline />;
+      ComponentToRender = (
+        <Timeline
+          accessToken={session.accessToken}
+          userId={session._id}
+          setIsPosting={setIsPosting}
+          isPosting={isPosting}
+          setIsPostLoading={setIsPostLoading}
+          isPostLoading={isPostLoading}
+        />
+      );
       break;
     case "transaction":
       ComponentToRender = <Transaction />;

@@ -1,6 +1,5 @@
 import React from "react";
 import TabSwitcher from "@/components/feed/TabSwitcher";
-import SearchSwopId from "@/components/feed/SearchSwopId";
 import isUserAuthenticate from "@/util/isUserAuthenticate";
 import FeedMain from "@/components/feed/FeedMain";
 
