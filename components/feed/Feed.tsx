@@ -17,6 +17,8 @@ import { FiPlusCircle } from "react-icons/fi";
 import FeedLoading from "../loading/FeedLoading";
 import { RiEdit2Fill } from "react-icons/ri";
 import DeleteFeedModal from "./DeleteFeedModal";
+import SearchSwopId from "./SearchSwopId";
+import Connections from "../Connections";
 
 const Feed = ({
   accessToken,
@@ -111,8 +113,8 @@ const Feed = ({
   }, [hasMore]);
 
   return (
-    <div className="w-4/5 xl:w-2/3 2xl:w-1/2">
-      <div className="flex flex-col gap-4">
+    <div className="w-full flex gap-10">
+      <div className="w-full flex flex-col gap-4">
         {feedData.map((feed) => (
           <div
             key={feed._id}

@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 
 const SearchSwopId = () => {
   return (
-    <div className="relative w-1/2">
+    <div className="relative w-full">
       <CiSearch
         className="absolute left-4 top-1/2 -translate-y-[50%] font-bold text-gray-600"
         size={18}

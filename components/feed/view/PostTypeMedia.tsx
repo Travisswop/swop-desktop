@@ -1,11 +1,10 @@
 import Image from "next/image";
 import React from "react";
-// import Reaction from "./Reaction";
 
 const PostTypeMedia = ({ mediaFiles }: any) => {
-  // console.log("hit");
-
-  // console.log(mediaFiles);
+  const handleOpenImage = (image: string) => {
+    console.log("image", image);
+  };
 
   return (
     <div className="">
@@ -18,6 +17,7 @@ const PostTypeMedia = ({ mediaFiles }: any) => {
                 <div className="relative min-h-96 max-h-[30rem] border border-black bg-black rounded-2xl overflow-hidden">
                   <Image
                     src={mediaFiles[0].src}
+                    onClick={() => handleOpenImage(mediaFiles[0].src)}
                     alt="media"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"

@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Feed from "./Feed";
 import Timeline from "./Timeline";
 import Transaction from "./Transaction";
 import PostFeed from "./PostFeed";
+import Connections from "../Connections";
 
 const FeedMain = ({ tab, session }: any) => {
   const [isPosting, setIsPosting] = useState(false);
@@ -45,17 +46,29 @@ const FeedMain = ({ tab, session }: any) => {
       ); // Default to Feed
   }
   return (
-    <div>
-      {/* posting feed here  */}
-      <PostFeed
-        userId={session._id}
-        token={session.accessToken}
-        setIsPosting={setIsPosting}
-        setIsPostLoading={setIsPostLoading}
-      />
-      <hr />
-      {/* component to render based on tab */}
-      <section className="p-6">{ComponentToRender}</section>
+    <div className="w-full flex relative">
+      <div
+        style={{ height: "calc(100vh - 108px)" }}
+        className="w-4/5 xl:w-2/3 2xl:w-[54%] overflow-y-auto"
+      >
+        <PostFeed
+          userId={session._id}
+          token={session.accessToken}
+          setIsPosting={setIsPosting}
+          setIsPostLoading={setIsPostLoading}
+        />
+        <hr />
+        {/* component to render based on tab */}
+        <section className="p-6">{ComponentToRender}</section>
+      </div>
+      <div
+        style={{ height: "calc(100vh - 108px)" }}
+        className="flex-1 overflow-y-auto"
+      >
+        <Suspense fallback={"loading..."}>
+          <Connections userId={session._id} accessToken={session.accessToken} />
+        </Suspense>
+      </div>
     </div>
   );
 };

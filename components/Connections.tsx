@@ -5,29 +5,43 @@ import Image from "next/image";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { Spinner } from "@nextui-org/react";
+import { getConnectedUserMicrosite } from "@/actions/connectedUserMicrosite";
+import ConnectionLoading from "./loading/ConnectionLoading";
 
-const Connections = ({ data }: any) => {
+const Connections = ({ userId, accessToken }: any) => {
+  const [connectionData, setConnectionData] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredConnections, setFilteredConnections] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // console.log("datadd", data);
+  // console.log("connectionData", connectionData);
+
+  useEffect(() => {
+    const fetchConnectionData = async () => {
+      setLoading(true);
+      const connections = await getConnectedUserMicrosite(userId, accessToken);
+      setConnectionData(connections);
+      setLoading(false);
+    };
+    fetchConnectionData();
+  }, [accessToken, userId]);
 
   useEffect(() => {
     const handleSearch = () => {
-      setLoading(true);
+      // setLoading(true);
       if (!searchQuery) {
-        setFilteredConnections(data?.data?.connections?.childConnection || []);
+        setFilteredConnections(connectionData?.data?.childConnection || []);
+        // setLoading(false);
       } else {
-        const filtered = data?.data?.connections?.childConnection.filter(
+        const filtered = connectionData?.data?.childConnection.filter(
           (connection: any) =>
             connection.account.name
               .toLowerCase()
               .includes(searchQuery.toLowerCase())
         );
         setFilteredConnections(filtered);
+        // setLoading(false);
       }
-      setLoading(false);
     };
 
     const debounceSearch = setTimeout(handleSearch, 700); // Adjust the delay as needed
@@ -35,10 +49,10 @@ const Connections = ({ data }: any) => {
     return () => {
       clearTimeout(debounceSearch);
     };
-  }, [searchQuery, data]);
+  }, [connectionData?.data?.childConnection, searchQuery]);
 
   return (
-    <div className="h-full py-5 px-6 bg-white rounded-lg">
+    <div className="py-5 px-6 bg-white rounded-lg">
       <p className="text-lg text-gray-700 font-semibold mb-4">Connections</p>
       <div className="relative w-full mb-4">
         <CiSearch
@@ -55,9 +69,7 @@ const Connections = ({ data }: any) => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center">
-          <Spinner size="sm" color="primary" />
-        </div>
+        <ConnectionLoading />
       ) : (
         <div className="flex flex-col gap-3 h-full">
           {filteredConnections.length > 0 ? (
