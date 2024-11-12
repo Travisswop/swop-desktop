@@ -49,7 +49,7 @@ const FeedMain = ({ tab, session }: any) => {
     <div className="w-full flex relative">
       <div
         style={{ height: "calc(100vh - 108px)" }}
-        className="w-4/5 xl:w-2/3 2xl:w-[54%] overflow-y-auto"
+        className="w-3/5 xl:w-2/3 2xl:w-[54%] overflow-y-auto"
       >
         <PostFeed
           userId={session._id}

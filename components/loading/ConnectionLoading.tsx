@@ -22,7 +22,7 @@ const ConnectionLoading = () => {
           <Skeleton className="h-5 w-4/5 rounded-lg" />
         </div>
       </div>
-      <div className="w-full flex items-center gap-3 border-b pb-6">
+      <div className="w-full flex items-center gap-3 pb-6">
         <div>
           <Skeleton className="flex rounded-full w-12 h-12" />
         </div>
