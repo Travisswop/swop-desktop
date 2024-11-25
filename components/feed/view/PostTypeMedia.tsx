@@ -6,7 +6,6 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
-import placeholder from "@/public/images/image_placeholder.png";
 
 const PostTypeMedia = ({ mediaFiles }: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

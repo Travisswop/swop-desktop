@@ -9,8 +9,6 @@ export default function SelectBackgroudOrBannerModal({
   onOpenChange,
   bannerImgArr,
   backgroundImgArr,
-  // setIsModalOpen,
-  // setBackgroundImage,
   setIsBannerModalOpen,
 }: any) {
   const [isBannerImg, setIsBannerImg] = useState(true);

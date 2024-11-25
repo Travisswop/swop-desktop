@@ -1,4 +1,4 @@
-export const maxDuration = 60;
+"use server";
 async function getSingleSmartsiteData(id: string, token: string) {
   try {
     const res = await fetch(
@@ -8,14 +8,10 @@ async function getSingleSmartsiteData(id: string, token: string) {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        cache: "no-store",
       }
     );
 
     const data = res.json();
-
-    // console.log("data fetching for smartsite", data);
-
     return data;
   } catch (error) {
     console.error(error);
